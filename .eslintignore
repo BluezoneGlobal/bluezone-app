@@ -1,0 +1,13 @@
+# dependencies
+/node_modules/
+
+# production
+/docs
+/android
+/ios
+/__tests__
+
+# util
+*.css
+webpack.*.js
+/packages

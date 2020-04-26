@@ -1,0 +1,10 @@
+rootProject.name = 'Bluezone'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
+
+include ':react-native-push-notification'
+project(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')
+include ':react-native-bluetooth-scan'
+project(':react-native-bluetooth-scan').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-bluetooth-scan/lib/android')
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
