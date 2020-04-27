@@ -1,5 +1,3 @@
-![npm](https://img.shields.io/npm/dw/react-native)
-
 <h1 align="center">
   <img src="logo.png"/><br/>
   Bluezone
