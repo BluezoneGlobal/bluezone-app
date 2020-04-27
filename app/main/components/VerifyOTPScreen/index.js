@@ -251,7 +251,7 @@ class VerifyOTPScreen extends React.Component {
             onBackdropPress={this.onCloseModalError}>
             <View style={style.modalCont}>
               <View>
-                <Text style={styles.titleModal}>Đã sảy ra sự cố</Text>
+                <Text style={styles.titleModal}>Đã xảy ra sự cố</Text>
               </View>
               <View>
                 <Text style={styles.detailModal}>
