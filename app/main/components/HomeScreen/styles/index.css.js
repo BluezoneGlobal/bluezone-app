@@ -235,6 +235,41 @@ const styles = StyleSheet.create({
     color: '#484848',
     fontSize: fontSize.normal,
   },
+
+  switchLanguage: {
+    position: 'absolute',
+    right: 16,
+    top: 12,
+    zIndex: 99,
+  },
+
+  btnLanguage: {
+    flexDirection: 'row',
+    height: 24,
+    borderRadius: 18,
+    borderColor: '#ffffff',
+    borderWidth: 0.2,
+    alignItems: 'center',
+  },
+
+  btnLanguageActive: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+  },
+
+  textBtnLanguageActive: {
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    fontSize: fontSize.small,
+    color: '#0166de',
+  },
+
+  textBtnLanguage: {
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    fontSize: fontSize.small,
+    color: '#ffffff',
+  },
 });
 
 export default styles;

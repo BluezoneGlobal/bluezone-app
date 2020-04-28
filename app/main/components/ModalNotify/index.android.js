@@ -369,7 +369,6 @@ class ModalNotify extends React.Component {
 
   render() {
     const {
-      // isVisibleBluetooth,
       isVisiblePermissionLocation,
       isVisibleLocation,
       isModalUpdate,
@@ -384,7 +383,6 @@ class ModalNotify extends React.Component {
       NOTIFI_PERMISSION_WRITE_FILE_TEXT,
       NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT,
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT,
-      // NOTIFI_BLUETOOTH_ANDROID_TEXT,
     } = configuration;
     return (
       <View>

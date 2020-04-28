@@ -22,17 +22,35 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import {large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 137,
+  },
+
+  logo: {
+    width: 124,
+    height: 124,
+  },
+
+  body: {
     alignItems: 'center',
   },
 
-  image: {
-    width: 100,
-    height: 100,
+  icon_success: {
+    width: 58,
+    height: 58,
+    marginBottom: 32,
+  },
+
+  text: {
+    fontSize: large,
+    color: '#000000',
+    marginBottom: 10,
   },
 });
 

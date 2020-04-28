@@ -32,6 +32,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
@@ -56,6 +57,7 @@ class WatchScanScreen extends React.Component {
     const {logs, mapDevice} = this.creatLog();
     this.state = {
       logs: logs || [],
+      statusLoadding: true,
     };
     this.mapDevice = mapDevice || {};
   }
@@ -67,6 +69,10 @@ class WatchScanScreen extends React.Component {
         this.onScan,
       );
     }
+    this.timeOutLoadingBluezoner = setTimeout(() => {
+      this.setState({statusLoadding: false});
+      clearTimeout(this.timeOutLoadingBluezoner);
+    }, 3000);
   }
 
   componentWillUnmount() {
@@ -280,7 +286,7 @@ class WatchScanScreen extends React.Component {
     const {intl} = this.props;
     const {formatMessage} = intl;
     const {UserCode} = configuration;
-    const {logs} = this.state;
+    const {logs, statusLoadding} = this.state;
 
     const itemsLogNear = [];
     const itemsLogDiff = [];
@@ -339,7 +345,11 @@ class WatchScanScreen extends React.Component {
                   {itemsLogNear.length}
                 </MediumText>
               </View>
-              {itemsLogNear.length > 0 ? (
+              {statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+              ) : itemsLogNear.length > 0 ? (
                 <View style={styles.listBodyContainer}>
                   {itemsLogNear.map(item => {
                     return this.renderItemLog(item);
@@ -348,10 +358,7 @@ class WatchScanScreen extends React.Component {
               ) : (
                 <View style={styles.listEmptyContainer}>
                   <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
+                    <View style={styles.circle} />
                   </View>
                   <Text style={styles.listEmptyText}>{formatMessage(message.noList)}</Text>
                 </View>

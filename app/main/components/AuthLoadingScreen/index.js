@@ -25,8 +25,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import {View} from 'react-native';
+import {View, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {MediumText} from '../../../base/components/Text';
 
 // Apis
 import {
@@ -40,7 +41,6 @@ import styles from './styles/index.css';
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
   }
@@ -60,12 +60,20 @@ class AuthLoadingScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <FastImage
-          source={require('./styles/images/icon_bluezone.png')}
-          style={styles.image}
+          source={require('./styles/images/bluezone.png')}
+          style={styles.logo}
         />
-      </View>
+        <View style={styles.body}>
+          <FastImage
+            source={require('./styles/images/success.png')}
+            style={styles.icon_success}
+          />
+          <MediumText text={'Chưa phát hiện'} style={styles.text} />
+          <MediumText text={'F0 nào tiếp xúc với bạn'} style={styles.text} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

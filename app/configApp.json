@@ -74,5 +74,6 @@
       "importance": "hight",
       "priority": "hight"
     }
-  ]
+  ],
+  "LinkGroupFaceVN": "http://facebook.com/groups/bluezonevn"
 }

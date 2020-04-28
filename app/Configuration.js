@@ -167,9 +167,11 @@ const configuration = {
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
   NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+  LinkGroupFaceVN: 'http://facebook.com/groups/bluezonevn',
   UserCode: '',
   Token: '',
   TokenFirebase: '',
+  Language: 'vn',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
@@ -178,25 +180,29 @@ const configuration = {
 };
 
 const getConfigurationAsync = async () => {
-  AsyncStorage.multiGet(['Token', 'Configuration', 'TokenFirebase']).then(
-    results => {
-      let keys = {};
-      results.forEach(result => {
-        Object.assign(keys, {[result[0]]: result[1]});
-      });
+  AsyncStorage.multiGet([
+    'Token',
+    'Configuration',
+    'TokenFirebase',
+    'Language',
+  ]).then(results => {
+    let keys = {};
+    results.forEach(result => {
+      Object.assign(keys, {[result[0]]: result[1]});
+    });
 
-      const {Token, Configuration, TokenFirebase} = keys;
-      const configObject = JSON.parse(Configuration || '{}');
+    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const configObject = JSON.parse(Configuration || '{}');
 
-      mergeConfiguration(configObject, Token, TokenFirebase);
-    },
-  );
+    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+  });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase) => {
+const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
+    Language: Language || 'vn',
   });
 };
 
@@ -520,6 +526,12 @@ const getConfig = () => {
   return configuration;
 };
 
+// Lưu thông tin Language
+const setLanguage = Language => {
+  Object.assign(configuration, {Language});
+  AsyncStorage.setItem('Language', Language);
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -532,4 +544,5 @@ export {
   removeNotifyPermisson,
   createNotifyPermisson,
   DOMAIN,
+  setLanguage,
 };

@@ -83,22 +83,41 @@ const styles = StyleSheet.create({
   },
 
   imageQR: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   share: {
     paddingHorizontal: 43,
     justifyContent: 'center',
-    marginBottom: 80,
+    marginBottom: 50,
   },
   btnShare: {
+    marginBottom: 25,
     backgroundColor: '#015cd0',
   },
   textBtnShare: {
     fontSize: fontSize.large,
     marginLeft: 5,
   },
+
+  btnAddGroup: {
+    borderWidth: 0.65,
+    borderColor: '#015cd0',
+  },
+
+  textBtnAddGroup: {
+    color: '#015cd0',
+    fontSize: fontSize.large,
+    marginLeft: 5,
+  },
+
+  iconFace: {
+    width: 9.2,
+    height: 17.7,
+  },
+
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
