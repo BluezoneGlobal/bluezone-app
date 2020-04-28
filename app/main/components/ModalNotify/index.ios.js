@@ -53,11 +53,9 @@ class ModalNotify extends React.Component {
       blueTooth: false,
       isVisiblePermissionBLE: false,
       isVisibleBLE: false,
-
       isModalLocation: false,
       isModalUpdate: false,
       forceUpdate: false,
-
       isVisibleNotify: false,
     };
 
@@ -73,8 +71,6 @@ class ModalNotify extends React.Component {
     this.requestNotifications = this.requestNotifications.bind(this);
 
     this.isPermissionBluetooth = false;
-    this.statusBluetooth = '';
-    this.isPermissionNotify = 0;
     this.vesionIOS = parseInt(Platform.Version, 10);
   }
 
@@ -110,7 +106,6 @@ class ModalNotify extends React.Component {
         statuses[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL];
       // Check trang thai khi từ background sang foreground thì sẽ không hiển thi popup cài đặt nữa, chỉ cho hiển thị vào lúc lần đầu.
 
-      console.log('permissionBluetooth', permissionBluetooth);
       this.statusBluetooth = permissionBluetooth;
       switch (permissionBluetooth) {
         case 'blocked':
@@ -145,7 +140,6 @@ class ModalNotify extends React.Component {
 
   setStatusBluetooth = status => {
     this.props.onChangeBlue(status);
-    console.log('aaaaaaa', this.vesionIOS < 13);
     if (this.vesionIOS < 13) {
       this.setState({isVisibleBLE: !status});
     }
@@ -207,12 +201,12 @@ class ModalNotify extends React.Component {
 
   onTurnOnNotify() {
     this.setState({isVisibleNotify: false});
-    Linking.canOpenURL('app-settings://3')
+    Linking.canOpenURL('app-settings://')
       .then(supported => {
         if (!supported) {
           console.log("Can't handle settings url");
         } else {
-          return Linking.openURL('app-settings://3');
+          return Linking.openURL('app-settings://');
         }
       })
       .catch(err => console.error('An error occurred', err));
@@ -236,6 +230,7 @@ class ModalNotify extends React.Component {
       NOTIFI_PERMISSION_BLE_IOS_TEXT,
       NOTIFI_PERMISSION_TEXT,
     } = configuration;
+
     return (
       <View>
         <ModalBase
