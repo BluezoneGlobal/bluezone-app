@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textHeader: {
+    textAlign: 'center',
     // fontFamily: 'OpenSans',
     fontSize: fontSize.huge,
     fontWeight: 'bold',

@@ -38,6 +38,10 @@ import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
 
+// Language
+import message from '../../../msg/history';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Config
 import configuration from '../../../Configuration';
 
@@ -49,7 +53,7 @@ import styles from './styles/index.css';
 
 const ONE_DAY = 86400000;
 
-class WatchScanScreen extends React.Component {
+class HistoryScanScreen extends React.Component {
   constructor(props) {
     super(props);
     const startOfToday = moment()
@@ -243,6 +247,7 @@ class WatchScanScreen extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
     const {
       day,
       nearTotalBluezoner,
@@ -260,6 +265,8 @@ class WatchScanScreen extends React.Component {
       />
     ));
 
+    const {formatMessage} = intl;
+
     return (
       <SafeAreaView style={styles.warper}>
         <Header
@@ -267,40 +274,40 @@ class WatchScanScreen extends React.Component {
           onBack={this.onBack}
           colorIcon={'#015cd0'}
           showBack
-          title={'Lịch sử tiếp xúc'}
+          title={formatMessage(message.header)}
           styleHeader={styles.header}
         />
         <View style={styles.flex}>
           <View style={styles.flex}>
             <View style={styles.content}>
-              <MediumText style={styles.title}>Tổng tiếp xúc</MediumText>
+              <MediumText style={styles.title}>{formatMessage(message.totalContact)}</MediumText>
               <View style={styles.contentChild}>
                 <View style={styles.human}>
                   <MediumText style={[styles.textValue, styles.colorText]}>
                     {total}
                   </MediumText>
-                  <Text style={[styles.text, styles.colorText]}>Người</Text>
+                  <Text style={[styles.text, styles.colorText]}>{formatMessage(message.people)}</Text>
                 </View>
                 <View style={styles.bluezone}>
                   <MediumText style={styles.textValue}>
                     {totalBluezoner}
                   </MediumText>
-                  <Text style={styles.text}>Bluezoner</Text>
+                  <Text style={styles.text}>{totalBluezoner > 1 ? formatMessage(message.bluezoners) : formatMessage(message.bluezoner)}</Text>
                 </View>
               </View>
             </View>
             <View style={styles.content}>
-              <MediumText style={styles.title}>Tiếp xúc gần</MediumText>
+              <MediumText style={styles.title}>{formatMessage(message.closeContact)}</MediumText>
               <View style={styles.contentChild}>
                 <View style={[styles.human, styles.backgroundPeople]}>
                   <Text style={[styles.textValue, styles.colorNumber]}>
                     {nearTotal}
                   </Text>
-                  <Text style={[styles.text, styles.colorNumber]}>Người</Text>
+                  <Text style={[styles.text, styles.colorNumber]}>{formatMessage(message.people)}</Text>
                 </View>
                 <View style={[styles.bluezone, styles.backgroundBlue]}>
                   <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
-                  <Text style={styles.text}>Bluezoner</Text>
+                  <Text style={styles.text}>{nearTotalBluezoner > 1 ? formatMessage(message.bluezoners) : formatMessage(message.bluezoner)}</Text>
                 </View>
               </View>
             </View>
@@ -351,4 +358,10 @@ class WatchScanScreen extends React.Component {
   }
 }
 
-export default WatchScanScreen;
+HistoryScanScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+HistoryScanScreen.defaultProps = {};
+
+export default injectIntl(HistoryScanScreen);

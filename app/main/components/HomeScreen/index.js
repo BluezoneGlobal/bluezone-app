@@ -37,6 +37,10 @@ import PushNotification from 'react-native-push-notification';
 // import DeviceInfo from 'react-native-device-info';
 // import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Components
 import Modal from 'react-native-modal';
 import ButtonText from '../../../base/components/ButtonText';
@@ -303,6 +307,7 @@ class HomeTab extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
     const {
       countShield,
       width,
@@ -315,7 +320,8 @@ class HomeTab extends React.Component {
       buttonText,
       // showModalWrite,
     } = this.state;
-    console.log(showModalInvite);
+
+    const {formatMessage} = intl;
     // const currentVersion = DeviceInfo.getVersion();
     return (
       <View style={style.container}>
@@ -330,14 +336,16 @@ class HomeTab extends React.Component {
             {/*<Text style={style.textBeta}>{currentVersion}</Text>*/}
             <View style={[style.header, {paddingTop: height / setHeight}]}>
               <Text style={style.textHeader}>
-                Bảo vệ mình, bảo vệ cộng đồng
+                {formatMessage(message.header)}
               </Text>
               <Text style={style.texthea}>
-                Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần
+                {formatMessage(message.productLabel1)}
               </Text>
               <Text style={style.texthea}>
-                <Text>người nhiễm </Text>
-                <MediumText style={style.colorText}>COVID-19</MediumText>
+                <Text>{formatMessage(message.productLabel2)}</Text>
+                <MediumText style={style.colorText}>
+                  {formatMessage(message.productLabel3)}
+                </MediumText>
               </Text>
             </View>
           </ImageBackground>
@@ -348,19 +356,19 @@ class HomeTab extends React.Component {
               <Text style={style.textBlueNumber}>
                 {blueTooth ? countShield : '_'}
               </Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
-              <Text style={style.textBlue}>quanh bạn</Text>
+              <Text style={style.textBlue}>{formatMessage(message.bluezoner)}</Text>
+              <Text style={style.textBlue}>{formatMessage(message.around)}</Text>
             </TouchableOpacity>
             <View style={style.numberBluezone}>
               <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>Cộng đồng</Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
+              <Text style={style.textBlue}>{formatMessage(message.bluezoner)}</Text>
+              <Text style={style.textBlue}>{formatMessage(message.community)}</Text>
             </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>
             <ButtonIconText
               onPress={this.watchScan}
-              text={'Quét xung quanh'}
+              text={formatMessage(message.traceButton)}
               source={require('./styles/images/icon_scan.png')}
               styleBtn={style.buttonScan}
               styleText={{fontSize: fontSize.normal}}
@@ -368,7 +376,7 @@ class HomeTab extends React.Component {
             />
             <ButtonIconText
               onPress={this.watchHistory}
-              text={' Lịch sử tiếp xúc '}
+              text={formatMessage(message.historyButton)}
               source={require('./styles/images/icon_history.png')}
               styleBtn={style.buttonHistory}
               styleText={{fontSize: fontSize.normal}}
@@ -406,6 +414,10 @@ class HomeTab extends React.Component {
   }
 }
 
+HomeTab.propTypes = {
+  intl: intlShape.isRequired,
+};
+
 HomeTab.defaultProps = {};
 
-export default HomeTab;
+export default injectIntl(HomeTab);

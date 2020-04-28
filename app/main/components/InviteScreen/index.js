@@ -24,6 +24,7 @@
 import React from 'react';
 import {View, SafeAreaView} from 'react-native';
 import Share from 'react-native-share';
+import * as PropTypes from 'prop-types'
 
 // Components
 import {MediumText} from '../../../base/components/Text';
@@ -31,14 +32,16 @@ import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import IconBluezone from './styles/images/IconBluezone';
 
+// Language
+import message from '../../../msg/invite';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Configs
 import configuration from '../../../Configuration';
 
-// Utils
-import * as fontSize from '../../../utils/fontSize';
-
 // Styles
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 class InviteScreen extends React.Component {
   constructor(props) {
@@ -73,10 +76,11 @@ class InviteScreen extends React.Component {
   }
 
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
     const header =
       route.params && route.params.header ? route.params.header : false;
     const {ShareAppText} = configuration;
+    const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
         {header ? (
@@ -85,23 +89,23 @@ class InviteScreen extends React.Component {
             colorIcon={'#015cd0'}
             styleTitle={styles.textHeader}
             showBack
-            title={'Mời'}
+            title={formatMessage(message.title)}
           />
         ) : (
           <View style={styles.header}>
-            <MediumText style={styles.textHeader}>Mời</MediumText>
+            <MediumText style={styles.textHeader}>{formatMessage(message.title)}</MediumText>
           </View>
         )}
         <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={{flex: 1, justifyContent: 'space-between'}}>
             <View style={styles.banner}>
               <MediumText style={styles.textBanner}>
-                Bảo vệ người thân, bạn bè trước
+                {formatMessage(message.productLabel1)}
               </MediumText>
               <MediumText style={styles.textBanner}>
-                đại dịch. Hãy mời họ tham gia cộng đồng
+                {formatMessage(message.productLabel2)}
               </MediumText>
-              <MediumText style={styles.textBanner}>Bluezoner</MediumText>
+              <MediumText style={styles.textBanner}>{formatMessage(message.productLabel3)}</MediumText>
             </View>
             <View style={styles.imageQR}>
               <View style={styles.containerQR}>
@@ -124,4 +128,11 @@ class InviteScreen extends React.Component {
   }
 }
 
-export default InviteScreen;
+InviteScreen.propTypes = {
+  intl: intlShape.isRequired,
+  router: PropTypes.object,
+};
+
+InviteScreen.defaultProps = {};
+
+export default injectIntl(InviteScreen);

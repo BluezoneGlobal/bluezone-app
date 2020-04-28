@@ -21,13 +21,14 @@
 
 'use strict';
 
-import * as React from 'react';
+import React from 'react';
 import {
   DeviceEventEmitter,
   Platform,
   View,
   AppState,
   Linking,
+  Alert,
 } from 'react-native';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import SystemSetting from 'react-native-system-setting';
@@ -35,6 +36,7 @@ import Geolocation from '@react-native-community/geolocation';
 import Modal from 'react-native-modal';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
+import SendIntentAndroid from 'react-native-send-intent';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -70,7 +72,6 @@ class ModalNotify extends React.Component {
 
     this.requestPermissionLocation = this.requestPermissionLocation.bind(this);
     this.onTurnOnLocation = this.onTurnOnLocation.bind(this);
-
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.onChangeBluetooth = this.onChangeBluetooth.bind(this);
     this.onCheckGeolocation = this.onCheckGeolocation.bind(this);
@@ -269,7 +270,7 @@ class ModalNotify extends React.Component {
     this.setState({isVisiblePermissionLocation: false}, () => {
       this.timeOutPermissionLocation = setTimeout(() => {
         if (this.statusLocation === 'blocked') {
-          Linking.openSettings();
+          SendIntentAndroid.openSettings('android.settings.SETTINGS');
           return;
         }
         if (this.isPermissionLocationBlock < 2) {
@@ -345,7 +346,7 @@ class ModalNotify extends React.Component {
     this.setState({isVisiblePermissionWriteFile: false}, () => {
       this.timeOutVisiblePermissionWriteFile = setTimeout(() => {
         if (this.statusWrite === 'blocked') {
-          Linking.sendIntent('android.settings.SETTINGS');
+          SendIntentAndroid.openSettings('android.settings.SETTINGS');
           return;
         }
         if (this.isPermissionWriteBlock < 2) {
@@ -358,12 +359,12 @@ class ModalNotify extends React.Component {
 
   onStartPermissionLocation() {
     this.setState({isVisiblePermissionLocationBlock: false});
-    Linking.sendIntent('android.settings.SETTINGS');
+    SendIntentAndroid.openSettings('android.settings.SETTINGS');
   }
 
   onStartWriteBlock() {
     this.setState({isVisiblePermissionWriteBlock: false});
-    Linking.sendIntent('android.settings.SETTINGS');
+    SendIntentAndroid.openSettings('android.settings.SETTINGS');
   }
 
   render() {
@@ -385,7 +386,6 @@ class ModalNotify extends React.Component {
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT,
       // NOTIFI_BLUETOOTH_ANDROID_TEXT,
     } = configuration;
-    console.log('render');
     return (
       <View>
         <ModalBase
