@@ -105,7 +105,7 @@ class InviteScreen extends React.Component {
           </View>
         )}
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <View style={{flex: 1}}>
             <View style={styles.banner}>
               <MediumText style={styles.textBanner}>
                 Bảo vệ người thân, bạn bè trước

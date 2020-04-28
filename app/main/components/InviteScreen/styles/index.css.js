@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   share: {
     paddingHorizontal: 43,
     justifyContent: 'center',
-    marginBottom: 80,
+    marginBottom: 50,
   },
   btnShare: {
     marginBottom: 25,
