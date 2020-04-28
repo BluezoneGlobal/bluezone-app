@@ -22,6 +22,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ScrollView,
   View,
@@ -312,5 +313,9 @@ class HomeTab extends React.Component {
 }
 
 HomeTab.defaultProps = {};
+
+HomeTab.contextTypes = {
+  language: PropTypes.object,
+};
 
 export default HomeTab;

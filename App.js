@@ -23,6 +23,7 @@ import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import ContextProvider from './LanguageContext';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -54,27 +55,32 @@ export default function App() {
   useEffect(() => {}, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        headerMode="none"
-        mode="card"
-        initialRoute={initialRoute}>
-        {!loading ? (
-          <Stack.Screen
-            name="AuthLoading"
-            component={() => <AuthLoading setLoading={setAuthLoading} />}
-          />
-        ) : (
-          <>
-            <Stack.Screen name="Home" component={decorateMainAppStart(Home)} />
-            <Stack.Screen name="WatchScan" component={WatchScan} />
-            <Stack.Screen name="HistoryScan" component={HistoryScan} />
-            <Stack.Screen name="Invite" component={Invite} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          headerMode="none"
+          mode="card"
+          initialRoute={initialRoute}>
+          {!loading ? (
+            <Stack.Screen
+              name="AuthLoading"
+              component={() => <AuthLoading setLoading={setAuthLoading} />}
+            />
+          ) : (
+            <>
+              <Stack.Screen
+                name="Home"
+                component={decorateMainAppStart(Home)}
+              />
+              <Stack.Screen name="WatchScan" component={WatchScan} />
+              <Stack.Screen name="HistoryScan" component={HistoryScan} />
+              <Stack.Screen name="Invite" component={Invite} />
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ContextProvider>
   );
 }
