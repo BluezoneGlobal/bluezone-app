@@ -34,8 +34,6 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PushNotification from 'react-native-push-notification';
-// import DeviceInfo from 'react-native-device-info';
-// import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 
 // Components
 import Modal from 'react-native-modal';
@@ -50,7 +48,7 @@ import {getBluezonerAmount} from '../../../apis/bluezone';
 import Service from '../../../apis/service';
 
 // Config
-import configuration /*, {getUserCodeAsync}*/ from '../../../Configuration';
+import configuration from '../../../Configuration';
 import {
   hasModalNotify,
   textDefault,
@@ -216,7 +214,6 @@ class HomeTab extends React.Component {
       ) {
         hasDevice = true;
         indexDevice = i;
-        // typeList = logs[i].type;
       }
     }
 
@@ -327,7 +324,6 @@ class HomeTab extends React.Component {
           <ImageBackground
             source={require('./styles/images/Banner.png')}
             style={{width: width, height: height / setHeight1}}>
-            {/*<Text style={style.textBeta}>{currentVersion}</Text>*/}
             <View style={[style.header, {paddingTop: height / setHeight}]}>
               <Text style={style.textHeader}>
                 Bảo vệ mình, bảo vệ cộng đồng
