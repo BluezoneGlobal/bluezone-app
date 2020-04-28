@@ -124,26 +124,9 @@ class ModalNotify extends React.Component {
   handleAppStateChange(appState) {
     if (appState === 'active') {
       this.onChangeBluetooth();
-      // Điều kiện này chỉ để đảm bảo kịch bản xin quyền vị trí đã kết thúc thì mới làm việc tiếp theo
-      if (
-        this.statusLocation === 'granted' ||
-        (this.statusLocation === 'blocked' &&
-          !this.state.isVisiblePermissionLocationBlock) ||
-        (this.statusLocation === 'denied' &&
-          this.isPermissionLocationBlock >= 2)
-      ) {
-        // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
-        if (
-          this.statusWrite === 'granted' ||
-          (this.statusWrite === 'blocked' &&
-            !this.state.isVisiblePermissionWriteFile) ||
-          (this.statusWrite === 'denied' && this.isPermissionWriteBlock >= 2)
-        ) {
-          getUserCodeAsync();
-          if (this.statusLocation === 'granted') {
-            this.onCheckGeolocation();
-          }
-        }
+
+      if (this.statusLocation === 'granted') {
+        this.onCheckGeolocation();
       }
 
       // Nếu trước đó là vừa request quyền vị trí và bị block + modal giải thích quyền vị trí đã đóng + chưa bắt đầu request quyền ổ đĩa => thực hiện request quyền ổ đĩa
@@ -170,25 +153,20 @@ class ModalNotify extends React.Component {
 
         switch (permissionLocation) {
           case 'denied':
-            this.statusLocation = 'denied';
             if (this.isPermissionLocationBlock === 0) {
               this.setState({isVisiblePermissionLocation: true});
             }
             this.isPermissionLocationBlock++;
             break;
           case 'blocked':
-            this.statusLocation = 'blocked';
             if (this.isPermissionLocationBlock === 0) {
               this.setState({isVisiblePermissionLocationBlock: true});
             }
             this.isPermissionLocationBlock++;
             break;
-          case 'granted':
-            this.statusLocation = 'granted';
-            break;
-          default:
-            break;
         }
+
+        this.statusLocation = permissionLocation;
 
         // Điều kiện này chỉ để đảm bảo là bước cuối thì mới thực hiện các việc liên quan
         if (
@@ -216,48 +194,41 @@ class ModalNotify extends React.Component {
           statuses[PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE];
         switch (permissionWrite) {
           case 'denied':
-            this.statusWrite = 'denied';
             if (this.isPermissionWriteBlock === 0) {
               this.setState({isVisiblePermissionWriteFile: true});
             }
             this.isPermissionWriteBlock++;
             break;
           case 'blocked':
-            this.statusWrite = 'blocked';
             if (this.isPermissionWriteBlock === 0) {
               this.setState({isVisiblePermissionWriteBlock: true});
             }
             this.isPermissionWriteBlock++;
             break;
           case 'granted':
-            this.statusWrite = 'granted';
-
             if (
               this.statusWrite === 'granted' ||
               this.statusLocation === 'granted'
             ) {
               removeNotifyPermisson();
             }
-
-            break;
-          default:
             break;
         }
+        this.statusWrite = permissionWrite;
 
         // Điều kiện này chỉ để đảm bảo là bước cuối thì mới thực hiện các việc liên quan
         if (
           this.statusWrite === 'granted' ||
-          (this.statusLocation === 'blocked' &&
-            this.isPermissionLocationBlock >= 2)(
-            // => xử lý trong sự kiện từ background sang foreground
-            this.statusWrite === 'denied' && this.isPermissionWriteBlock >= 2,
-          )
+          this.statusLocation === 'blocked' ||
+          (this.statusWrite === 'denied' && this.isPermissionWriteBlock >= 2)
         ) {
           getUserCodeAsync();
-          if (this.statusLocation === 'granted') {
-            this.onCheckGeolocation();
-          }
         }
+
+        if (this.statusLocation === 'granted') {
+          this.onCheckGeolocation();
+        }
+
         if (
           this.isPermissionWriteBlock >= 2 &&
           (this.statusWrite !== 'granted' || this.statusLocation !== 'granted')
@@ -374,7 +345,7 @@ class ModalNotify extends React.Component {
     this.setState({isVisiblePermissionWriteFile: false}, () => {
       this.timeOutVisiblePermissionWriteFile = setTimeout(() => {
         if (this.statusWrite === 'blocked') {
-          LinkingSettings.openSettings('SETTINGS');
+          Linking.sendIntent('android.settings.SETTINGS');
           return;
         }
         if (this.isPermissionWriteBlock < 2) {
@@ -414,6 +385,7 @@ class ModalNotify extends React.Component {
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT,
       // NOTIFI_BLUETOOTH_ANDROID_TEXT,
     } = configuration;
+    console.log('render');
     return (
       <View>
         <ModalBase

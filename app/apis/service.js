@@ -63,7 +63,7 @@ const addListenerScanBlueTooth = onScan => {
 };
 
 const generatorId = () => {
-  TraceCovid.generatorBluezoneId();
+  return TraceCovid.generatorBluezoneId();
 };
 
 const restoreDb = () => {
