@@ -119,15 +119,17 @@ public class ScannerManager: RCTViewManager {
           // Check tên gửi sang
             if !nameScan.isEmpty && self.checkUserIdInsert(userId: nameScan) {
                 
-                // Check xem app da ton tai trong thoi gian truoc do
-                let result : AnyHashable = [
-                    "id":nameScan,
-                    "address": "",
-                    "rssi": String(rssi)
-                ]
-              
-                let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
-                module.onGetUUId(result)
+                 if (self.bridge != nil) {
+                   // Check xem app da ton tai trong thoi gian truoc do
+                   let result : AnyHashable = [
+                       "id":nameScan,
+                       "address": "",
+                       "rssi": String(rssi)
+                   ]
+                   
+                   let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
+                   module.onGetUUId(result)
+                 }
 
                 let timestamp = Date().currentTimeMillis()
               let scan: CovidLog = CovidLog(userId: nameScan, macId: "", timestamp: timestamp, rssi: Int32(rssi))
