@@ -106,6 +106,7 @@ class ModalNotify extends React.Component {
         statuses[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL];
       // Check trang thai khi từ background sang foreground thì sẽ không hiển thi popup cài đặt nữa, chỉ cho hiển thị vào lúc lần đầu.
 
+      console.log('permissionBluetooth', permissionBluetooth);
       this.statusBluetooth = permissionBluetooth;
       switch (permissionBluetooth) {
         case 'blocked':
@@ -114,6 +115,9 @@ class ModalNotify extends React.Component {
             this.isPermissionBluetooth = true;
             createNotifyPermisson();
           }
+          break;
+        case 'unavailable':
+          this.onChangeBluetooth();
           break;
         case 'granted':
           removeNotifyPermisson();
