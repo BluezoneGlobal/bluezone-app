@@ -22,7 +22,7 @@
 'use strict';
 
 import React from 'react';
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, Linking} from 'react-native';
 import Share from 'react-native-share';
 
 // Components
@@ -45,6 +45,7 @@ class InviteScreen extends React.Component {
     super(props);
     this.onBack = this.onBack.bind(this);
     this.onShareApp = this.onShareApp.bind(this);
+    this.onAddGroupFace = this.onAddGroupFace.bind(this);
   }
 
   onBack() {
@@ -70,6 +71,17 @@ class InviteScreen extends React.Component {
     } catch (error) {
       console.log('Huỷ chia sẻ');
     }
+  }
+
+  onAddGroupFace() {
+    const {LinkGroupFaceVN} = configuration;
+    Linking.canOpenURL(LinkGroupFaceVN).then(supported => {
+      if (supported) {
+        return Linking.openURL(LinkGroupFaceVN);
+      } else {
+        return Linking.openURL('https://www.facebook.com/groups/bluezonevn');
+      }
+    });
   }
 
   render() {
@@ -116,6 +128,15 @@ class InviteScreen extends React.Component {
               source={require('./styles/images/icon_share.png')}
               styleBtn={styles.btnShare}
               styleText={styles.textBtnShare}
+            />
+
+            <ButtonIconText
+              onPress={this.onAddGroupFace}
+              text={'Tham gia group trên facebook'}
+              source={require('./styles/images/icon_face.png')}
+              styleBtn={styles.btnAddGroup}
+              styleText={styles.textBtnAddGroup}
+              styleIcon={styles.iconFace}
             />
           </View>
         </View>
