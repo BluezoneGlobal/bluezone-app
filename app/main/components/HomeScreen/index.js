@@ -42,12 +42,13 @@ import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import NumberAnimate from '../../../base/components/NumberAnimate';
 import CountBluezoner from './CountBluezoner';
+import SwitchLanguage from './SwitchLanguage';
 
 // Apis
 import {getBluezonerAmount} from '../../../apis/bluezone';
 
 // Config
-import configuration from '../../../Configuration';
+import configuration, {setLanguage} from '../../../Configuration';
 import {
   hasModalNotify,
   textDefault,
@@ -77,6 +78,7 @@ class HomeTab extends React.Component {
       newAmount: 0,
       showModalInvite: false,
       showModalWrite: false,
+      Language: configuration.Language,
     };
 
     this.mapDevice = {};
@@ -219,6 +221,7 @@ class HomeTab extends React.Component {
       buttonText,
       blueTooth,
     } = this.state;
+
     return (
       <View style={style.container}>
         <StatusBar hidden={true} />
@@ -229,6 +232,9 @@ class HomeTab extends React.Component {
           <ImageBackground
             source={require('./styles/images/Banner.png')}
             style={{width: width, height: height / setHeight1}}>
+            <View style={style.switchLanguage}>
+              <SwitchLanguage />
+            </View>
             <View style={[style.header, {paddingTop: height / setHeight}]}>
               <Text style={style.textHeader}>
                 Bảo vệ mình, bảo vệ cộng đồng

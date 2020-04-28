@@ -144,6 +144,7 @@ const configuration = {
   UserCode: '',
   Token: '',
   TokenFirebase: '',
+  Language: 'vn',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
@@ -152,25 +153,29 @@ const configuration = {
 };
 
 const getConfigurationAsync = async () => {
-  AsyncStorage.multiGet(['Token', 'Configuration', 'TokenFirebase']).then(
-    results => {
-      let keys = {};
-      results.forEach(result => {
-        Object.assign(keys, {[result[0]]: result[1]});
-      });
+  AsyncStorage.multiGet([
+    'Token',
+    'Configuration',
+    'TokenFirebase',
+    'Language',
+  ]).then(results => {
+    let keys = {};
+    results.forEach(result => {
+      Object.assign(keys, {[result[0]]: result[1]});
+    });
 
-      const {Token, Configuration, TokenFirebase} = keys;
-      const configObject = JSON.parse(Configuration || '{}');
+    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const configObject = JSON.parse(Configuration || '{}');
 
-      mergeConfiguration(configObject, Token, TokenFirebase);
-    },
-  );
+    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+  });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase) => {
+const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
+    Language: Language || 'vn',
   });
 };
 
@@ -495,6 +500,12 @@ const getConfig = () => {
   return configuration;
 };
 
+// Lưu thông tin Language
+const setLanguage = Language => {
+  Object.assign(configuration, {Language});
+  AsyncStorage.setItem('Language', Language);
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -507,4 +518,5 @@ export {
   removeNotifyPermisson,
   createNotifyPermisson,
   DOMAIN,
+  setLanguage,
 };
