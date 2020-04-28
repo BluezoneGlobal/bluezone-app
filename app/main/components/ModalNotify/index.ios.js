@@ -101,24 +101,6 @@ class ModalNotify extends React.Component {
     if (appState === 'active') {
       this.onChangeBluetooth();
       this.onCheckUpdate();
-
-      if (
-        this.statusBluetooth === 'granted' ||
-        (this.statusBluetooth === 'unavailable' &&
-          !this.state.isVisiblePermissionBLE) ||
-        (this.statusBluetooth === 'blocked' &&
-          !this.state.isVisiblePermissionBLE)
-      ) {
-        // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
-        if (
-          this.statusWrite === 'granted' ||
-          (this.statusWrite === 'unavailable' &&
-            !this.state.isPermissionNotify) ||
-          (this.statusWrite === 'blocked' && !this.state.isPermissionNotify)
-        ) {
-          getUserCodeAsync();
-        }
-      }
     }
   }
 
