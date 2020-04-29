@@ -69,9 +69,9 @@ class WatchScanScreen extends React.Component {
         this.onScan,
       );
     }
+    // TODO cần clearTimeout trong event vẽ ra 2 danh sách xung quanh
     this.timeOutLoadingBluezoner = setTimeout(() => {
       this.setState({statusLoadding: false});
-      clearTimeout(this.timeOutLoadingBluezoner);
     }, 15000);
   }
 

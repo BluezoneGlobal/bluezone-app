@@ -63,11 +63,11 @@ class ModalNotify extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisiblePermissionLocation: false,
+      isVisiblePermissionLocationDenied: false,
       isVisibleLocation: false,
-      isVisiblePermissionWriteFile: false,
-      isVisiblePermissionLocationBlock: false,
-      isVisiblePermissionWriteBlock: false,
+      isVisiblePermissionWriteDenied: false,
+      isVisiblePermissionLocationBlocked: false,
+      isVisiblePermissionWriteBlocked: false,
 
       // isVisibleBluetooth: false,
       isModalUpdate: false,
@@ -75,71 +75,107 @@ class ModalNotify extends React.Component {
     };
 
     this.requestPermissionLocation = this.requestPermissionLocation.bind(this);
+    this.requestPermissionWrite = this.requestPermissionWrite.bind(this);
     this.onTurnOnLocation = this.onTurnOnLocation.bind(this);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.onChangeBluetooth = this.onChangeBluetooth.bind(this);
-    this.onCheckGeolocation = this.onCheckGeolocation.bind(this);
+    this.checkBluetoothState = this.checkBluetoothState.bind(this);
+    this.checkGeolocationState = this.checkGeolocationState.bind(this);
     this.onCheckUpdate = this.onCheckUpdate.bind(this);
     this.onStartBluetooth = this.onStartBluetooth.bind(this);
     this.onStartLocation = this.onStartLocation.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onCancelUpdate = this.onCancelUpdate.bind(this);
-    this.requestPermissionWrite = this.requestPermissionWrite.bind(this);
     this.onStartWrite = this.onStartWrite.bind(this);
     this.onStartPermissionLocation = this.onStartPermissionLocation.bind(this);
     this.onStartWriteBlock = this.onStartWriteBlock.bind(this);
+    this.isWizardCheckPermissionWriteFinished = this.isWizardCheckPermissionWriteFinished.bind(
+      this,
+    );
+    this.isWizardCheckPermissionLocationBlockFinished = this.isWizardCheckPermissionLocationBlockFinished.bind(
+      this,
+    );
 
-    this.isPermissionLocationBlock = 0;
+    this.numberOfCheckLocationPermission = 0;
+    this.numberOfCheckWritePermission = 0;
     this.isPermissionLocationRequesting = false;
-    this.isPermissionWriteBlock = 0;
     this.isPermissionWriteRequesting = false;
     this.statusLocation = '';
     this.statusWrite = '';
+
+    this.timer = null;
   }
 
   async componentDidMount() {
+    // TODO cần xử lý đảm bảo không có yêu cầu bắt buộc cập nhật phiên bản mới thì mới thực thi tiếp các phần dưới.
     // Check Update App
     this.onCheckUpdate();
 
-    // Check bật định vị
-    setTimeout(() => {
-      this.requestPermissionLocation();
-    }, 100);
+    this.checkBluetoothState();
 
-    // BluetoothStatus
-    this.onChangeBluetooth();
-
-    BluetoothStatus.addListener(listener => {
-      this.props.onChangeBlue(listener);
-      // this.setState({isVisibleBluetooth: !listener});
-    });
+    BluetoothStatus.addListener(this.props.onChangeBlue);
 
     AppState.addEventListener('change', this.handleAppStateChange);
+
+    // TODO both DeviceEventEmitterand NativeAppEventEmitter are deprecated, you should use NativeEventEmitter instead.
     DeviceEventEmitter.addListener(
       RNSettings.GPS_PROVIDER_EVENT,
-      this._handleGPSProviderEvent,
+      this.handleGPSProviderEvent,
     );
+
+    this.timer = setTimeout(this.requestPermissionLocation, 500);
   }
 
   componentWillUnmount() {
-    this.isPermissionLocationBlock = 0;
+    this.numberOfCheckLocationPermission = 0;
+    BluetoothStatus.removeListener();
     AppState.removeEventListener('change', this.handleAppStateChange);
+    clearTimeout(this.timer);
+  }
+
+  // Kịch bản kiểm tra quyền truy cập bộ nhớ đã hòan thành?
+  isWizardCheckPermissionWriteFinished() {
+    return (
+      // Hoàn thành khi người dùng cấp quyền
+      this.statusWrite === 'granted' ||
+      // Hoàn thành khi người dùng từ chối quyền vĩnh viễn + đang không mở modal giải thích việc cần cấp quyền
+      (this.statusWrite === 'blocked' &&
+        !this.state.isVisiblePermissionWriteDenied) ||
+      // Hoàn thành khi người dùng từ chối quyền 2 lần (sau khi đã mở modal giải thích việc cần cấp quyền)
+      (this.statusWrite === 'denied' && this.numberOfCheckWritePermission >= 2)
+    );
+  }
+
+  // Kịch bản kiểm tra quyền truy cập vị trí đã hòan thành?
+  isWizardCheckPermissionLocationBlockFinished() {
+    return (
+      // Hoàn thành khi người dùng cấp quyền
+      this.statusLocation === 'granted' ||
+      // Hoàn thành khi người dùng từ chối quyền vĩnh viễn + đang không mở modal giải thích việc cần cấp quyền
+      (this.statusLocation === 'blocked' &&
+        !this.state.isVisiblePermissionLocationBlocked) ||
+      // Hoàn thành khi người dùng từ chối quyền 2 lần (sau khi đã mở modal giải thích việc cần cấp quyền)
+      (this.statusLocation === 'denied' &&
+        this.numberOfCheckLocationPermission >= 2)
+    );
   }
 
   handleAppStateChange(appState) {
     if (appState === 'active') {
-      this.onChangeBluetooth();
+      this.checkBluetoothState();
 
       if (this.statusLocation === 'granted') {
-        this.onCheckGeolocation();
+        this.checkGeolocationState();
       }
 
-      // Nếu trước đó là vừa request quyền vị trí và bị block + modal giải thích quyền vị trí đã đóng + chưa bắt đầu request quyền ổ đĩa => thực hiện request quyền ổ đĩa
       if (
+        // Nếu trước đó là winzard request quyền vị trí và bị từ chối vĩnh viễn
         this.statusLocation === 'blocked' &&
-        !this.state.isVisiblePermissionLocationBlock &&
+        // và modal giải thích quyền vị trí đã đóng
+        !this.state.isVisiblePermissionLocationBlocked &&
+        // Và chưa bắt đầu request quyền ổ đĩa
         this.statusWrite === ''
       ) {
+        // Thì thực hiện request quyền ổ đĩa
         this.requestPermissionWrite();
       }
     }
@@ -158,16 +194,16 @@ class ModalNotify extends React.Component {
 
         switch (permissionLocation) {
           case 'denied':
-            if (this.isPermissionLocationBlock === 0) {
-              this.setState({isVisiblePermissionLocation: true});
+            if (this.numberOfCheckLocationPermission === 0) {
+              this.setState({isVisiblePermissionLocationDenied: true});
             }
-            this.isPermissionLocationBlock++;
+            this.numberOfCheckLocationPermission++;
             break;
           case 'blocked':
-            if (this.isPermissionLocationBlock === 0) {
-              this.setState({isVisiblePermissionLocationBlock: true});
+            if (this.numberOfCheckLocationPermission === 0) {
+              this.setState({isVisiblePermissionLocationBlocked: true});
             }
-            this.isPermissionLocationBlock++;
+            this.numberOfCheckLocationPermission++;
             break;
         }
 
@@ -177,9 +213,9 @@ class ModalNotify extends React.Component {
         if (
           this.statusLocation === 'granted' ||
           (this.statusLocation === 'blocked' &&
-            this.isPermissionLocationBlock >= 2) || // => xử lý trong sự kiện từ background sang foreground
+            !this.state.isVisiblePermissionLocationBlocked) ||
           (this.statusLocation === 'denied' &&
-            this.isPermissionLocationBlock >= 2)
+            this.numberOfCheckLocationPermission >= 2)
         ) {
           this.requestPermissionWrite();
         }
@@ -199,65 +235,56 @@ class ModalNotify extends React.Component {
           statuses[PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE];
         switch (permissionWrite) {
           case 'denied':
-            if (this.isPermissionWriteBlock === 0) {
-              this.setState({isVisiblePermissionWriteFile: true});
+            if (this.numberOfCheckWritePermission === 0) {
+              this.setState({isVisiblePermissionWriteDenied: true});
             }
-            this.isPermissionWriteBlock++;
+            this.numberOfCheckWritePermission++;
             break;
           case 'blocked':
-            if (this.isPermissionWriteBlock === 0) {
-              this.setState({isVisiblePermissionWriteBlock: true});
+            if (this.numberOfCheckWritePermission === 0) {
+              this.setState({isVisiblePermissionWriteBlocked: true});
             }
-            this.isPermissionWriteBlock++;
-            break;
-          case 'granted':
-            if (
-              this.statusWrite === 'granted' ||
-              this.statusLocation === 'granted'
-            ) {
-              removeNotifyPermisson();
-            }
+            this.numberOfCheckWritePermission++;
             break;
         }
         this.statusWrite = permissionWrite;
 
-        // Điều kiện này chỉ để đảm bảo là bước cuối thì mới thực hiện các việc liên quan
-        if (
-          this.statusWrite === 'granted' ||
-          this.statusLocation === 'blocked' ||
-          (this.statusWrite === 'denied' && this.isPermissionWriteBlock >= 2)
-        ) {
-          getUserCodeAsync();
+        // Điều kiện này chỉ để đảm bảo kịch bản xin quyền vị trí đã kết thúc thì mới làm việc tiếp theo
+        if (this.isWizardCheckPermissionLocationBlockFinished()) {
+          // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
+          if (this.isWizardCheckPermissionWriteFinished()) {
+            debugger;
+            getUserCodeAsync();
+            if (
+              this.statusWrite !== 'granted' ||
+              this.statusLocation !== 'granted'
+            ) {
+              createNotifyPermisson();
+            } else {
+              removeNotifyPermisson();
+            }
+          }
         }
 
         if (this.statusLocation === 'granted') {
-          this.onCheckGeolocation();
-        }
-
-        if (
-          this.isPermissionWriteBlock >= 2 &&
-          (this.statusWrite !== 'granted' || this.statusLocation !== 'granted')
-        ) {
-          createNotifyPermisson();
+          this.checkGeolocationState();
         }
       },
     );
   }
 
-  _handleGPSProviderEvent = e => {
+  handleGPSProviderEvent = e => {
     if (e[RNSettings.LOCATION_SETTING] === RNSettings.DISABLED) {
       this.setState({isVisibleLocation: true});
     }
   };
 
-  async onChangeBluetooth() {
+  async checkBluetoothState() {
     const isEnabled = await BluetoothStatus.state();
-    // this.setState({isVisibleBluetooth: !isEnabled});
     this.props.onChangeBlue(isEnabled);
   }
 
-  onCheckGeolocation() {
-    // this.setState({isVisibleLocation: false});
+  checkGeolocationState() {
     Geolocation.getCurrentPosition(
       () => {
         this.setState({isVisibleLocation: false});
@@ -271,28 +298,22 @@ class ModalNotify extends React.Component {
   }
 
   onStartLocation() {
-    this.setState({isVisiblePermissionLocation: false}, () => {
-      this.timeOutPermissionLocation = setTimeout(() => {
-        if (this.statusLocation === 'blocked') {
-          SendIntentAndroid.openSettings('android.settings.SETTINGS');
-          return;
-        }
-        if (this.isPermissionLocationBlock < 2) {
-          this.requestPermissionLocation();
-        }
-        clearTimeout(this.timeOutPermissionLocation);
-      }, 300);
+    this.setState({isVisiblePermissionLocationDenied: false}, () => {
+      if (this.statusLocation === 'blocked') {
+        SendIntentAndroid.openSettings('android.settings.SETTINGS');
+        return;
+      }
+      if (this.numberOfCheckLocationPermission < 2) {
+        this.requestPermissionLocation();
+      }
     });
   }
 
   onTurnOnLocation() {
     this.setState({isVisibleLocation: false}, () => {
-      this.timeOutVisibleLocation = setTimeout(() => {
-        SystemSetting.switchLocation(() => {
-          console.log('switch location successfully');
-        });
-        clearTimeout(this.timeOutVisibleLocation);
-      }, 300);
+      SystemSetting.switchLocation(() => {
+        console.log('switch location successfully');
+      });
     });
   }
 
@@ -347,41 +368,40 @@ class ModalNotify extends React.Component {
   };
 
   onStartWrite() {
-    this.setState({isVisiblePermissionWriteFile: false}, () => {
-      this.timeOutVisiblePermissionWriteFile = setTimeout(() => {
-        if (this.statusWrite === 'blocked') {
-          SendIntentAndroid.openSettings('android.settings.SETTINGS');
-          return;
-        }
-        if (this.isPermissionWriteBlock < 2) {
-          this.requestPermissionWrite();
-        }
-        clearTimeout(this.timeOutVisiblePermissionWriteFile);
-      }, 300);
+    this.setState({isVisiblePermissionWriteDenied: false}, () => {
+      if (this.statusWrite === 'blocked') {
+        SendIntentAndroid.openSettings('android.settings.SETTINGS');
+        return;
+      }
+      if (this.numberOfCheckWritePermission < 2) {
+        this.requestPermissionWrite();
+      }
     });
   }
 
   onStartPermissionLocation() {
-    this.setState({isVisiblePermissionLocationBlock: false});
-    SendIntentAndroid.openSettings('android.settings.SETTINGS');
+    this.setState({isVisiblePermissionLocationBlocked: false}, () => {
+      SendIntentAndroid.openSettings('android.settings.SETTINGS');
+    });
   }
 
   onStartWriteBlock() {
-    this.setState({isVisiblePermissionWriteBlock: false});
-    SendIntentAndroid.openSettings('android.settings.SETTINGS');
+    this.setState({isVisiblePermissionWriteBlocked: false}, () => {
+      SendIntentAndroid.openSettings('android.settings.SETTINGS');
+    });
   }
 
   render() {
     const {language} = this.context;
     const {intl} = this.props;
     const {
-      isVisiblePermissionLocation,
+      isVisiblePermissionLocationDenied,
       isVisibleLocation,
       isModalUpdate,
       forceUpdate,
-      isVisiblePermissionWriteFile,
-      isVisiblePermissionLocationBlock,
-      isVisiblePermissionWriteBlock,
+      isVisiblePermissionWriteDenied,
+      isVisiblePermissionLocationBlocked,
+      isVisiblePermissionWriteBlocked,
     } = this.state;
     const {formatMessage} = intl;
     const {
@@ -417,13 +437,13 @@ class ModalNotify extends React.Component {
     return (
       <View>
         <ModalBase
-          isVisible={isVisiblePermissionLocationBlock}
+          isVisible={isVisiblePermissionLocationBlocked}
           content={_NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT}
           onPress={this.onStartPermissionLocation}
           btnText={formatMessage(message.openSettingLocation)}
         />
         <ModalBase
-          isVisible={isVisiblePermissionLocation}
+          isVisible={isVisiblePermissionLocationDenied}
           content={_NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT}
           onPress={this.onStartLocation}
         />
@@ -470,12 +490,12 @@ class ModalNotify extends React.Component {
           </View>
         </Modal>
         <ModalBase
-          isVisible={isVisiblePermissionWriteFile}
+          isVisible={isVisiblePermissionWriteDenied}
           content={_NOTIFI_PERMISSION_WRITE_FILE_TEXT}
           onPress={this.onStartWrite}
         />
         <ModalBase
-          isVisible={isVisiblePermissionWriteBlock}
+          isVisible={isVisiblePermissionWriteBlocked}
           content={_NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT}
           onPress={this.onStartWriteBlock}
           btnText={formatMessage(message.openSettingIOFile)}

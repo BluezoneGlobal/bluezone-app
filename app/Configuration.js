@@ -301,7 +301,7 @@ const removeNotifyPermisson = () => {
   });
 };
 
-const createNotifyPermisson = () => {
+const createNotifyPermission = () => {
   const notifications =
     Platform.OS === 'ios'
       ? configuration.PermissonNotificationsIos
@@ -410,7 +410,9 @@ const getConfigurationAPI = async (successCb, errorCb) => {
 // Lưu thông tin Token
 const setToken = Token => {
   Object.assign(configuration, {Token});
-  AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  if (Token) {
+    AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  }
 };
 
 // Lưu thông tin TokenFirebase
@@ -532,6 +534,7 @@ const getConfig = () => {
 const setLanguage = Language => {
   Object.assign(configuration, {Language});
   AsyncStorage.setItem('Language', Language);
+  Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
 export default configuration;
@@ -544,7 +547,7 @@ export {
   getConfig,
   registerUser,
   removeNotifyPermisson,
-  createNotifyPermisson,
+  createNotifyPermission,
   DOMAIN,
   setLanguage,
 };
