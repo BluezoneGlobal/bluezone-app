@@ -179,6 +179,7 @@ const configuration = {
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
+  Language: null,
 };
 
 const getConfigurationAsync = async () => {
@@ -204,7 +205,7 @@ const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
-    Language: Language || 'vn',
+    Language: Language,
   });
 };
 

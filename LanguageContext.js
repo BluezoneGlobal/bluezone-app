@@ -21,17 +21,25 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import {NativeModules} from "react-native";
+import {NativeModules} from 'react-native';
+
+import configuration from './app/Configuration';
 
 export const LanguageContext = React.createContext();
 
 class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
-    const languages = NativeModules.I18nManager.localeIdentifier || 'vi';
-    const _language = languages.split('_')[0];
+
+    let language = configuration.Language;
+
+    if (!language) {
+      const _language = NativeModules.I18nManager.localeIdentifier || 'vi';
+      language = _language.split('_')[0];
+    }
+
     this.state = {
-      language: _language,
+      language: language,
     };
   }
 
@@ -48,6 +56,9 @@ class LanguageProvider extends React.Component {
   };
 
   render() {
+    if (!this.state.language) {
+      return null;
+    }
     return (
       <LanguageContext.Provider
         value={{

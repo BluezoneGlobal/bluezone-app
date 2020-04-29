@@ -67,3 +67,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# vim swap
+*.swp
+*.swo
