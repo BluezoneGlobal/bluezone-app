@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 26,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonScan: {
     backgroundColor: '#015cd0',
