@@ -44,7 +44,7 @@ class SwitchLanguage extends React.Component {
 
   onChangeLanguage(context) {
     const {Language} = this.state;
-    const language = Language === 'vn' ? 'en' : 'vn';
+    const language = Language === 'vi' ? 'en' : 'vi';
     context.updateLanguage(language);
     this.setState({Language: language});
     setLanguage(language);
@@ -54,41 +54,44 @@ class SwitchLanguage extends React.Component {
     const {Language} = this.state;
     return (
       <LanguageContext.Consumer>
-        {context => (
-          <TouchableOpacity
-            onPress={() => this.onChangeLanguage(context)}
-            activeOpacity={1}
-            style={style.btnLanguage}>
-            <View
-              style={[
-                {marginLeft: 2},
-                Language === 'vn' ? style.btnLanguageActive : {},
-              ]}>
-              <Text
-                style={
-                  Language === 'vn'
-                    ? style.textBtnLanguageActive
-                    : style.textBtnLanguage
-                }>
-                Vn
-              </Text>
-            </View>
-            <View
-              style={[
-                {marginRight: 2},
-                Language === 'en' ? style.btnLanguageActive : {},
-              ]}>
-              <Text
-                style={
-                  Language === 'en'
-                    ? style.textBtnLanguageActive
-                    : style.textBtnLanguage
-                }>
-                En
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        {context => {
+            console.log('context', context);
+            return (
+                <TouchableOpacity
+                    onPress={() => this.onChangeLanguage(context)}
+                    activeOpacity={1}
+                    style={style.btnLanguage}>
+                    <View
+                        style={[
+                            {marginLeft: 2},
+                            Language === 'vi' ? style.btnLanguageActive : {},
+                        ]}>
+                        <Text
+                            style={
+                                Language === 'vi'
+                                    ? style.textBtnLanguageActive
+                                    : style.textBtnLanguage
+                            }>
+                            Vn
+                        </Text>
+                    </View>
+                    <View
+                        style={[
+                            {marginRight: 2},
+                            Language === 'en' ? style.btnLanguageActive : {},
+                        ]}>
+                        <Text
+                            style={
+                                Language === 'en'
+                                    ? style.textBtnLanguageActive
+                                    : style.textBtnLanguage
+                            }>
+                            En
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }}
       </LanguageContext.Consumer>
     );
   }

@@ -144,7 +144,7 @@ const configuration = {
   UserCode: '',
   Token: '',
   TokenFirebase: '',
-  Language: 'vn',
+  Language: 'vi',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],

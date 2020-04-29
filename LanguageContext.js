@@ -28,18 +28,19 @@ class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      language: 'vn',
+      language: 'vi',
     };
   }
 
-  getChildContext = language => {
-    if (!language || language === 'vn') {
+  getChildContext = () => {
+    const {language} = this.state;
+    if (!language || language === 'vi') {
       return {
-        language: 'vn',
+        language: 'vi',
       };
     }
     return {
-      language: language,
+      language: this.state.language,
     };
   };
 
