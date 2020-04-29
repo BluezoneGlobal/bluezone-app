@@ -205,7 +205,7 @@ const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
-    Language: Language,
+    Language: Language || 'vi',
   });
 };
 

@@ -245,11 +245,15 @@ class HomeTab extends React.Component {
           showsVerticalScrollIndicator={false}>
           <ImageBackground
             source={require('./styles/images/Banner.png')}
-            style={{width: width, height: height / setHeight1}}>
+            style={{
+              width: width,
+              height: (width * 298) / 360,
+              justifyContent: 'flex-end',
+            }}>
             <View style={style.switchLanguage}>
               <SwitchLanguage />
             </View>
-            <View style={[style.header, {paddingTop: height / setHeight}]}>
+            <View style={[style.header, {height: (width * 298) / 360 * 0.38}]}>
               <Text style={style.textHeader}>
                 {formatMessage(message.header)}
               </Text>
