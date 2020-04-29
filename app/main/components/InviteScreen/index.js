@@ -81,12 +81,14 @@ class InviteScreen extends React.Component {
   }
 
   onAddGroupFace() {
-    const {LinkGroupFaceVN} = configuration;
-    Linking.canOpenURL(LinkGroupFaceVN).then(supported => {
+    const {language} = this.context;
+    const {LinkGroupFace_en, LinkGroupFace} = configuration;
+    const link = language === 'vi' ? LinkGroupFace : LinkGroupFace_en;
+    Linking.canOpenURL(link).then(supported => {
       if (supported) {
-        return Linking.openURL(LinkGroupFaceVN);
+        return Linking.openURL(link);
       } else {
-        return Linking.openURL('https://www.facebook.com/groups/bluezonevn');
+        return Linking.openURL(link);
       }
     });
   }

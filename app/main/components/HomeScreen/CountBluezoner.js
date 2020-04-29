@@ -152,7 +152,6 @@ class CountBluezoner extends React.Component {
 
   render() {
     const {countShield} = this.state;
-    console.log(countShield);
     const {blueTooth} = this.props;
     return (
       <Text style={style.textBlueNumber}>{blueTooth ? countShield : '_'}</Text>

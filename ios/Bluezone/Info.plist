@@ -38,58 +38,58 @@
 		</dict>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-  <string>Bluezone sử dụng Bluetooth để ghi nhận thiết bị điện tử của những người dùng khác khi họ ở gần bạn</string>
-  <key>NSBluetoothPeripheralUsageDescription</key>
-  <string>Bluezone sử dụng Bluetooth để ghi nhận thiết bị điện tử của những người dùng khác khi họ ở gần bạn</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>Cho phép ứng dụng truy cập vị trí, để tìm vị trí gần nhất.</string>
+	<string>Bluezone sử dụng Bluetooth để ghi nhận thiết bị điện tử của những người dùng khác khi họ ở gần bạn</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluezone sử dụng Bluetooth để ghi nhận thiết bị điện tử của những người dùng khác khi họ ở gần bạn</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Cho phép ứng dụng truy cập vị trí, để tìm vị trí gần nhất.</string>
 	<key>UIAppFonts</key>
-  <array>
-    <string>AntDesign.ttf</string>
-    <string>Entypo.ttf</string>
-    <string>EvilIcons.ttf</string>
-    <string>Feather.ttf</string>
-    <string>FontAwesome.ttf</string>
-    <string>FontAwesome5_Brands.ttf</string>
-    <string>FontAwesome5_Regular.ttf</string>
-    <string>FontAwesome5_Solid.ttf</string>
-    <string>Fontisto.ttf</string>
-    <string>Foundation.ttf</string>
-    <string>Ionicons.ttf</string>
-    <string>MaterialCommunityIcons.ttf</string>
-    <string>MaterialIcons.ttf</string>
-    <string>Octicons.ttf</string>
-    <string>SimpleLineIcons.ttf</string>
-    <string>Zocial.ttf</string>
-    <string>antfill.ttf</string>
-    <string>antoutline.ttf</string>
-    <string>Roboto-Regular.ttf</string>
-    <string>Roboto-Light.ttf</string>
-    <string>Roboto-Medium.ttf</string>
-    <string>Roboto-Thin.ttf</string>
-    <string>OpenSans-Bold.ttf</string>
-    <string>OpenSans-Light.ttf</string>
-    <string>OpenSans-Regular.ttf</string>
-  </array>
-  <key>UIBackgroundModes</key>
-  <array>
-    <string>bluetooth-central</string>
-    <string>bluetooth-peripheral</string>
-    <string>remote-notification</string>
-  </array>
-  <key>UILaunchStoryboardName</key>
-  <string>LaunchScreen</string>
-  <key>UIRequiredDeviceCapabilities</key>
-  <array>
-    <string>armv7</string>
-  </array>
-  <key>UIRequiresFullScreen</key>
-  <true/>
-  <key>UISupportedInterfaceOrientations</key>
-  <array>
-    <string>UIInterfaceOrientationPortrait</string>
-  </array>
-  <key>UIViewControllerBasedStatusBarAppearance</key>
-  <false/>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>antfill.ttf</string>
+		<string>antoutline.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
