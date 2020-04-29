@@ -33,11 +33,6 @@ import {
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
 
-const language = (NativeModules.I18nManager.localeIdentifier || 'vi').split(
-  '_',
-)[0];
-const isVietnamese = language === 'vi';
-
 const DOMAIN = 'https://apibz.bkav.com';
 
 // CONST
@@ -207,6 +202,7 @@ const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
   });
+  console.log(mergeConfiguration);
 };
 
 const getUserCodeAsync = async () => {
@@ -236,6 +232,8 @@ const getUserIdFromFileCallback = async userCodeFromFile => {
 };
 
 function notifySchedule(notify, timestamp) {
+  const isVietnamese =
+    !configuration.Language || configuration.Language === 'vi';
   PushNotification.localNotificationSchedule({
     /* Android Only Properties */
     id: notify.id,
@@ -327,6 +325,9 @@ const createNotifyPermisson = () => {
     if (iDate < new Date().getTime()) {
       iDate += 86400000;
     }
+
+    const isVietnamese =
+      !configuration.Language || configuration.Language === 'vi';
 
     PushNotification.localNotificationSchedule({
       /* Android Only Properties */
