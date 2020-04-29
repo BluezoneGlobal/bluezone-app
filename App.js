@@ -35,7 +35,7 @@ import Invite from './app/main/components/InviteScreen';
 import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 
-// import {registerAppWithFCM} from './app/CloudMessaging';
+import {registerAppWithFCM} from './app/CloudMessaging';
 import {translationMessages} from './app/i18n';
 import LanguageProvider from './app/utils/LanguageProvider';
 
@@ -44,15 +44,14 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(false);
-  const [initialRoute /* , setInitialRoute*/] = useState('AuthLoading');
+  const [initialRoute, setInitialRoute] = useState('AuthLoading');
 
   const setAuthLoading = () => {
     setLoading(true);
-    // TODO admin: xem thêm lỗi render lần nữa
-    // setInitialRoute('Home');
+    setInitialRoute('Home');
   };
 
-  // registerAppWithFCM();
+  registerAppWithFCM();
 
   useEffect(() => {}, []);
 
