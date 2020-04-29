@@ -347,7 +347,7 @@ class WatchScanScreen extends React.Component {
               </View>
               {statusLoadding ? (
                 <View style={styles.listEmptyContainer}>
-                  <ActivityIndicator size="large" color="#0000ff" />
+                  <ActivityIndicator size="large" color="#015CD0" />
                 </View>
               ) : itemsLogNear.length > 0 ? (
                 <View style={styles.listBodyContainer}>

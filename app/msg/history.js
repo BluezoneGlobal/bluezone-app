@@ -24,28 +24,28 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
-    header: {
-        id: 'bluezone.history.title',
-        defaultMessage: 'Lịch sử tiếp xúc',
-    },
-    totalContact: {
-        id: 'bluezone.history.totalContact',
-        defaultMessage: 'Tổng tiếp xúc',
-    },
-    closeContact: {
-        id: 'bluezone.history.closeContact',
-        defaultMessage: 'Tiếp xúc gần',
-    },
-    people: {
-        id: 'bluezone.history.people',
-        defaultMessage: 'Người',
-    },
-    bluezoner: {
-        id: 'bluezone.history.bluezoner',
-        defaultMessage: 'Bluezoner',
-    },
-    bluezoners: {
-        id: 'bluezone.history.bluezoners',
-        defaultMessage: 'Bluezoners',
-    },
+  header: {
+    id: 'bluezone.history.header',
+    defaultMessage: 'Lịch sử tiếp xúc',
+  },
+  totalContact: {
+    id: 'bluezone.history.totalContact',
+    defaultMessage: 'Tổng tiếp xúc',
+  },
+  closeContact: {
+    id: 'bluezone.history.closeContact',
+    defaultMessage: 'Tiếp xúc gần',
+  },
+  people: {
+    id: 'bluezone.history.people',
+    defaultMessage: 'Người',
+  },
+  bluezoner: {
+    id: 'bluezone.history.bluezoner',
+    defaultMessage: 'Bluezoner',
+  },
+  bluezoners: {
+    id: 'bluezone.history.bluezoners',
+    defaultMessage: 'Bluezoners',
+  },
 });

@@ -22,6 +22,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ScrollView,
   View,
@@ -228,6 +229,9 @@ class HomeTab extends React.Component {
     } = this.state;
     const {formatMessage} = intl;
 
+    const {language} = this.context;
+    console.log('home language', language);
+
     return (
       <View style={style.container}>
         <StatusBar hidden={true} />
@@ -324,5 +328,9 @@ HomeTab.propTypes = {
 };
 
 HomeTab.defaultProps = {};
+
+HomeTab.contextTypes = {
+  language: PropTypes.object,
+};
 
 export default injectIntl(HomeTab);

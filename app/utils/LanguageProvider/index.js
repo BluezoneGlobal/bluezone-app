@@ -32,13 +32,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {IntlProvider} from 'react-intl';
-import {Text, NativeModules} from 'react-native';
+import {Text} from 'react-native';
 
 export class LanguageProvider extends React.PureComponent {
   render() {
-    const languages = NativeModules.I18nManager.localeIdentifier || 'vi';
-    const _language = languages.split('_')[0];
+    const {language} = this.context;
+    const _language = language === 'vi' || !language ? 'vi' : 'en';
     const {messages, children} = this.props;
+
+  alert(language);
 
     return (
       <IntlProvider
@@ -56,6 +58,10 @@ LanguageProvider.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.object,
   children: PropTypes.element.isRequired,
+};
+
+LanguageProvider.contextTypes = {
+  language: PropTypes.object,
 };
 
 export default LanguageProvider;

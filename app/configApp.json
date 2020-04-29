@@ -75,5 +75,8 @@
       "priority": "hight"
     }
   ],
-  "LinkGroupFaceVN": "http://facebook.com/groups/bluezonevn"
+  "JoinGroupFaceText": "Tham gia group trên Facebook",
+  "JoinGroupFaceText_en": "Tham gia group trên Facebook",
+  "LinkGroupFaceVN": "http://facebook.com/groups/bluezonevn",
+  "LinkGroupFaceEN": "http://facebook.com/groups/bluezonevn"
 }
