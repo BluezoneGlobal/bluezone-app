@@ -25,13 +25,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 // import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
-import {Platform} from 'react-native';
+import {NativeModules, Platform} from 'react-native';
 import RNFS from 'react-native-fs';
 import Service from './apis/service';
 import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
+
+const language = (NativeModules.I18nManager.localeIdentifier || 'vi').split(
+  '_',
+)[0];
+const isVietnamese = language === 'vi';
 
 const DOMAIN = 'https://apibz.bkav.com';
 
@@ -106,6 +111,7 @@ const configuration = {
     'https://play.google.com/store/apps/details?id=com.mic.bluezone',
   LinkShareIOS: 'https://apps.apple.com/us/app/bluezone/id1508062685?ls=1',
   Introduce: 'https://bluezone.vn',
+  Introduce_en: 'https://bluezone.vn',
   TimeSaveLog: 10000,
   TimeShowLog: 30000,
   RssiThreshold: -69,
@@ -120,31 +126,54 @@ const configuration = {
   ScanDevicesSleep: 95000,
   Beta: true,
   ShareAppText: 'Chia sẻ ứng dụng',
+  ShareAppText_en: 'Share the app',
+  JoinGroupFaceText: 'Tham gia group trên Facebook',
+  JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
     'Bluezone: \n\nPhiên bản IOS: {LinkShareIOS} \n\nPhiên bản Android: {LinkShareAndroid}',
+  ShareMessageText_en:
+    'Bluezone: \n\nVersion IOS: {LinkShareIOS} \n\nVersion Android: {LinkShareAndroid}',
   NOTIFI_BLE_IOS_TEXT:
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
+  NOTIFI_BLE_IOS_TEXT_en:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
   NOTIFI_PERMISSION_BLE_IOS_TEXT:
     'Bluezone sử dụng Bluetooth năng lượng thấp BLE để ghi nhận những người "tiếp xúc gần" với bạn. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần đồng ý bật Bluetooth để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_PERMISSION_BLE_IOS_TEXT_en:
+    'Bluezone sử dụng Bluetooth năng lượng thấp BLE để ghi nhận những người "tiếp xúc gần" với bạn. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần đồng ý bật Bluetooth để có thể ghi nhận các "tiếp xúc gần".',
   NOTIFI_PERMISSION_TEXT:
+    'Bạn cần đồng ý cấp quyền thông báo để ứng dụng có thể gửi cảnh báo nếu bạn "tiếp xúc gần" người nhiễm COVID-19 trong tương lai.',
+  NOTIFI_PERMISSION_TEXT_en:
     'Bạn cần đồng ý cấp quyền thông báo để ứng dụng có thể gửi cảnh báo nếu bạn "tiếp xúc gần" người nhiễm COVID-19 trong tương lai.',
   NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT:
     'Bluezone không sử dụng vị trí của thiết bị. Bluezone chỉ bật Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần".\n\nMặc dù vậy, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần',
+  NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT_en:
+    'Bluezone không sử dụng vị trí của thiết bị. Bluezone chỉ bật Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần".\n\nMặc dù vậy, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần',
   NOTIFI_LOCATION_ANDROID_TEXT:
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_LOCATION_ANDROID_TEXT_en:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí để có thể ghi nhận các "tiếp xúc gần".',
   NOTIFI_PERMISSION_WRITE_FILE_TEXT:
     'Bluezone chỉ sử dụng quyền "truy cập tệp" để ghi lịch sử "tiếp xúc gần" lên bộ nhớ thiết bị.\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_PERMISSION_WRITE_FILE_TEXT_en:
+    'Bluezone chỉ sử dụng quyền "truy cập tệp" để ghi lịch sử "tiếp xúc gần" lên bộ nhớ thiết bị.\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần".',
   NOTIFI_BLUETOOTH_ANDROID_TEXT:
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
+  NOTIFI_BLUETOOTH_ANDROID_TEXT_en:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
   NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+  NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT_en:
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
   NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
-  LinkGroupFaceVN: 'http://facebook.com/groups/bluezonevn',
+  NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en:
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+  LinkGroupFace: 'http://facebook.com/groups/bluezonevn',
+  LinkGroupFace_en: 'http://facebook.com/groups/bluezonevn',
   UserCode: '',
   Token: '',
   TokenFirebase: '',
-  Language: 'vi',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
@@ -211,8 +240,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: notify.bigText,
-    subText: notify.subText,
+    bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
+    subText: isVietnamese ? notify['subText'] : notify['subText_en'],
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -227,8 +256,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: notify.title,
-    message: notify.message,
+    title: isVietnamese ? notify['title'] : notify['title_en'],
+    message: isVietnamese ? notify['message'] : notify['message_en'],
     playSound: false,
     number: notify.number,
     date: new Date(timestamp),
@@ -303,9 +332,8 @@ const createNotifyPermisson = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-
-      bigText: notify.bigText,
-      subText: notify.subText,
+      bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
+      subText: isVietnamese ? notify['subText'] : notify['subText_en'],
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -320,8 +348,8 @@ const createNotifyPermisson = () => {
       },
 
       /* iOS and Android properties */
-      title: notify.title,
-      message: notify.message,
+      title: isVietnamese ? notify['title'] : notify['title_en'],
+      message: isVietnamese ? notify['message'] : notify['message_en'],
       playSound: false,
       number: notify.number,
       repeatType: 'time',

@@ -22,7 +22,6 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   ScrollView,
   View,
@@ -34,6 +33,10 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PushNotification from 'react-native-push-notification';
+
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import Modal from 'react-native-modal';
@@ -49,7 +52,7 @@ import SwitchLanguage from './SwitchLanguage';
 import {getBluezonerAmount} from '../../../apis/bluezone';
 
 // Config
-import configuration, {setLanguage} from '../../../Configuration';
+import configuration from '../../../Configuration';
 import {
   hasModalNotify,
   textDefault,
@@ -61,6 +64,7 @@ import style from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
+import * as PropTypes from 'prop-types';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
@@ -192,14 +196,21 @@ class HomeTab extends React.Component {
       return;
     }
 
+    const {language} = this.context;
+    const en = language && language !== 'vi';
+
     for (let i = 0; i < notifys.length; i++) {
       const openModal = hasModalNotify(notifys[i], timesOpenApp, firstTimeOpen);
       if (openModal) {
         this.setState({
           showModalInvite: true,
-          titleModal: notifys[i].title,
-          messageModal: notifys[i].message || textDefault.message,
-          buttonText: notifys[i].buttonText || textDefault.buttonText,
+          titleModal: en ? notifys[i].title_en : notifys[i].title,
+          messageModal:
+            (en ? notifys[i].message_en : notifys[i].message) ||
+            textDefault.message,
+          buttonText:
+            (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
+            textDefault.buttonText,
         });
         return;
       }
@@ -212,6 +223,7 @@ class HomeTab extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
     const {
       width,
       height,
@@ -222,8 +234,7 @@ class HomeTab extends React.Component {
       buttonText,
       blueTooth,
     } = this.state;
-    const {language} = this.context;
-    console.log('language1', language);
+    const {formatMessage} = intl;
 
     return (
       <View style={style.container}>
@@ -240,14 +251,16 @@ class HomeTab extends React.Component {
             </View>
             <View style={[style.header, {paddingTop: height / setHeight}]}>
               <Text style={style.textHeader}>
-                Bảo vệ mình, bảo vệ cộng đồng
+                {formatMessage(message.header)}
               </Text>
               <Text style={style.texthea}>
-                Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần
+                {formatMessage(message.productLabel1)}
               </Text>
               <Text style={style.texthea}>
-                <Text>người nhiễm </Text>
-                <MediumText style={style.colorText}>COVID-19</MediumText>
+                <Text>{formatMessage(message.productLabel2)}</Text>
+                <MediumText style={style.colorText}>
+                  {formatMessage(message.productLabel3)}
+                </MediumText>
               </Text>
             </View>
           </ImageBackground>
@@ -256,19 +269,27 @@ class HomeTab extends React.Component {
               onPress={this.watchScan}
               style={[style.numberBluezone, style.marginRight23]}>
               <CountBluezoner blueTooth={blueTooth} />
-              <Text style={style.textBlue}>Bluezoner</Text>
-              <Text style={style.textBlue}>quanh bạn</Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.bluezoner)}
+              </Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.around)}
+              </Text>
             </TouchableOpacity>
             <View style={style.numberBluezone}>
               <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>Cộng đồng</Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.bluezoner)}
+              </Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.community)}
+              </Text>
             </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>
             <ButtonIconText
               onPress={this.watchScan}
-              text={'Quét xung quanh'}
+              text={formatMessage(message.traceButton)}
               source={require('./styles/images/icon_scan.png')}
               styleBtn={style.buttonScan}
               styleText={{fontSize: fontSize.normal}}
@@ -276,7 +297,7 @@ class HomeTab extends React.Component {
             />
             <ButtonIconText
               onPress={this.watchHistory}
-              text={' Lịch sử tiếp xúc '}
+              text={formatMessage(message.historyButton)}
               source={require('./styles/images/icon_history.png')}
               styleBtn={style.buttonHistory}
               styleText={{fontSize: fontSize.normal}}
@@ -314,10 +335,14 @@ class HomeTab extends React.Component {
   }
 }
 
+HomeTab.propTypes = {
+  intl: intlShape.isRequired,
+};
+
 HomeTab.defaultProps = {};
 
 HomeTab.contextTypes = {
   language: PropTypes.object,
 };
 
-export default HomeTab;
+export default injectIntl(HomeTab);

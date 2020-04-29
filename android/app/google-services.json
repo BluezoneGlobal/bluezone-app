@@ -1,0 +1,83 @@
+{
+    "project_info": {
+        "project_number": "183231754670",
+        "firebase_url": "https://covid19-1ffcf.firebaseio.com",
+        "project_id": "covid19-1ffcf",
+        "storage_bucket": "covid19-1ffcf.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:183231754670:android:a95d3fe2ef0b82dc98983f",
+                "android_client_info": {
+                    "package_name": "com.mic.bluezone"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "183231754670-m66g282vjbnjp6mkhiqbso33qrooaht7.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyC_qMbbEMLxnbe3GQus2azWnykF8r7QbDM"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "183231754670-b0rqu8hp5vv20tq92eutvejiu70msqh1.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "183231754670-4mctgpov99u25mo79us2bs585l2iksco.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "com.mic.bluezone"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:183231754670:android:80864e59a9f0819b98983f",
+                "android_client_info": {
+                    "package_name": "com.mic.bluezone"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "183231754670-m66g282vjbnjp6mkhiqbso33qrooaht7.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyC_qMbbEMLxnbe3GQus2azWnykF8r7QbDM"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "183231754670-b0rqu8hp5vv20tq92eutvejiu70msqh1.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "183231754670-4mctgpov99u25mo79us2bs585l2iksco.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "com.mic.bluezone"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

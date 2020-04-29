@@ -22,12 +22,16 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {View, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {MediumText} from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/auth';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Apis
 import {
@@ -59,6 +63,8 @@ class AuthLoadingScreen extends React.Component {
   }
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
         <FastImage
@@ -70,8 +76,14 @@ class AuthLoadingScreen extends React.Component {
             source={require('./styles/images/success.png')}
             style={styles.icon_success}
           />
-          <MediumText text={'Chưa phát hiện'} style={styles.text} />
-          <MediumText text={'F0 nào tiếp xúc với bạn'} style={styles.text} />
+          <MediumText
+            text={formatMessage(message.label1)}
+            style={styles.text}
+          />
+          <MediumText
+            text={formatMessage(message.label2)}
+            style={styles.text}
+          />
         </View>
       </SafeAreaView>
     );
@@ -79,7 +91,8 @@ class AuthLoadingScreen extends React.Component {
 }
 
 AuthLoadingScreen.propTypes = {
+  intl: intlShape.isRequired,
   setLoading: PropTypes.func,
 };
 
-export default AuthLoadingScreen;
+export default injectIntl(AuthLoadingScreen);

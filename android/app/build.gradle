@@ -239,6 +239,7 @@ dependencies {
 
     implementation project(':react-native-bluetooth-scan')
     implementation project(':react-native-fs')
+    implementation project(':RNSendIntentModule')
 }
 
 // Run this once to be able to run the application with BUCK

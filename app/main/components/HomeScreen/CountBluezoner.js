@@ -51,8 +51,6 @@ class CountBluezoner extends React.Component {
     this.mapDevice = {};
     // this.logs = [];
     this.onScan = this.onScan.bind(this);
-
-    // this.isPermissionWriteBlock = 0;
   }
 
   componentDidMount() {

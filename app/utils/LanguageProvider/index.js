@@ -19,53 +19,51 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+/*
+ *
+ * LanguageProvider
+ *
+ * this component connects the redux state language locale to the
+ * IntlProvider component and i18n messages (loaded from `app/translations`)
+ */
+
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import {NativeModules} from "react-native";
+import {IntlProvider} from 'react-intl';
+import {Text} from 'react-native';
 
-export const LanguageContext = React.createContext();
-
-class LanguageProvider extends React.Component {
+export class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
-    const languages = NativeModules.I18nManager.localeIdentifier || 'vi';
-    const _language = languages.split('_')[0];
-    this.state = {
-      language: _language,
-    };
   }
 
-  getChildContext = () => {
-    const {language} = this.state;
-    if (language && language !== 'vi') {
-      return {
-        language: 'en',
-      };
-    }
-    return {
-      language: this.state.language,
-    };
-  };
-
   render() {
+    const {language} = this.context;
+    const _language = language === 'vi' || !language ? 'vi' : 'en';
+    const {messages, children} = this.props;
+
     return (
-      <LanguageContext.Provider
-        value={{
-          state: this.state,
-          updateLanguage: language => this.setState({language: language}),
-        }}>
-        {this.props.children}
-      </LanguageContext.Provider>
+      <IntlProvider
+        locale={_language}
+        key={_language}
+        messages={messages[_language]}
+        textComponent={Text}>
+        {React.Children.only(children)}
+      </IntlProvider>
     );
   }
 }
 
-LanguageProvider.childContextTypes = {
-  language: PropTypes.string,
+LanguageProvider.propTypes = {
+  locale: PropTypes.string,
+  messages: PropTypes.object,
+  children: PropTypes.element.isRequired,
 };
 
-LanguageProvider.propTypes = {
-  language: PropTypes.string,
+LanguageProvider.contextTypes = {
+  language: PropTypes.object,
 };
 
 export default LanguageProvider;

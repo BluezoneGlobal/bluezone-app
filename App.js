@@ -36,6 +36,8 @@ import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 
 import {registerAppWithFCM} from './app/CloudMessaging';
+import {translationMessages} from './app/i18n';
+import LanguageProvider from './app/utils/LanguageProvider';
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
@@ -56,31 +58,33 @@ export default function App() {
 
   return (
     <ContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          headerMode="none"
-          mode="card"
-          initialRoute={initialRoute}>
-          {!loading ? (
-            <Stack.Screen
-              name="AuthLoading"
-              component={() => <AuthLoading setLoading={setAuthLoading} />}
-            />
-          ) : (
-            <>
+      <LanguageProvider messages={translationMessages}>
+        <NavigationContainer>
+          <Stack.Navigator
+            headerMode="none"
+            mode="card"
+            initialRoute={initialRoute}>
+            {!loading ? (
               <Stack.Screen
-                name="Home"
-                component={decorateMainAppStart(Home)}
+                name="AuthLoading"
+                component={() => <AuthLoading setLoading={setAuthLoading} />}
               />
-              <Stack.Screen name="WatchScan" component={WatchScan} />
-              <Stack.Screen name="HistoryScan" component={HistoryScan} />
-              <Stack.Screen name="Invite" component={Invite} />
-              <Stack.Screen name="Register" component={Register} />
-              <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Home"
+                  component={decorateMainAppStart(Home)}
+                />
+                <Stack.Screen name="WatchScan" component={WatchScan} />
+                <Stack.Screen name="HistoryScan" component={HistoryScan} />
+                <Stack.Screen name="Invite" component={Invite} />
+                <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </LanguageProvider>
     </ContextProvider>
   );
 }

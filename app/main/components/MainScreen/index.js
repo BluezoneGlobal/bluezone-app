@@ -33,6 +33,10 @@ import InviteScreen from '../InviteScreen';
 // Styles
 import styles from './style/index.css';
 
+// Language
+import message from '../../../msg/tab';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Consts
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +58,10 @@ class HomeTabScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <Tab.Navigator
         initialRouteName="Home"
@@ -68,7 +75,7 @@ class HomeTabScreen extends React.Component {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: 'Trang chủ',
+            tabBarLabel: formatMessage(message.home),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Home : icon.Home}
@@ -81,7 +88,7 @@ class HomeTabScreen extends React.Component {
           name="Invite"
           component={InviteScreen}
           options={{
-            tabBarLabel: 'Mời',
+            tabBarLabel: formatMessage(message.invite),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Invite : icon.Invite}
@@ -94,7 +101,7 @@ class HomeTabScreen extends React.Component {
           name="Info"
           component={InfoScreen}
           options={{
-            tabBarLabel: 'Thông tin',
+            tabBarLabel: formatMessage(message.about),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Info : icon.Info}
@@ -107,4 +114,9 @@ class HomeTabScreen extends React.Component {
     );
   }
 }
-export default HomeTabScreen;
+
+HomeTabScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(HomeTabScreen);

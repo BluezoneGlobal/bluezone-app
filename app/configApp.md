@@ -43,8 +43,11 @@
       "typeDisplay": "notify",
       "title": "(1h45p ngày đầu tiên)",
       "message": "Mời người dùng khác",
+      "message_en": "Mời người dùng khác",
       "bigText": "Mời người dùng khác",
+      "bigText_en": "Mời người dùng khác",
       "subText": "Mời người dùng khác",
+      "subText_en": "Mời người dùng khác",
       "numberDay": 0,
       "time": 6300000,
       "number": 112
@@ -55,25 +58,46 @@
       "typeDisplay": "notify",
       "title": "1h55p Ngày 25/4",
       "message": "Mời người dùng khác",
+      "message_en": "Mời người dùng khác",
       "bigText": "Mời người dùng khác",
+      "bigText_en": "Mời người dùng khác",
       "subText": "Mời người dùng khác",
+      "subText_en": "Mời người dùng khác",
       "datetime": 1587754500000,
       "number": 112
     }
   ],
-  "PermissonNotifications": [
-    {
-      "id": "777777",
-      "title": "Yêu cầu quyền",
-      "message": "Yêu cầu quyền",
-      "bigText": "Yêu cầu quyền",
-      "subText": "Yêu cầu quyền",
-      "dayStartTime": 32400000,
-      "repeatTime": 86400000,
-      "number": 113,
-      "importance": "hight",
-      "priority": "hight"
-    }
-  ],
+  "PermissonNotificationsAndroid": [
+      {
+        "id": "000001",
+        "title": "Không thể ghi nhận các \"tiếp xúc gần\"",
+        "title_en": "Không thể ghi nhận các \"tiếp xúc gần\"",
+        "message": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "message_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "bigText": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "bigText_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "subText": "Bluezone cần cấp quyền",
+        "subText_en": "Bluezone cần cấp quyền",
+        "dayStartTime": 32400000,
+        "repeatTime": 86400000,
+        "number": 113,
+        "importance": "hight",
+        "priority": "hight"
+      }
+    ],
+    "PermissonNotificationsIos": [
+      {
+        "id": "000001",
+        "title": "Không thể ghi nhận các \"tiếp xúc gần\"",
+        "title_en": "Không thể ghi nhận các \"tiếp xúc gần\"",
+        "message": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "message_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
+        "dayStartTime": 32400000,
+        "repeatTime": 86400000,
+        "number": 113,
+        "importance": "hight",
+        "priority": "hight"
+      }
+    ]
   "LinkGroupFaceVN": "http://facebook.com/groups/bluezonevn"
 }
