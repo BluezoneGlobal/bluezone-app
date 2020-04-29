@@ -54,6 +54,7 @@ function decorateMainAppStart(AppStack) {
 
       // Start service
       this.onStartService(true);
+      Service.changeLanguageNotifi(configuration.Language);
 
       AppState.addEventListener('change', this.handleAppStateChange);
     }

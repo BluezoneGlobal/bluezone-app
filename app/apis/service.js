@@ -72,6 +72,10 @@ const restoreDb = () => {
   }
 };
 
+const changeLanguageNotifi = language => {
+  Platform.OS !== 'ios' && TraceCovid.setLanguage(language);
+};
+
 const service = {
   startService,
   setUserId,
@@ -81,6 +85,7 @@ const service = {
   addListenerScanBlueTooth,
   generatorId,
   restoreDb,
+  changeLanguageNotifi,
 };
 
 export default service;

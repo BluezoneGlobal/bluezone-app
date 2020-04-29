@@ -29,6 +29,8 @@ import * as PropTypes from 'prop-types';
 // Components
 import Text from '../../../base/components/Text';
 
+import Service from '../../../apis/service';
+
 // Styles
 import style from './styles/index.css';
 import {setLanguage} from '../../../Configuration';
@@ -45,6 +47,7 @@ class SwitchLanguage extends React.Component {
     context.updateLanguage(_language);
     this.setState({Language: _language});
     setLanguage(_language);
+    Service.changeLanguageNotifi(_language);
   }
 
   render() {
