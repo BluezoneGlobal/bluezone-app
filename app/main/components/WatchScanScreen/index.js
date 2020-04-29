@@ -204,7 +204,7 @@ class WatchScanScreen extends React.Component {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      console.log('changeType' + new Date().getTime() + ' ' + keyMap);
+      // console.log('changeType' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [...logs],

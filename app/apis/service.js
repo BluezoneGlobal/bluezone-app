@@ -34,7 +34,7 @@ const startService = scanFull => {
   if (Platform.OS !== 'ios') {
     TraceCovid.startService(!!scanFull);
   } else {
-    scanFull && TraceCovid.startService();
+    TraceCovid.startService();
   }
 };
 

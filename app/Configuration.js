@@ -202,7 +202,6 @@ const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
   });
-  console.log(mergeConfiguration);
 };
 
 const getUserCodeAsync = async () => {
@@ -422,7 +421,6 @@ const setTokenFirebase = TokenFirebase => {
   ) {
     return;
   }
-  console.log('TokenFirebase', TokenFirebase);
   if (configuration.Token === '') {
     registerUser(TokenFirebase);
   } else {

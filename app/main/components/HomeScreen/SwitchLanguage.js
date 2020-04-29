@@ -54,7 +54,6 @@ class SwitchLanguage extends React.Component {
     context.updateLanguage(_language);
     this.setState({disabled: true});
     setLanguage(_language);
-    Service.changeLanguageNotifi(_language);
   }
 
   render() {

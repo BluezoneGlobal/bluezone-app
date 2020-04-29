@@ -99,7 +99,7 @@ package="com.bluezone">
 
         <service android:name="com.scan.ServiceTraceCovid" android:exported="true"/>
 
-        <service android:name="com.scan.database.BackupDatabaseService"/>
+        <service android:name="com.scan.backup.BackupDatabaseService"/>
 
         <service android:name="com.airbnb.android.react.maps.BackupDatabaseService"/>
 
