@@ -21,7 +21,7 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import {NativeModules} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import configuration from './app/Configuration';
 
@@ -32,15 +32,16 @@ class LanguageProvider extends React.Component {
     super(props);
 
     let language = configuration.Language;
-
-    if (!language) {
-      const _language = NativeModules.I18nManager.localeIdentifier || 'vi';
-      language = _language.split('_')[0];
-    }
-
     this.state = {
       language: language,
     };
+  }
+
+  async componentDidMount() {
+    const language = await AsyncStorage.getItem('Language');
+    this.setState({
+      language: language || 'vi',
+    });
   }
 
   getChildContext = () => {
