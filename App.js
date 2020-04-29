@@ -56,8 +56,6 @@ export default function App() {
 
   useEffect(() => {}, []);
 
-  console.log('9999');
-
   return (
     <ContextProvider>
       <LanguageProvider messages={translationMessages}>
@@ -75,7 +73,7 @@ export default function App() {
               <>
                 <Stack.Screen
                   name="Home"
-                  component={Home}
+                  component={decorateMainAppStart(Home)}
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
