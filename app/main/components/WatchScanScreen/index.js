@@ -72,7 +72,7 @@ class WatchScanScreen extends React.Component {
     this.timeOutLoadingBluezoner = setTimeout(() => {
       this.setState({statusLoadding: false});
       clearTimeout(this.timeOutLoadingBluezoner);
-    }, 3000);
+    }, 1500);
   }
 
   componentWillUnmount() {

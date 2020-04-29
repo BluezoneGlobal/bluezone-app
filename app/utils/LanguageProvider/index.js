@@ -30,17 +30,19 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import {IntlProvider} from 'react-intl';
 import {Text} from 'react-native';
 
-export class LanguageProvider extends React.PureComponent {
+export class LanguageProvider extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const {language} = this.context;
     const _language = language === 'vi' || !language ? 'vi' : 'en';
     const {messages, children} = this.props;
-
-  alert(language);
 
     return (
       <IntlProvider

@@ -17,6 +17,7 @@
     "bluezone.invite.productLabel1": "Protect your relatives and friends",
     "bluezone.invite.productLabel2": "against the pandemic. Invite them to join",
     "bluezone.invite.productLabel3": "Bluezoner community",
+    "bluezone.invite.share": "Share the app",
 
     "bluezone.trace.header": "Scan around",
     "bluezone.trace.aroundYou": "Around you",
@@ -34,4 +35,14 @@
     "bluezone.history.people": "People",
     "bluezone.history.bluezoner": "Bluezoner",
     "bluezone.history.bluezoners": "Bluezoners",
+
+    "bluezone.auth.label1": "Not detected",
+    "bluezone.auth.label2": "which F0 contact near you",
+
+    "bluezone.modal.hasNewVersion": "A new update is available",
+    "bluezone.modal.updateVersion": "Please update to the new version to use the latest features",
+    "bluezone.modal.Ok": "Update",
+    "bluezone.modal.Cancel": "Cancel",
+    "bluezone.modal.openSettingLocation": "Open setting",
+    "bluezone.modal.openSettingIOFile": "Open setting"
 }

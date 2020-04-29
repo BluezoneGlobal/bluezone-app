@@ -127,6 +127,8 @@ const configuration = {
   Beta: true,
   ShareAppText: 'Chia sẻ ứng dụng',
   ShareAppText_en: 'Share the app',
+  JoinGroupFaceText: 'Tham gia group trên Facebook',
+  JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
     'Bluezone: \n\nPhiên bản IOS: {LinkShareIOS} \n\nPhiên bản Android: {LinkShareAndroid}',
   ShareMessageText_en:

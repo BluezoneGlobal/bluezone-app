@@ -20,33 +20,32 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import {NativeModules} from 'react-native';
+import * as PropTypes from 'prop-types';
+import {NativeModules} from "react-native";
 
 export const LanguageContext = React.createContext();
 
 class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
-
-    const language = NativeModules.I18nManager.localeIdentifier || 'vi';
-    const _language = language.split('_')[0];
+    const languages = NativeModules.I18nManager.localeIdentifier || 'vi';
+    const _language = languages.split('_')[0];
     this.state = {
       language: _language,
     };
+    console.log('Contructor LanguageProvider');
   }
 
   getChildContext = () => {
     const {language} = this.state;
-    // console.log('getChildContext', language);
+    if (language && language !== 'vi') {
+      return {
+        language: 'en',
+      };
+    }
     return {
-      language: language,
+      language: this.state.language,
     };
-  };
-
-  updateLanguage = language => {
-    console.log('updateLanguage', language);
-    this.setState({language: language});
   };
 
   render() {
@@ -54,7 +53,7 @@ class LanguageProvider extends React.Component {
       <LanguageContext.Provider
         value={{
           state: this.state,
-          updateLanguage: this.updateLanguage,
+          updateLanguage: language => this.setState({language: language}),
         }}>
         {this.props.children}
       </LanguageContext.Provider>

@@ -24,24 +24,12 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
-  title: {
-    id: 'bluezone.invite.title',
-    defaultMessage: 'Mời',
-  },
-  productLabel1: {
-    id: 'bluezone.invite.productLabel1',
-    defaultMessage: 'Bảo vệ người thân, bạn bè trước',
-  },
-  productLabel2: {
-    id: 'bluezone.invite.productLabel2',
-    defaultMessage: 'đại dịch. Hãy mời họ tham gia cộng đồng',
-  },
-  productLabel3: {
-    id: 'bluezone.invite.productLabel3',
-    defaultMessage: 'Bluezoner',
-  },
-  share: {
-    id: 'bluezone.invite.share',
-    defaultMessage: 'Chia sẻ ứng dụng',
-  },
+    label1: {
+        id: 'bluezone.auth.label1',
+        defaultMessage: 'bluezone.auth.label1',
+    },
+    label2: {
+        id: 'bluezone.auth.label2',
+        defaultMessage: 'bluezone.history.label2',
+    },
 });

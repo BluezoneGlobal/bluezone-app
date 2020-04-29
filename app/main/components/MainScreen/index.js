@@ -60,8 +60,8 @@ class HomeTabScreen extends React.Component {
   }
 
   render() {
-      const {intl} = this.props;
-      const {formatMessage} = intl;
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <Tab.Navigator
         initialRouteName="Home"
@@ -116,7 +116,7 @@ class HomeTabScreen extends React.Component {
 }
 
 HomeTabScreen.propTypes = {
-    intl: intlShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default injectIntl(HomeTabScreen);

@@ -23,14 +23,7 @@ import React, {useState, useEffect} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-
-// react-intl
-import LanguageProvider from './app/utils/LanguageProvider';
-import {translationMessages} from './app/i18n';
-import LanguageContext from './LanguageContext';
+import ContextProvider from './LanguageContext';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -43,13 +36,13 @@ import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 
 import {registerAppWithFCM} from './app/CloudMessaging';
-
-import {Provider as AntdProvider} from '@ant-design/react-native';
+import {translationMessages} from './app/i18n';
+import LanguageProvider from './app/utils/LanguageProvider';
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
 
-function MainApp() {
+export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute /* , setInitialRoute*/] = useState('AuthLoading');
 
@@ -63,39 +56,37 @@ function MainApp() {
 
   useEffect(() => {}, []);
 
+  console.log('9999');
+
   return (
-    <AntdProvider>
-      <LanguageContext>
-        <LanguageProvider messages={translationMessages}>
-          <NavigationContainer>
-            <Stack.Navigator
-              headerMode="none"
-              mode="card"
-              initialRoute={initialRoute}>
-              {!loading ? (
+    <ContextProvider>
+      <LanguageProvider messages={translationMessages}>
+        <NavigationContainer>
+          <Stack.Navigator
+            headerMode="none"
+            mode="card"
+            initialRoute={initialRoute}>
+            {!loading ? (
+              <Stack.Screen
+                name="AuthLoading"
+                component={() => <AuthLoading setLoading={setAuthLoading} />}
+              />
+            ) : (
+              <>
                 <Stack.Screen
-                  name="AuthLoading"
-                  component={() => <AuthLoading setLoading={setAuthLoading} />}
+                  name="Home"
+                  component={Home}
                 />
-              ) : (
-                <>
-                  <Stack.Screen
-                    name="Home"
-                    component={decorateMainAppStart(Home)}
-                  />
-                  <Stack.Screen name="WatchScan" component={WatchScan} />
-                  <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                  <Stack.Screen name="Invite" component={Invite} />
-                  <Stack.Screen name="Register" component={Register} />
-                  <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-                </>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </LanguageProvider>
-      </LanguageContext>
-    </AntdProvider>
+                <Stack.Screen name="WatchScan" component={WatchScan} />
+                <Stack.Screen name="HistoryScan" component={HistoryScan} />
+                <Stack.Screen name="Invite" component={Invite} />
+                <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </LanguageProvider>
+    </ContextProvider>
   );
 }
-
-export default MainApp;

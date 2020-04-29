@@ -51,8 +51,6 @@ class CountBluezoner extends React.Component {
     this.mapDevice = {};
     // this.logs = [];
     this.onScan = this.onScan.bind(this);
-
-    // this.isPermissionWriteBlock = 0;
   }
 
   componentDidMount() {
@@ -154,6 +152,7 @@ class CountBluezoner extends React.Component {
 
   render() {
     const {countShield} = this.state;
+    console.log(countShield);
     const {blueTooth} = this.props;
     return (
       <Text style={style.textBlueNumber}>{blueTooth ? countShield : '_'}</Text>

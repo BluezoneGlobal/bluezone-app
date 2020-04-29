@@ -24,7 +24,7 @@
 import React from 'react';
 import {View, SafeAreaView, Linking} from 'react-native';
 import Share from 'react-native-share';
-import * as PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types';
 
 // Components
 import {MediumText} from '../../../base/components/Text';
@@ -41,7 +41,6 @@ import configuration from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
-import * as fontSize from '../../../utils/fontSize';
 
 class InviteScreen extends React.Component {
   constructor(props) {
@@ -57,13 +56,18 @@ class InviteScreen extends React.Component {
   }
 
   async onShareApp() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const {language} = this.context;
     const {LinkShareAndroid, LinkShareIOS, ShareMessageText} = configuration;
     // const messText = `Bluezone:\n\nPhiên bản IOS: ${LinkShareIOS}\n\nPhiên bản Android:${LinkShareAndroid}`;
-    const messText = ShareMessageText.replace(
-      '{LinkShareIOS}',
-      LinkShareIOS,
-    ).replace('{LinkShareAndroid}', LinkShareAndroid);
-    const title = 'Chia sẻ ứng dụng';
+    const messText = (language && language !== 'vi'
+      ? configuration.ShareMessageText_en
+      : configuration.ShareMessageText
+    )
+      .replace('{LinkShareIOS}', LinkShareIOS)
+      .replace('{LinkShareAndroid}', LinkShareAndroid);
+    const title = formatMessage(message.share);
     const options = {
       title,
       subject: title,
@@ -72,7 +76,7 @@ class InviteScreen extends React.Component {
     try {
       await Share.open(options);
     } catch (error) {
-      console.log('Huỷ chia sẻ');
+      // console.log('Huỷ chia sẻ');
     }
   }
 
@@ -89,10 +93,20 @@ class InviteScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
+    const {language} = this.context;
     const header =
       route.params && route.params.header ? route.params.header : false;
-    const {ShareAppText} = configuration;
     const {formatMessage} = intl;
+
+    const shareAppText =
+      language && language !== 'vi'
+        ? configuration.ShareAppText_en
+        : configuration.ShareAppText;
+    const joinGroupText =
+      language && language !== 'vi'
+        ? configuration.JoinGroupFaceText_en
+        : configuration.JoinGroupFaceText;
+
     return (
       <SafeAreaView style={styles.container}>
         {header ? (
@@ -105,7 +119,9 @@ class InviteScreen extends React.Component {
           />
         ) : (
           <View style={styles.header}>
-            <MediumText style={styles.textHeader}>{formatMessage(message.title)}</MediumText>
+            <MediumText style={styles.textHeader}>
+              {formatMessage(message.title)}
+            </MediumText>
           </View>
         )}
         <View style={{flex: 1, justifyContent: 'center'}}>
@@ -117,7 +133,9 @@ class InviteScreen extends React.Component {
               <MediumText style={styles.textBanner}>
                 {formatMessage(message.productLabel2)}
               </MediumText>
-              <MediumText style={styles.textBanner}>{formatMessage(message.productLabel3)}</MediumText>
+              <MediumText style={styles.textBanner}>
+                {formatMessage(message.productLabel3)}
+              </MediumText>
             </View>
             <View style={styles.imageQR}>
               <View style={styles.containerQR}>
@@ -128,7 +146,7 @@ class InviteScreen extends React.Component {
           <View style={styles.share}>
             <ButtonIconText
               onPress={this.onShareApp}
-              text={ShareAppText}
+              text={shareAppText}
               source={require('./styles/images/icon_share.png')}
               styleBtn={styles.btnShare}
               styleText={styles.textBtnShare}
@@ -136,7 +154,7 @@ class InviteScreen extends React.Component {
 
             <ButtonIconText
               onPress={this.onAddGroupFace}
-              text={'Tham gia group trên facebook'}
+              text={joinGroupText}
               source={require('./styles/images/icon_face.png')}
               styleBtn={styles.btnAddGroup}
               styleText={styles.textBtnAddGroup}
@@ -155,5 +173,9 @@ InviteScreen.propTypes = {
 };
 
 InviteScreen.defaultProps = {};
+
+InviteScreen.contextTypes = {
+  language: PropTypes.object,
+};
 
 export default injectIntl(InviteScreen);

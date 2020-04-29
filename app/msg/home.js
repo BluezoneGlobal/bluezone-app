@@ -60,4 +60,28 @@ export default defineMessages({
     id: 'bluezone.home.historyButton',
     defaultMessage: ' Lịch sử tiếp xúc ',
   },
+  Cancel: {
+    id: 'bluezone.modal.Cancel',
+    defaultMessage: 'bluezone.modal.Cancel',
+  },
+  Ok: {
+    id: 'bluezone.modal.Ok',
+    defaultMessage: 'bluezone.modal.Ok',
+  },
+  hasNewVersion: {
+    id: 'bluezone.modal.hasNewVersion',
+    defaultMessage: 'bluezone.modal.hasNewVersion',
+  },
+  updateVersion: {
+    id: 'bluezone.modal.updateVersion',
+    defaultMessage: 'bluezone.modal.updateVersion',
+  },
+  openSettingLocation: {
+    id: 'bluezone.modal.openSettingLocation',
+    defaultMessage: 'bluezone.modal.openSettingLocation',
+  },
+  openSettingIOFile: {
+    id: 'bluezone.modal.openSettingIOFile',
+    defaultMessage: 'bluezone.modal.openSettingIOFile',
+  },
 });

@@ -22,7 +22,6 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   ScrollView,
   View,
@@ -53,7 +52,7 @@ import SwitchLanguage from './SwitchLanguage';
 import {getBluezonerAmount} from '../../../apis/bluezone';
 
 // Config
-import configuration, {setLanguage} from '../../../Configuration';
+import configuration from '../../../Configuration';
 import {
   hasModalNotify,
   textDefault,
@@ -65,6 +64,7 @@ import style from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
+import * as PropTypes from 'prop-types';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
@@ -196,14 +196,21 @@ class HomeTab extends React.Component {
       return;
     }
 
+    const {language} = this.context;
+    const en = language && language !== 'vi';
+
     for (let i = 0; i < notifys.length; i++) {
       const openModal = hasModalNotify(notifys[i], timesOpenApp, firstTimeOpen);
       if (openModal) {
         this.setState({
           showModalInvite: true,
-          titleModal: notifys[i].title,
-          messageModal: notifys[i].message || textDefault.message,
-          buttonText: notifys[i].buttonText || textDefault.buttonText,
+          titleModal: en ? notifys[i].title_en : notifys[i].title,
+          messageModal:
+            (en ? notifys[i].message_en : notifys[i].message) ||
+            textDefault.message,
+          buttonText:
+            (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
+            textDefault.buttonText,
         });
         return;
       }
@@ -228,9 +235,6 @@ class HomeTab extends React.Component {
       blueTooth,
     } = this.state;
     const {formatMessage} = intl;
-
-    const {language} = this.context;
-    console.log('home language', language);
 
     return (
       <View style={style.container}>
@@ -265,13 +269,21 @@ class HomeTab extends React.Component {
               onPress={this.watchScan}
               style={[style.numberBluezone, style.marginRight23]}>
               <CountBluezoner blueTooth={blueTooth} />
-              <Text style={style.textBlue}>{formatMessage(message.bluezoner)}</Text>
-              <Text style={style.textBlue}>{formatMessage(message.around)}</Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.bluezoner)}
+              </Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.around)}
+              </Text>
             </TouchableOpacity>
             <View style={style.numberBluezone}>
               <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>{formatMessage(message.bluezoner)}</Text>
-              <Text style={style.textBlue}>{formatMessage(message.community)}</Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.bluezoner)}
+              </Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.community)}
+              </Text>
             </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>

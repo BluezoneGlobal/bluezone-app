@@ -17,6 +17,7 @@
   "bluezone.invite.productLabel1": "Bảo vệ người thân, bạn bè trước",
   "bluezone.invite.productLabel2": "đại dịch. Hãy mời họ tham gia cộng đồng",
   "bluezone.invite.productLabel3": "Bluezoner",
+  "bluezone.invite.share": "Chia sẻ ứng dụng",
 
   "bluezone.trace.header": "Quét xung quanh",
   "bluezone.trace.aroundYou": "Xung quanh bạn",
@@ -33,5 +34,15 @@
   "bluezone.history.closeContact": "Tiếp xúc gần",
   "bluezone.history.people": "Người",
   "bluezone.history.bluezoner": "Bluezoner",
-  "bluezone.history.bluezoners": "Bluezoners"
+  "bluezone.history.bluezoners": "Bluezoners",
+
+  "bluezone.auth.label1": "Chưa phát hiện",
+  "bluezone.auth.label2": "F0 nào tiếp xúc với bạn",
+
+  "bluezone.modal.hasNewVersion": "Đã có phiên bản mới",
+  "bluezone.modal.updateVersion": "Bạn hãy cập nhật phiên bản mới để sử dụng các tính năng mới nhất",
+  "bluezone.modal.Ok": "Cập nhật",
+  "bluezone.modal.Cancel": "Bỏ qua",
+  "bluezone.modal.openSettingLocation": "Đến cài đặt Bật vị trí",
+  "bluezone.modal.openSettingIOFile": "Đến cài đặt Bật lưu trữ"
 }

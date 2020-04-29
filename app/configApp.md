@@ -58,7 +58,7 @@
       "typeDisplay": "notify",
       "title": "1h55p Ngày 25/4",
       "message": "Mời người dùng khác",
-      "message": "Mời người dùng khác",
+      "message_en": "Mời người dùng khác",
       "bigText": "Mời người dùng khác",
       "bigText_en": "Mời người dùng khác",
       "subText": "Mời người dùng khác",

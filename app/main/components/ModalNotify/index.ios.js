@@ -23,6 +23,7 @@
 
 import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
+import * as PropTypes from 'prop-types';
 
 // Components
 import Modal from 'react-native-modal';
@@ -40,6 +41,10 @@ import configuration, {
   createNotifyPermisson,
   getUserCodeAsync,
 } from '../../../Configuration';
+
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Styles
 import styles from './styles/index.css';
@@ -221,6 +226,8 @@ class ModalNotify extends React.Component {
   }
 
   render() {
+    const {language} = this.context;
+    const {intl} = this.props;
     const {
       isVisiblePermissionBLE,
       isVisibleBLE,
@@ -229,27 +236,43 @@ class ModalNotify extends React.Component {
       isVisibleNotify,
     } = this.state;
 
+    const {formatMessage} = intl;
+
     const {
       NOTIFI_BLE_IOS_TEXT,
+      NOTIFI_BLE_IOS_TEXT_en,
       NOTIFI_PERMISSION_BLE_IOS_TEXT,
+      NOTIFI_PERMISSION_BLE_IOS_TEXT_en,
       NOTIFI_PERMISSION_TEXT,
+      NOTIFI_PERMISSION_TEXT_en,
     } = configuration;
+
+    const en = language && language !== 'vi';
+    const _NOTIFI_BLE_IOS_TEXT = en
+      ? NOTIFI_BLE_IOS_TEXT_en
+      : NOTIFI_BLE_IOS_TEXT;
+    const _NOTIFI_PERMISSION_BLE_IOS_TEXT = en
+      ? NOTIFI_PERMISSION_BLE_IOS_TEXT_en
+      : NOTIFI_PERMISSION_BLE_IOS_TEXT;
+    const _NOTIFI_PERMISSION_TEXT = en
+      ? NOTIFI_PERMISSION_TEXT_en
+      : NOTIFI_PERMISSION_TEXT;
 
     return (
       <View>
         <ModalBase
           isVisible={isVisiblePermissionBLE}
-          content={NOTIFI_PERMISSION_BLE_IOS_TEXT}
+          content={_NOTIFI_PERMISSION_BLE_IOS_TEXT}
           onPress={this.onTurnOnPermissionBLE}
         />
         <ModalBase
           isVisible={isVisibleBLE}
-          content={NOTIFI_BLE_IOS_TEXT}
+          content={_NOTIFI_BLE_IOS_TEXT}
           onPress={this.onTurnOnBLE}
         />
         <ModalBase
           isVisible={isVisibleNotify}
-          content={NOTIFI_PERMISSION_TEXT}
+          content={_NOTIFI_PERMISSION_TEXT}
           onPress={this.onTurnOnNotify}
         />
         <Modal
@@ -264,23 +287,23 @@ class ModalNotify extends React.Component {
           <View style={styles.container}>
             <View style={styles.textDiv}>
               <MediumText style={styles.textTitle}>
-                Đã có phiên bản mới
+                {formatMessage(message.hasNewVersion)}
               </MediumText>
               <Text style={styles.textCenterIOS}>
-                Bạn hãy cập nhật phiên bản mới để sử dụng các tính năng mới nhất
+                {formatMessage(message.updateVersion)}
               </Text>
             </View>
             <View style={styles.flexRow}>
               {!forceUpdate && (
                 <ButtonText
-                  text={'Bỏ qua'}
+                  text={formatMessage(message.Cancel)}
                   onPress={this.onCancelUpdate}
                   styleText={styles.colorText}
                   styleBtn={styles.buttonCancel}
                 />
               )}
               <ButtonText
-                text={'Cập nhật'}
+                text={formatMessage(message.Ok)}
                 onPress={this.onUpdate}
                 styleText={styles.colorText}
                 styleBtn={styles.flex}
@@ -293,4 +316,12 @@ class ModalNotify extends React.Component {
   }
 }
 
-export default ModalNotify;
+ModalNotify.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+ModalNotify.contextTypes = {
+  language: PropTypes.object,
+};
+
+export default injectIntl(ModalNotify);

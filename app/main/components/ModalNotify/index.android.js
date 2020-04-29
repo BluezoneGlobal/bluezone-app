@@ -28,7 +28,6 @@ import {
   View,
   AppState,
   Linking,
-  Alert,
 } from 'react-native';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import SystemSetting from 'react-native-system-setting';
@@ -37,11 +36,16 @@ import Modal from 'react-native-modal';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
+import * as PropTypes from 'prop-types';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
 import Text, {MediumText} from '../../../base/components/Text';
 import ModalBase from './ModalBase';
+
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -368,6 +372,8 @@ class ModalNotify extends React.Component {
   }
 
   render() {
+    const {language} = this.context;
+    const {intl} = this.props;
     const {
       isVisiblePermissionLocation,
       isVisibleLocation,
@@ -377,31 +383,55 @@ class ModalNotify extends React.Component {
       isVisiblePermissionLocationBlock,
       isVisiblePermissionWriteBlock,
     } = this.state;
+    const {formatMessage} = intl;
     const {
       NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT,
+      NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT_en,
       NOTIFI_LOCATION_ANDROID_TEXT,
+      NOTIFI_LOCATION_ANDROID_TEXT_en,
       NOTIFI_PERMISSION_WRITE_FILE_TEXT,
+      NOTIFI_PERMISSION_WRITE_FILE_TEXT_en,
       NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT,
+      NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT_en,
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT,
+      NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en,
     } = configuration;
+
+    const en = language && language !== 'vi';
+    const _NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT = en
+      ? NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT_en
+      : NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT;
+    const _NOTIFI_LOCATION_ANDROID_TEXT = en
+      ? NOTIFI_LOCATION_ANDROID_TEXT_en
+      : NOTIFI_LOCATION_ANDROID_TEXT;
+    const _NOTIFI_PERMISSION_WRITE_FILE_TEXT = en
+      ? NOTIFI_PERMISSION_WRITE_FILE_TEXT_en
+      : NOTIFI_PERMISSION_WRITE_FILE_TEXT;
+    const _NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT = en
+      ? NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT_en
+      : NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT;
+    const _NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT = en
+      ? NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en
+      : NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT;
+
     return (
       <View>
         <ModalBase
           isVisible={isVisiblePermissionLocationBlock}
-          content={NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT}
+          content={_NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT}
           onPress={this.onStartPermissionLocation}
-          btnText={'Đến cài đặt Bật vị trí'}
+          btnText={formatMessage(message.openSettingLocation)}
         />
         <ModalBase
           isVisible={isVisiblePermissionLocation}
-          content={NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT}
+          content={_NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT}
           onPress={this.onStartLocation}
         />
         <ModalBase
           isVisible={isVisibleLocation}
-          content={NOTIFI_LOCATION_ANDROID_TEXT}
+          content={_NOTIFI_LOCATION_ANDROID_TEXT}
           onPress={this.onTurnOnLocation}
-          btnText={'Đến cài đặt Bật vị trí'}
+          btnText={formatMessage(message.openSettingLocation)}
         />
         <Modal
           isVisible={isModalUpdate}
@@ -415,23 +445,23 @@ class ModalNotify extends React.Component {
           <View style={styles.container}>
             <View style={styles.textDiv}>
               <MediumText style={styles.textTitle}>
-                Đã có phiên bản mới
+                {formatMessage(message.hasNewVersion)}
               </MediumText>
               <Text style={styles.textCenter}>
-                Bạn hãy cập nhật phiên bản mới để sử dụng các tính năng mới nhất
+                {formatMessage(message.updateVersion)}
               </Text>
             </View>
             <View style={styles.flexRow}>
               {!forceUpdate && (
                 <ButtonText
-                  text={'Bỏ qua'}
+                  text={formatMessage(message.Cancel)}
                   onPress={this.onCancelUpdate}
                   styleText={styles.colorText}
                   styleBtn={styles.buttonCancel}
                 />
               )}
               <ButtonText
-                text={'Cập nhật'}
+                text={formatMessage(message.Ok)}
                 onPress={this.onUpdate}
                 styleText={styles.colorText}
                 styleBtn={styles.flex}
@@ -441,18 +471,26 @@ class ModalNotify extends React.Component {
         </Modal>
         <ModalBase
           isVisible={isVisiblePermissionWriteFile}
-          content={NOTIFI_PERMISSION_WRITE_FILE_TEXT}
+          content={_NOTIFI_PERMISSION_WRITE_FILE_TEXT}
           onPress={this.onStartWrite}
         />
         <ModalBase
           isVisible={isVisiblePermissionWriteBlock}
-          content={NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT}
+          content={_NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT}
           onPress={this.onStartWriteBlock}
-          btnText={'Đến cài đặt Bật lưu trữ'}
+          btnText={formatMessage(message.openSettingIOFile)}
         />
       </View>
     );
   }
 }
 
-export default ModalNotify;
+ModalNotify.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+ModalNotify.contextTypes = {
+  language: PropTypes.object,
+};
+
+export default injectIntl(ModalNotify);
