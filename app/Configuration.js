@@ -178,6 +178,7 @@ const configuration = {
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
+  Language: null,
 };
 
 const getConfigurationAsync = async () => {
