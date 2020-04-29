@@ -54,6 +54,7 @@ target 'Bluezone' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   # Firebase
   # Override Firebase SDK Version

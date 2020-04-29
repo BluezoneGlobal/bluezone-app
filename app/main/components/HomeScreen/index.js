@@ -222,6 +222,8 @@ class HomeTab extends React.Component {
       buttonText,
       blueTooth,
     } = this.state;
+    const {language} = this.context;
+    console.log('language1', language);
 
     return (
       <View style={style.container}>
