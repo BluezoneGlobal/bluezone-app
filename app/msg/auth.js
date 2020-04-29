@@ -24,12 +24,12 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
-    label1: {
-        id: 'bluezone.auth.label1',
-        defaultMessage: 'bluezone.auth.label1',
-    },
-    label2: {
-        id: 'bluezone.auth.label2',
-        defaultMessage: 'bluezone.history.label2',
-    },
+  label1: {
+    id: 'bluezone.auth.label1',
+    defaultMessage: 'bluezone.auth.label1',
+  },
+  label2: {
+    id: 'bluezone.auth.label2',
+    defaultMessage: 'bluezone.history.label2',
+  },
 });

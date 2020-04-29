@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   btnShare: {
-    marginBottom: 25,
+    marginBottom: 18,
     backgroundColor: '#015cd0',
   },
   textBtnShare: {

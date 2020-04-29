@@ -324,7 +324,9 @@ class WatchScanScreen extends React.Component {
                   <Text style={styles.infoItemValue}>{logs.length}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>{formatMessage(message.aroundYou)}</Text>
+              <Text style={styles.infoItemDesc}>
+                {formatMessage(message.aroundYou)}
+              </Text>
             </View>
 
             <View style={styles.infoItem}>
@@ -333,14 +335,20 @@ class WatchScanScreen extends React.Component {
                   <Text style={styles.infoItemValue}>{countBlueZone}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>{countBlueZone > 1 ? formatMessage(message.bluezoners) : formatMessage(message.bluezoner)}</Text>
+              <Text style={styles.infoItemDesc}>
+                {countBlueZone > 1
+                  ? formatMessage(message.bluezoners)
+                  : formatMessage(message.bluezoner)}
+              </Text>
             </View>
           </View>
 
           <View>
             <View style={styles.listContainer}>
               <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>{formatMessage(message.nearYou)}</MediumText>
+                <MediumText style={styles.textListHeader}>
+                  {formatMessage(message.nearYou)}
+                </MediumText>
                 <MediumText style={styles.textListHeaderValue}>
                   {itemsLogNear.length}
                 </MediumText>
@@ -360,7 +368,9 @@ class WatchScanScreen extends React.Component {
                   <View style={styles.listEmptyCircle}>
                     <View style={styles.circle} />
                   </View>
-                  <Text style={styles.listEmptyText}>{formatMessage(message.noList)}</Text>
+                  <Text style={styles.listEmptyText}>
+                    {formatMessage(message.noList)}
+                  </Text>
                 </View>
               )}
             </View>
@@ -373,7 +383,11 @@ class WatchScanScreen extends React.Component {
                   {itemsLogDiff.length}
                 </MediumText>
               </View>
-              {itemsLogDiff.length > 0 ? (
+              {statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#015CD0" />
+                </View>
+              ) : itemsLogDiff.length > 0 ? (
                 <View style={styles.listBodyContainer}>
                   {itemsLogDiff.map(item => {
                     return this.renderItemLog(item);
@@ -382,12 +396,11 @@ class WatchScanScreen extends React.Component {
               ) : (
                 <View style={styles.listEmptyContainer}>
                   <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
+                    <View style={styles.circle} />
                   </View>
-                  <Text style={styles.listEmptyText}>{formatMessage(message.noList)}</Text>
+                  <Text style={styles.listEmptyText}>
+                    {formatMessage(message.noList)}
+                  </Text>
                 </View>
               )}
             </View>
