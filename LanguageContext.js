@@ -22,7 +22,6 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {NativeModules} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import configuration from './app/Configuration';
 
