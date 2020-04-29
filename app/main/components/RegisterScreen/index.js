@@ -168,7 +168,7 @@ class RegisterScreen extends React.Component {
               onBackdropPress={this.onCloseModal}>
               <View style={styles.modalContent}>
                 <View>
-                  <Text style={styles.modalContentText01}>Đã sảy ra sự cố</Text>
+                  <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
                 </View>
                 <View>
                   <Text style={styles.modalContentText02}>
