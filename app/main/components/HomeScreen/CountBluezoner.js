@@ -32,9 +32,10 @@ import Service from '../../../apis/service';
 
 // Styles
 import style from './styles/index.css';
+import * as PropTypes from "prop-types";
 
 const TIMEOUT = 30000;
-export const logBluezone = [];
+export let logBluezone = [];
 
 class CountBluezoner extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class CountBluezoner extends React.Component {
   }
 
   componentDidMount() {
+    logBluezone = [];
     this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
     if (Platform.OS !== 'ios') {
       this.scanBlueToothListener = Service.addListenerScanBlueTooth(
@@ -160,5 +162,9 @@ class CountBluezoner extends React.Component {
 }
 
 CountBluezoner.defaultProps = {};
+
+CountBluezoner.contextTypes = {
+  language: PropTypes.object,
+};
 
 export default CountBluezoner;

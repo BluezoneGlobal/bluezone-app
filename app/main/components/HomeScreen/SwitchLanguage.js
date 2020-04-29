@@ -36,18 +36,26 @@ import {setLanguage} from '../../../Configuration';
 class SwitchLanguage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      disabled: false,
+    };
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({disabled: false});
   }
 
   onChangeLanguage(context) {
     const {language} = this.context;
     const _language = language === 'vi' ? 'en' : 'vi';
     context.updateLanguage(_language);
-    this.setState({Language: _language});
+    this.setState({disabled: true});
     setLanguage(_language);
   }
 
   render() {
+    const {disabled} = this.state;
     const {language} = this.context;
     return (
       <LanguageContext.Consumer>
@@ -56,6 +64,7 @@ class SwitchLanguage extends React.Component {
             <TouchableOpacity
               onPress={() => this.onChangeLanguage(context)}
               activeOpacity={1}
+              disabled={disabled}
               style={style.btnLanguage}>
               <View
                 style={[

@@ -45,11 +45,11 @@ async function requestTokenFirebase() {
     .then(token => {
       return setTokenFirebase(token);
     });
-
-  // Listen to whether the token changes
-  messaging().onTokenRefresh(token => {
-    setTokenFirebase(token);
-  });
+  //
+  // // Listen to whether the token changes
+  // messaging().onTokenRefresh(token => {
+  //   return setTokenFirebase(token);
+  // });
 }
 
 function registerBackgroundMessageHandler(callback) {

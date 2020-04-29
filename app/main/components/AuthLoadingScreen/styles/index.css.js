@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
   icon_success: {
     width: 58,
-    height: 58,
+    height: 59,
     marginBottom: 32,
   },
 

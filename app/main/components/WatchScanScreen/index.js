@@ -72,7 +72,7 @@ class WatchScanScreen extends React.Component {
     this.timeOutLoadingBluezoner = setTimeout(() => {
       this.setState({statusLoadding: false});
       clearTimeout(this.timeOutLoadingBluezoner);
-    }, 1500);
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -271,7 +271,7 @@ class WatchScanScreen extends React.Component {
   renderItemLog = item => {
     const content = item.userId
       ? `${item.userId}`
-      : `${item.name} (${item.address})`;
+      : `${item.name}`; // (${item.address})
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -353,15 +353,15 @@ class WatchScanScreen extends React.Component {
                   {itemsLogNear.length}
                 </MediumText>
               </View>
-              {statusLoadding ? (
-                <View style={styles.listEmptyContainer}>
-                  <ActivityIndicator size="large" color="#015CD0" />
-                </View>
-              ) : itemsLogNear.length > 0 ? (
+              {itemsLogNear.length > 0 ? (
                 <View style={styles.listBodyContainer}>
                   {itemsLogNear.map(item => {
                     return this.renderItemLog(item);
                   })}
+                </View>
+              ) : statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#015CD0" />
                 </View>
               ) : (
                 <View style={styles.listEmptyContainer}>
@@ -383,15 +383,15 @@ class WatchScanScreen extends React.Component {
                   {itemsLogDiff.length}
                 </MediumText>
               </View>
-              {statusLoadding ? (
-                <View style={styles.listEmptyContainer}>
-                  <ActivityIndicator size="large" color="#015CD0" />
-                </View>
-              ) : itemsLogDiff.length > 0 ? (
+              {itemsLogDiff.length > 0 ? (
                 <View style={styles.listBodyContainer}>
                   {itemsLogDiff.map(item => {
                     return this.renderItemLog(item);
                   })}
+                </View>
+              ) : statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#015CD0" />
                 </View>
               ) : (
                 <View style={styles.listEmptyContainer}>

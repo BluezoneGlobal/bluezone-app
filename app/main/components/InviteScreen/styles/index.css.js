@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   share: {
     paddingHorizontal: 43,
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 38,
   },
   btnShare: {
     marginBottom: 18,
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   btnAddGroup: {
     borderWidth: 0.65,
     borderColor: '#015cd0',
+    paddingVertical: 13.5,
   },
 
   textBtnAddGroup: {
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
   },
 
   iconFace: {
-    width: 9.2,
-    height: 17.7,
+    width: 9,
+    height: 16,
   },
 
   contentContainer: {

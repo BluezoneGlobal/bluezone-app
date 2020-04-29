@@ -125,9 +125,9 @@ const configuration = {
   JoinGroupFaceText: 'Tham gia group trên Facebook',
   JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
-    'Bluezone: \n\nPhiên bản IOS: {LinkShareIOS} \n\nPhiên bản Android: {LinkShareAndroid}',
+    'Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone - Bảo vệ mình, bảo vệ cộng đồng cho 3 người khác chưa? Cài đặt tại: www.Bluezone.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
   ShareMessageText_en:
-    'Bluezone: \n\nVersion IOS: {LinkShareIOS} \n\nVersion Android: {LinkShareAndroid}',
+    'Have you installed Electronic mask application Bluezone – Protect yourself, protect the community for 3 others? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
   NOTIFI_BLE_IOS_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
   NOTIFI_BLE_IOS_TEXT_en:
