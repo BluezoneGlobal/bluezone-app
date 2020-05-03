@@ -125,9 +125,9 @@ const configuration = {
   JoinGroupFaceText: 'Tham gia group trên Facebook',
   JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
-    'Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone - Bảo vệ mình, bảo vệ cộng đồng cho 3 người khác chưa? Cài đặt tại: www.Bluezone.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
+    'Bộ Y tế: Bảo vệ mình, bảo vệ cộng đồng chống COVID-19 đưa cuộc sống trở lại bình thường. Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone và cài tiếp cho 3 người khác chưa? Cài đặt tại www.Bluezone.gov.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
   ShareMessageText_en:
-    'Have you installed Electronic mask application Bluezone – Protect yourself, protect the community for 3 others? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
+    'Ministry of Health: Protect yourself, protect the community against COVID-19, bringing life back to normal. Have you installed electronic mask application Bluezone and got 3 others to install the app? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
   NOTIFI_BLE_IOS_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
   NOTIFI_BLE_IOS_TEXT_en:
@@ -202,7 +202,6 @@ const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
   });
-  console.log(mergeConfiguration);
 };
 
 const getUserCodeAsync = async () => {
@@ -258,7 +257,6 @@ function notifySchedule(notify, timestamp) {
     title: isVietnamese ? notify['title'] : notify['title_en'],
     message: isVietnamese ? notify['message'] : notify['message_en'],
     playSound: false,
-    number: notify.number,
     date: new Date(timestamp),
   });
 }
@@ -302,7 +300,7 @@ const removeNotifyPermisson = () => {
   });
 };
 
-const createNotifyPermisson = () => {
+const createNotifyPermission = () => {
   const notifications =
     Platform.OS === 'ios'
       ? configuration.PermissonNotificationsIos
@@ -411,18 +409,20 @@ const getConfigurationAPI = async (successCb, errorCb) => {
 // Lưu thông tin Token
 const setToken = Token => {
   Object.assign(configuration, {Token});
-  AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  if (Token) {
+    AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  }
 };
 
 // Lưu thông tin TokenFirebase
 const setTokenFirebase = TokenFirebase => {
+  console.log('TokenFirebase', TokenFirebase);
   if (
     configuration.TokenFirebase !== '' &&
     TokenFirebase === configuration.TokenFirebase
   ) {
     return;
   }
-  console.log('TokenFirebase', TokenFirebase);
   if (configuration.Token === '') {
     registerUser(TokenFirebase);
   } else {
@@ -534,6 +534,7 @@ const getConfig = () => {
 const setLanguage = Language => {
   Object.assign(configuration, {Language});
   AsyncStorage.setItem('Language', Language);
+  Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
 export default configuration;
@@ -546,7 +547,7 @@ export {
   getConfig,
   registerUser,
   removeNotifyPermisson,
-  createNotifyPermisson,
+  createNotifyPermission,
   DOMAIN,
   setLanguage,
 };

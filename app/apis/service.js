@@ -34,7 +34,7 @@ const startService = scanFull => {
   if (Platform.OS !== 'ios') {
     TraceCovid.startService(!!scanFull);
   } else {
-    scanFull && TraceCovid.startService();
+    TraceCovid.startService();
   }
 };
 
@@ -72,6 +72,10 @@ const restoreDb = () => {
   }
 };
 
+const changeLanguageNotifi = language => {
+  Platform.OS !== 'ios' && TraceCovid.setLanguage(language);
+};
+
 const service = {
   startService,
   setUserId,
@@ -81,6 +85,7 @@ const service = {
   addListenerScanBlueTooth,
   generatorId,
   restoreDb,
+  changeLanguageNotifi,
 };
 
 export default service;

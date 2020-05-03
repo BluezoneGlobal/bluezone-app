@@ -24,6 +24,7 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ContextProvider from './LanguageContext';
+import firebase from 'react-native-firebase';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -34,8 +35,9 @@ import HistoryScan from './app/main/components/HistoryScanScreen';
 import Invite from './app/main/components/InviteScreen';
 import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
+import { navigationRef, navigate } from './RootNavigation';
 
-// import {registerAppWithFCM} from './app/CloudMessaging';
+import {registerAppWithFCM, registerMessageHandler} from './app/CloudMessaging';
 import {translationMessages} from './app/i18n';
 import LanguageProvider from './app/utils/LanguageProvider';
 
@@ -51,18 +53,46 @@ export default function App() {
     setInitialRoute('Home');
   };
 
-  // registerAppWithFCM();
+  registerAppWithFCM();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    registerMessageHandler(onRemotemessage => {
+      console.log('registerMessageHandler', onRemotemessage);
+    });
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+
+    firebase.notifications().onNotificationOpened(remoteMessage => {
+      debugger;
+      navigate('Register');
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+    });
+
+    // Check whether an initial notification is available
+    firebase
+      .notifications()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+        }
+      });
+  }, []);
 
   return (
     <ContextProvider>
       <LanguageProvider messages={translationMessages}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef} >
           <Stack.Navigator
             headerMode="none"
             mode="card"
-            initialRoute={initialRoute}>
+            initialRouteName={initialRoute}>
             {!loading ? (
               <Stack.Screen
                 name="AuthLoading"
