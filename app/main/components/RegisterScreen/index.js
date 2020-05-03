@@ -95,7 +95,7 @@ class RegisterScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    if (response && response.status === 200 && response.data.isOk) {
+    if (response && response.status === 200) {
       this.props.navigation.navigate('VerifyOTP', {
         phoneNumber: numberPhone,
       });
@@ -121,7 +121,7 @@ class RegisterScreen extends React.Component {
           behavior={'position'}>
           <StatusBar backgroundColor="#ffffff" />
           <View style={styles.layout1}>
-            <Text style={styles.text1}>Human Shield</Text>
+            <Text style={styles.text1}>Bluezone</Text>
             <Text style={styles.text2}>
               Ứng dụng Bluezone là ứng dụng cho phép người dùng theo dõi tình
               hình dịch bệnh COVID-19, phát hiện sớm nhất những người tiếp xúc
@@ -141,7 +141,7 @@ class RegisterScreen extends React.Component {
             />
             <ButtonIconText
               disabled={disabled}
-              onPress={this.watchHistory}
+              onPress={this.onPress}
               text={'Tiếp tục'}
               styleBtn={disabled ? styles.buttonDisable : styles.buttonActive}
               styleText={{fontSize: fontSize.normal}}

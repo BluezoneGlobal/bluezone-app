@@ -50,7 +50,7 @@ export default function App() {
 
   const setAuthLoading = () => {
     setLoading(true);
-    setInitialRoute('Home');
+    setInitialRoute('VerifyOTP');
   };
 
   registerAppWithFCM();
