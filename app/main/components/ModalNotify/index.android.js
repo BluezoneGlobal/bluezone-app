@@ -188,6 +188,7 @@ class ModalNotify extends React.Component {
       }
 
       if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
+        this.setState({isVisibleFlash: true});
       }
     }
   }
@@ -410,6 +411,7 @@ class ModalNotify extends React.Component {
   setNotifyRegister() {
     const {Token, StatusNotifyRegister} = configuration;
     const currentTime = new Date().setHours(0, 0, 0, 0);
+    debugger;
     if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
       return;
     }
