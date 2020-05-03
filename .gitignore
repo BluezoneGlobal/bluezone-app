@@ -37,6 +37,8 @@ android/gradle/*
 
 android/local.properties
 
+android/app/google-services.json
+
 android/java*
 
 # node.js

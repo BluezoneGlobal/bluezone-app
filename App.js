@@ -19,10 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
+import * as React from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import analytics from '@react-native-firebase/analytics';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -39,9 +41,31 @@ import {registerAppWithFCM} from './app/CloudMessaging';
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
 
+// Gets the current screen from navigation state
+const getActiveRouteName = state => {
+  const route = state.routes[state.index];
+
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
+
+  return route.name;
+};
+
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute /* , setInitialRoute*/] = useState('AuthLoading');
+
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
+
+  React.useEffect(() => {
+    const state = navigationRef.current.getRootState();
+
+    // Save the initial route name
+    routeNameRef.current = getActiveRouteName(state);
+  }, []);
 
   const setAuthLoading = () => {
     setLoading(true);
@@ -54,7 +78,18 @@ export default function App() {
   useEffect(() => {}, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+        ref={navigationRef}
+        onStateChange={state => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = getActiveRouteName(state);
+
+          if (previousRouteName !== currentRouteName) {
+            analytics().setCurrentScreen(currentRouteName, currentRouteName);
+            alert(`The route changed to ${currentRouteName}`);
+          }
+        }}
+    >
       <Stack.Navigator
         headerMode="none"
         mode="card"
