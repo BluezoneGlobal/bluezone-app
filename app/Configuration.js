@@ -93,6 +93,16 @@ const saveUserToFile = UserCode => {
     });
 };
 
+const removeFileSaveUser = () => {
+  return RNFS.unlink(filePath)
+    .then(() => {
+      console.log('FILE DELETED');
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+};
+
 const createUserCode = async () => {
   const UserCode = await Service.generatorId();
   return UserCode;
@@ -211,10 +221,12 @@ const getUserCodeAsync = async () => {
     Object.assign(configuration, {
       UserCode: UserCode,
     });
-    Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    // Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    Platform.OS !== 'ios' && removeFileSaveUser();
   } else {
     // Service.restoreDb();
-    getUserIdFromFile(getUserIdFromFileCallback);
+    // getUserIdFromFile(getUserIdFromFileCallback);
+    getUserIdFromFileCallback();
   }
 };
 
@@ -227,7 +239,7 @@ const getUserIdFromFileCallback = async userCodeFromFile => {
   Object.assign(configuration, {
     UserCode: userCode,
   });
-  Platform.OS !== 'ios' && saveUserToFile(userCode);
+  // Platform.OS !== 'ios' && saveUserToFile(userCode);
 };
 
 function notifySchedule(notify, timestamp) {
@@ -238,8 +250,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-    subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+    bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
+    subText: isVietnamese ? notify.subText : notify['subText_en'],
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -254,8 +266,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: isVietnamese ? notify['title'] : notify['title_en'],
-    message: isVietnamese ? notify['message'] : notify['message_en'],
+    title: isVietnamese ? notify.title : notify['title_en'],
+    message: isVietnamese ? notify.message : notify['message_en'],
     playSound: false,
     number: notify.number,
     date: new Date(timestamp),
@@ -333,8 +345,8 @@ const createNotifyPermission = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-      subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+      bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
+      subText: isVietnamese ? notify.subText : notify['subText_en'],
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -349,8 +361,8 @@ const createNotifyPermission = () => {
       },
 
       /* iOS and Android properties */
-      title: isVietnamese ? notify['title'] : notify['title_en'],
-      message: isVietnamese ? notify['message'] : notify['message_en'],
+      title: isVietnamese ? notify.title : notify['title_en'],
+      message: isVietnamese ? notify.message : notify['message_en'],
       playSound: false,
       number: notify.number,
       repeatType: 'time',
