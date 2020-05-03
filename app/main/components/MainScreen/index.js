@@ -26,7 +26,7 @@ import FastImage from 'react-native-fast-image';
 
 // Components
 import HomeScreen from '../HomeScreen';
-// import NotifyScreen from './NotifyScreen';
+import NotifyScreen from '../NotifyScreen';
 import InfoScreen from '../InfoScreen';
 import InviteScreen from '../InviteScreen';
 
@@ -44,6 +44,7 @@ const icon = {
   Home: require('./style/images/home.png'),
   warning: require('./style/images/ic_warning_normal.png'),
   Invite: require('./style/images/invite.png'),
+  Notify: require('./style/images/notify.png'),
   Info: require('./style/images/info.png'),
 };
 
@@ -51,6 +52,7 @@ const iconActive = {
   Home: require('./style/images/home_active.png'),
   warning: require('./style/images/ic_warning_active.png'),
   Invite: require('./style/images/invite_active.png'),
+  Notify: require('./style/images/notify_active.png'),
   Info: require('./style/images/info_active.png'),
 };
 
@@ -82,6 +84,19 @@ class HomeTabScreen extends React.Component {
                 style={styles.iconSquare}
               />
             ),
+          }}
+        />
+        <Tab.Screen
+          name="Notify"
+          component={NotifyScreen}
+          options={{
+              tabBarLabel: 'Thông báo',
+              tabBarIcon: ({focused, color, size}) => (
+                  <FastImage
+                      source={focused ? iconActive.Notify : icon.Notify}
+                      style={styles.iconSquare}
+                  />
+              ),
           }}
         />
         <Tab.Screen

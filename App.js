@@ -19,13 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {useState, useEffect} from 'react';
-import * as React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import analytics from '@react-native-firebase/analytics';
-import ContextProvider from './LanguageContext';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -33,13 +31,13 @@ import Home from './app/main/components/MainScreen';
 import decorateMainAppStart from './app/main/decorateMainAppStart';
 import WatchScan from './app/main/components/WatchScanScreen';
 import HistoryScan from './app/main/components/HistoryScanScreen';
+import NotifyDetail from './app/main/components/NotifyDetail';
+import NotifyWarning from './app/main/components/NotifyWarning';
 import Invite from './app/main/components/InviteScreen';
 import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 
 // import {registerAppWithFCM} from './app/CloudMessaging';
-import {translationMessages} from './app/i18n';
-import LanguageProvider from './app/utils/LanguageProvider';
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
@@ -60,10 +58,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute, setInitialRoute] = useState('AuthLoading');
 
-  const routeNameRef = React.useRef();
-  const navigationRef = React.useRef();
+  const routeNameRef = useRef();
+  const navigationRef = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const state = navigationRef.current.getRootState();
 
     // Save the initial route name
@@ -77,23 +75,21 @@ export default function App() {
 
   // registerAppWithFCM();
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   return (
-    <ContextProvider>
-      <LanguageProvider messages={translationMessages}>
-        <NavigationContainer
-            ref={navigationRef}
-            onStateChange={state => {
-            const previousRouteName = routeNameRef.current;
-            const currentRouteName = getActiveRouteName(state);
+      <NavigationContainer
+          ref={navigationRef}
+          onStateChange={state => {
+              const previousRouteName = routeNameRef.current;
+              const currentRouteName = getActiveRouteName(state);
 
-            if (previousRouteName !== currentRouteName) {
-              analytics().setCurrentScreen(currentRouteName, currentRouteName);
-              alert(`The route changed to "${currentRouteName}"`);
-            }
-            }}
-        >
+              if (previousRouteName !== currentRouteName) {
+                  analytics().setCurrentScreen(currentRouteName, currentRouteName);
+                  // alert(`The route changed to "${currentRouteName}"`);
+              }
+          }}
+      >
           <Stack.Navigator
             headerMode="none"
             mode="card"
@@ -111,14 +107,14 @@ export default function App() {
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
+                <Stack.Screen name="NotifyDetail" component={NotifyDetail} />
+                <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
               </>
             )}
           </Stack.Navigator>
-        </NavigationContainer>
-      </LanguageProvider>
-    </ContextProvider>
+      </NavigationContainer>
   );
 }

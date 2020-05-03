@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /**
  * @format
  */
@@ -17,6 +16,10 @@ import {name as appName} from './app.json';
 // import {getBluezonerAmount} from './app/apis/bluezone';
 
 import {registerBackgroundMessageHandler} from './app/CloudMessaging';
+import LanguageProvider from "./app/utils/LanguageProvider";
+import ContextProvider from "./LanguageContext";
+import {translationMessages} from "./app/i18n";
+import {NavigationContainer} from "@react-navigation/native";
 
 // Register background handler
 registerBackgroundMessageHandler(async remoteMessage => {
@@ -30,7 +33,13 @@ function HeadlessCheck({isHeadless}) {
     return null;
   }
 
-  return <App />;
+  return (
+      <ContextProvider>
+        <LanguageProvider messages={translationMessages}>
+          <App />
+        </LanguageProvider>
+      </ContextProvider>
+  );
 }
 
 AppRegistry.registerComponent(appName, () => HeadlessCheck);
