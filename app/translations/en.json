@@ -3,15 +3,15 @@
     "bluezone.tab.invite": "Invite",
     "bluezone.tab.about": "About",
 
-    "bluezone.home.header": "Protect yourself\nProtect the community",
-    "bluezone.home.productLabel1": "This app is to alert if you had close contact with people",
-    "bluezone.home.productLabel2": "who have ",
+    "bluezone.home.header": "Protect yourself\nProtect our community",
+    "bluezone.home.productLabel1": "This app is to alert if you have been in close contact with people",
+    "bluezone.home.productLabel2": "who have tested positive for ",
     "bluezone.home.productLabel3": "COVID-19",
     "bluezone.home.around": "around you",
     "bluezone.home.community": "community",
     "bluezone.home.bluezoner": "Bluezoner",
     "bluezone.home.traceButton": "Scan around",
-    "bluezone.home.historyButton": "History of contacts",
+    "bluezone.home.historyButton": "View history",
 
     "bluezone.invite.title": "Invite",
     "bluezone.invite.productLabel1": "Protect your relatives and friends",
@@ -29,7 +29,7 @@
     "bluezone.trace.noList": "Empty list",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
 
-    "bluezone.history.header": "History of contacts",
+    "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",
     "bluezone.history.closeContact": "Close contacts",
     "bluezone.history.people": "People",

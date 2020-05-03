@@ -106,6 +106,8 @@ PODS:
   - nanopb/encode (0.3.9011)
   - Permission-BluetoothPeripheral (2.1.3):
     - RNPermissions
+  - Permission-Notifications (2.1.3):
+    - RNPermissions
   - Protobuf (3.11.4)
   - RCTRequired (0.62.2)
   - RCTSystemSetting (1.7.4):
@@ -282,6 +284,8 @@ PODS:
     - React
   - react-native-settings (0.2.3):
     - React
+  - react-native-spinkit (1.4.1):
+    - React
   - react-native-sqlite-storage (5.0.0):
     - React
   - react-native-webview (9.3.0):
@@ -396,6 +400,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTSystemSetting (from `../node_modules/react-native-system-setting`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -413,6 +418,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-settings (from `../node_modules/react-native-settings`)
+  - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -477,6 +483,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-BluetoothPeripheral:
     :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec"
+  Permission-Notifications:
+    :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTSystemSetting:
@@ -507,6 +515,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-settings:
     :path: "../node_modules/react-native-settings"
+  react-native-spinkit:
+    :path: "../node_modules/react-native-spinkit"
   react-native-sqlite-storage:
     :path: "../node_modules/react-native-sqlite-storage"
   react-native-webview:
@@ -586,6 +596,7 @@ SPEC CHECKSUMS:
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Permission-BluetoothPeripheral: 28d8d5b7365aa5203011ece5b752de50653241d0
+  Permission-Notifications: 6822f14e690684970c26f86eca2e1b06cea1d24d
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTSystemSetting: f3123e7de51bf918bc4243167ba2885a72bf09ec
@@ -602,6 +613,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 2b7500cdb68066aba87cdccd97067c29e16ffe95
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-settings: 6fc0f38956f8e46460e01c97db7ec3d018f2fdc1
+  react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-sqlite-storage: ce71689c5a73b79390a1ab213555ae80979a5dc7
   react-native-webview: bdde2a3c4cbdc0122bc2bfba13603db193f0cc5c
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
@@ -633,6 +645,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
-PODFILE CHECKSUM: 77ea786e3596213128e83c97d1063f2df3690a1e
+PODFILE CHECKSUM: c2e5e7bf8824906593b5310ae128906ca2385064
 
 COCOAPODS: 1.8.4

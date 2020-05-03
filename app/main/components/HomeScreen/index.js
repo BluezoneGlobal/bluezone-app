@@ -32,7 +32,9 @@ import {
   AppState,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
+import FastImage from 'react-native-fast-image';
+import Spinner from 'react-native-spinkit';
 
 // Language
 import message from '../../../msg/home';
@@ -110,16 +112,16 @@ class HomeTab extends React.Component {
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
 
-    PushNotification.configure({
-      onNotification: this.onNotifyOpen,
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
+    // PushNotification.configure({
+    //   onNotification: this.onNotifyOpen,
+    //   permissions: {
+    //     alert: true,
+    //     badge: true,
+    //     sound: true,
+    //   },
+    //   popInitialNotification: true,
+    //   requestPermissions: true,
+    // });
   }
 
   setNewAmount(oldAmount) {
@@ -250,10 +252,22 @@ class HomeTab extends React.Component {
               height: (width * 298) / 360,
               justifyContent: 'flex-end',
             }}>
+            <View style={style.logo}>
+              <FastImage
+                source={require('./styles/images/icon_mic.png')}
+                style={style.iconLogoMic}
+              />
+              <View style={style.borderLogo} />
+              <FastImage
+                source={require('./styles/images/icon_boyte.png')}
+                style={style.iconLogoBoyte}
+              />
+            </View>
             <View style={style.switchLanguage}>
               <SwitchLanguage />
             </View>
-            <View style={[style.header, {height: (width * 298) / 360 * 0.38}]}>
+            <View
+              style={[style.header, {height: ((width * 298) / 360) * 0.38}]}>
               <Text style={style.textHeader}>
                 {formatMessage(message.header)}
               </Text>
@@ -271,7 +285,7 @@ class HomeTab extends React.Component {
           <View style={style.watchScan}>
             <TouchableOpacity
               onPress={this.watchScan}
-              style={[style.numberBluezone, style.marginRight23]}>
+              style={[style.numberBluezone]}>
               <CountBluezoner blueTooth={blueTooth} />
               <Text style={style.textBlue}>
                 {formatMessage(message.bluezoner)}
@@ -280,15 +294,6 @@ class HomeTab extends React.Component {
                 {formatMessage(message.around)}
               </Text>
             </TouchableOpacity>
-            <View style={style.numberBluezone}>
-              <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>
-                {formatMessage(message.bluezoner)}
-              </Text>
-              <Text style={style.textBlue}>
-                {formatMessage(message.community)}
-              </Text>
-            </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>
             <ButtonIconText

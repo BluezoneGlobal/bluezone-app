@@ -52,9 +52,13 @@ target 'Bluezone' do
   pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
   pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+  pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
+
+  # react-native-permissions
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
 
   # Firebase
   # Override Firebase SDK Version

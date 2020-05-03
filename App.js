@@ -35,7 +35,7 @@ import Invite from './app/main/components/InviteScreen';
 import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 
-import {registerAppWithFCM} from './app/CloudMessaging';
+// import {registerAppWithFCM} from './app/CloudMessaging';
 import {translationMessages} from './app/i18n';
 import LanguageProvider from './app/utils/LanguageProvider';
 
@@ -51,7 +51,7 @@ export default function App() {
     setInitialRoute('Home');
   };
 
-  registerAppWithFCM();
+  // registerAppWithFCM();
 
   useEffect(() => {}, []);
 

@@ -27,15 +27,18 @@ import * as PropTypes from 'prop-types';
 
 // Components
 import Modal from 'react-native-modal';
-import {Dimensions, View, AppState, Linking, Platform} from 'react-native';
+import {View, AppState, Linking, Platform} from 'react-native';
 import ModalBase from './ModalBase';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonText from '../../../base/components/ButtonText';
 import {getCheckVersions} from '../../../apis/bluezone';
 import getStatusUpdate from '../../../utils/getStatusUpdate';
 
-import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
-import {requestUserPermission} from '../../../CloudMessaging';
+import {
+  PERMISSIONS,
+  requestMultiple,
+  requestNotifications,
+} from 'react-native-permissions';
 import configuration, {
   removeNotifyPermisson,
   createNotifyPermisson,
@@ -52,16 +55,12 @@ import styles from './styles/index.css';
 class ModalNotify extends React.Component {
   constructor(props) {
     super(props);
-    const {height} = Dimensions.get('window');
     this.state = {
-      height,
-      blueTooth: false,
       isVisiblePermissionBLE: false,
       isVisibleBLE: false,
-      isModalLocation: false,
       isModalUpdate: false,
       forceUpdate: false,
-      isVisibleNotify: false,
+      isVisiblePermissionNotify: false,
     };
 
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
@@ -73,10 +72,13 @@ class ModalNotify extends React.Component {
     this.checkRequestMultiple = this.checkRequestMultiple.bind(this);
     this.onTurnOnBLE = this.onTurnOnBLE.bind(this);
     this.onTurnOnNotify = this.onTurnOnNotify.bind(this);
-    this.requestNotifications = this.requestNotifications.bind(this);
+    this.checkRequestNotifications = this.checkRequestNotifications.bind(this);
+    this.setStatusBluetooth = this.setStatusBluetooth.bind(this);
 
     this.isPermissionBluetooth = false;
     this.vesionIOS = parseInt(Platform.Version, 10);
+
+    this.timer = null;
   }
 
   componentDidMount() {
@@ -86,22 +88,32 @@ class ModalNotify extends React.Component {
     getUserCodeAsync();
 
     // BluetoothStatus
-    this.checkRequestMultiple();
-    BluetoothStatus.addListener(listener => {
-      this.setStatusBluetooth(listener);
-    });
+    BluetoothStatus.addListener(this.setStatusBluetooth);
 
     AppState.addEventListener('change', this.handleAppStateChange);
+
+    this.timer = setTimeout(this.checkRequestMultiple, 500);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
+    clearTimeout(this.timer);
   }
 
   handleAppStateChange(appState) {
     if (appState === 'active') {
-      this.onChangeBluetooth();
       this.onCheckUpdate();
+      if (this.statusPermissionBluetooth === 'granted') {
+        this.onChangeBluetooth();
+      }
+
+      if (this.statusPermissionBluetooth === 'blocked') {
+        this.checkRequestMultiple();
+      }
+
+      if (this.statusPermissionNotify === 'blocked') {
+        this.checkRequestNotifications();
+      }
     }
   }
 
@@ -111,34 +123,40 @@ class ModalNotify extends React.Component {
         statuses[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL];
       // Check trang thai khi từ background sang foreground thì sẽ không hiển thi popup cài đặt nữa, chỉ cho hiển thị vào lúc lần đầu.
 
-      this.statusBluetooth = permissionBluetooth;
+      this.statusPermissionBluetooth = permissionBluetooth;
+      console.log('checkRequestMultiple', permissionBluetooth);
       switch (permissionBluetooth) {
         case 'blocked':
           if (!this.isPermissionBluetooth) {
             this.setState({isVisiblePermissionBLE: true});
             this.isPermissionBluetooth = true;
-            createNotifyPermisson();
           }
           break;
         case 'unavailable':
-          this.onChangeBluetooth();
+          this.checkRequestNotifications();
           break;
         case 'granted':
-          removeNotifyPermisson();
-          requestUserPermission(this.requestNotifications);
-          break;
-        default:
+          this.checkRequestNotifications();
           break;
       }
     });
   }
 
-  requestNotifications(status) {
-    if (status !== 1) {
-      this.setState({isVisibleNotify: true});
-    }
-    this.isPermissionNotify = status;
-    this.onChangeBluetooth();
+  checkRequestNotifications() {
+    requestNotifications(['alert', 'sound']).then(({status, settings}) => {
+      console.log('requestNotifications', status, settings);
+      this.statusPermissionNotify = status;
+      switch (status) {
+        case 'denied':
+          break;
+        case 'blocked':
+          this.setState({isVisiblePermissionNotify: true});
+          break;
+        case 'granted':
+          this.onChangeBluetooth();
+          break;
+      }
+    });
   }
 
   async onChangeBluetooth() {
@@ -146,12 +164,12 @@ class ModalNotify extends React.Component {
     this.setStatusBluetooth(isEnabled);
   }
 
-  setStatusBluetooth = status => {
+  setStatusBluetooth(status) {
     this.props.onChangeBlue(status);
     if (this.vesionIOS < 13) {
       this.setState({isVisibleBLE: !status});
     }
-  };
+  }
 
   onCheckUpdate() {
     getCheckVersions(
@@ -208,7 +226,7 @@ class ModalNotify extends React.Component {
   }
 
   onTurnOnNotify() {
-    this.setState({isVisibleNotify: false});
+    this.setState({isVisiblePermissionNotify: false});
     Linking.canOpenURL('app-settings://')
       .then(supported => {
         if (!supported) {
@@ -232,7 +250,7 @@ class ModalNotify extends React.Component {
       isVisibleBLE,
       isModalUpdate,
       forceUpdate,
-      isVisibleNotify,
+      isVisiblePermissionNotify,
     } = this.state;
 
     const {formatMessage} = intl;
@@ -270,7 +288,7 @@ class ModalNotify extends React.Component {
           onPress={this.onTurnOnBLE}
         />
         <ModalBase
-          isVisible={isVisibleNotify}
+          isVisible={isVisiblePermissionNotify}
           content={_NOTIFI_PERMISSION_TEXT}
           onPress={this.onTurnOnNotify}
         />

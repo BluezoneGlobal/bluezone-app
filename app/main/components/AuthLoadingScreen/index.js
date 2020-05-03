@@ -23,6 +23,7 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {View, SafeAreaView} from 'react-native';
@@ -31,7 +32,6 @@ import {MediumText} from '../../../base/components/Text';
 
 // Language
 import message from '../../../msg/auth';
-import {injectIntl, intlShape} from 'react-intl';
 
 // Apis
 import {
@@ -55,11 +55,15 @@ class AuthLoadingScreen extends React.Component {
   }
 
   success() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading();
+    }, 2000);
   }
 
   error() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading();
+    }, 2000);
   }
 
   render() {
