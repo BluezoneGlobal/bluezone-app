@@ -43,6 +43,8 @@ import configuration, {
 // Styles
 import styles from './styles/index.css';
 
+export let isRegister = false;
+
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -70,9 +72,9 @@ class AuthLoadingScreen extends React.Component {
 
   setNavigate() {
     const {Register_Phone, FirstOTP} = configuration;
-    debugger;
     if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
       AsyncStorage.setItem('FirstOTP', 'true');
+      isRegister = true;
       return 'Register';
     }
 

@@ -196,16 +196,31 @@ const getConfigurationAsync = async () => {
     'TokenFirebase',
     'Language',
     'FirstOTP',
+    'StatusNotifyRegister',
   ]).then(results => {
     let keys = {};
     results.forEach(result => {
       Object.assign(keys, {[result[0]]: result[1]});
     });
 
-    const {Token, Configuration, TokenFirebase, Language, FirstOTP} = keys;
+    const {
+      Token,
+      Configuration,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
-    mergeConfiguration(configObject, Token, TokenFirebase, Language, FirstOTP);
+    mergeConfiguration(
+      configObject,
+      Token,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    );
   });
 };
 
@@ -215,12 +230,14 @@ const mergeConfiguration = (
   TokenFirebase,
   Language,
   FirstOTP,
+  StatusNotifyRegister,
 ) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
     FirstOTP: FirstOTP || null,
+    StatusNotifyRegister: StatusNotifyRegister || null,
   });
 };
 
@@ -260,8 +277,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
-    subText: isVietnamese ? notify.subText : notify['subText_en'],
+    bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+    subText: isVietnamese ? notify.subText : notify.subText_en,
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -276,8 +293,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: isVietnamese ? notify.title : notify['title_en'],
-    message: isVietnamese ? notify.message : notify['message_en'],
+    title: isVietnamese ? notify.title : notify.title_en,
+    message: isVietnamese ? notify.message : notify.message_en,
     playSound: false,
     date: new Date(timestamp),
   });
@@ -354,8 +371,8 @@ const createNotifyPermission = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
-      subText: isVietnamese ? notify.subText : notify['subText_en'],
+      bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+      subText: isVietnamese ? notify.subText : notify.subText_en,
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -370,8 +387,8 @@ const createNotifyPermission = () => {
       },
 
       /* iOS and Android properties */
-      title: isVietnamese ? notify.title : notify['title_en'],
-      message: isVietnamese ? notify.message : notify['message_en'],
+      title: isVietnamese ? notify.title : notify.title_en,
+      message: isVietnamese ? notify.message : notify.message_en,
       playSound: false,
       number: notify.number,
       repeatType: 'time',

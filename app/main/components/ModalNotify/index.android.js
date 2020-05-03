@@ -38,6 +38,7 @@ import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
 import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -47,6 +48,7 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
+import {isRegister} from '../AuthLoadingScreen'
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -406,10 +408,12 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    // const {Token} = configuration;
-    // if (Token) {
-    //   return;
-    // }
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
     PushNotification.localNotificationSchedule({

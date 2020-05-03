@@ -25,6 +25,7 @@ import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
 import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import Modal from 'react-native-modal';
@@ -42,6 +43,7 @@ import {
   requestNotifications,
 } from 'react-native-permissions';
 import configuration, {getUserCodeAsync} from '../../../Configuration';
+import {isRegister} from '../AuthLoadingScreen';
 
 // Language
 import message from '../../../msg/home';
@@ -254,29 +256,41 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    // const {Token} = configuration;
-    // if (Token) {
-    //   return;
-    // }
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
-    const notification = new firebase.notifications.Notification()
-      .setNotificationId('notifyotp')
-      .setTitle(formatMessage(message.updatePhoneNumber))
-      .setBody(formatMessage(message.scheduleNotifyOTP))
-      .setData({
-        notifyId: 'notifyotp',
-        smallIcon: '',
-        largeIcon: '01212',
-        title: formatMessage(message.updatePhoneNumber),
-        text: formatMessage(message.scheduleNotifyOTP),
-        bigText: formatMessage(message.scheduleNotifyOTP),
-        group: '',
-        timestamp: '1588517528002',
-        unRead: false,
-      });
-    firebase.notifications().scheduleNotification(notification, {
-      fireDate: new Date().getTime() + 5000
+    PushNotification.localNotificationSchedule({
+      /* Android Only Properties */
+      id: '1995',
+      largeIcon: 'icon_bluezone_null',
+      smallIcon: 'icon_bluezone_service',
+      bigText: formatMessage(message.scheduleNotifyOTP),
+      subText: 'Test',
+      vibrate: true,
+      importance: '',
+      priority: 'high',
+      allowWhileIdle: false,
+      ignoreInForeground: false,
+
+      /* iOS only properties */
+      alertAction: 'view',
+      category: '',
+      userInfo: {
+        id: '1995',
+      },
+
+      /* iOS and Android properties */
+      title: formatMessage(message.updatePhoneNumber),
+      message: formatMessage(message.scheduleNotifyOTP),
+      playSound: false,
+      number: 10,
+      repeatType: 'day',
+      date: new Date(Date.now() + 5 * 1000),
     });
   }
 

@@ -138,7 +138,7 @@ class VerifyOTPScreen extends React.Component {
   };
 
   onChangeNavigate() {
-    Toast.info('Để thuận tiện cho bạn chúng tôi sẽ hỏi lại sau', 5);
+    Toast.info('Để thuận tiện cho bạn chúng tôi sẽ hỏi lại sau', 3);
     this.props.navigation.navigate('Home');
   }
 

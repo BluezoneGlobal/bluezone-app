@@ -87,7 +87,6 @@ export default function App() {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
-      debugger;
       if (
         remoteMessage.notification &&
         remoteMessage.notification.data.group === 'WARN'
