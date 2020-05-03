@@ -409,12 +409,12 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    // const {Token, StatusNotifyRegister} = configuration;
-    // const currentTime = new Date().setHours(0, 0, 0, 0);
-    // if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
-    //   return;
-    // }
-    // AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
     const notification = new firebase.notifications.Notification()
