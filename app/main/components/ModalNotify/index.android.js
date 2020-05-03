@@ -37,6 +37,7 @@ import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
+import PushNotification from 'react-native-push-notification';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -411,22 +412,34 @@ class ModalNotify extends React.Component {
     // }
     const {intl} = this.props;
     const {formatMessage} = intl;
-    const notification = new firebase.notifications.Notification()
-      .setNotificationId('notifyotp')
-      .setTitle(formatMessage(message.updatePhoneNumber))
-      .setBody(formatMessage(message.scheduleNotifyOTP))
-      .setData({
-        notifyId: 'notifyotp',
-        smallIcon: '',
-        largeIcon: '01212',
-        title: formatMessage(message.updatePhoneNumber),
-        text: formatMessage(message.scheduleNotifyOTP),
-        bigText: formatMessage(message.scheduleNotifyOTP),
-        group: '',
-        timestamp: '1588517528002',
-        unRead: false,
-      });
-    firebase.notifications().displayNotification(notification);
+    PushNotification.localNotificationSchedule({
+      /* Android Only Properties */
+      id: '1995',
+      largeIcon: 'icon_bluezone_null',
+      smallIcon: 'icon_bluezone_service',
+      bigText: formatMessage(message.scheduleNotifyOTP),
+      subText: 'Test',
+      vibrate: true,
+      importance: '',
+      priority: 'high',
+      allowWhileIdle: false,
+      ignoreInForeground: false,
+
+      /* iOS only properties */
+      alertAction: 'view',
+      category: '',
+      userInfo: {
+        id: '1995',
+      },
+
+      /* iOS and Android properties */
+      title: formatMessage(message.updatePhoneNumber),
+      message: formatMessage(message.scheduleNotifyOTP),
+      playSound: false,
+      number: 10,
+      repeatType: 'day',
+      date: new Date(Date.now() + 5 * 1000),
+    });
   }
 
   render() {

@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     top: 6,
     left: 16,
     flexDirection: 'row',
+    zIndex: 99,
   },
 
   iconLogoMic: {

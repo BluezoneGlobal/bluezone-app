@@ -24,7 +24,7 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
-import analytics from '@react-native-firebase/analytics';
+// import analytics from '@react-native-firebase/analytics';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -63,7 +63,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute, setInitialRoute] = useState('AuthLoading');
 
-  const routeNameRef = useRef();
+  // const routeNameRef = useRef();
 
   const setAuthLoading = navi => {
     setLoading(true);
@@ -87,6 +87,7 @@ export default function App() {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
+      debugger;
       if (
         remoteMessage.notification &&
         remoteMessage.notification.data.group === 'WARN'
@@ -148,15 +149,16 @@ export default function App() {
       <LanguageProvider messages={translationMessages}>
         <NavigationContainer
           ref={navigationRef}
-          onStateChange={state => {
-            const previousRouteName = routeNameRef.current;
-            const currentRouteName = getActiveRouteName(state);
-
-            if (previousRouteName !== currentRouteName) {
-              analytics().setCurrentScreen(currentRouteName, currentRouteName);
-              // alert(`The route changed to "${currentRouteName}"`);
-            }
-          }}>
+          // onStateChange={state => {
+          //   const previousRouteName = routeNameRef.current;
+          //   const currentRouteName = getActiveRouteName(state);
+          //
+          //   if (previousRouteName !== currentRouteName) {
+          //     analytics().setCurrentScreen(currentRouteName, currentRouteName);
+          //     // alert(`The route changed to "${currentRouteName}"`);
+          //   }
+          // }}
+        >
           <Stack.Navigator
             headerMode="none"
             mode="card"

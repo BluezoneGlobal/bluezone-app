@@ -15,7 +15,6 @@
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/push-notification-ios": "^1.1.1",
-    "@react-native-firebase/analytics": "^6.7.1",
     "@react-navigation/bottom-tabs": "^5.2.7",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",

@@ -234,13 +234,7 @@ class HomeTab extends React.Component {
           style={style.background}
           contentContainerStyle={style.scrollView}
           showsVerticalScrollIndicator={false}>
-          <ImageBackground
-            source={require('./styles/images/Banner.png')}
-            style={{
-              width: width,
-              height: (width * 298) / 360,
-              justifyContent: 'flex-end',
-            }}>
+          <View style={{paddingTop: 20, backgroundColor: '#015cd0'}}>
             <View style={style.logo}>
               <FastImage
                 source={require('./styles/images/icon_mic.png')}
@@ -255,22 +249,30 @@ class HomeTab extends React.Component {
             <View style={style.switchLanguage}>
               <SwitchLanguage />
             </View>
-            <View
-              style={[style.header, {height: ((width * 298) / 360) * 0.38}]}>
-              <Text style={style.textHeader}>
-                {formatMessage(message.header)}
-              </Text>
-              <Text style={style.texthea}>
-                {formatMessage(message.productLabel1)}
-              </Text>
-              <Text style={style.texthea}>
-                <Text>{formatMessage(message.productLabel2)}</Text>
-                <MediumText style={style.colorText}>
-                  {formatMessage(message.productLabel3)}
-                </MediumText>
-              </Text>
-            </View>
-          </ImageBackground>
+            <ImageBackground
+              source={require('./styles/images/Banner.png')}
+              style={{
+                width: width,
+                height: height / setHeight1,
+                justifyContent: 'flex-end',
+              }}>
+              <View
+                style={[style.header, {height: (height / setHeight1) * 0.38}]}>
+                <Text style={style.textHeader}>
+                  {formatMessage(message.header)}
+                </Text>
+                <Text style={style.texthea}>
+                  {formatMessage(message.productLabel1)}
+                </Text>
+                <Text style={style.texthea}>
+                  <Text>{formatMessage(message.productLabel2)}</Text>
+                  <MediumText style={style.colorText}>
+                    {formatMessage(message.productLabel3)}
+                  </MediumText>
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
           <View style={style.watchScan}>
             <TouchableOpacity
               onPress={this.watchScan}
