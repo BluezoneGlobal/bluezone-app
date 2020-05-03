@@ -37,6 +37,8 @@ import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
+import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -46,6 +48,7 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
+import {isRegister} from '../AuthLoadingScreen'
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -58,6 +61,8 @@ import configuration, {
   createNotifyPermisson,
   removeNotifyPermisson,
 } from '../../../Configuration';
+import AuthLoadingScreen from '../AuthLoadingScreen';
+import firebase from 'react-native-firebase';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -72,6 +77,7 @@ class ModalNotify extends React.Component {
       // isVisibleBluetooth: false,
       isModalUpdate: false,
       forceUpdate: false,
+      isVisibleFlash: false,
     };
 
     this.requestPermissionLocation = this.requestPermissionLocation.bind(this);
@@ -94,6 +100,8 @@ class ModalNotify extends React.Component {
     this.isWizardCheckPermissionLocationBlockFinished = this.isWizardCheckPermissionLocationBlockFinished.bind(
       this,
     );
+    this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -178,6 +186,9 @@ class ModalNotify extends React.Component {
         // Thì thực hiện request quyền ổ đĩa
         this.requestPermissionWrite();
       }
+
+      if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
+      }
     }
   }
 
@@ -253,7 +264,6 @@ class ModalNotify extends React.Component {
         if (this.isWizardCheckPermissionLocationBlockFinished()) {
           // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
           if (this.isWizardCheckPermissionWriteFinished()) {
-            debugger;
             getUserCodeAsync();
             if (
               this.statusWrite !== 'granted' ||
@@ -269,6 +279,8 @@ class ModalNotify extends React.Component {
         if (this.statusLocation === 'granted') {
           this.checkGeolocationState();
         }
+
+        this.setNotifyRegister();
       },
     );
   }
@@ -391,6 +403,49 @@ class ModalNotify extends React.Component {
     });
   }
 
+  setLoadingModalFlash() {
+    this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    PushNotification.localNotificationSchedule({
+      /* Android Only Properties */
+      id: '1995',
+      largeIcon: 'icon_bluezone_null',
+      smallIcon: 'icon_bluezone_service',
+      bigText: formatMessage(message.scheduleNotifyOTP),
+      subText: 'Test',
+      vibrate: true,
+      importance: '',
+      priority: 'high',
+      allowWhileIdle: false,
+      ignoreInForeground: false,
+
+      /* iOS only properties */
+      alertAction: 'view',
+      category: '',
+      userInfo: {
+        id: '1995',
+      },
+
+      /* iOS and Android properties */
+      title: formatMessage(message.updatePhoneNumber),
+      message: formatMessage(message.scheduleNotifyOTP),
+      playSound: false,
+      number: 10,
+      repeatType: 'day',
+      date: new Date(Date.now() + 5 * 1000),
+    });
+  }
+
   render() {
     const {language} = this.context;
     const {intl} = this.props;
@@ -402,6 +457,7 @@ class ModalNotify extends React.Component {
       isVisiblePermissionWriteDenied,
       isVisiblePermissionLocationBlocked,
       isVisiblePermissionWriteBlocked,
+      isVisibleFlash,
     } = this.state;
     const {formatMessage} = intl;
     const {
@@ -453,6 +509,20 @@ class ModalNotify extends React.Component {
           onPress={this.onTurnOnLocation}
           btnText={formatMessage(message.openSettingLocation)}
         />
+        <Modal
+          isVisible={isVisibleFlash}
+          style={{justifyContent: 'flex-end', margin: 0}}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={800}
+          animationOutTiming={800}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          swipeDirection={['up', 'left', 'right', 'down']}>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+          </View>
+        </Modal>
         <Modal
           isVisible={isModalUpdate}
           style={styles.modal}

@@ -24,23 +24,26 @@
 import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
+import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import Modal from 'react-native-modal';
-import {Dimensions, View, AppState, Linking, Platform} from 'react-native';
+import {View, AppState, Linking, Platform} from 'react-native';
 import ModalBase from './ModalBase';
 import Text, {MediumText} from '../../../base/components/Text';
+import AuthLoadingScreen from '../AuthLoadingScreen';
 import ButtonText from '../../../base/components/ButtonText';
 import {getCheckVersions} from '../../../apis/bluezone';
 import getStatusUpdate from '../../../utils/getStatusUpdate';
 
-import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
-import {requestUserPermission} from '../../../CloudMessaging';
-import configuration, {
-  removeNotifyPermisson,
-  createNotifyPermisson,
-  getUserCodeAsync,
-} from '../../../Configuration';
+import {
+  PERMISSIONS,
+  requestMultiple,
+  requestNotifications,
+} from 'react-native-permissions';
+import configuration, {getUserCodeAsync} from '../../../Configuration';
+import {isRegister} from '../AuthLoadingScreen';
 
 // Language
 import message from '../../../msg/home';
@@ -48,20 +51,18 @@ import {injectIntl, intlShape} from 'react-intl';
 
 // Styles
 import styles from './styles/index.css';
+import PushNotification from 'react-native-push-notification';
 
 class ModalNotify extends React.Component {
   constructor(props) {
     super(props);
-    const {height} = Dimensions.get('window');
     this.state = {
-      height,
-      blueTooth: false,
       isVisiblePermissionBLE: false,
       isVisibleBLE: false,
-      isModalLocation: false,
       isModalUpdate: false,
       forceUpdate: false,
-      isVisibleNotify: false,
+      isVisiblePermissionNotify: false,
+      isVisibleFlash: false,
     };
 
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
@@ -73,10 +74,15 @@ class ModalNotify extends React.Component {
     this.checkRequestMultiple = this.checkRequestMultiple.bind(this);
     this.onTurnOnBLE = this.onTurnOnBLE.bind(this);
     this.onTurnOnNotify = this.onTurnOnNotify.bind(this);
-    this.requestNotifications = this.requestNotifications.bind(this);
+    this.checkRequestNotifications = this.checkRequestNotifications.bind(this);
+    this.setStatusBluetooth = this.setStatusBluetooth.bind(this);
+    this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.isPermissionBluetooth = false;
     this.vesionIOS = parseInt(Platform.Version, 10);
+    this.statusPermissionNotify = '';
+    this.timer = null;
   }
 
   componentDidMount() {
@@ -86,22 +92,36 @@ class ModalNotify extends React.Component {
     getUserCodeAsync();
 
     // BluetoothStatus
-    this.checkRequestMultiple();
-    BluetoothStatus.addListener(listener => {
-      this.setStatusBluetooth(listener);
-    });
+    BluetoothStatus.addListener(this.setStatusBluetooth);
 
     AppState.addEventListener('change', this.handleAppStateChange);
+
+    this.timer = setTimeout(this.checkRequestMultiple, 500);
   }
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
+    clearTimeout(this.timer);
   }
 
   handleAppStateChange(appState) {
     if (appState === 'active') {
-      this.onChangeBluetooth();
       this.onCheckUpdate();
+      if (this.statusPermissionBluetooth === 'granted') {
+        this.onChangeBluetooth();
+      }
+
+      if (this.statusPermissionBluetooth === 'blocked') {
+        this.checkRequestMultiple();
+      }
+
+      // Check để mở màn hình flash
+      if (
+        this.statusPermissionNotify !== '' &&
+        this.state.isVisiblePermissionNotify === false
+      ) {
+        this.setState({isVisibleFlash: true});
+      }
     }
   }
 
@@ -111,34 +131,41 @@ class ModalNotify extends React.Component {
         statuses[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL];
       // Check trang thai khi từ background sang foreground thì sẽ không hiển thi popup cài đặt nữa, chỉ cho hiển thị vào lúc lần đầu.
 
-      this.statusBluetooth = permissionBluetooth;
+      this.statusPermissionBluetooth = permissionBluetooth;
+      console.log('checkRequestMultiple', permissionBluetooth);
       switch (permissionBluetooth) {
         case 'blocked':
           if (!this.isPermissionBluetooth) {
             this.setState({isVisiblePermissionBLE: true});
             this.isPermissionBluetooth = true;
-            createNotifyPermisson();
           }
           break;
         case 'unavailable':
-          this.onChangeBluetooth();
+          this.checkRequestNotifications();
           break;
         case 'granted':
-          removeNotifyPermisson();
-          requestUserPermission(this.requestNotifications);
-          break;
-        default:
+          this.checkRequestNotifications();
           break;
       }
     });
   }
 
-  requestNotifications(status) {
-    if (status !== 1) {
-      this.setState({isVisibleNotify: true});
-    }
-    this.isPermissionNotify = status;
-    this.onChangeBluetooth();
+  checkRequestNotifications() {
+    requestNotifications(['alert', 'sound']).then(({status, settings}) => {
+      console.log('requestNotifications', status, settings);
+      this.statusPermissionNotify = status;
+      switch (status) {
+        case 'denied':
+          break;
+        case 'blocked':
+          this.setState({isVisiblePermissionNotify: true});
+          break;
+        case 'granted':
+          this.onChangeBluetooth();
+          this.setNotifyRegister();
+          break;
+      }
+    });
   }
 
   async onChangeBluetooth() {
@@ -146,12 +173,12 @@ class ModalNotify extends React.Component {
     this.setStatusBluetooth(isEnabled);
   }
 
-  setStatusBluetooth = status => {
+  setStatusBluetooth(status) {
     this.props.onChangeBlue(status);
     if (this.vesionIOS < 13) {
       this.setState({isVisibleBLE: !status});
     }
-  };
+  }
 
   onCheckUpdate() {
     getCheckVersions(
@@ -208,7 +235,7 @@ class ModalNotify extends React.Component {
   }
 
   onTurnOnNotify() {
-    this.setState({isVisibleNotify: false});
+    this.setState({isVisiblePermissionNotify: false});
     Linking.canOpenURL('app-settings://')
       .then(supported => {
         if (!supported) {
@@ -224,6 +251,49 @@ class ModalNotify extends React.Component {
     this.setState({isModalUpdate: false, forceUpdate: false});
   }
 
+  setLoadingModalFlash() {
+    this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    PushNotification.localNotificationSchedule({
+      /* Android Only Properties */
+      id: '1995',
+      largeIcon: 'icon_bluezone_null',
+      smallIcon: 'icon_bluezone_service',
+      bigText: formatMessage(message.scheduleNotifyOTP),
+      subText: 'Test',
+      vibrate: true,
+      importance: '',
+      priority: 'high',
+      allowWhileIdle: false,
+      ignoreInForeground: false,
+
+      /* iOS only properties */
+      alertAction: 'view',
+      category: '',
+      userInfo: {
+        id: '1995',
+      },
+
+      /* iOS and Android properties */
+      title: formatMessage(message.updatePhoneNumber),
+      message: formatMessage(message.scheduleNotifyOTP),
+      playSound: false,
+      number: 10,
+      repeatType: 'day',
+      date: new Date(Date.now() + 5 * 1000),
+    });
+  }
+
   render() {
     const {language} = this.context;
     const {intl} = this.props;
@@ -232,7 +302,8 @@ class ModalNotify extends React.Component {
       isVisibleBLE,
       isModalUpdate,
       forceUpdate,
-      isVisibleNotify,
+      isVisiblePermissionNotify,
+      isVisibleFlash,
     } = this.state;
 
     const {formatMessage} = intl;
@@ -270,10 +341,24 @@ class ModalNotify extends React.Component {
           onPress={this.onTurnOnBLE}
         />
         <ModalBase
-          isVisible={isVisibleNotify}
+          isVisible={isVisiblePermissionNotify}
           content={_NOTIFI_PERMISSION_TEXT}
           onPress={this.onTurnOnNotify}
         />
+        <Modal
+          isVisible={isVisibleFlash}
+          style={{justifyContent: 'flex-end', margin: 0}}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={800}
+          animationOutTiming={800}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          swipeDirection={['up', 'left', 'right', 'down']}>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+          </View>
+        </Modal>
         <Modal
           isVisible={isModalUpdate}
           style={styles.modal}

@@ -22,34 +22,35 @@
 'use strict';
 
 import React from 'react';
-import axios from 'axios';
-
-// Components
 import {
   SafeAreaView,
   View,
   Text,
   TouchableOpacity,
-  // NativeModules,
   ScrollView,
   StatusBar,
-  // Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
+import {Toast} from '@ant-design/react-native';
+
 import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountDown from './CountDown';
 import InsertOTP from './InsertOTP';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Utils
 // import configuration from '../../../Configuration';
 import * as fontSize from '../../../utils/fontSize';
-import Service from '../../../apis/service';
 
 // Styles
 import styles from './styles/index.css';
 import style from '../HomeScreen/styles/index.css';
+import ButtonText from '../../../base/components/ButtonText';
+import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
+import {injectIntl, intlShape} from 'react-intl';
+import message from '../../../msg/verifyOtp';
 
 class VerifyOTPScreen extends React.Component {
   // Render any loading content that you like here
@@ -61,85 +62,37 @@ class VerifyOTPScreen extends React.Component {
       showModal: false,
       showModalError: false,
     };
+    this.onChangeNavigate = this.onChangeNavigate.bind(this);
+    this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
+      this,
+    );
+    this.createAndSendOTPCodeFail = this.createAndSendOTPCodeFail.bind(this);
+    this.onHandleConfirmSuccess = this.onHandleConfirmSuccess.bind(this);
+    this.onHandleConfirmFail = this.onHandleConfirmFail.bind(this);
   }
   onConfirmPress = () => {
     const {otp} = this.state;
-    const phoneNumber = this.props.navigation.getParam('phoneNumber');
-    const options = {
-      method: 'post',
-      data: {
-        FcmID: '123abc',
-        PhoneNumber: phoneNumber,
-        OTPCode: otp,
-      },
-      url: 'https://apicpms.hcdt.vn:8443/api/App/ConfirmOTPCode',
-    };
-    const isConfirm = true;
-    this.callApi(options, isConfirm);
-  };
-
-  saveData = async (UserCode, Token) => {
-    // try {
-    //   await cookies.set('UserCode', UserCode);
-    //   await cookies.set('Token', Token);
-    // } catch (error) {
-    //   // Error saving data
-    // }
-  };
-  onHandleConfirmSuccess = response => {
-    const {Object} = response.data;
-    const {UserCode, Token} = Object;
-    this.saveData(UserCode, Token);
-
-    Service.setUserId(UserCode);
-    this.onStart();
-
-    this.props.navigation.navigate('App');
-  };
-
-  onStart = async () => {
-    // try {
-    //   const granted = await PermissionsAndroid.request(
-    //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //       {
-    //         title: 'Yêu cầu quyền truy cập',
-    //         message: 'Bạn cần bật quyền truy cập vị trí cho ứng dụng',
-    //       },
-    //   );
-    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    // Service.startService(true);
-    //   } else {
-    //     console.log(2);
-    //   }
-    // } catch (err) {
-    //   console.log('err', err);
-    // }
-  };
-
-  callApi = (options, isConfirm) => {
-    axios(options).then(
-      response => {
-        if (response && response.status === 200) {
-          if (response.data.isOk) {
-            if (isConfirm) {
-              this.onHandleConfirmSuccess(response);
-            } else {
-              this.onHandleReGetOTP(response);
-            }
-          } else if (response.data.isError) {
-            this.setState({showModal: true});
-          }
-        }
-      },
-      error => {
-        this.setState({showModalError: true});
-        return {error};
-      },
+    const phoneNumber = this.props.route.params.phoneNumber;
+    VerifyOTPCode(
+      phoneNumber,
+      otp,
+      this.onHandleConfirmSuccess,
+      this.onHandleConfirmFail,
     );
   };
+
+  onHandleConfirmSuccess(response) {
+    const {Token} = response.data.Object;
+    AsyncStorage.setItem('Token', Token);
+    this.props.navigation.navigate('Home');
+  }
+
+  onHandleConfirmFail() {}
+
   onHandleReGetOTP = response => {
     this.refCountDown && this.refCountDown.startCountDown();
   };
+
   onBack = () => {
     this.props.navigation.goBack();
     return true;
@@ -150,17 +103,28 @@ class VerifyOTPScreen extends React.Component {
       this.setState({disable: false});
     }
   };
+
   onReGetOTP = () => {
-    const phoneNumber = this.props.navigation.getParam('phoneNumber');
-    const options = {
-      method: 'post',
-      data: {
-        PhoneNumber: phoneNumber,
-      },
-      url: 'https://apicpms.hcdt.vn:8443/api/App/CreateAndSendOTPCode',
-    };
-    this.callApi(options);
+    const phoneNumber = this.props.route.params.phoneNumber;
+    CreateAndSendOTPCode(
+      phoneNumber,
+      this.createAndSendOTPCodeSuccess,
+      this.createAndSendOTPCodeFail,
+    );
   };
+
+  createAndSendOTPCodeSuccess(response) {
+    const {numberPhone} = this.state;
+    this.props.navigation.navigate('VerifyOTP', {
+      phoneNumber: numberPhone,
+    });
+    this.setState({showLoading: false});
+  }
+
+  createAndSendOTPCodeFail(error) {
+    this.setState({showLoading: false, showErrorModal: true});
+  }
+
   onCloseModal = () => {
     this.setState({showModal: false});
   };
@@ -173,36 +137,45 @@ class VerifyOTPScreen extends React.Component {
     this.setState({showModalError: false});
   };
 
+  onChangeNavigate() {
+    Toast.info('Để thuận tiện cho bạn chúng tôi sẽ hỏi lại sau', 3);
+    this.props.navigation.navigate('Home');
+  }
+
   render() {
-    const {navigation} = this.props;
+    const {route, intl} = this.props;
     const {showModal, showModalError} = this.state;
-    const phoneNumber = navigation.getParam('phoneNumber');
+    const {formatMessage} = intl;
+    const phoneNumber = route.params.phoneNumber;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#F9F9F9" />
         <Header
           onBack={this.onBack}
           showBack
-          title={'Xác thực mã OTP'}
+          title={formatMessage(message.title)}
           styleView={styles.header}
+          colorIcon={'#000000'}
         />
         <ScrollView style={styles.scroll}>
           <View style={styles.layout1}>
             <Text style={styles.text1}>
-              Nhập mã xác nhận đã được gửi qua số điện thoại:{' '}
+              {formatMessage(message.enterPin)}{' '}
               <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
             </Text>
           </View>
-          <Text style={styles.text2}>Vui lòng nhập mã OTP</Text>
+          <Text style={styles.text2}>
+            {formatMessage(message.pleaseEnterPin)}
+          </Text>
           <View style={styles.layout2}>
-            <Text style={styles.text3}>Mã có hiệu lực trong </Text>
+            <Text style={styles.text3}>{formatMessage(message.validPin)} </Text>
             <CountDown ref={this.setRef} />
           </View>
           <InsertOTP getOtp={this.getOtp} />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
               onPress={this.onConfirmPress}
-              text={'Xác nhận'}
+              text={formatMessage(message.confirm)}
               styleBtn={styles.colorButtonConfirm}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={styles.iconButtonConfirm}
@@ -210,7 +183,7 @@ class VerifyOTPScreen extends React.Component {
           </View>
           <View style={styles.layout3}>
             <Text style={styles.text4}>
-              Bạn chưa nhận được mã OTP hoặc mã đã hết hạn?
+              {formatMessage(message.receivedOTP)}
             </Text>
             <TouchableOpacity onPress={this.onReGetOTP} style={styles.btn}>
               <FastImage
@@ -251,7 +224,7 @@ class VerifyOTPScreen extends React.Component {
             onBackdropPress={this.onCloseModalError}>
             <View style={style.modalCont}>
               <View>
-                <Text style={styles.titleModal}>Đã sảy ra sự cố</Text>
+                <Text style={styles.titleModal}>Đã xảy ra sự cố</Text>
               </View>
               <View>
                 <Text style={styles.detailModal}>
@@ -268,6 +241,12 @@ class VerifyOTPScreen extends React.Component {
             </View>
           </Modal>
         )}
+        <ButtonText
+          text={formatMessage(message.skip)}
+          onPress={this.onChangeNavigate}
+          styleBtn={styles.buttonInvite}
+          styleText={styles.textInvite}
+        />
       </SafeAreaView>
     );
   }
@@ -277,4 +256,8 @@ VerifyOTPScreen.defaultProps = {
   disable: true,
 };
 
-export default VerifyOTPScreen;
+VerifyOTPScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(VerifyOTPScreen);

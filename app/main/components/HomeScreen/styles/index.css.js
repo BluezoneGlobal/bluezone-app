@@ -28,53 +28,93 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: '#ffffff',
   },
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
+
   colorText: {
     color: '#73e530',
   },
+
   watchScan: {
     flexDirection: 'row',
     paddingHorizontal: 42,
     paddingTop: 36,
+    justifyContent: 'center',
   },
+
   marginRight23: {
     marginRight: 23,
   },
+
   header: {
     paddingHorizontal: 26,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   buttonScan: {
     backgroundColor: '#015cd0',
     marginBottom: 18,
   },
+
   buttonHistory: {
     backgroundColor: '#119a01',
     marginBottom: 18,
   },
+
   buttonIcon: {
     width: 18,
     height: 18,
   },
+
+  logo: {
+    position: 'absolute',
+    top: 6,
+    left: 16,
+    flexDirection: 'row',
+    zIndex: 99,
+  },
+
+  iconLogoMic: {
+    width: 30,
+    height: 30,
+    marginRight: 12,
+  },
+
+  borderLogo: {
+    borderRightWidth: 0.2,
+    borderRightColor: '#b5b5b5',
+    marginVertical: 6,
+  },
+
+  iconLogoBoyte: {
+    width: 30,
+    height: 30,
+    marginLeft: 12,
+  },
+
   center: {
     textAlign: 'center',
   },
+
   buttonInvite: {
     borderTopWidth: 0.65,
     borderTopColor: '#c6c6c8',
   },
+
   textInvite: {
     color: '#1C74C4',
     fontWeight: '700',
   },
+
   modal: {
     margin: 40,
     justifyContent: 'center',
   },
+
   textHeader: {
     textAlign: 'center',
     // fontFamily: 'OpenSans',
@@ -83,15 +123,18 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     paddingBottom: 3,
   },
+
   texthea: {
     // fontFamily: 'OpenSans',
     color: '#ffffff',
     fontSize: fontSize.small,
   },
+
   button: {
     paddingHorizontal: 43,
     justifyContent: 'center',
   },
+
   safe: {
     marginTop: 16,
     marginHorizontal: 16,
@@ -139,13 +182,15 @@ const styles = StyleSheet.create({
   },
 
   numberBluezone: {
-    flex: 1,
-    borderRadius: 16,
+    // flex: 1,
+    borderRadius: 70,
     paddingTop: 21,
     paddingBottom: 19,
     alignItems: 'center',
-    borderWidth: 0.65,
+    borderWidth: 2,
     borderColor: '#f2f2f2',
+    width: 140,
+    height: 140,
   },
 
   scanButton: {

@@ -28,9 +28,18 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
   },
+
   iconRectangle: {
     height: 24,
     width: 28,
+  },
+
+  badge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    backgroundColor: '#f10800',
+    zIndex: 99,
   },
 });
 

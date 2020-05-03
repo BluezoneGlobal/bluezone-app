@@ -52,21 +52,19 @@ target 'Bluezone' do
   pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
   pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+  pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
+  # react-native-permissions
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
 
-  # Firebase
-  # Override Firebase SDK Version
-  $FirebaseSDKVersion = '6.8.1'
-
-  # Override Fabric SDK Version
-  $FabricSDKVersion = '1.6.0'
-
-  # Override Crashlytics SDK Version
-  $CrashlyticsSDKVersion = '3.1.0'
-
-  $RNFirebaseAsStaticFramework = true
+  # Required by RNFirebase
+   pod 'Firebase/Core', '~> 6.3.0'
+   pod 'Firebase/Messaging'
+   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 
   target 'BluezoneTests' do
     inherit! :complete

@@ -135,9 +135,9 @@ const configuration = {
   JoinGroupFaceText: 'Tham gia group trên Facebook',
   JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
-    'Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone - Bảo vệ mình, bảo vệ cộng đồng cho 3 người khác chưa? Cài đặt tại: www.Bluezone.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
+    'Bộ Y tế: Bảo vệ mình, bảo vệ cộng đồng chống COVID-19 đưa cuộc sống trở lại bình thường. Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone và cài tiếp cho 3 người khác chưa? Cài đặt tại www.Bluezone.gov.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
   ShareMessageText_en:
-    'Have you installed Electronic mask application Bluezone – Protect yourself, protect the community for 3 others? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
+    'Ministry of Health: Protect yourself, protect the community against COVID-19, bringing life back to normal. Have you installed electronic mask application Bluezone and got 3 others to install the app? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
   NOTIFI_BLE_IOS_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
   NOTIFI_BLE_IOS_TEXT_en:
@@ -185,6 +185,8 @@ const configuration = {
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
   Language: null,
+  Register_Phone: 'FirstOTP',
+  FirstOTP: null,
 };
 
 const getConfigurationAsync = async () => {
@@ -193,24 +195,49 @@ const getConfigurationAsync = async () => {
     'Configuration',
     'TokenFirebase',
     'Language',
+    'FirstOTP',
+    'StatusNotifyRegister',
   ]).then(results => {
     let keys = {};
     results.forEach(result => {
       Object.assign(keys, {[result[0]]: result[1]});
     });
 
-    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const {
+      Token,
+      Configuration,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
-    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+    mergeConfiguration(
+      configObject,
+      Token,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    );
   });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
+const mergeConfiguration = (
+  configObject,
+  Token,
+  TokenFirebase,
+  Language,
+  FirstOTP,
+  StatusNotifyRegister,
+) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
+    FirstOTP: FirstOTP || null,
+    StatusNotifyRegister: StatusNotifyRegister || null,
   });
 };
 
@@ -269,7 +296,6 @@ function notifySchedule(notify, timestamp) {
     title: isVietnamese ? notify.title : notify.title_en,
     message: isVietnamese ? notify.message : notify.message_en,
     playSound: false,
-    number: notify.number,
     date: new Date(timestamp),
   });
 }
@@ -429,6 +455,7 @@ const setToken = Token => {
 
 // Lưu thông tin TokenFirebase
 const setTokenFirebase = TokenFirebase => {
+  console.log('TokenFirebase', TokenFirebase);
   if (
     configuration.TokenFirebase !== '' &&
     TokenFirebase === configuration.TokenFirebase

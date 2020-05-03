@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /**
  * @format
  */
@@ -19,18 +18,23 @@ import {name as appName} from './app.json';
 import {registerBackgroundMessageHandler} from './app/CloudMessaging';
 
 // Register background handler
-registerBackgroundMessageHandler(async remoteMessage => {
-  // console.log('registerBackgroundMessageHandler', JSON.stringify(remoteMessage));
-  // getBluezonerAmount((amount) => console.log('getBluezonerAmount', amount), (error) => console.log('amount', error ));
-});
+// registerBackgroundMessageHandler(async remoteMessage => {
+// console.log('registerBackgroundMessageHandler', JSON.stringify(remoteMessage));
+// getBluezonerAmount((amount) => console.log('getBluezonerAmount', amount), (error) => console.log('amount', error ));
+// });
 
-function HeadlessCheck({isHeadless}) {
-  if (isHeadless) {
-    // App has been launched in the background by iOS, ignore
-    return null;
-  }
+// function HeadlessCheck({isHeadless}) {
+//   if (isHeadless) {
+//     // App has been launched in the background by iOS, ignore
+//     return null;
+//   }
+//
+//   return <App />;
+// }
 
-  return <App />;
-}
+AppRegistry.registerComponent(appName, () => App);
 
-AppRegistry.registerComponent(appName, () => HeadlessCheck);
+AppRegistry.registerHeadlessTask(
+  'RNFirebaseBackgroundMessage',
+  () => registerBackgroundMessageHandler,
+); // <-- Add this line

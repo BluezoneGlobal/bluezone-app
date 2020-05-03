@@ -33,6 +33,8 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PushNotification from 'react-native-push-notification';
+import FastImage from 'react-native-fast-image';
+import Spinner from 'react-native-spinkit';
 
 // Language
 import message from '../../../msg/home';
@@ -109,17 +111,6 @@ class HomeTab extends React.Component {
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
-
-    PushNotification.configure({
-      onNotification: this.onNotifyOpen,
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
   }
 
   setNewAmount(oldAmount) {
@@ -243,35 +234,49 @@ class HomeTab extends React.Component {
           style={style.background}
           contentContainerStyle={style.scrollView}
           showsVerticalScrollIndicator={false}>
-          <ImageBackground
-            source={require('./styles/images/Banner.png')}
-            style={{
-              width: width,
-              height: (width * 298) / 360,
-              justifyContent: 'flex-end',
-            }}>
+          <View style={{paddingTop: 20, backgroundColor: '#015cd0'}}>
+            <View style={style.logo}>
+              <FastImage
+                source={require('./styles/images/icon_mic.png')}
+                style={style.iconLogoMic}
+              />
+              <View style={style.borderLogo} />
+              <FastImage
+                source={require('./styles/images/icon_boyte.png')}
+                style={style.iconLogoBoyte}
+              />
+            </View>
             <View style={style.switchLanguage}>
               <SwitchLanguage />
             </View>
-            <View style={[style.header, {height: (width * 298) / 360 * 0.38}]}>
-              <Text style={style.textHeader}>
-                {formatMessage(message.header)}
-              </Text>
-              <Text style={style.texthea}>
-                {formatMessage(message.productLabel1)}
-              </Text>
-              <Text style={style.texthea}>
-                <Text>{formatMessage(message.productLabel2)}</Text>
-                <MediumText style={style.colorText}>
-                  {formatMessage(message.productLabel3)}
-                </MediumText>
-              </Text>
-            </View>
-          </ImageBackground>
+            <ImageBackground
+              source={require('./styles/images/Banner.png')}
+              style={{
+                width: width,
+                height: height / setHeight1,
+                justifyContent: 'flex-end',
+              }}>
+              <View
+                style={[style.header, {height: (height / setHeight1) * 0.38}]}>
+                <Text style={style.textHeader}>
+                  {formatMessage(message.header)}
+                </Text>
+                <Text style={style.texthea}>
+                  {formatMessage(message.productLabel1)}
+                </Text>
+                <Text style={style.texthea}>
+                  <Text>{formatMessage(message.productLabel2)}</Text>
+                  <MediumText style={style.colorText}>
+                    {formatMessage(message.productLabel3)}
+                  </MediumText>
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
           <View style={style.watchScan}>
             <TouchableOpacity
               onPress={this.watchScan}
-              style={[style.numberBluezone, style.marginRight23]}>
+              style={[style.numberBluezone]}>
               <CountBluezoner blueTooth={blueTooth} />
               <Text style={style.textBlue}>
                 {formatMessage(message.bluezoner)}
@@ -280,15 +285,6 @@ class HomeTab extends React.Component {
                 {formatMessage(message.around)}
               </Text>
             </TouchableOpacity>
-            <View style={style.numberBluezone}>
-              <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>
-                {formatMessage(message.bluezoner)}
-              </Text>
-              <Text style={style.textBlue}>
-                {formatMessage(message.community)}
-              </Text>
-            </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>
             <ButtonIconText

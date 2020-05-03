@@ -23,18 +23,19 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {View, SafeAreaView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
 import {MediumText} from '../../../base/components/Text';
 
 // Language
 import message from '../../../msg/auth';
-import {injectIntl, intlShape} from 'react-intl';
 
 // Apis
-import {
+import configuration, {
   getConfigurationAPI,
   getConfigurationAsync,
 } from '../../../Configuration';
@@ -42,11 +43,14 @@ import {
 // Styles
 import styles from './styles/index.css';
 
+export let isRegister = false;
+
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
+    this.setNavigate = this.setNavigate.bind(this);
   }
 
   async componentDidMount() {
@@ -55,11 +59,26 @@ class AuthLoadingScreen extends React.Component {
   }
 
   success() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading(this.setNavigate());
+    }, 2000);
   }
 
   error() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading(this.setNavigate());
+    }, 2000);
+  }
+
+  setNavigate() {
+    const {Register_Phone, FirstOTP} = configuration;
+    if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
+      AsyncStorage.setItem('FirstOTP', 'true');
+      isRegister = true;
+      return 'Register';
+    }
+
+    return 'Home';
   }
 
   render() {
