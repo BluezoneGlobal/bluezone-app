@@ -22,11 +22,16 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import {View} from 'react-native';
+import {View, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {MediumText} from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/auth';
 
 // Apis
 import {
@@ -40,7 +45,6 @@ import styles from './styles/index.css';
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
   }
@@ -51,27 +55,48 @@ class AuthLoadingScreen extends React.Component {
   }
 
   success() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading();
+    }, 2000);
   }
 
   error() {
-    this.props.setLoading();
+    setTimeout(() => {
+      this.props.setLoading();
+    }, 2000);
   }
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <FastImage
-          source={require('./styles/images/icon_bluezone.png')}
-          style={styles.image}
+          source={require('./styles/images/bluezone.png')}
+          style={styles.logo}
         />
-      </View>
+        <View style={styles.body}>
+          <FastImage
+            source={require('./styles/images/success.png')}
+            style={styles.icon_success}
+          />
+          <MediumText
+            text={formatMessage(message.label1)}
+            style={styles.text}
+          />
+          <MediumText
+            text={formatMessage(message.label2)}
+            style={styles.text}
+          />
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 AuthLoadingScreen.propTypes = {
+  intl: intlShape.isRequired,
   setLoading: PropTypes.func,
 };
 
-export default AuthLoadingScreen;
+export default injectIntl(AuthLoadingScreen);

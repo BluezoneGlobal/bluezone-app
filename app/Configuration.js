@@ -25,7 +25,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 // import moment from 'moment';
 import PushNotification from 'react-native-push-notification';
-import {Platform} from 'react-native';
+import {NativeModules, Platform} from 'react-native';
 import RNFS from 'react-native-fs';
 import Service from './apis/service';
 import {
@@ -106,6 +106,7 @@ const configuration = {
     'https://play.google.com/store/apps/details?id=com.mic.bluezone',
   LinkShareIOS: 'https://apps.apple.com/us/app/bluezone/id1508062685?ls=1',
   Introduce: 'https://bluezone.vn',
+  Introduce_en: 'https://bluezone.ai',
   TimeSaveLog: 10000,
   TimeShowLog: 30000,
   RssiThreshold: -69,
@@ -120,26 +121,51 @@ const configuration = {
   ScanDevicesSleep: 95000,
   Beta: true,
   ShareAppText: 'Chia sẻ ứng dụng',
+  ShareAppText_en: 'Share the app',
+  JoinGroupFaceText: 'Tham gia group trên Facebook',
+  JoinGroupFaceText_en: 'Join the group on Facebook',
   ShareMessageText:
-    'Bluezone: \n\nPhiên bản IOS: {LinkShareIOS} \n\nPhiên bản Android: {LinkShareAndroid}',
+    'Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone - Bảo vệ mình, bảo vệ cộng đồng cho 3 người khác chưa? Cài đặt tại: www.Bluezone.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi',
+  ShareMessageText_en:
+    'Have you installed Electronic mask application Bluezone – Protect yourself, protect the community for 3 others? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people',
   NOTIFI_BLE_IOS_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
+  NOTIFI_BLE_IOS_TEXT_en:
+    'Bluezone cannot record "close contact" because the device has not turned Bluetooth on.\n\nBluezone uses Bluetooth Low Energy (BLE). This technology does not drain the battery even when it is turned on.\n\nYou need to turn on Bluetooth by going to Control Panel or Settings to configure.',
   NOTIFI_PERMISSION_BLE_IOS_TEXT:
     'Bluezone sử dụng Bluetooth năng lượng thấp BLE để ghi nhận những người "tiếp xúc gần" với bạn. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần đồng ý bật Bluetooth để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_PERMISSION_BLE_IOS_TEXT_en:
+    'Bluezone uses Bluetooth Low Energy BLE to recognize people who are in "close contact" with you. This technology does not drain the battery even when it is turned on.\n\nYou need to agree to turn on Bluetooth to record "close contact".',
   NOTIFI_PERMISSION_TEXT:
     'Bạn cần đồng ý cấp quyền thông báo để ứng dụng có thể gửi cảnh báo nếu bạn "tiếp xúc gần" người nhiễm COVID-19 trong tương lai.',
+  NOTIFI_PERMISSION_TEXT_en:
+    'You need to accept notification permission so that the application can send alerts if you have “close contact" with people infected with COVID-19 in the future.',
   NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT:
-    'Bluezone không sử dụng vị trí của thiết bị. Bluezone chỉ bật Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần".\n\nMặc dù vậy, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần',
+    'Bluezone không sử dụng vị trí của thiết bị. Bluezone chỉ bật Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần".\n\nMặc dù vậy, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần"',
+  NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT_en:
+    'Bluezone does not use the device location. Bluezone only turns on Bluetooth Low Energy (BLE) to record "close contact".\n\nHowever, according to Google policy, when BLE is turned on the device will automatically offer to access the device location, even if Bluezone does not use that permission.\n\nYou need to accept the permission to record "close contact".',
   NOTIFI_LOCATION_ANDROID_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_LOCATION_ANDROID_TEXT_en:
+    'Bluezone cannot record "close contact" because the device has not enabled location.\n\nBluezone only turns on Bluetooth Low Energy (BLE) to record "close contact". However, according to Google policy, when BLE is turned on the device will automatically offer the access to device location, even if Bluezone does not use that permission.\n\nYou need to accept the permission to enable location to record "close contact".',
   NOTIFI_PERMISSION_WRITE_FILE_TEXT:
     'Bluezone chỉ sử dụng quyền "truy cập tệp" để ghi lịch sử "tiếp xúc gần" lên bộ nhớ thiết bị.\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền để có thể ghi nhận các "tiếp xúc gần".',
+  NOTIFI_PERMISSION_WRITE_FILE_TEXT_en:
+    'Bluezone only uses “access to file" permission to write the history of "close contact” on device memory.\n\nHowever, according to Google policy, the device automatically recommends "access to photos, media and files” even if Bluezone does not use the two first permissions.\n\nYou need to accept permissions to record "close contact".',
   NOTIFI_BLUETOOTH_ANDROID_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.',
+  NOTIFI_BLUETOOTH_ANDROID_TEXT_en:
+    'Bluezone cannot record "close contact" because the device has not turned Bluetooth on.\n\nBluezone uses Bluetooth Low Energy (BLE). This technology does not drain the battery even when it is turned on.\n\nYou need to turn on Bluetooth by going to Control Panel or Settings to configure.',
   NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT:
     'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các "tiếp xúc gần". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+  NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT_en:
+    'Bluezone cannot record "close contact" because the device has not turned on Location.\n\nBluezone only turns on Bluetooth Low Energy (BLE) to record "close contact". However, according to Google policy, when BLE is turned on the device will automatically offer the access to device location, even if Bluezone does not use that permission.\n\nYou need to accept the permission to turn on location by going to "Settings / Applications / Bluezone / Permissions".',
   NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT:
-    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+    'Bluezone không thể ghi nhận các "tiếp xúc gần" vì thiết bị chưa Bật quyền truy cập tệp.\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị "cho phép truy cập vào ảnh, phương tiện và tệp" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền Bật lưu trữ bằng cách vào "Cài đặt / Ứng dụng / Bluezone / Quyền"',
+  NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en:
+    'Bluezone cannot record "close contact" because the device has not enabled access to file.\n\nHowever, according to Google policy, the device automatically recommends "access to photos, media and files” even if Bluezone does not use the two first permissions.\n\nYou need to accept the permissions to enable storage by going to "Settings / pplications / Bluezone / Permissions".',
+  LinkGroupFace: 'http://facebook.com/groups/bluezonevn',
+  LinkGroupFace_en: 'http://facebook.com/groups/bluezonevn',
   UserCode: '',
   Token: '',
   TokenFirebase: '',
@@ -148,28 +174,33 @@ const configuration = {
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
+  Language: null,
 };
 
 const getConfigurationAsync = async () => {
-  AsyncStorage.multiGet(['Token', 'Configuration', 'TokenFirebase']).then(
-    results => {
-      let keys = {};
-      results.forEach(result => {
-        Object.assign(keys, {[result[0]]: result[1]});
-      });
+  AsyncStorage.multiGet([
+    'Token',
+    'Configuration',
+    'TokenFirebase',
+    'Language',
+  ]).then(results => {
+    let keys = {};
+    results.forEach(result => {
+      Object.assign(keys, {[result[0]]: result[1]});
+    });
 
-      const {Token, Configuration, TokenFirebase} = keys;
-      const configObject = JSON.parse(Configuration || '{}');
+    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const configObject = JSON.parse(Configuration || '{}');
 
-      mergeConfiguration(configObject, Token, TokenFirebase);
-    },
-  );
+    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+  });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase) => {
+const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
+    Language: Language || 'vi',
   });
 };
 
@@ -200,13 +231,15 @@ const getUserIdFromFileCallback = async userCodeFromFile => {
 };
 
 function notifySchedule(notify, timestamp) {
+  const isVietnamese =
+    !configuration.Language || configuration.Language === 'vi';
   PushNotification.localNotificationSchedule({
     /* Android Only Properties */
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: notify.bigText,
-    subText: notify.subText,
+    bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
+    subText: isVietnamese ? notify['subText'] : notify['subText_en'],
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -221,8 +254,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: notify.title,
-    message: notify.message,
+    title: isVietnamese ? notify['title'] : notify['title_en'],
+    message: isVietnamese ? notify['message'] : notify['message_en'],
     playSound: false,
     number: notify.number,
     date: new Date(timestamp),
@@ -268,7 +301,7 @@ const removeNotifyPermisson = () => {
   });
 };
 
-const createNotifyPermisson = () => {
+const createNotifyPermission = () => {
   const notifications =
     Platform.OS === 'ios'
       ? configuration.PermissonNotificationsIos
@@ -292,14 +325,16 @@ const createNotifyPermisson = () => {
       iDate += 86400000;
     }
 
+    const isVietnamese =
+      !configuration.Language || configuration.Language === 'vi';
+
     PushNotification.localNotificationSchedule({
       /* Android Only Properties */
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-
-      bigText: notify.bigText,
-      subText: notify.subText,
+      bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
+      subText: isVietnamese ? notify['subText'] : notify['subText_en'],
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -314,8 +349,8 @@ const createNotifyPermisson = () => {
       },
 
       /* iOS and Android properties */
-      title: notify.title,
-      message: notify.message,
+      title: isVietnamese ? notify['title'] : notify['title_en'],
+      message: isVietnamese ? notify['message'] : notify['message_en'],
       playSound: false,
       number: notify.number,
       repeatType: 'time',
@@ -375,7 +410,9 @@ const getConfigurationAPI = async (successCb, errorCb) => {
 // Lưu thông tin Token
 const setToken = Token => {
   Object.assign(configuration, {Token});
-  AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  if (Token) {
+    AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
+  }
 };
 
 // Lưu thông tin TokenFirebase
@@ -386,7 +423,6 @@ const setTokenFirebase = TokenFirebase => {
   ) {
     return;
   }
-  console.log('TokenFirebase', TokenFirebase);
   if (configuration.Token === '') {
     registerUser(TokenFirebase);
   } else {
@@ -494,6 +530,13 @@ const getConfig = () => {
   return configuration;
 };
 
+// Lưu thông tin Language
+const setLanguage = Language => {
+  Object.assign(configuration, {Language});
+  AsyncStorage.setItem('Language', Language);
+  Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -504,6 +547,7 @@ export {
   getConfig,
   registerUser,
   removeNotifyPermisson,
-  createNotifyPermisson,
+  createNotifyPermission,
   DOMAIN,
+  setLanguage,
 };

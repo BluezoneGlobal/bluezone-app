@@ -23,6 +23,7 @@
 
 import React from 'react';
 import 'react-native-get-random-values';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {SafeAreaView, StatusBar, BackHandler} from 'react-native';
@@ -81,13 +82,20 @@ class InfoScreen extends React.Component {
   }
 
   render() {
+    const {language} = this.context;
+
+    const url =
+      language && language !== 'vi'
+        ? configuration.Introduce_en
+        : configuration.Introduce;
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
         <WebView
           // style={styles.flex}
           ref={this.setRef}
-          source={{uri: configuration.Introduce}}
+          source={{uri: url}}
           javaScriptEnabled={true}
           domStorageEnabled={true}
           startInLoadingState={true}
@@ -101,5 +109,9 @@ class InfoScreen extends React.Component {
     );
   }
 }
+
+InfoScreen.contextTypes = {
+  language: PropTypes.object,
+};
 
 export default InfoScreen;

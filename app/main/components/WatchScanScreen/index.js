@@ -23,6 +23,7 @@
 
 import React from 'react';
 import 'moment/locale/vi';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {
@@ -31,10 +32,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/trace';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Config
 import configuration from '../../../Configuration';
@@ -51,6 +57,7 @@ class WatchScanScreen extends React.Component {
     const {logs, mapDevice} = this.creatLog();
     this.state = {
       logs: logs || [],
+      statusLoadding: true,
     };
     this.mapDevice = mapDevice || {};
   }
@@ -62,6 +69,10 @@ class WatchScanScreen extends React.Component {
         this.onScan,
       );
     }
+    // TODO cần clearTimeout trong event vẽ ra 2 danh sách xung quanh
+    this.timeOutLoadingBluezoner = setTimeout(() => {
+      this.setState({statusLoadding: false});
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -97,11 +108,9 @@ class WatchScanScreen extends React.Component {
         rssi: log.rssi,
       });
 
-      // Tạo timmer
+      // Create timmer
       const timmer = setTimeout(() => {
-        // console.log('delele ' + new Date().getTime() + ' ' + keyMap);
         delete this.mapDevice[keyMap];
-        // Xóa khỏi danh sách thiết bị
         this.setState(prevState => {
           const logsTemp = prevState.logs;
           for (let i = 0; i < logsTemp.length; i++) {
@@ -195,7 +204,7 @@ class WatchScanScreen extends React.Component {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      console.log('changeType' + new Date().getTime() + ' ' + keyMap);
+      // console.log('changeType' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [...logs],
@@ -236,6 +245,8 @@ class WatchScanScreen extends React.Component {
   };
 
   buttonInvite = userId => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     if (userId) {
       return (
         <View style={styles.inviteButtonContainer}>
@@ -251,7 +262,7 @@ class WatchScanScreen extends React.Component {
         style={styles.inviteButtonContainer}
         onPress={this.onInvite}>
         <View style={styles.inviteButton}>
-          <Text style={styles.inviteText}>Mời</Text>
+          <Text style={styles.inviteText}>{formatMessage(message.invite)}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -260,7 +271,7 @@ class WatchScanScreen extends React.Component {
   renderItemLog = item => {
     const content = item.userId
       ? `${item.userId}`
-      : `${item.name} (${item.address})`;
+      : `${item.name}`; // (${item.address})
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -272,8 +283,10 @@ class WatchScanScreen extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     const {UserCode} = configuration;
-    const {logs} = this.state;
+    const {logs, statusLoadding} = this.state;
 
     const itemsLogNear = [];
     const itemsLogDiff = [];
@@ -301,7 +314,7 @@ class WatchScanScreen extends React.Component {
           styleHeader={styles.header}
           colorIcon="#015CD0"
           showBack
-          title={'Quét xung quanh'}
+          title={formatMessage(message.header)}
         />
         <ScrollView>
           <View style={styles.infoContainer}>
@@ -311,7 +324,9 @@ class WatchScanScreen extends React.Component {
                   <Text style={styles.infoItemValue}>{logs.length}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>Xung quanh bạn</Text>
+              <Text style={styles.infoItemDesc}>
+                {formatMessage(message.aroundYou)}
+              </Text>
             </View>
 
             <View style={styles.infoItem}>
@@ -320,14 +335,20 @@ class WatchScanScreen extends React.Component {
                   <Text style={styles.infoItemValue}>{countBlueZone}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>Bluezoner</Text>
+              <Text style={styles.infoItemDesc}>
+                {countBlueZone > 1
+                  ? formatMessage(message.bluezoners)
+                  : formatMessage(message.bluezoner)}
+              </Text>
             </View>
           </View>
 
           <View>
             <View style={styles.listContainer}>
               <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>Ở gần bạn</MediumText>
+                <MediumText style={styles.textListHeader}>
+                  {formatMessage(message.nearYou)}
+                </MediumText>
                 <MediumText style={styles.textListHeaderValue}>
                   {itemsLogNear.length}
                 </MediumText>
@@ -338,22 +359,25 @@ class WatchScanScreen extends React.Component {
                     return this.renderItemLog(item);
                   })}
                 </View>
+              ) : statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#015CD0" />
+                </View>
               ) : (
                 <View style={styles.listEmptyContainer}>
                   <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
+                    <View style={styles.circle} />
                   </View>
-                  <Text style={styles.listEmptyText}>Danh sách trống</Text>
+                  <Text style={styles.listEmptyText}>
+                    {formatMessage(message.noList)}
+                  </Text>
                 </View>
               )}
             </View>
             <View style={styles.listContainer}>
               <View style={styles.listHeaderContainer}>
                 <MediumText style={styles.textListHeader}>
-                  Ở xung quanh
+                  {formatMessage(message.around)}
                 </MediumText>
                 <MediumText style={styles.textListHeaderValue}>
                   {itemsLogDiff.length}
@@ -365,21 +389,24 @@ class WatchScanScreen extends React.Component {
                     return this.renderItemLog(item);
                   })}
                 </View>
+              ) : statusLoadding ? (
+                <View style={styles.listEmptyContainer}>
+                  <ActivityIndicator size="large" color="#015CD0" />
+                </View>
               ) : (
                 <View style={styles.listEmptyContainer}>
                   <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
+                    <View style={styles.circle} />
                   </View>
-                  <Text style={styles.listEmptyText}>Danh sách trống</Text>
+                  <Text style={styles.listEmptyText}>
+                    {formatMessage(message.noList)}
+                  </Text>
                 </View>
               )}
             </View>
             <View style={styles.listHeaderContainer}>
               <MediumText style={styles.textListHeader}>
-                Mã Bluezone ID của bạn
+                {formatMessage(message.myBluezoneId)}
               </MediumText>
               <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
             </View>
@@ -390,4 +417,11 @@ class WatchScanScreen extends React.Component {
   }
 }
 
-export default WatchScanScreen;
+WatchScanScreen.propTypes = {
+  intl: intlShape.isRequired,
+  router: PropTypes.object,
+};
+
+WatchScanScreen.defaultProps = {};
+
+export default injectIntl(WatchScanScreen);

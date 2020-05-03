@@ -27,15 +27,18 @@ import {
   View,
   TouchableOpacity,
   StatusBar,
-  Platform,
   ImageBackground,
   Dimensions,
   AppState,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import PushNotification from 'react-native-push-notification';
-// import DeviceInfo from 'react-native-device-info';
-// import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
+// import PushNotification from 'react-native-push-notification';
+import FastImage from 'react-native-fast-image';
+import Spinner from 'react-native-spinkit';
+
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import Modal from 'react-native-modal';
@@ -44,13 +47,14 @@ import ModalNotify from '../ModalNotify';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import NumberAnimate from '../../../base/components/NumberAnimate';
+import CountBluezoner from './CountBluezoner';
+import SwitchLanguage from './SwitchLanguage';
 
 // Apis
 import {getBluezonerAmount} from '../../../apis/bluezone';
-import Service from '../../../apis/service';
 
 // Config
-import configuration /*, {getUserCodeAsync}*/ from '../../../Configuration';
+import configuration from '../../../Configuration';
 import {
   hasModalNotify,
   textDefault,
@@ -61,8 +65,8 @@ import {
 import style from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
-
-const TIMEOUT = 30000;
+import {logBluezone} from './CountBluezoner';
+import * as PropTypes from 'prop-types';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
@@ -81,33 +85,23 @@ class HomeTab extends React.Component {
       newAmount: 0,
       showModalInvite: false,
       showModalWrite: false,
+      Language: configuration.Language,
     };
 
     this.mapDevice = {};
-    this.logs = [];
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.handleDimensionsChange = this.handleDimensionsChange.bind(this);
     this.onGetAmountSuccess = this.onGetAmountSuccess.bind(this);
-    this.onScan = this.onScan.bind(this);
     this.watchScan = this.watchScan.bind(this);
     this.watchHistory = this.watchHistory.bind(this);
     this.considerNotify = this.considerNotify.bind(this);
     this.onCalcuTimesOpenApp = this.onCalcuTimesOpenApp.bind(this);
     this.onNotifyOpen = this.onNotifyOpen.bind(this);
-
-    // this.isPermissionWriteBlock = 0;
   }
 
   async componentDidMount() {
     Dimensions.addEventListener('change', this.handleDimensionsChange);
     AppState.addEventListener('change', this.handleAppStateChange);
-
-    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
-    if (Platform.OS !== 'ios') {
-      this.scanBlueToothListener = Service.addListenerScanBlueTooth(
-        this.onScan,
-      );
-    }
 
     const oldAmount = await AsyncStorage.getItem(oldAmountKey);
     this.setNewAmount(oldAmount);
@@ -118,16 +112,16 @@ class HomeTab extends React.Component {
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
 
-    PushNotification.configure({
-      onNotification: this.onNotifyOpen,
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
+    // PushNotification.configure({
+    //   onNotification: this.onNotifyOpen,
+    //   permissions: {
+    //     alert: true,
+    //     badge: true,
+    //     sound: true,
+    //   },
+    //   popInitialNotification: true,
+    //   requestPermissions: true,
+    // });
   }
 
   setNewAmount(oldAmount) {
@@ -186,87 +180,8 @@ class HomeTab extends React.Component {
     }
   }
 
-  onScan({id, name = '', address = '', rssi, platform, typeScan}) {
-    const logs = this.logs;
-    const keyMap = id && id.length > 0 ? id : name + '@' + address;
-
-    if (this.mapDevice[keyMap]) {
-      // Xóa timmer cũ
-      clearTimeout(this.mapDevice[keyMap].timmer);
-      delete this.mapDevice[keyMap];
-    } else {
-      if (keyMap === id) {
-        this.setState(prevState => {
-          return {
-            countShield: prevState.countShield + 1,
-          };
-        });
-      }
-    }
-
-    let hasDevice = false;
-    // TODO Admin: không rõ mục đích của biến này "typeList",
-    // let typeList;
-    let indexDevice;
-    for (let i = 0; i < logs.length; i++) {
-      if (
-        logs[i].userId === id &&
-        logs[i].name === name &&
-        logs[i].address === address
-      ) {
-        hasDevice = true;
-        indexDevice = i;
-        // typeList = logs[i].type;
-      }
-    }
-
-    if (!hasDevice) {
-      // Thêm vào danh sách
-      logs.push({
-        id: keyMap,
-        userId: id,
-        name,
-        address,
-        rssi,
-        platform,
-        typeScan,
-      });
-    } else {
-      // Sửa lại danh sách
-      logs[indexDevice].rssi = rssi;
-    }
-
-    // Thêm timmer
-    const timmer = setTimeout(() => {
-      delete this.mapDevice[keyMap];
-      // Xóa khỏi danh sách thiết bị
-      for (let i = 0; i < logs.length; i++) {
-        if (
-          logs[i].userId === id &&
-          logs[i].name === name &&
-          logs[i].address === address
-        ) {
-          logs.splice(i, 1);
-        }
-      }
-
-      if (keyMap === id) {
-        this.setState(prevState => {
-          return {
-            countShield: prevState.countShield - 1,
-          };
-        });
-      }
-    }, TIMEOUT);
-
-    this.mapDevice[keyMap] = {
-      timmer,
-      time: new Date().getTime(),
-    };
-  }
-
   watchScan() {
-    this.props.navigation.navigate('WatchScan', {logs: [...this.logs]});
+    this.props.navigation.navigate('WatchScan', {logs: [...logBluezone]});
   }
 
   watchHistory() {
@@ -283,14 +198,21 @@ class HomeTab extends React.Component {
       return;
     }
 
+    const {language} = this.context;
+    const en = language && language !== 'vi';
+
     for (let i = 0; i < notifys.length; i++) {
       const openModal = hasModalNotify(notifys[i], timesOpenApp, firstTimeOpen);
       if (openModal) {
         this.setState({
           showModalInvite: true,
-          titleModal: notifys[i].title,
-          messageModal: notifys[i].message || textDefault.message,
-          buttonText: notifys[i].buttonText || textDefault.buttonText,
+          titleModal: en ? notifys[i].title_en : notifys[i].title,
+          messageModal:
+            (en ? notifys[i].message_en : notifys[i].message) ||
+            textDefault.message,
+          buttonText:
+            (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
+            textDefault.buttonText,
         });
         return;
       }
@@ -303,20 +225,19 @@ class HomeTab extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
     const {
-      countShield,
       width,
-      blueTooth,
       height,
       newAmount,
       showModalInvite,
       titleModal,
       messageModal,
       buttonText,
-      // showModalWrite,
+      blueTooth,
     } = this.state;
-    console.log(showModalInvite);
-    // const currentVersion = DeviceInfo.getVersion();
+    const {formatMessage} = intl;
+
     return (
       <View style={style.container}>
         <StatusBar hidden={true} />
@@ -326,41 +247,58 @@ class HomeTab extends React.Component {
           showsVerticalScrollIndicator={false}>
           <ImageBackground
             source={require('./styles/images/Banner.png')}
-            style={{width: width, height: height / setHeight1}}>
-            {/*<Text style={style.textBeta}>{currentVersion}</Text>*/}
-            <View style={[style.header, {paddingTop: height / setHeight}]}>
+            style={{
+              width: width,
+              height: (width * 298) / 360,
+              justifyContent: 'flex-end',
+            }}>
+            <View style={style.logo}>
+              <FastImage
+                source={require('./styles/images/icon_mic.png')}
+                style={style.iconLogoMic}
+              />
+              <View style={style.borderLogo} />
+              <FastImage
+                source={require('./styles/images/icon_boyte.png')}
+                style={style.iconLogoBoyte}
+              />
+            </View>
+            <View style={style.switchLanguage}>
+              <SwitchLanguage />
+            </View>
+            <View
+              style={[style.header, {height: ((width * 298) / 360) * 0.38}]}>
               <Text style={style.textHeader}>
-                Bảo vệ mình, bảo vệ cộng đồng
+                {formatMessage(message.header)}
               </Text>
               <Text style={style.texthea}>
-                Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần
+                {formatMessage(message.productLabel1)}
               </Text>
               <Text style={style.texthea}>
-                <Text>người nhiễm </Text>
-                <MediumText style={style.colorText}>COVID-19</MediumText>
+                <Text>{formatMessage(message.productLabel2)}</Text>
+                <MediumText style={style.colorText}>
+                  {formatMessage(message.productLabel3)}
+                </MediumText>
               </Text>
             </View>
           </ImageBackground>
           <View style={style.watchScan}>
             <TouchableOpacity
               onPress={this.watchScan}
-              style={[style.numberBluezone, style.marginRight23]}>
-              <Text style={style.textBlueNumber}>
-                {blueTooth ? countShield : '_'}
+              style={[style.numberBluezone]}>
+              <CountBluezoner blueTooth={blueTooth} />
+              <Text style={style.textBlue}>
+                {formatMessage(message.bluezoner)}
               </Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
-              <Text style={style.textBlue}>quanh bạn</Text>
+              <Text style={style.textBlue}>
+                {formatMessage(message.around)}
+              </Text>
             </TouchableOpacity>
-            <View style={style.numberBluezone}>
-              <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>Cộng đồng</Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
-            </View>
           </View>
           <View style={[style.button, {height: height / setHeight}]}>
             <ButtonIconText
               onPress={this.watchScan}
-              text={'Quét xung quanh'}
+              text={formatMessage(message.traceButton)}
               source={require('./styles/images/icon_scan.png')}
               styleBtn={style.buttonScan}
               styleText={{fontSize: fontSize.normal}}
@@ -368,7 +306,7 @@ class HomeTab extends React.Component {
             />
             <ButtonIconText
               onPress={this.watchHistory}
-              text={' Lịch sử tiếp xúc '}
+              text={formatMessage(message.historyButton)}
               source={require('./styles/images/icon_history.png')}
               styleBtn={style.buttonHistory}
               styleText={{fontSize: fontSize.normal}}
@@ -406,6 +344,14 @@ class HomeTab extends React.Component {
   }
 }
 
+HomeTab.propTypes = {
+  intl: intlShape.isRequired,
+};
+
 HomeTab.defaultProps = {};
 
-export default HomeTab;
+HomeTab.contextTypes = {
+  language: PropTypes.object,
+};
+
+export default injectIntl(HomeTab);

@@ -1,0 +1,48 @@
+{
+    "bluezone.tab.home": "Home",
+    "bluezone.tab.invite": "Invite",
+    "bluezone.tab.about": "About",
+
+    "bluezone.home.header": "Protect yourself\nProtect our community",
+    "bluezone.home.productLabel1": "This app is to alert if you have been in close contact with people",
+    "bluezone.home.productLabel2": "who have tested positive for ",
+    "bluezone.home.productLabel3": "COVID-19",
+    "bluezone.home.around": "around you",
+    "bluezone.home.community": "community",
+    "bluezone.home.bluezoner": "Bluezoner",
+    "bluezone.home.traceButton": "Scan around",
+    "bluezone.home.historyButton": "View history",
+
+    "bluezone.invite.title": "Invite",
+    "bluezone.invite.productLabel1": "Protect your relatives and friends",
+    "bluezone.invite.productLabel2": "against the pandemic. Invite them to join",
+    "bluezone.invite.productLabel3": "Bluezoner community",
+    "bluezone.invite.share": "Share the app",
+
+    "bluezone.trace.header": "Scan around",
+    "bluezone.trace.aroundYou": "Around you",
+    "bluezone.trace.bluezoner": "Bluezoner",
+    "bluezone.trace.bluezoners": "Bluezoners",
+    "bluezone.trace.nearYou": "Near you",
+    "bluezone.trace.around": "Around you",
+    "bluezone.trace.invite": "Invite",
+    "bluezone.trace.noList": "Empty list",
+    "bluezone.trace.myBluezoneId": "Your Bluezone ID",
+
+    "bluezone.history.header": "View history",
+    "bluezone.history.totalContact": "Total of contacts",
+    "bluezone.history.closeContact": "Close contacts",
+    "bluezone.history.people": "People",
+    "bluezone.history.bluezoner": "Bluezoner",
+    "bluezone.history.bluezoners": "Bluezoners",
+
+    "bluezone.auth.label1": "Not detected",
+    "bluezone.auth.label2": "Any F0 that is in contact with you",
+
+    "bluezone.modal.hasNewVersion": "A new update is available",
+    "bluezone.modal.updateVersion": "Please update to the new version to use the latest features",
+    "bluezone.modal.Ok": "Update",
+    "bluezone.modal.Cancel": "Cancel",
+    "bluezone.modal.openSettingLocation": "Open setting",
+    "bluezone.modal.openSettingIOFile": "Open setting"
+}

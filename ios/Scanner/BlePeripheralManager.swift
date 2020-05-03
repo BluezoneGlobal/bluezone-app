@@ -48,14 +48,10 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
         // Khởi tạo CBMutableCharacteristic.
         let transferCharacteristic = CBMutableCharacteristic(type: AppConstant.BLE_CHAR_UUID, properties: [.read],
                                                              value: Data(phoneNumber.utf8), permissions: [.readable])
-        //TaiPV
-        // Khởi tạo CBMutableCharacteristic.
-//        let notifyCharacteristic = CBMutableCharacteristic(type: AppConstant.BLE_CHAR_UUID, properties: [.notify], value: Data("thisIsData".utf8), permissions: [.readable])
-
+      
         // Tạo service -> characteristic.
         let transferService = CBMutableService(type: AppConstant.BLE_UUID_IOS, primary: true)
 
-        //TaiPV
         // Thêm characteristic to service.
         transferService.characteristics = [transferCharacteristic]
         
@@ -120,7 +116,7 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
     * respond khi co central muon doc data
     */
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        print("TaiPV \(["request": request] as AnyObject)")
+        print("\(["request": request] as AnyObject)")
         
         peripheral.respond(to: request, withResult: .success)
 

@@ -175,6 +175,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  circle: {
+    height: 64,
+    width: 64,
+    borderRadius: 32,
+    borderWidth: 2,
+    borderColor: '#dedede',
+  },
+
   listEmptyText: {
     color: '#484848',
     fontSize: large,

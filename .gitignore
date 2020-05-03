@@ -69,3 +69,11 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# vim swap
+*.swp
+*.swo
+
+# google key
+*.keystore
+android/gradle.properties

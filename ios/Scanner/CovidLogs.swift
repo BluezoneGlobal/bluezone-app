@@ -1,7 +1,7 @@
 //
 //  ScanLog.swift
 //  CPMSMobileApp
-//  @maintain Khanxu
+//
 //  Created by Dũng Đình on 4/11/20.
 //
 

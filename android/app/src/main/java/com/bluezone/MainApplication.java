@@ -18,7 +18,7 @@ import com.rnfs.RNFSPackage;
 import android.content.IntentFilter;
 import io.rumors.reactnativesettings.receivers.GpsLocationReceiver;
 import io.rumors.reactnativesettings.receivers.AirplaneModeReceiver;
-
+import com.burnweb.rnsendintent.RNSendIntentPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -36,7 +36,6 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
            packages.add(new TraceCovidPackage());
-           // packages.add(new RNFSPackage());
            return packages;
         }
 
