@@ -48,7 +48,7 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
-import {isRegister} from '../AuthLoadingScreen'
+import {isRegister} from '../AuthLoadingScreen';
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -409,43 +409,32 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    const {Token, StatusNotifyRegister} = configuration;
-    const currentTime = new Date().setHours(0, 0, 0, 0);
-    debugger;
-    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
-      return;
-    }
-    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    // const {Token, StatusNotifyRegister} = configuration;
+    // const currentTime = new Date().setHours(0, 0, 0, 0);
+    // if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+    //   return;
+    // }
+    // AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
-    PushNotification.localNotificationSchedule({
-      /* Android Only Properties */
-      id: '1995',
-      largeIcon: 'icon_bluezone_null',
-      smallIcon: 'icon_bluezone_service',
-      bigText: formatMessage(message.scheduleNotifyOTP),
-      subText: 'Test',
-      vibrate: true,
-      importance: '',
-      priority: 'high',
-      allowWhileIdle: false,
-      ignoreInForeground: false,
-
-      /* iOS only properties */
-      alertAction: 'view',
-      category: '',
-      userInfo: {
-        id: '1995',
-      },
-
-      /* iOS and Android properties */
-      title: formatMessage(message.updatePhoneNumber),
-      message: formatMessage(message.scheduleNotifyOTP),
-      playSound: false,
-      number: 10,
-      repeatType: 'day',
-      date: new Date(Date.now() + 5 * 1000),
-    });
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('1995')
+      .setTitle(formatMessage(message.updatePhoneNumber))
+      .setBody(formatMessage(message.scheduleNotifyOTP))
+      .setData({
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: 'icon_bluezone',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: '',
+        timestamp: '1588517528002',
+        unRead: false,
+      })
+      .android.setChannelId('bluezone-channel')
+      .android.setSmallIcon('icon_bluezone');
+    firebase.notifications().displayNotification(notification);
   }
 
   render() {

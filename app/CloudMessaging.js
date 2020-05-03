@@ -24,9 +24,9 @@
 import firebase from 'react-native-firebase';
 import {setTokenFirebase} from './Configuration';
 // Optional flow type
-import type { RemoteMessage } from 'react-native-firebase';
-import {open, writeNotifyDb} from "./db/SqliteDb";
-import {Platform} from "react-native";
+import type {RemoteMessage} from 'react-native-firebase';
+import {open, writeNotifyDb} from './db/SqliteDb';
+import {Platform} from 'react-native';
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
@@ -43,9 +43,12 @@ async function requestUserPermission(callback) {
 }
 
 async function requestTokenFirebase() {
-  if(Platform.OS === 'android') {
-    const channel = new firebase.notifications.Android.Channel('bluezone-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
-        .setDescription('My apps test channel');
+  if (Platform.OS === 'android') {
+    const channel = new firebase.notifications.Android.Channel(
+      'bluezone-channel',
+      'Test Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('My apps test channel');
 
     // Create the channel
     firebase.notifications().android.createChannel(channel);
@@ -84,16 +87,16 @@ function getTokenFirebase(callback) {
 }
 
 function pushNotify(notifyObj) {
-  if(Platform.OS === 'android') {
+  if (Platform.OS === 'android') {
     const notification = new firebase.notifications.Notification()
-        .setNotificationId(notifyObj.data.notifyId)
-        .setTitle(notifyObj.data.title)
-        .setBody(notifyObj.data.text)
-        .android.setChannelId('bluezone-channel')
-        .setData({
-          group: notifyObj.data.group,
-        })
-        .android.setSmallIcon('icon_bluezone');
+      .setNotificationId(notifyObj.data.notifyId)
+      .setTitle(notifyObj.data.title)
+      .setBody(notifyObj.data.text)
+      .android.setChannelId('bluezone-channel')
+      .setData({
+        group: notifyObj.data.group,
+      })
+      .android.setSmallIcon('icon_bluezone');
     firebase.notifications().displayNotification(notification);
   }
 }
