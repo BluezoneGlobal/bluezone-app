@@ -32,7 +32,7 @@ import {
   AppState,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-// import PushNotification from 'react-native-push-notification';
+import PushNotification from 'react-native-push-notification';
 import FastImage from 'react-native-fast-image';
 import Spinner from 'react-native-spinkit';
 
@@ -111,17 +111,6 @@ class HomeTab extends React.Component {
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
-
-    // PushNotification.configure({
-    //   onNotification: this.onNotifyOpen,
-    //   permissions: {
-    //     alert: true,
-    //     badge: true,
-    //     sound: true,
-    //   },
-    //   popInitialNotification: true,
-    //   requestPermissions: true,
-    // });
   }
 
   setNewAmount(oldAmount) {
