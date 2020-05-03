@@ -22,6 +22,7 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import {huge, large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   layout1: {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     textAlign: 'center',
-    fontSize: 19,
+    fontSize: huge,
     fontStyle: 'normal',
     fontWeight: 'bold',
     color: '#F15A22',
@@ -40,14 +41,13 @@ const styles = StyleSheet.create({
   },
   text2: {
     padding: 15,
-    fontSize: 17,
+    fontSize: large,
     fontStyle: 'normal',
     lineHeight: 20,
   },
   layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
   text3: {
-    fontSize: 17,
-    fontStyle: 'normal',
+    fontSize: large,
     lineHeight: 20,
   },
   textInput: {
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8e8e8',
     paddingLeft: 10,
     fontSize: 15,
+    marginBottom: 16,
   },
   container: {
     flex: 1,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   phone: {
     marginVertical: 40,
-    marginHorizontal: 48,
+    marginHorizontal: 40,
   },
   textColorActive: {
     color: '#F15A22',
@@ -122,6 +123,17 @@ const styles = StyleSheet.create({
   buttonDisable: {
     backgroundColor: '#ccc',
     marginBottom: 30,
+  },
+
+  buttonInvite: {
+    position: 'absolute',
+    right: 20,
+    bottom: 16,
+  },
+
+  textInvite: {
+    color: '#000000',
+    fontWeight: '600',
   },
 });
 

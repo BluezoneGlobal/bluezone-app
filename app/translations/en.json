@@ -1,5 +1,6 @@
 {
     "bluezone.tab.home": "Home",
+    "bluezone.tab.report": "Report",
     "bluezone.tab.invite": "Invite",
     "bluezone.tab.about": "About",
 
@@ -44,5 +45,19 @@
     "bluezone.modal.Ok": "Update",
     "bluezone.modal.Cancel": "Cancel",
     "bluezone.modal.openSettingLocation": "Open setting",
-    "bluezone.modal.openSettingIOFile": "Open setting"
+    "bluezone.modal.openSettingIOFile": "Open setting",
+
+    "bluezone.register.title": "Electronic mask Bluezone is an application that alert you when you have been in close contact with people who have tested positive for COVID-19, minimizing the risk of spreading the virus to the community, helping people return to their normal life. Please register your phone number to continue using the application.",
+    "bluezone.register.numberphone": "Enter your phone number",
+    "bluezone.register.pleaseEnterYourPhone": "Please enter your phone number",
+    "bluezone.register.phoneEnterNotValid": "The phone number you entered is not valid",
+    "bluezone.register.next": "Next",
+    "bluezone.register.skip": "Skip >>",
+
+    "bluezone.verifyOTP.title": "OTP authentication",
+    "bluezone.verifyOTP.enterPin": "Enter PIN:",
+    "bluezone.verifyOTP.pleaseEnterPin": "Please enter OTP code",
+    "bluezone.verifyOTP.validPin": "OTP code is valid in",
+    "bluezone.verifyOTP.confirm": "Confirmed",
+    "bluezone.verifyOTP.receivedOTP": "You have not received OTP code or the code has expired?"
 }

@@ -254,33 +254,31 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    PushNotification.localNotificationSchedule({
-      /* Android Only Properties */
-      id: 'notify.id',
-      largeIcon: 'icon_bluezone_null',
-      smallIcon: 'icon_bluezone_service',
-      bigText: 'Test',
-      subText: 'Test',
-      vibrate: true,
-      importance: '',
-      priority: 'high',
-      allowWhileIdle: false,
-      ignoreInForeground: true,
-
-      /* iOS only properties */
-      alertAction: 'view',
-      category: '',
-      userInfo: {
-        id: 'notify.id',
-      },
-
-      /* iOS and Android properties */
-      title: 'aaaaaaaaaa',
-      message: 'bbbbbbbbbbbbbbb',
-      playSound: false,
-      number: 10,
-      repeatType: 'day',
-      date: new Date(Date.now() + 5 * 1000),
+    // const {Token} = configuration;
+    // if (Token) {
+    //   return;
+    // }
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('notifyotp')
+      .setTitle('Cập nhật số điên thoại')
+      .setBody(
+        'Bạn hãy cập nhật số điện thoại để nhận được sự hỗ trợ nếu có nghi ngờ đã tiếp xúc gần người nhiễm COVID-19.',
+      )
+      .setData({
+        notifyId: 'notifyotp',
+        smallIcon: '',
+        largeIcon: '01212',
+        title: 'Cập nhật số điên thoại',
+        text:
+          'Bạn hãy cập nhật số điện thoại để nhận được sự hỗ trợ nếu có nghi ngờ đã tiếp xúc gần người nhiễm COVID-19.',
+        bigText:
+          'Bạn hãy cập nhật số điện thoại để nhận được sự hỗ trợ nếu có nghi ngờ đã tiếp xúc gần người nhiễm COVID-19.',
+        group: '',
+        timestamp: '1588517528002',
+        unRead: false,
+      });
+    firebase.notifications().scheduleNotification(notification, {
+      fireDate: new Date().getTime() + 5000
     });
   }
 
