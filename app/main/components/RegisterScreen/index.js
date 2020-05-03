@@ -58,10 +58,9 @@ class RegisterScreen extends React.Component {
     this.onChangeText = this.onChangeText.bind(this);
     this.checkStatus = this.checkStatus.bind(this);
     this.onPress = this.onPress.bind(this);
-    this.callApi = this.callApi.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
     // eslint-disable-next-line prettier/prettier
-		this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(this);
+	this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(this);
     this.createAndSendOTPCodeFail = this.createAndSendOTPCodeFail.bind(this);
   }
 
@@ -124,9 +123,9 @@ class RegisterScreen extends React.Component {
           <View style={styles.layout1}>
             <Text style={styles.text1}>Human Shield</Text>
             <Text style={styles.text2}>
-              Ứng dụng Human Shield là ứng dụng cho phép người dùng theo dõi
-              tình hình dịch bệnh COVID-19, phát hiện sớm nhất những người tiếp
-              xúc với người bị nhiễm bệnh. Để sử dụng ứng dụng, vui lòng đăng kí
+              Ứng dụng Bluezone là ứng dụng cho phép người dùng theo dõi tình
+              hình dịch bệnh COVID-19, phát hiện sớm nhất những người tiếp xúc
+              với người bị nhiễm bệnh. Để sử dụng ứng dụng, vui lòng đăng kí
               dịch vụ.
             </Text>
           </View>

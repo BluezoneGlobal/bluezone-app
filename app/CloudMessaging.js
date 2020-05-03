@@ -21,16 +21,18 @@
 
 'use strict';
 
-import messaging from '@react-native-firebase/messaging';
+import firebase from 'react-native-firebase';
 import {setTokenFirebase} from './Configuration';
+// Optional flow type
+import type { RemoteMessage } from 'react-native-firebase';
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
-  await messaging().registerDeviceForRemoteMessages();
+  await firebase.messaging().registerDeviceForRemoteMessages();
 }
 
 async function requestUserPermission(callback) {
-  const settings = await messaging().requestPermission();
+  const settings = await firebase.messaging().requestPermission();
 
   callback(settings);
   if (settings) {
@@ -40,7 +42,8 @@ async function requestUserPermission(callback) {
 
 async function requestTokenFirebase() {
   // Get the device token
-  messaging()
+  firebase
+    .messaging()
     .getToken()
     .then(token => {
       return setTokenFirebase(token);
@@ -52,17 +55,18 @@ async function requestTokenFirebase() {
   // });
 }
 
-function registerBackgroundMessageHandler(callback) {
+async function registerBackgroundMessageHandler(message: RemoteMessage) {
   // Register background handler
-  messaging().setBackgroundMessageHandler(callback);
+  return Promise.resolve();
 }
 
 async function registerMessageHandler(callback) {
-  return messaging().onMessage(callback);
+  return firebase.messaging().onMessage(callback);
 }
 
 function getTokenFirebase(callback) {
-  messaging()
+  firebase
+    .messaging()
     .getToken()
     .then(callback);
 }

@@ -58,6 +58,7 @@ import configuration, {
   createNotifyPermisson,
   removeNotifyPermisson,
 } from '../../../Configuration';
+import AuthLoadingScreen from '../AuthLoadingScreen';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -72,6 +73,7 @@ class ModalNotify extends React.Component {
       // isVisibleBluetooth: false,
       isModalUpdate: false,
       forceUpdate: false,
+      isVisibleFlash: false,
     };
 
     this.requestPermissionLocation = this.requestPermissionLocation.bind(this);
@@ -94,6 +96,7 @@ class ModalNotify extends React.Component {
     this.isWizardCheckPermissionLocationBlockFinished = this.isWizardCheckPermissionLocationBlockFinished.bind(
       this,
     );
+    this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -177,6 +180,9 @@ class ModalNotify extends React.Component {
       ) {
         // Thì thực hiện request quyền ổ đĩa
         this.requestPermissionWrite();
+      }
+
+      if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
       }
     }
   }
@@ -391,6 +397,10 @@ class ModalNotify extends React.Component {
     });
   }
 
+  setLoadingModalFlash() {
+    this.setState({isVisibleFlash: false});
+  }
+
   render() {
     const {language} = this.context;
     const {intl} = this.props;
@@ -402,6 +412,7 @@ class ModalNotify extends React.Component {
       isVisiblePermissionWriteDenied,
       isVisiblePermissionLocationBlocked,
       isVisiblePermissionWriteBlocked,
+      isVisibleFlash,
     } = this.state;
     const {formatMessage} = intl;
     const {
@@ -453,6 +464,20 @@ class ModalNotify extends React.Component {
           onPress={this.onTurnOnLocation}
           btnText={formatMessage(message.openSettingLocation)}
         />
+        <Modal
+          isVisible={isVisibleFlash}
+          style={{justifyContent: 'flex-end', margin: 0}}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={800}
+          animationOutTiming={800}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          swipeDirection={['up', 'left', 'right', 'down']}>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+          </View>
+        </Modal>
         <Modal
           isVisible={isModalUpdate}
           style={styles.modal}

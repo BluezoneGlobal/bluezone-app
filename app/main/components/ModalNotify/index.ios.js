@@ -24,12 +24,14 @@
 import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
+import firebase from 'react-native-firebase';
 
 // Components
 import Modal from 'react-native-modal';
 import {View, AppState, Linking, Platform} from 'react-native';
 import ModalBase from './ModalBase';
 import Text, {MediumText} from '../../../base/components/Text';
+import AuthLoadingScreen from '../AuthLoadingScreen';
 import ButtonText from '../../../base/components/ButtonText';
 import {getCheckVersions} from '../../../apis/bluezone';
 import getStatusUpdate from '../../../utils/getStatusUpdate';
@@ -39,11 +41,7 @@ import {
   requestMultiple,
   requestNotifications,
 } from 'react-native-permissions';
-import configuration, {
-  removeNotifyPermisson,
-  createNotifyPermisson,
-  getUserCodeAsync,
-} from '../../../Configuration';
+import configuration, {getUserCodeAsync} from '../../../Configuration';
 
 // Language
 import message from '../../../msg/home';
@@ -51,6 +49,7 @@ import {injectIntl, intlShape} from 'react-intl';
 
 // Styles
 import styles from './styles/index.css';
+import PushNotification from 'react-native-push-notification';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -61,6 +60,7 @@ class ModalNotify extends React.Component {
       isModalUpdate: false,
       forceUpdate: false,
       isVisiblePermissionNotify: false,
+      isVisibleFlash: false,
     };
 
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
@@ -74,10 +74,12 @@ class ModalNotify extends React.Component {
     this.onTurnOnNotify = this.onTurnOnNotify.bind(this);
     this.checkRequestNotifications = this.checkRequestNotifications.bind(this);
     this.setStatusBluetooth = this.setStatusBluetooth.bind(this);
+    this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.isPermissionBluetooth = false;
     this.vesionIOS = parseInt(Platform.Version, 10);
-
+    this.statusPermissionNotify = '';
     this.timer = null;
   }
 
@@ -111,8 +113,12 @@ class ModalNotify extends React.Component {
         this.checkRequestMultiple();
       }
 
-      if (this.statusPermissionNotify === 'blocked') {
-        this.checkRequestNotifications();
+      // Check để mở màn hình flash
+      if (
+        this.statusPermissionNotify !== '' &&
+        this.state.isVisiblePermissionNotify === false
+      ) {
+        this.setState({isVisibleFlash: true});
       }
     }
   }
@@ -154,6 +160,7 @@ class ModalNotify extends React.Component {
           break;
         case 'granted':
           this.onChangeBluetooth();
+          this.setNotifyRegister();
           break;
       }
     });
@@ -242,6 +249,41 @@ class ModalNotify extends React.Component {
     this.setState({isModalUpdate: false, forceUpdate: false});
   }
 
+  setLoadingModalFlash() {
+    this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    PushNotification.localNotificationSchedule({
+      /* Android Only Properties */
+      id: 'notify.id',
+      largeIcon: 'icon_bluezone_null',
+      smallIcon: 'icon_bluezone_service',
+      bigText: 'Test',
+      subText: 'Test',
+      vibrate: true,
+      importance: '',
+      priority: 'high',
+      allowWhileIdle: false,
+      ignoreInForeground: true,
+
+      /* iOS only properties */
+      alertAction: 'view',
+      category: '',
+      userInfo: {
+        id: 'notify.id',
+      },
+
+      /* iOS and Android properties */
+      title: 'aaaaaaaaaa',
+      message: 'bbbbbbbbbbbbbbb',
+      playSound: false,
+      number: 10,
+      repeatType: 'day',
+      date: new Date(Date.now() + 5 * 1000),
+    });
+  }
+
   render() {
     const {language} = this.context;
     const {intl} = this.props;
@@ -251,6 +293,7 @@ class ModalNotify extends React.Component {
       isModalUpdate,
       forceUpdate,
       isVisiblePermissionNotify,
+      isVisibleFlash,
     } = this.state;
 
     const {formatMessage} = intl;
@@ -292,6 +335,20 @@ class ModalNotify extends React.Component {
           content={_NOTIFI_PERMISSION_TEXT}
           onPress={this.onTurnOnNotify}
         />
+        <Modal
+          isVisible={isVisibleFlash}
+          style={{justifyContent: 'flex-end', margin: 0}}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={800}
+          animationOutTiming={800}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          swipeDirection={['up', 'left', 'right', 'down']}>
+          <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+          </View>
+        </Modal>
         <Modal
           isVisible={isModalUpdate}
           style={styles.modal}
