@@ -270,7 +270,7 @@ class ModalNotify extends React.Component {
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
       bigText: formatMessage(message.scheduleNotifyOTP),
-      subText: 'Test',
+      subText: '',
       vibrate: true,
       importance: '',
       priority: 'high',
