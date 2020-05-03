@@ -254,33 +254,29 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    PushNotification.localNotificationSchedule({
-      /* Android Only Properties */
-      id: 'notify.id',
-      largeIcon: 'icon_bluezone_null',
-      smallIcon: 'icon_bluezone_service',
-      bigText: 'Test',
-      subText: 'Test',
-      vibrate: true,
-      importance: '',
-      priority: 'high',
-      allowWhileIdle: false,
-      ignoreInForeground: true,
-
-      /* iOS only properties */
-      alertAction: 'view',
-      category: '',
-      userInfo: {
-        id: 'notify.id',
-      },
-
-      /* iOS and Android properties */
-      title: 'aaaaaaaaaa',
-      message: 'bbbbbbbbbbbbbbb',
-      playSound: false,
-      number: 10,
-      repeatType: 'day',
-      date: new Date(Date.now() + 5 * 1000),
+    // const {Token} = configuration;
+    // if (Token) {
+    //   return;
+    // }
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('notifyotp')
+      .setTitle(formatMessage(message.updatePhoneNumber))
+      .setBody(formatMessage(message.scheduleNotifyOTP))
+      .setData({
+        notifyId: 'notifyotp',
+        smallIcon: '',
+        largeIcon: '01212',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: '',
+        timestamp: '1588517528002',
+        unRead: false,
+      });
+    firebase.notifications().scheduleNotification(notification, {
+      fireDate: new Date().getTime() + 5000
     });
   }
 

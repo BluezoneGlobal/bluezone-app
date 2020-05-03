@@ -28,6 +28,10 @@ export default defineMessages({
     id: 'bluezone.tab.home',
     defaultMessage: 'Trang chủ',
   },
+  report: {
+    id: 'bluezone.tab.report',
+    defaultMessage: 'Thông báo',
+  },
   invite: {
     id: 'bluezone.tab.invite',
     defaultMessage: 'Mời',

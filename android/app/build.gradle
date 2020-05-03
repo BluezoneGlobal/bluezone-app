@@ -203,8 +203,6 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
    implementation project(':react-native-push-notification')
     implementation 'com.android.support:multidex:1.0.3'
 

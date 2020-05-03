@@ -59,6 +59,7 @@ import configuration, {
   removeNotifyPermisson,
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
+import firebase from 'react-native-firebase';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -97,6 +98,7 @@ class ModalNotify extends React.Component {
       this,
     );
     this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -259,7 +261,6 @@ class ModalNotify extends React.Component {
         if (this.isWizardCheckPermissionLocationBlockFinished()) {
           // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
           if (this.isWizardCheckPermissionWriteFinished()) {
-            debugger;
             getUserCodeAsync();
             if (
               this.statusWrite !== 'granted' ||
@@ -275,6 +276,8 @@ class ModalNotify extends React.Component {
         if (this.statusLocation === 'granted') {
           this.checkGeolocationState();
         }
+
+        this.setNotifyRegister();
       },
     );
   }
@@ -399,6 +402,31 @@ class ModalNotify extends React.Component {
 
   setLoadingModalFlash() {
     this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    // const {Token} = configuration;
+    // if (Token) {
+    //   return;
+    // }
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('notifyotp')
+      .setTitle(formatMessage(message.updatePhoneNumber))
+      .setBody(formatMessage(message.scheduleNotifyOTP))
+      .setData({
+        notifyId: 'notifyotp',
+        smallIcon: '',
+        largeIcon: '01212',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: '',
+        timestamp: '1588517528002',
+        unRead: false,
+      });
+    firebase.notifications().displayNotification(notification);
   }
 
   render() {
