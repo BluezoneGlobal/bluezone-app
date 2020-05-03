@@ -19,13 +19,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import ContextProvider from './LanguageContext';
 import firebase from 'react-native-firebase';
-// import analytics from '@react-native-firebase/analytics';
+import analytics from '@react-native-firebase/analytics';
 
 // Navigate
 import AuthLoading from './app/main/components/AuthLoadingScreen';
@@ -39,10 +38,11 @@ import Invite from './app/main/components/InviteScreen';
 import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 import {navigationRef, navigate} from './RootNavigation';
-
 import {registerAppWithFCM, registerMessageHandler} from './app/CloudMessaging';
-import {translationMessages} from './app/i18n';
+import {writeNotifyDb, open} from './app/db/SqliteDb';
+import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
+import {translationMessages} from './app/i18n';
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
@@ -63,7 +63,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute, setInitialRoute] = useState('AuthLoading');
 
-  // const routeNameRef = useRef();
+  const routeNameRef = useRef();
 
   const setAuthLoading = navi => {
     setLoading(true);
@@ -78,18 +78,37 @@ export default function App() {
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
-
     registerMessageHandler(onRemotemessage => {
-      console.log('registerMessageHandler', onRemotemessage);
+      // console.log('registerMessageHandler', onRemotemessage.data);
+      open();
+      writeNotifyDb(onRemotemessage);
     });
 
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
-      navigate('Register');
+      if (
+        remoteMessage.notification &&
+        remoteMessage.notification.data.group === 'WARN'
+      ) {
+        navigate('NotifyWarning', remoteMessage);
+      } else if (
+        remoteMessage.notification &&
+        remoteMessage.notification.data.group === 'INFO'
+      ) {
+        navigate('NotifyDetail', remoteMessage);
+      } else {
+        navigate('Register', remoteMessage);
+      }
+      // firebase.notifications().cancelNotification(remoteMessage.notification._notificationId);
+      firebase
+        .notifications()
+        .removeDeliveredNotification(
+          remoteMessage.notification._notificationId,
+        );
       console.log(
         'Notification caused app to open from background state:',
-        remoteMessage.notification,
+        remoteMessage.notification._notificationId,
       );
     });
 
@@ -99,9 +118,26 @@ export default function App() {
       .getInitialNotification()
       .then(remoteMessage => {
         if (remoteMessage) {
+          if (
+            remoteMessage.notification &&
+            remoteMessage.notification.data.group === 'WARN'
+          ) {
+            navigate('NotifyWarning', remoteMessage);
+          }
+          if (
+            remoteMessage.notification &&
+            remoteMessage.notification.data.group === 'INFO'
+          ) {
+            navigate('NotifyDetail', remoteMessage);
+          }
+          firebase
+            .notifications()
+            .removeDeliveredNotification(
+              remoteMessage.notification._notificationId,
+            );
           console.log(
             'Notification caused app to open from quit state:',
-            remoteMessage.notification,
+            remoteMessage.notification._notificationId,
           );
         }
       });
@@ -110,7 +146,17 @@ export default function App() {
   return (
     <ContextProvider>
       <LanguageProvider messages={translationMessages}>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer
+          ref={navigationRef}
+          onStateChange={state => {
+            const previousRouteName = routeNameRef.current;
+            const currentRouteName = getActiveRouteName(state);
+
+            if (previousRouteName !== currentRouteName) {
+              analytics().setCurrentScreen(currentRouteName, currentRouteName);
+              // alert(`The route changed to "${currentRouteName}"`);
+            }
+          }}>
           <Stack.Navigator
             headerMode="none"
             mode="card"

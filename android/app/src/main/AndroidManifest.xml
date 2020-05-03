@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.bluezone">
+          package="com.bluezone">
 
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -59,16 +59,6 @@ package="com.bluezone">
                     android:resource="@android:color/white"/>
 
         <!-- < Only if you're using GCM or localNotificationSchedule() > -->
-        <receiver
-                android:name="com.google.android.gms.gcm.GcmReceiver"
-                android:exported="true"
-                android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-        <!-- < Only if you're using GCM or localNotificationSchedule() > -->
 
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
@@ -78,14 +68,6 @@ package="com.bluezone">
         </receiver>
         <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
 
-        <!-- < Only if you're using GCM or localNotificationSchedule() > -->
-        <service
-                android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerServiceGcm"
-                android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
         <!-- </ Only if you're using GCM or localNotificationSchedule() > -->
 
         <!-- < Else > -->
@@ -96,7 +78,6 @@ package="com.bluezone">
         </service>
 
         <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
-
 
         <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver"/>
 

@@ -25,6 +25,8 @@ import firebase from 'react-native-firebase';
 import {setTokenFirebase} from './Configuration';
 // Optional flow type
 import type { RemoteMessage } from 'react-native-firebase';
+import {open, writeNotifyDb} from "./db/SqliteDb";
+import {Platform} from "react-native";
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
@@ -41,6 +43,13 @@ async function requestUserPermission(callback) {
 }
 
 async function requestTokenFirebase() {
+  if(Platform.OS === 'android') {
+    const channel = new firebase.notifications.Android.Channel('bluezone-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
+        .setDescription('My apps test channel');
+
+    // Create the channel
+    firebase.notifications().android.createChannel(channel);
+  }
   // Get the device token
   firebase
     .messaging()
@@ -56,6 +65,9 @@ async function requestTokenFirebase() {
 }
 
 async function registerBackgroundMessageHandler(message: RemoteMessage) {
+  // console.log('registerBackgroundMessageHandler', message);
+  open();
+  writeNotifyDb(message);
   // Register background handler
   return Promise.resolve();
 }
@@ -71,6 +83,21 @@ function getTokenFirebase(callback) {
     .then(callback);
 }
 
+function pushNotify(notifyObj) {
+  if(Platform.OS === 'android') {
+    const notification = new firebase.notifications.Notification()
+        .setNotificationId(notifyObj.data.notifyId)
+        .setTitle(notifyObj.data.title)
+        .setBody(notifyObj.data.text)
+        .android.setChannelId('bluezone-channel')
+        .setData({
+          group: notifyObj.data.group,
+        })
+        .android.setSmallIcon('icon_bluezone');
+    firebase.notifications().displayNotification(notification);
+  }
+}
+
 export {
   requestUserPermission,
   requestTokenFirebase,
@@ -78,4 +105,5 @@ export {
   registerBackgroundMessageHandler,
   registerMessageHandler,
   getTokenFirebase,
+  pushNotify,
 };
