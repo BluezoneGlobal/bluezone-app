@@ -250,8 +250,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
-    subText: isVietnamese ? notify.subText : notify['subText_en'],
+    bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+    subText: isVietnamese ? notify.subText : notify.subText_en,
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -266,8 +266,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: isVietnamese ? notify.title : notify['title_en'],
-    message: isVietnamese ? notify.message : notify['message_en'],
+    title: isVietnamese ? notify.title : notify.title_en,
+    message: isVietnamese ? notify.message : notify.message_en,
     playSound: false,
     number: notify.number,
     date: new Date(timestamp),
@@ -345,8 +345,8 @@ const createNotifyPermission = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: isVietnamese ? notify.bigText : notify['bigText_en'],
-      subText: isVietnamese ? notify.subText : notify['subText_en'],
+      bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+      subText: isVietnamese ? notify.subText : notify.subText_en,
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -361,8 +361,8 @@ const createNotifyPermission = () => {
       },
 
       /* iOS and Android properties */
-      title: isVietnamese ? notify.title : notify['title_en'],
-      message: isVietnamese ? notify.message : notify['message_en'],
+      title: isVietnamese ? notify.title : notify.title_en,
+      message: isVietnamese ? notify.message : notify.message_en,
       playSound: false,
       number: notify.number,
       repeatType: 'time',
