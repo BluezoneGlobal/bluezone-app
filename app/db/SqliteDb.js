@@ -89,4 +89,32 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays};
+const getNotifications = async callback => {
+  const SQL_QUERY = `SELECT * FROM table_CPMS`;
+  db = open();
+  db.transaction(tx => {
+    tx.executeSql(
+        SQL_QUERY,
+        [],
+        async (txTemp, results) => {
+          let temp = [];
+          if (results.rows.length > 0) {
+            for (let i = 0; i < results.rows.length; ++i) {
+              temp.push(results.rows.item(i));
+            }
+          }
+          callback(temp);
+        },
+        (error, error2) => {
+          callback([]);
+        },
+    );
+  });
+};
+
+export {
+  open,
+  close,
+  getDays,
+  getNotifications,
+};

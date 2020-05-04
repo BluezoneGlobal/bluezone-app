@@ -43,14 +43,14 @@ class NotifySession extends React.Component {
   }
 
   render() {
-    const {type, title, styleTitle, styleTextTitle, data} = this.props;
+    const {type, title, styleTitle, styleTextTitle, data, onGet} = this.props;
     return (
-      <View>
+      <View style={{height: 250}}>
         <View style={styleTitle}>
           <MediumText style={styleTextTitle}>{title}</MediumText>
         </View>
         <View style={styles.notifies}>
-          <NotifyList type={type} data={data} />
+          <NotifyList onGet={onGet} type={type} data={data} />
         </View>
       </View>
     );

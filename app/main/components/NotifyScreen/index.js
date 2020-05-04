@@ -22,7 +22,8 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView} from 'react-native';
+import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import {close, open} from '../../../db/SqliteDb';
 
 // Components
 import {MediumText} from '../../../base/components/Text';
@@ -37,8 +38,101 @@ import styles from './styles/index.css';
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      notifications: [],
+    };
+    this.index = 0;
+    // this.db = null;
+    this.db = open();
+    this.db.transaction(function(txn) {
+      txn.executeSql(
+          "SELECT name FROM sqlite_master WHERE type='table' AND name='table_CPMS'",
+          [],
+          function(tx, res) {
+            txn.executeSql('DROP TABLE IF EXISTS table_CPMS', []);
+            txn.executeSql(
+                'CREATE TABLE IF NOT EXISTS table_CPMS(id INTEGER PRIMARY KEY AUTOINCREMENT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, timestamp REAL, _group TEXT, unRead TEXT)',
+                [],
+            );
+          },
+      );
+    });
     this.onBack = this.onBack.bind(this);
   }
+
+  componentDidMount() {
+    // this.initData();
+    this.onWrite();
+  }
+
+  componentWillUnmount() {
+    close();
+    this.db = null;
+  }
+
+  onWrite = () => {
+    this.db.transaction(function(tx) {
+      for (let i = 0; i < 100; ++i) {
+        tx.executeSql(
+            'INSERT INTO table_CPMS (largeIcon, title, text, bigText, timestamp, _group, unRead) VALUES (?,?,?,?,?,?,?)',
+            [
+              'boyte',
+              'Bộ Y tế',
+              'Cách ly thêm 1 tuần đối với Hà...',
+              'Được biết đối tượng F3 Hà... xét nghiệm đã cho kết quả âm tính lần 2. Tiến hành cách ly thêm một tuần để theo dõi và xét nghiệm.',
+              1588517528002,
+              'info',
+              'false',
+            ],
+            (tx, results) => {
+              if (results.rowsAffected > 0) {
+              } else {
+                alert('Registration Failed');
+              }
+            },
+        );
+      }
+    });
+  };
+
+  initData = async () => {
+    this.getNotifications(this.index, items => {
+      this.setState(prev => ({
+        notifications: prev.notifications.concat(items),
+      }));
+    });
+  };
+
+  onGetDataFromDB = async (index) => {
+    this.getNotifications(index, items => {
+      this.setState(prev => ({
+        notifications: prev.notifications.concat(items),
+      }));
+    });
+  };
+
+  getNotifications = async (index, callback) => {
+    const SQL_QUERY = `SELECT * FROM table_CPMS WHERE _group IS NOT "warn" AND ID > ${index * 5} LIMIT 5`;
+    // this.db = open();
+    this.db.transaction(tx => {
+      tx.executeSql(
+          SQL_QUERY,
+          [],
+          async (txTemp, results) => {
+            let temp = [];
+            if (results.rows.length > 0) {
+              for (let i = 0; i < results.rows.length; ++i) {
+                temp.push(results.rows.item(i));
+              }
+            }
+            callback(temp);
+          },
+          (error, error2) => {
+            callback([]);
+          },
+      );
+    });
+  };
 
   onBack() {
     this.props.navigation.goBack();
@@ -57,54 +151,37 @@ class NotifyScreen extends React.Component {
 
   render() {
     const {route} = this.props;
+    const {notifications} = this.state;
     const header =
       route.params && route.params.header ? route.params.header : false;
     const dataWar = {
       items: [
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn được xác định tiếp xúc ...',
-          content: 'Bạn được xác định tiếp xúc ...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: true,
+          text: 'Bạn được xác định tiếp xúc ...',
+          bigText: 'Bạn được xác định tiếp xúc ...',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'true',
         },
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn có thể đã tiếp xúc với F0',
-          content: 'Bạn có thể đã tiếp xúc với F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
+          text: 'Bạn có thể đã tiếp xúc với F0',
+          bigText: 'Bạn có thể đã tiếp xúc với F0',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'false',
         },
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
+          text: 'Bạn được xác định là F0',
+          bigText: 'Bạn được xác định là F0',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'false',
         },
       ],
       callback: {
@@ -113,35 +190,37 @@ class NotifyScreen extends React.Component {
     };
 
     const dataNtf = {
-      items: [
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định tiếp xúc ...',
-          content: 'Bạn được xác định tiếp xúc ...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'boyte',
-          title: 'Bộ Y tế',
-          description: 'Cách ly thêm 1 tuần đối với Hà...',
-          content: 'Cách ly thêm 1 tuần đối với Hà...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-      ],
+      items:
+      // [
+      //   {
+      //     largeIcon: 'bluezone',
+      //     title: 'Bluezone',
+      //     text: 'Bạn được xác định tiếp xúc ...',
+      //     bigText: 'Bạn được xác định tiếp xúc ...',
+      //     timestamp: 1588517528002,
+      //     _group: 'info',
+      //     unRead: 'false',
+      //   },
+      //   {
+      //     largeIcon: 'boyte',
+      //     title: 'Bộ Y tế',
+      //     text: 'Cách ly thêm 1 tuần đối với Hà...',
+      //     bigText: 'Cách ly thêm 1 tuần đối với Hà...',
+      //     timestamp: 1588517528002,
+      //     _group: 'info',
+      //     unRead: 'false',
+      //   },
+      //   {
+      //     largeIcon: 'bluezone',
+      //     title: 'Bluezone',
+      //     text: 'Bạn được xác định là F0',
+      //     bigText: 'Bạn được xác định là F0',
+      //     timestamp: 1588517528002,
+      //     _group: 'info',
+      //     unRead: 'false',
+      //   },
+      // ],
+      notifications,
       callback: {
         onPress: this.onPressNotification,
       },
@@ -158,27 +237,26 @@ class NotifyScreen extends React.Component {
             title={'Thông báo'}
           />
         ) : (
-          <ScrollView>
-            <View style={styles.header}>
+          <View>
+            <TouchableOpacity onPress={this.initData} style={styles.header}>
               <MediumText style={styles.textHeader}>Thông báo</MediumText>
+            </TouchableOpacity>
+            <View style={styles.wrapper}>
+              <NotifySection
+                title={'Cảnh báo'}
+                data={dataWar}
+                styleTitle={styles.titleWar}
+                styleTextTitle={styles.textTitleWar}
+              />
+              <NotifySection
+                title={'Thông báo'}
+                data={dataNtf}
+                styleTitle={styles.titleNtf}
+                styleTextTitle={styles.textTitleNtf}
+                onGet={this.onGetDataFromDB}
+              />
             </View>
-            <>
-              <View style={styles.wrapper}>
-                <NotifySection
-                  title={'Cảnh báo'}
-                  data={dataWar}
-                  styleTitle={styles.titleWar}
-                  styleTextTitle={styles.textTitleWar}
-                />
-                <NotifySection
-                  title={'Thông báo'}
-                  data={dataNtf}
-                  styleTitle={styles.titleNtf}
-                  styleTextTitle={styles.textTitleNtf}
-                />
-              </View>
-            </>
-          </ScrollView>
+          </View>
         )}
       </SafeAreaView>
     );

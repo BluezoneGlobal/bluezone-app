@@ -23,6 +23,8 @@
 
 import React from 'react';
 import {View, ScrollView, SafeAreaView} from 'react-native';
+import moment from 'moment';
+import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
 import Text, {MediumText} from '../../../base/components/Text';
@@ -60,7 +62,7 @@ class NotifyScreen extends React.Component {
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
             <FastImage
-              source={require('./styles/images/boyte.png')}
+              source={require('./styles/images/mic.png')}
               style={styles.avatar}
             />
             <View style={styles.content}>
@@ -68,11 +70,11 @@ class NotifyScreen extends React.Component {
                 {item.title}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                Thời gian: {item.timer} Ngày: {item.date}
+                Thời gian: {moment(item.timestamp).format("HH:mm")} Ngày: {moment(item.timestamp).format("DD/MM/YYYY")}
               </MediumText>
             </View>
           </View>
-          <Text style={styles.textContent}>{item.content}</Text>
+          <Text style={styles.textContent}>{item.bigText}</Text>
         </ScrollView>
       </SafeAreaView>
     );
