@@ -59,59 +59,6 @@ class NotifyScreen extends React.Component {
     const {route} = this.props;
     const header =
       route.params && route.params.header ? route.params.header : false;
-    const dataWar = {
-      items: [
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định tiếp xúc ...',
-          content: 'Bạn được xác định tiếp xúc ...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: true,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn có thể đã tiếp xúc với F0',
-          content: 'Bạn có thể đã tiếp xúc với F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-      ],
-      callback: {
-        onPress: this.onPressWarning,
-      },
-    };
-
     const dataNtf = {
       items: [
         {
@@ -164,12 +111,6 @@ class NotifyScreen extends React.Component {
             </View>
             <>
               <View style={styles.wrapper}>
-                <NotifySection
-                  title={'Cảnh báo'}
-                  data={dataWar}
-                  styleTitle={styles.titleWar}
-                  styleTextTitle={styles.textTitleWar}
-                />
                 <NotifySection
                   title={'Thông báo'}
                   data={dataNtf}

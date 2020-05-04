@@ -78,12 +78,14 @@
       "priority": "hight"
     }
   ],
-  "NotifyRequestPermisson": {
-    "repeatTime": 5,
-    "timeAllowStart1":  1,
-    "timeAllowEnd1": 2,
-    "timeAllowStart2": 3,
-    "timeAllowEnd2": 4,
+  "NotificationRequestPermissonAndroid": {
+    "itemRepeat": [
+      {
+        "id": 5,
+        "repeatTime": 86400000,
+        "dayStartTime": 18900000
+      }
+    ],
     "bigText": "",
     "bigText_en": "",
     "subText": "",
@@ -93,7 +95,7 @@
     "message": "",
     "message_en": ""
   },
-  "NotifyRequestBluetooth": {
+  "NotificationRequestBluetooth": {
     "itemRepeat": [
       {
         "id": 5,
@@ -110,10 +112,10 @@
     "message": "message request bluetooth",
     "message_en": "message request bluetooth En"
   },
-  "NotifyRequestLocation": {
+  "NotificationRequestLocation": {
     "itemRepeat": [
       {
-        "id": 5,
+        "id": 6,
         "repeatTime": 86400000,
         "dayStartTime": 18900000
       }
