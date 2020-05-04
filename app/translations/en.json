@@ -60,15 +60,19 @@
     "bluezone.register.pleaseEnterYourPhone": "Please enter your phone number",
     "bluezone.register.phoneEnterNotValid": "The phone number you entered is not valid",
     "bluezone.register.next": "Next",
-    "bluezone.register.skip": "Skip >>",
+    "bluezone.register.skip": "Skip",
     "bluezone.register.try": "Try again",
     "bluezone.register.error": "There was a problem",
     "bluezone.register.redo": "Please redo it to use the service",
 
     "bluezone.verifyOTP.title": "OTP authentication",
-    "bluezone.verifyOTP.enterPin": "Enter PIN:",
-    "bluezone.verifyOTP.pleaseEnterPin": "Please enter OTP code",
+    "bluezone.verifyOTP.enterPin": "An OTP code has been sent to:",
+    "bluezone.verifyOTP.pleaseEnterPin": "Please enter the OTP code",
     "bluezone.verifyOTP.validPin": "OTP code is valid in",
     "bluezone.verifyOTP.confirm": "Confirmed",
-    "bluezone.verifyOTP.receivedOTP": "You have not received OTP code or the code has expired?"
+    "bluezone.verifyOTP.receivedOTP": "You have not received OTP code or the code has expired?",
+    "bluezone.verifyOTP.resetOTP": "Resend the OTP code",
+    "bluezone.verifyOTP.optNotValid": "OTP code is not valid or the code has expired",
+    "bluezone.verifyOTP.retry": "Retry",
+    "bluezone.verifyOTP.saveOTP": "Please enter OTP again"
 }

@@ -60,15 +60,19 @@
   "bluezone.register.pleaseEnterYourPhone": "Vui lòng nhập số điện thoại",
   "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",
   "bluezone.register.next": "Tiếp tục",
-  "bluezone.register.skip": "Bỏ qua >>",
+  "bluezone.register.skip": "Bỏ qua",
   "bluezone.register.try": "Thử lại",
   "bluezone.register.error": "Đã xảy ra sự cố",
   "bluezone.register.redo": "Vui lòng thao tác lại để sử dụng dịch vụ",
 
   "bluezone.verifyOTP.title": "Xác thực mã OTP",
-  "bluezone.verifyOTP.enterPin": "Nhập mã xác nhận đã được gửi qua số điện thoại:",
+  "bluezone.verifyOTP.enterPin": "Mã OTP đã được gửi qua số điện thoại:",
   "bluezone.verifyOTP.pleaseEnterPin": "Vui lòng nhập mã OTP",
   "bluezone.verifyOTP.validPin": "Mã có hiệu lực trong",
   "bluezone.verifyOTP.confirm": "Xác nhận",
-  "bluezone.verifyOTP.receivedOTP": "Bạn chưa nhận được mã OTP hoặc mã đã hết hạn?"
+  "bluezone.verifyOTP.receivedOTP": "Bạn chưa nhận được mã OTP hoặc mã đã hết hạn?",
+  "bluezone.verifyOTP.resetOTP": "Gửi lại mã OTP",
+  "bluezone.verifyOTP.optNotValid": "Mã OTP không hợp lệ, hoặc đã hết hạn",
+  "bluezone.verifyOTP.retry": "Thử lại",
+  "bluezone.verifyOTP.saveOTP": "Vui lòng nhập lại mã OTP"
 }

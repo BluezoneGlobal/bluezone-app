@@ -55,7 +55,7 @@ class NotifySession extends React.Component {
     }else if(startOfToday <= time && time < nextToday) {
       return moment(time).format("HH:mm");
     }
-    return moment(item.timestamp).format("DD/MM/YYYY");
+    return moment(time).format("DD/MM/YYYY");
   };
 
   renderItem = ({item}) => {

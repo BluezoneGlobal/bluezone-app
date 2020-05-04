@@ -110,7 +110,7 @@ class RegisterScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-    setLoading ? setLoading('Home') : navigation.replace('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
   }
 
   render() {
@@ -191,7 +191,7 @@ class RegisterScreen extends React.Component {
           )}
         </ScrollView>
         <ButtonText
-          text={formatMessage(message.skip)}
+          text={`${formatMessage(message.skip)} >>`}
           onPress={this.onChangeNavigate}
           styleBtn={styles.buttonInvite}
           styleText={styles.textInvite}
