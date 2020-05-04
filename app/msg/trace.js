@@ -74,6 +74,6 @@ export default defineMessages({
   },
   declare: {
     id: 'bluezone.trace.declare',
-    defaultMessage: 'Khai báo số điện thoại',
+    defaultMessage: 'Đăng ký số điện thoại',
   },
 });
