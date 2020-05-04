@@ -43,7 +43,7 @@ import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 import configuration from './app/Configuration';
 
@@ -52,14 +52,14 @@ const Stack = createStackNavigator();
 
 // Gets the current screen from navigation state
 const getActiveRouteName = state => {
-    const route = state.routes[state.index];
+  const route = state.routes[state.index];
 
-    if (route.state) {
-        // Dive into nested navigators
-        return getActiveRouteName(route.state);
-    }
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
 
-    return route.name;
+  return route.name;
 };
 
 export default function App() {
@@ -82,13 +82,13 @@ export default function App() {
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
     registerMessageHandler(async onRemotemessage => {
-        const {Language} = configuration;
-        console.log('registerMessageHandler', onRemotemessage);
-        replaceNotify(onRemotemessage, Language);
+      const {Language} = configuration;
+      console.log('registerMessageHandler', onRemotemessage);
+      replaceNotify(onRemotemessage, Language);
     });
 
-      open();
-      createNotify();
+    open();
+    createNotify();
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
@@ -168,13 +168,22 @@ export default function App() {
             mode="card"
             initialRouteName={initialRoute}>
             {!loading ? (
-              <Stack.Screen
-                name="AuthLoading"
-                component={() => <AuthLoading setLoading={setAuthLoading} />}
-              />
+              <>
+                <Stack.Screen
+                  name="AuthLoading"
+                  component={() => <AuthLoading setLoading={setAuthLoading} />}
+                />
+                <Stack.Screen
+                  name="Register"
+                  component={() => <Register setLoading={setAuthLoading} />}
+                />
+                <Stack.Screen
+                  name="VerifyOTP"
+                  component={() => <VerifyOTP setLoading={setAuthLoading} />}
+                />
+              </>
             ) : (
               <>
-                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen
                   name="Home"
                   component={decorateMainAppStart(Home)}
@@ -184,6 +193,7 @@ export default function App() {
                 <Stack.Screen name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
+                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
               </>
             )}

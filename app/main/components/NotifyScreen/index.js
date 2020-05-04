@@ -54,7 +54,7 @@ class NotifyScreen extends React.Component {
 
   componentDidMount() {
     this.initData();
-    this.focusListener = this.props.navigation.addListener('tabPress', () => {
+    this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });
     this.timeOutLoadingBluezoner = setTimeout(() => {
@@ -63,7 +63,7 @@ class NotifyScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    this.focusListener.remove();
+    // this.focusListener.remove();
   }
 
   initData = async () => {
