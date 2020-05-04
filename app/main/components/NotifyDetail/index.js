@@ -55,7 +55,6 @@ class NotifyScreen extends React.Component {
     const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
     const {formatMessage} = intl;
     const {Language} = configuration;
-    console.log('cuongntg', item);
 
     return (
       <SafeAreaView style={styles.container}>
