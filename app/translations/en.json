@@ -43,7 +43,7 @@
     "bluezone.history.bluezoners": "Bluezoners",
 
     "bluezone.auth.label1": "Not detected",
-    "bluezone.auth.label2": "Any F0 that is in close contact with you",
+    "bluezone.auth.label2": "any F0 that is in close contact with you",
 
     "bluezone.modal.hasNewVersion": "A new update is available",
     "bluezone.modal.updateVersion": "Please update to the new version to use the latest features",

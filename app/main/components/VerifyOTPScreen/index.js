@@ -31,6 +31,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
+import {injectIntl, intlShape} from 'react-intl';
 
 import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
@@ -47,7 +48,6 @@ import {blue_bluezone} from '../../../utils/color';
 import styles from './styles/index.css';
 import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
-import {injectIntl, intlShape} from 'react-intl';
 import message from '../../../msg/verifyOtp';
 
 class VerifyOTPScreen extends React.Component {
@@ -85,7 +85,7 @@ class VerifyOTPScreen extends React.Component {
     const {setLoading, navigation} = this.props;
     setToken(Token);
     Toast.success('Đăng kí số điện thoai thành công !', 2);
-    setLoading ? setLoading('Home') : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
   }
 
   onHandleConfirmFail(error) {
@@ -120,7 +120,7 @@ class VerifyOTPScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.props.navigation.navigate('VerifyOTP', {
+    this.props.navigation.replace('VerifyOTP', {
       phoneNumber: numberPhone,
     });
     this.setState({showLoading: false});
@@ -144,7 +144,7 @@ class VerifyOTPScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-    setLoading ? setLoading('Home') : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.replace('Home');
   }
 
   render() {
@@ -152,6 +152,7 @@ class VerifyOTPScreen extends React.Component {
     const {showModal, showModalError, disabled} = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
+    debugger;
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -177,6 +178,7 @@ class VerifyOTPScreen extends React.Component {
             <CountDown ref={this.setRef} />
           </View>
           <InsertOTP getOtp={this.getOtp} />
+          <Text text={'Max '} />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
               // disabled={disabled}
@@ -187,6 +189,7 @@ class VerifyOTPScreen extends React.Component {
               styleIcon={styles.iconButtonConfirm}
             />
           </View>
+
           <View style={styles.layout3}>
             <Text style={styles.text4}>
               {formatMessage(message.receivedOTP)}

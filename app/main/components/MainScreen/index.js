@@ -95,7 +95,7 @@ class HomeTabScreen extends React.Component {
             tabBarLabel: formatMessage(message.report),
             tabBarIcon: ({focused, color, size}) => (
               <View>
-                {!focused && <Badge text="8" style={styles.badge} dot={true} />}
+                {/*{!focused && <Badge text="8" style={styles.badge} dot={true} />}*/}
                 <FastImage
                   source={focused ? iconActive.Notify : icon.Notify}
                   style={styles.iconSquare}

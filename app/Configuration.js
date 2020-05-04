@@ -587,9 +587,7 @@ const setStatusNotifyRegister = StatusNotifyRegister => {
   AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
 };
 
-const setIsRegisterFirst = isRegisterFirst => {
-  Object.assign(configuration, {isRegisterFirst});
-};
+
 
 const checkNotifyOfDay = () => {
   let {
@@ -597,12 +595,10 @@ const checkNotifyOfDay = () => {
     ScheduleNotifyHour,
     StatusNotifyRegister,
     Token,
-    isRegisterFirst,
   } = configuration;
   const date = new Date();
 
-  if(!StatusNotifyRegister && isRegisterFirst) return false;
-  if(!StatusNotifyRegister && !isRegisterFirst) return true;
+  if(!StatusNotifyRegister) return true;
 
   StatusNotifyRegister = parseInt(StatusNotifyRegister || new Date().getTime());
   const currentTimeOfDay = date.setHours(0, 0, 0, 0);
@@ -615,14 +611,7 @@ const checkNotifyOfDay = () => {
   const checkDay =
     currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
 
-  console.log('isRegisterFirst', isRegisterFirst);
-  console.log('Token', Token,);
-  console.log('currentTimeOfDay', currentTimeOfDay);
-  console.log('ScheduleNotifyDay', ScheduleNotifyDay);
-  console.log('StatusNotifyRegisterForHour', StatusNotifyRegisterForHour);
-  console.log('checkDay', checkDay);
-  console.log('StatusNotifyRegister', StatusNotifyRegister);
-  if (isRegisterFirst || Token || !checkDay) {
+  if (Token || !checkDay) {
     return false;
   }
 
@@ -655,5 +644,4 @@ export {
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,
-  setIsRegisterFirst,
 };

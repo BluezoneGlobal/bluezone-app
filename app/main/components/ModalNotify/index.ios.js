@@ -26,6 +26,7 @@ import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
 import firebase from 'react-native-firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import {withNavigation} from '@react-navigation/compat';
 
 // Components
 import Modal from 'react-native-modal';
@@ -36,6 +37,7 @@ import AuthLoadingScreen from '../AuthLoadingScreen';
 import ButtonText from '../../../base/components/ButtonText';
 import {getCheckVersions} from '../../../apis/bluezone';
 import getStatusUpdate from '../../../utils/getStatusUpdate';
+import {navigate, navigationRef} from '../../../../RootNavigation';
 
 import {
   PERMISSIONS,
@@ -118,9 +120,12 @@ class ModalNotify extends React.Component {
         this.checkRequestMultiple();
       }
 
+      const navigations = navigationRef.current.getRootState();
       if (
         this.statusPermissionNotify !== '' &&
-        this.state.isVisiblePermissionNotify === false
+        this.state.isVisiblePermissionNotify === false &&
+          navigations.routes.length === 0 &&
+          navigations.routes[0].name === "Home"
       ) {
         this.setState({isVisibleFlash: true});
       }
@@ -258,10 +263,10 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    const checkNotify = checkNotifyOfDay();
-    if (!checkNotify) {
-      return;
-    }
+    // const checkNotify = checkNotifyOfDay();
+    // if (!checkNotify) {
+    //   return;
+    // }
     const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
     const messageNotify = {
@@ -398,4 +403,4 @@ ModalNotify.contextTypes = {
   language: PropTypes.object,
 };
 
-export default injectIntl(ModalNotify);
+export default withNavigation(injectIntl(ModalNotify));

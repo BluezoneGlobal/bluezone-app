@@ -86,7 +86,6 @@ class NotifySession extends React.Component {
           </View>
         </View>
         <View style={styles.timer}>
-          <MediumText numberOfLines={1} style={styles.titleText} />
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {textTime}
           </Text>
