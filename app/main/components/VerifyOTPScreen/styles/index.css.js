@@ -23,10 +23,12 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {blue_bluezone} from '../../../../utils/color';
+import {large} from "../../../../utils/fontSize";
 
 const styles = StyleSheet.create({
   layout1: {
-    backgroundColor: 'rgba(241, 90, 34, 0.07)',
+    backgroundColor: 'rgba(144,159,208,0.31)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     paddingVertical: 24,
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 17,
+    fontSize: fontSize.large,
     lineHeight: 20,
   },
   text2: {
@@ -44,18 +46,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 19,
     lineHeight: 20,
-    color: '#F15A22',
+    color: blue_bluezone,
     textAlign: 'center',
     marginTop: 40,
   },
   layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
   text3: {
     fontStyle: 'normal',
-    fontSize: 17,
+    fontSize: fontSize.large,
     lineHeight: 20,
   },
   layout3: {
-    backgroundColor: 'rgba(241, 90, 34, 0.07)',
+    backgroundColor: 'rgba(144,159,208,0.31)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     borderRadius: 8,
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   text4: {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 17,
+    fontSize: fontSize.large,
     lineHeight: 20,
     paddingVertical: 24,
     width: '75%',
@@ -85,15 +87,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 20,
   },
+
+  modalCont: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    paddingTop: 19,
+  },
+
   titleModal: {
-    fontSize: 17,
+    fontSize: fontSize.large,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontStyle: 'normal',
   },
   detailModal: {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: 13,
     lineHeight: 16,
     textAlign: 'center',
@@ -104,16 +110,22 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderTopColor: 'rgba(60, 60, 67, 0.29)',
     width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 45,
   },
-  btnModal: {alignItems: 'center', marginTop: 10},
+  btnModal: {
+    alignItems: 'center',
+    flex: 1,
+  },
   textBtn: {
-    fontWeight: 'bold',
-    fontSize: 17,
-    color: '#F15A22',
+    fontSize: fontSize.large,
+    color: blue_bluezone,
+    fontWeight: '500',
   },
   textTimer: {
-    fontSize: 17,
-    color: '#F15A22',
+    fontSize: fontSize.large,
+    color: blue_bluezone,
     lineHeight: 20,
   },
   container: {
@@ -135,8 +147,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 48,
   },
   colorButtonConfirm: {
-    backgroundColor: '#F15A22',
+    backgroundColor: blue_bluezone,
   },
+
+  btnConfim: {
+    backgroundColor: '#e8e8e8',
+  },
+
   iconButtonConfirm: {
     width: 18,
     height: 18,
@@ -176,13 +193,19 @@ const styles = StyleSheet.create({
 
   buttonInvite: {
     position: 'absolute',
-    right: 20,
+    right: 8,
     bottom: 16,
   },
 
   textInvite: {
     color: '#000000',
-    fontWeight: '600',
+    fontWeight: '500',
+  },
+
+  textBtnSkip: {
+    fontWeight: '500',
+    fontSize: large,
+    color: '#bfbfbf',
   },
 });
 

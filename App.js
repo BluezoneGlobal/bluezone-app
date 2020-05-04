@@ -169,6 +169,7 @@ export default function App() {
               />
             ) : (
               <>
+                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen
                   name="Home"
                   component={decorateMainAppStart(Home)}
@@ -178,7 +179,6 @@ export default function App() {
                 <Stack.Screen name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
-                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
               </>
             )}

@@ -164,12 +164,12 @@ class NotifyScreen extends React.Component {
             </View>
             <>
               <View style={styles.wrapper}>
-                <NotifySection
-                  title={'Cảnh báo'}
-                  data={dataWar}
-                  styleTitle={styles.titleWar}
-                  styleTextTitle={styles.textTitleWar}
-                />
+                {/*<NotifySection*/}
+                {/*  title={'Cảnh báo'}*/}
+                {/*  data={dataWar}*/}
+                {/*  styleTitle={styles.titleWar}*/}
+                {/*  styleTextTitle={styles.textTitleWar}*/}
+                {/*/>*/}
                 <NotifySection
                   title={'Thông báo'}
                   data={dataNtf}

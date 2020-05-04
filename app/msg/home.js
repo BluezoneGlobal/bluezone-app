@@ -92,4 +92,8 @@ export default defineMessages({
     id: 'bluezone.home.updatePhoneNumber',
     defaultMessage: 'bluezone.home.updatePhoneNumber',
   },
+  report: {
+    id: 'bluezone.modal.report',
+    defaultMessage: 'bluezone.modal.report',
+  },
 });

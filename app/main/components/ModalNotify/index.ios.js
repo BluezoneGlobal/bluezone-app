@@ -42,8 +42,10 @@ import {
   requestMultiple,
   requestNotifications,
 } from 'react-native-permissions';
-import configuration, {getUserCodeAsync} from '../../../Configuration';
-import {isRegister} from '../AuthLoadingScreen';
+import configuration, {
+  getUserCodeAsync,
+  checkNotifyOfDay,
+} from '../../../Configuration';
 
 // Language
 import message from '../../../msg/home';
@@ -115,7 +117,6 @@ class ModalNotify extends React.Component {
         this.checkRequestMultiple();
       }
 
-      // Check để mở màn hình flash
       if (
         this.statusPermissionNotify !== '' &&
         this.state.isVisiblePermissionNotify === false
@@ -256,12 +257,13 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    const {Token, StatusNotifyRegister} = configuration;
-    const currentTime = new Date().setHours(0, 0, 0, 0);
-    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+    const checkNotify = checkNotifyOfDay();
+    console.log('checkNotify', checkNotify);
+    if (!checkNotify) {
       return;
     }
-    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    debugger;
+    AsyncStorage.setItem('StatusNotifyRegister', new Date().toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
     PushNotification.localNotificationSchedule({

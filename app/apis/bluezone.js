@@ -69,8 +69,8 @@ export function CreateAndSendOTPCode(PhoneNumber, successCb, errorCb) {
       PhoneNumber: PhoneNumber,
       TokenFirebase: TokenFirebase,
     },
-    // url: `${DOMAIN}/api/App/CreateAndSendOTPCode`,
-    url: 'https://apiwebbz.bkav.com/api/App/CreateAndSendOTPCode',
+    url: `${DOMAIN}/api/App/CreateAndSendOTPCode`,
+    // url: 'https://apiwebbz.bkav.com/api/App/CreateAndSendOTPCode',
   };
   axios(options).then(
     response => {
@@ -93,12 +93,14 @@ export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
       PhoneNumber: PhoneNumber,
       OTPCode: OTPCode,
     },
-    // url: `${DOMAIN}/api/App/ConfirmOTPCode`,
-    url: 'https://apiwebbz.bkav.com/api/App/ConfirmOTPCode',
+    url: `${DOMAIN}/api/App/ConfirmOTPCode`,
+    // url: 'https://apiwebbz.bkav.com/api/App/ConfirmOTPCode',
   };
   axios(options).then(
     response => {
-      successCb(response);
+      if (response && response.status === 200) {
+        successCb(response);
+      }
     },
     error => {
       errorCb(error);

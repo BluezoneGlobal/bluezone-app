@@ -32,6 +32,7 @@ import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
+import {isRegister} from './main/components/AuthLoadingScreen';
 
 const DOMAIN = 'https://apibz.bkav.com';
 
@@ -176,17 +177,22 @@ const configuration = {
     'Bluezone cannot record "close contact" because the device has not enabled access to file.\n\nHowever, according to Google policy, the device automatically recommends "access to photos, media and files” even if Bluezone does not use the two first permissions.\n\nYou need to accept the permissions to enable storage by going to "Settings / pplications / Bluezone / Permissions".',
   LinkGroupFace: 'http://facebook.com/groups/bluezonevn',
   LinkGroupFace_en: 'http://facebook.com/groups/bluezonevn',
-  UserCode: '',
-  Token: '',
-  TokenFirebase: '',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
   Language: null,
+  ScheduleNotifyDay: 1,
+  ScheduleNotifyHour: [8, 13, 20],
+
+  // Lưu gửi AsyncStorage
+  UserCode: '',
+  Token: '',
+  TokenFirebase: '',
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
+  StatusNotifyRegister: null,
 };
 
 const getConfigurationAsync = async () => {
@@ -576,6 +582,48 @@ const setLanguage = Language => {
   Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
+export let isRegisterFirst = false;
+
+const checkNotifyOfDay = () => {
+  const {
+    ScheduleNotifyDay,
+    ScheduleNotifyHour,
+    StatusNotifyRegister,
+    Token,
+  } = configuration;
+  const date = new Date();
+  const currentTimeOfDay = date.setHours(0, 0, 0, 0);
+  const StatusNotifyRegisterForHour = new Date(StatusNotifyRegister).setHours(
+    0,
+    0,
+    0,
+    0,
+  );
+  const checkDay =
+    currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
+
+  if (!StatusNotifyRegister) {
+    return true;
+  }
+
+  if (isRegisterFirst || Token || !checkDay) {
+    return false;
+  }
+
+  const hoursOld = StatusNotifyRegister.getHours();
+  for (let i = 0; i < ScheduleNotifyHour.length; i++) {
+    if (
+      (i === ScheduleNotifyHour.length - 1 &&
+        ScheduleNotifyHour[ScheduleNotifyHour.length - 1] < hoursOld) ||
+      (ScheduleNotifyHour[i] <= hoursOld &&
+        ScheduleNotifyHour[i + 1] >= hoursOld)
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -589,4 +637,5 @@ export {
   createNotifyPermission,
   DOMAIN,
   setLanguage,
+  checkNotifyOfDay,
 };

@@ -83,11 +83,13 @@ class RegisterScreen extends React.Component {
     if (vnf_regex.test(numberPhone) === false) {
       Alert.alert(formatMessage(message.phoneEnterNotValid));
     } else {
-      CreateAndSendOTPCode(
-        numberPhone,
-        this.createAndSendOTPCodeSuccess,
-        this.createAndSendOTPCodeFail,
-      );
+      this.setState({showLoading: true, showErrorModal: false}, () => {
+        CreateAndSendOTPCode(
+          numberPhone,
+          this.createAndSendOTPCodeSuccess,
+          this.createAndSendOTPCodeFail,
+        );
+      });
     }
   }
 
@@ -120,7 +122,7 @@ class RegisterScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.keyBoardContainer} behavior={'position'}>
           <View style={styles.layout1}>
-            <Text style={styles.text1}>Bluezone</Text>
+            <Text style={styles.text1}>{formatMessage(message.summary)}</Text>
             <Text style={styles.text2}>{formatMessage(message.title)}</Text>
           </View>
           <View style={styles.phone}>
@@ -161,19 +163,21 @@ class RegisterScreen extends React.Component {
               onBackButtonPress={this.onCloseModal}
               onBackdropPress={this.onCloseModal}>
               <View style={styles.modalContent}>
-                <View>
-                  <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
-                </View>
-                <View>
-                  <Text style={styles.modalContentText02}>
-                    Vui lòng thao tác lại để sử dụng dịch vụ
-                  </Text>
-                </View>
+                <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
+                <Text style={styles.modalContentText02}>
+                  Vui lòng thao tác lại để sử dụng dịch vụ
+                </Text>
                 <View style={styles.modalFooter}>
                   <TouchableOpacity
                     style={styles.buttonContinued}
                     onPress={this.onCloseModal}>
-                    <Text style={styles.textButtonContinued}>Tiếp tục</Text>
+                    <Text style={styles.textButtonSkip}>Bỏ qua</Text>
+                  </TouchableOpacity>
+                  <View style={styles.borderBtn} />
+                  <TouchableOpacity
+                    style={styles.buttonContinued}
+                    onPress={this.onPress}>
+                    <Text style={styles.textButtonContinued}>Thử lại</Text>
                   </TouchableOpacity>
                 </View>
               </View>

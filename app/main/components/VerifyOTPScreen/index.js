@@ -57,7 +57,7 @@ class VerifyOTPScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      disable: true,
+      disabled: true,
       otp: '',
       showModal: false,
       showModalError: false,
@@ -73,6 +73,7 @@ class VerifyOTPScreen extends React.Component {
   onConfirmPress = () => {
     const {otp} = this.state;
     const phoneNumber = this.props.route.params.phoneNumber;
+    // this.setState({showModal: true});
     VerifyOTPCode(
       phoneNumber,
       otp,
@@ -87,7 +88,9 @@ class VerifyOTPScreen extends React.Component {
     this.props.navigation.navigate('Home');
   }
 
-  onHandleConfirmFail() {}
+  onHandleConfirmFail(error) {
+    this.setState({showModal: true});
+  }
 
   onHandleReGetOTP = response => {
     this.refCountDown && this.refCountDown.startCountDown();
@@ -100,17 +103,19 @@ class VerifyOTPScreen extends React.Component {
   getOtp = value => {
     this.setState({otp: value});
     if (value.length === 6) {
-      this.setState({disable: false});
+      this.setState({disabled: false});
     }
   };
 
   onReGetOTP = () => {
     const phoneNumber = this.props.route.params.phoneNumber;
-    CreateAndSendOTPCode(
-      phoneNumber,
-      this.createAndSendOTPCodeSuccess,
-      this.createAndSendOTPCodeFail,
-    );
+    this.setState({showModal: false}, () => {
+      CreateAndSendOTPCode(
+        phoneNumber,
+        this.createAndSendOTPCodeSuccess,
+        this.createAndSendOTPCodeFail,
+      );
+    });
   };
 
   createAndSendOTPCodeSuccess(response) {
@@ -144,7 +149,7 @@ class VerifyOTPScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {showModal, showModalError} = this.state;
+    const {showModal, showModalError, disabled} = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (
@@ -174,9 +179,10 @@ class VerifyOTPScreen extends React.Component {
           <InsertOTP getOtp={this.getOtp} />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
+              // disabled={disabled}
               onPress={this.onConfirmPress}
               text={formatMessage(message.confirm)}
-              styleBtn={styles.colorButtonConfirm}
+              styleBtn={disabled ? styles.btnConfim : styles.colorButtonConfirm}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={styles.iconButtonConfirm}
             />
@@ -199,18 +205,25 @@ class VerifyOTPScreen extends React.Component {
             style={styles.modalConfirm}
             onBackButtonPress={this.onCloseModal}
             onBackdropPress={this.onCloseModal}>
-            <View style={style.modalCont}>
+            <View style={styles.modalCont}>
               <View>
-                <Text style={styles.titleModal}>Mã OTP không hợp lệ</Text>
+                <Text style={styles.titleModal}>
+                  Mã OTP không hợp lệ, hoặc đã hết hạn
+                </Text>
               </View>
               <View>
-                <Text style={styles.detailModal}>Vui lòng nhập lại mã OTP</Text>
+                <Text style={styles.detailModal}>Vui lòng nhận lại mã OTP</Text>
               </View>
               <View style={styles.lBtnModal}>
                 <TouchableOpacity
                   style={styles.btnModal}
                   onPress={this.onCloseModal}>
-                  <Text style={styles.textBtn}>OK</Text>
+                  <Text style={styles.textBtnSkip}>Bỏ qua</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btnModal}
+                  onPress={this.onReGetOTP}>
+                  <Text style={styles.textBtn}>Cập nhật</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -219,23 +232,31 @@ class VerifyOTPScreen extends React.Component {
         {showModalError && (
           <Modal
             isVisible={showModalError}
-            style={styles.modalConfirm}
-            onBackButtonPress={this.onCloseModalError}
-            onBackdropPress={this.onCloseModalError}>
-            <View style={style.modalCont}>
-              <View>
-                <Text style={styles.titleModal}>Đã xảy ra sự cố</Text>
-              </View>
-              <View>
-                <Text style={styles.detailModal}>
-                  Vui lòng thao tác lại để sử dụng dịch vụ
-                </Text>
-              </View>
-              <View style={styles.lBtnModal}>
+            style={styles.center}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={600}
+            animationOutTiming={600}
+            backdropTransitionInTiming={600}
+            backdropTransitionOutTiming={600}
+            onBackButtonPress={this.onCloseModal}
+            onBackdropPress={this.onCloseModal}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
+              <Text style={styles.modalContentText02}>
+                Vui lòng thao tác lại để sử dụng dịch vụ
+              </Text>
+              <View style={styles.modalFooter}>
                 <TouchableOpacity
-                  style={styles.btnModal}
-                  onPress={this.onCloseModalError}>
-                  <Text style={styles.textBtn}>Tiếp tục</Text>
+                  style={styles.buttonContinued}
+                  onPress={this.onCloseModal}>
+                  <Text style={styles.textButtonSkip}>Bỏ qua</Text>
+                </TouchableOpacity>
+                <View style={styles.borderBtn} />
+                <TouchableOpacity
+                  style={styles.buttonContinued}
+                  onPress={this.onPress}>
+                  <Text style={styles.textButtonContinued}>Thử lại</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -253,7 +274,7 @@ class VerifyOTPScreen extends React.Component {
 }
 
 VerifyOTPScreen.defaultProps = {
-  disable: true,
+  disabled: true,
 };
 
 VerifyOTPScreen.propTypes = {

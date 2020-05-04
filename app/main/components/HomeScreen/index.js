@@ -218,7 +218,6 @@ class HomeTab extends React.Component {
     const {
       width,
       height,
-      newAmount,
       showModalInvite,
       titleModal,
       messageModal,

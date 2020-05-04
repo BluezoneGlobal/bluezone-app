@@ -48,8 +48,10 @@
   "bluezone.modal.Cancel": "Bỏ qua",
   "bluezone.modal.openSettingLocation": "Đến cài đặt Bật vị trí",
   "bluezone.modal.openSettingIOFile": "Đến cài đặt Bật lưu trữ",
+  "bluezone.modal.report": "Thông báo",
 
-  "bluezone.register.title": "Khẩu trang điện tử Bluezone là ứng dụng cảnh báo nếu bạn đã tiếp xúc gần với người nhiễm COVID-19, giảm thiểu các nguy cơ lây lan trong cộng đồng, giúp mọi người trở lại cuộc sống bình thường. Bạn vui lòng đăng ký số điện thoại để tiếp tục sử dụng ứng dụng.",
+  "bluezone.register.summary": "Bluezone - Khẩu trang điện tử",
+  "bluezone.register.title": "Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần người nhiễm COVID-19. Hãy đăng kí số điện thoại để nhận được hỗ trợ y tế sớm nhất khi bạn có nguy cơ.",
   "bluezone.register.numberphone": "Nhập số điện thoại",
   "bluezone.register.pleaseEnterYourPhone": "Vui lòng nhập số điện thoại",
   "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",

@@ -49,4 +49,8 @@ export default defineMessages({
     id: 'bluezone.register.phoneEnterNotValid',
     defaultMessage: 'Số điện thoại bạn nhập không hợp lệ',
   },
+  summary: {
+    id: 'bluezone.register.summary',
+    defaultMessage: 'Bluezone - Khẩu trang điện tử',
+  },
 });
