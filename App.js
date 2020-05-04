@@ -68,6 +68,8 @@ export default function App() {
 
   // const routeNameRef = useRef();
 
+  registerAppWithFCM();
+
   const setAuthLoading = navi => {
     if(navi === 'Register') {
       navigate('Register')
@@ -76,8 +78,6 @@ export default function App() {
       setInitialRoute('Home');
     }
   };
-
-  registerAppWithFCM();
 
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
