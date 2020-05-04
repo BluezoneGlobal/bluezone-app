@@ -95,19 +95,21 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
-          {PhoneNumber ? (
-            <Text style={styles.textPhoneNumber}>
-              {formatMessage(msg.registerPhone)}: {PhoneNumber}
-            </Text>
-          ) : (
-            <View style={styles.declare}>
-              <TouchableOpacity onPress={this.onPress} style={styles.button}>
-                <Text style={styles.textButton}>
-                  {formatMessage(msg.declare)}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
+          {item.group === 'mobile' ? (
+            PhoneNumber ? (
+              <Text style={styles.textPhoneNumber}>
+                {formatMessage(msg.registerPhone)}: {PhoneNumber}
+              </Text>
+            ) : (
+              <View style={styles.declare}>
+                <TouchableOpacity onPress={this.onPress} style={styles.button}>
+                  <Text style={styles.textButton}>
+                    {formatMessage(msg.declare)}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )
+          ) : null}
         </ScrollView>
       </SafeAreaView>
     );

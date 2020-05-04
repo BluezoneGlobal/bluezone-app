@@ -440,7 +440,7 @@ class ModalNotify extends React.Component {
           'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
         bigTextEn:
           'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
-        group: 'OTP',
+        group: 'mobile',
         timestamp: 1588517528002,
         unRead: false,
       },

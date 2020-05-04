@@ -285,7 +285,7 @@ class ModalNotify extends React.Component {
           'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         bigTextEn:
           'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
-        group: 'OTP',
+        group: 'mobile',
         timestamp: 1588517528002,
         unRead: false,
       },
