@@ -33,6 +33,7 @@
   "bluezone.trace.noList": "Danh sách trống",
   "bluezone.trace.notification": "Thông báo",
   "bluezone.trace.announcement": "Thông báo",
+  "bluezone.trace.yesterday": "Hôm qua",
   "bluezone.trace.myBluezoneId": "Mã Bluezone ID của bạn",
 
   "bluezone.history.header": "Lịch sử tiếp xúc",
@@ -60,6 +61,9 @@
   "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",
   "bluezone.register.next": "Tiếp tục",
   "bluezone.register.skip": "Bỏ qua >>",
+  "bluezone.register.try": "Thử lại",
+  "bluezone.register.error": "Đã xảy ra sự cố",
+  "bluezone.register.redo": "Vui lòng thao tác lại để sử dụng dịch vụ",
 
   "bluezone.verifyOTP.title": "Xác thực mã OTP",
   "bluezone.verifyOTP.enterPin": "Nhập mã xác nhận đã được gửi qua số điện thoại:",

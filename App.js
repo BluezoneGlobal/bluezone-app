@@ -43,6 +43,7 @@ import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
+import AsyncStorage from '@react-native-community/async-storage';
 import configuration from './app/Configuration';
 
 const Stack = createStackNavigator();
@@ -50,14 +51,14 @@ const Stack = createStackNavigator();
 
 // Gets the current screen from navigation state
 const getActiveRouteName = state => {
-    const route = state.routes[state.index];
+  const route = state.routes[state.index];
 
-    if (route.state) {
-        // Dive into nested navigators
-        return getActiveRouteName(route.state);
-    }
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
 
-    return route.name;
+  return route.name;
 };
 
 export default function App() {
@@ -67,9 +68,12 @@ export default function App() {
   // const routeNameRef = useRef();
 
   const setAuthLoading = navi => {
-    setLoading(true);
-    navigate(navi);
-    setInitialRoute('Home');
+    if(navi === 'Register') {
+      navigate('Register')
+    } else {
+      setLoading(true);
+      setInitialRoute('Home');
+    }
   };
 
     open();
@@ -79,17 +83,17 @@ export default function App() {
 
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
+    registerAppWithFCM();
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
     registerMessageHandler(async onRemotemessage => {
         const {Language} = configuration;
-        // console.log('registerMessageHandler', onRemotemessage);
         replaceNotify(onRemotemessage, Language);
     });
 
-      open();
-      createNotify();
+    open();
+    createNotify();
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
@@ -169,13 +173,22 @@ export default function App() {
             mode="card"
             initialRouteName={initialRoute}>
             {!loading ? (
-              <Stack.Screen
-                name="AuthLoading"
-                component={() => <AuthLoading setLoading={setAuthLoading} />}
-              />
+              <>
+                <Stack.Screen
+                  name="AuthLoading"
+                  component={(props) => <AuthLoading setLoading={setAuthLoading} {...props} />}
+                />
+                <Stack.Screen
+                  name="Register"
+                  component={(props) => <Register setLoading={setAuthLoading} {...props}  />}
+                />
+                <Stack.Screen
+                  name="VerifyOTP"
+                  component={(props) => <VerifyOTP setLoading={setAuthLoading} {...props}  />}
+                />
+              </>
             ) : (
               <>
-                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen
                   name="Home"
                   component={decorateMainAppStart(Home)}
@@ -185,6 +198,7 @@ export default function App() {
                 <Stack.Screen path="cuongntg" name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
+                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
               </>
             )}

@@ -109,7 +109,8 @@ class RegisterScreen extends React.Component {
   }
 
   onChangeNavigate() {
-    this.props.navigation.push('Home');
+    const {setLoading, navigation} = this.props;
+    setLoading ? setLoading('Home') : navigation.push('Home');
   }
 
   render() {
@@ -162,21 +163,27 @@ class RegisterScreen extends React.Component {
               onBackButtonPress={this.onCloseModal}
               onBackdropPress={this.onCloseModal}>
               <View style={styles.modalContent}>
-                <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
+                <Text style={styles.modalContentText01}>
+                  {formatMessage(message.error)}
+                </Text>
                 <Text style={styles.modalContentText02}>
-                  Vui lòng thao tác lại để sử dụng dịch vụ
+                  {formatMessage(message.redo)}
                 </Text>
                 <View style={styles.modalFooter}>
                   <TouchableOpacity
                     style={styles.buttonContinued}
                     onPress={this.onCloseModal}>
-                    <Text style={styles.textButtonSkip}>Bỏ qua</Text>
+                    <Text style={styles.textButtonSkip}>
+                      {formatMessage(message.skip)}
+                    </Text>
                   </TouchableOpacity>
                   <View style={styles.borderBtn} />
                   <TouchableOpacity
                     style={styles.buttonContinued}
                     onPress={this.onPress}>
-                    <Text style={styles.textButtonContinued}>Thử lại</Text>
+                    <Text style={styles.textButtonContinued}>
+                      {formatMessage(message.try)}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>

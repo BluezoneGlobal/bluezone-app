@@ -68,4 +68,8 @@ export default defineMessages({
     id: 'bluezone.trace.myBluezoneId',
     defaultMessage: 'Mã Bluezone ID của bạn',
   },
+  yesterday: {
+    id: 'bluezone.trace.yesterday',
+    defaultMessage: 'Hôm qua',
+  },
 });

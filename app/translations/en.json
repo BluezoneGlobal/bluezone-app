@@ -34,6 +34,7 @@
     "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
     "bluezone.trace.announcement": "Announcement",
+    "bluezone.trace.yesterday": "Yesterday",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",
@@ -60,6 +61,9 @@
     "bluezone.register.phoneEnterNotValid": "The phone number you entered is not valid",
     "bluezone.register.next": "Next",
     "bluezone.register.skip": "Skip >>",
+    "bluezone.register.try": "Try again",
+    "bluezone.register.error": "There was a problem",
+    "bluezone.register.redo": "Please redo it to use the service",
 
     "bluezone.verifyOTP.title": "OTP authentication",
     "bluezone.verifyOTP.enterPin": "Enter PIN:",

@@ -414,14 +414,14 @@ class ModalNotify extends React.Component {
     const checkNotify = checkNotifyOfDay();
     if (!checkNotify) {
       return;
-    }
+    }0
     const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
     const messageNotify = {
       data: {
         notifyId: '1995',
         smallIcon: 'icon_bluezone',
-        largeIcon: 'icon_bluezone',
+        largeIcon: '',
         title: "Cập nhật số điên thoại",
         text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
         bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",

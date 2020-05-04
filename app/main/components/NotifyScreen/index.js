@@ -22,10 +22,18 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Components
+import FastImage from 'react-native-fast-image';
 import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
 import NotifySession from './NotifySession';
@@ -37,27 +45,32 @@ import styles from './styles/index.css';
 
 // Utils
 import {getNotifications} from '../../../../app/db/SqliteDb';
-import message from "../../../msg/trace";
+import message from '../../../msg/trace';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
+    const {height} = Dimensions.get('window');
     this.state = {
       notifications: [],
-      statusLoadding: true,
+      height: height,
     };
     this.index = 0;
     this.onBack = this.onBack.bind(this);
+    this.handleDimensionsChange = this.handleDimensionsChange.bind(this);
   }
 
   componentDidMount() {
+    Dimensions.addEventListener('change', this.handleDimensionsChange);
     this.initData();
     this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });
-    this.timeOutLoadingBluezoner = setTimeout(() => {
-      this.setState({statusLoadding: false});
-    }, 15000);
+  }
+
+  handleDimensionsChange(e) {
+    const {height} = e.window;
+    this.setState({height});
   }
 
   initData = async () => {
@@ -66,7 +79,7 @@ class NotifyScreen extends React.Component {
     });
   };
 
-  onGetDataFromDB = async (index) => {
+  onGetDataFromDB = async index => {
     getNotifications(index, items => {
       this.setState(prev => ({
         notifications: prev.notifications.concat(items),
@@ -92,7 +105,8 @@ class NotifyScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {notifications, statusLoadding} = this.state;
+    const {notifications, height} = this.state;
+    console.log('Notify - ', notifications);
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
@@ -104,55 +118,42 @@ class NotifyScreen extends React.Component {
     };
 
     return (
-      <SafeAreaView style={styles.container}>
-        {header ? (
-          <Header
-            onBack={this.onBack}
-            colorIcon={'#015cd0'}
-            styleTitle={styles.textHeader}
-            showBack
-            title={formatMessage(message.announcement)}
-          />
-        ) : (
-          <View>
-            <View style={styles.header}>
-              <MediumText style={styles.textHeader}>{formatMessage(message.announcement)}</MediumText>
-            </View>
-            {
-              notifications.length > 0 ? (
-                  <View style={styles.wrapper}>
-                    {/*<NotifySession*/}
-                    {/*  title={'Cảnh báo'}*/}
-                    {/*  data={dataWar}*/}
-                    {/*  styleTitle={styles.titleWar}*/}
-                    {/*  styleTextTitle={styles.textTitleWar}*/}
-                    {/*/>*/}
-                    <NotifySession
-                        title={formatMessage(message.announcement)}
-                        data={dataNtf}
-                        styleTitle={styles.titleNtf}
-                        styleTextTitle={styles.textTitleNtf}
-                        onGet={this.onGetDataFromDB}
-                    />
-                  </View>
-              ) : statusLoadding ? (
-                  <View style={styles.listEmptyContainer}>
-                    <ActivityIndicator size="large" color="#015CD0" />
-                  </View>
-              ) : (
-                  <View style={styles.listEmptyContainer}>
-                    <View style={styles.listEmptyCircle}>
-                      <View style={styles.circle} />
-                    </View>
-                    <Text style={styles.listEmptyText}>
-                      {formatMessage(message.noList)}
-                    </Text>
-                  </View>
-              )
-            }
+        <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <MediumText style={styles.textHeader}>
+              {formatMessage(message.announcement)}
+            </MediumText>
           </View>
-        )}
-      </SafeAreaView>
+          {
+            notifications.length > 0 ? (
+              <View style={styles.wrapper}>
+                {/*<NotifySession*/}
+                {/*  title={'Cảnh báo'}*/}
+                {/*  data={dataWar}*/}
+                {/*  styleTitle={styles.titleWar}*/}
+                {/*  styleTextTitle={styles.textTitleWar}*/}
+                {/*/>*/}
+                <NotifySession
+                    title={formatMessage(message.announcement)}
+                    data={dataNtf}
+                    styleTitle={styles.titleNtf}
+                    styleTextTitle={styles.textTitleNtf}
+                    onGet={this.onGetDataFromDB}
+                />
+              </View>
+            ) : (
+              <View style={[styles.listEmptyContainer, {height: height - 135}]}>
+                  <FastImage
+                      source={require('./styles/images/ic_list.png')}
+                      style={styles.empty}
+                  />
+                  <Text style={styles.listEmptyText}>
+                    {formatMessage(message.noList)}
+                  </Text>
+              </View>
+            )
+          }
+        </SafeAreaView>
     );
   }
 }
