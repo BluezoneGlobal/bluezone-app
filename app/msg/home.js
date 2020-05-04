@@ -84,4 +84,12 @@ export default defineMessages({
     id: 'bluezone.modal.openSettingIOFile',
     defaultMessage: 'bluezone.modal.openSettingIOFile',
   },
+  scheduleNotifyOTP: {
+    id: 'bluezone.home.scheduleNotifyOTP',
+    defaultMessage: 'bluezone.home.scheduleNotifyOTP',
+  },
+  updatePhoneNumber: {
+    id: 'bluezone.home.updatePhoneNumber',
+    defaultMessage: 'bluezone.home.updatePhoneNumber',
+  },
 });

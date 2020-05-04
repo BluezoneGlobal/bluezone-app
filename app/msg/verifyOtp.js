@@ -24,20 +24,32 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
-  home: {
-    id: 'bluezone.tab.home',
-    defaultMessage: 'Trang chủ',
+  title: {
+    id: 'bluezone.verifyOTP.title',
+    defaultMessage: 'Xác thực mã OTP',
   },
-  report: {
-    id: 'bluezone.tab.report',
-    defaultMessage: 'Thông báo',
+  enterPin: {
+    id: 'bluezone.verifyOTP.enterPin',
+    defaultMessage: 'Nhập mã xác nhận đã được gửi qua số điện thoại:',
   },
-  invite: {
-    id: 'bluezone.tab.invite',
-    defaultMessage: 'Mời',
+  pleaseEnterPin: {
+    id: 'bluezone.verifyOTP.pleaseEnterPin',
+    defaultMessage: 'Vui lòng nhập mã OTP',
   },
-  about: {
-    id: 'bluezone.tab.about',
-    defaultMessage: 'Thông tin',
+  validPin: {
+    id: 'bluezone.verifyOTP.validPin',
+    defaultMessage: 'Mã có hiệu lực trong',
+  },
+  confirm: {
+    id: 'bluezone.verifyOTP.confirm',
+    defaultMessage: 'Xác nhận',
+  },
+  receivedOTP: {
+    id: 'bluezone.verifyOTP.receivedOTP',
+    defaultMessage: 'Bạn chưa nhận được mã OTP hoặc mã đã hết hạn?',
+  },
+  skip: {
+    id: 'bluezone.register.skip',
+    defaultMessage: 'Bỏ qua',
   },
 });

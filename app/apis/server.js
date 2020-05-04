@@ -21,23 +21,6 @@
 
 'use strict';
 
-import {defineMessages} from 'react-intl';
-
-export default defineMessages({
-  home: {
-    id: 'bluezone.tab.home',
-    defaultMessage: 'Trang chủ',
-  },
-  report: {
-    id: 'bluezone.tab.report',
-    defaultMessage: 'Thông báo',
-  },
-  invite: {
-    id: 'bluezone.tab.invite',
-    defaultMessage: 'Mời',
-  },
-  about: {
-    id: 'bluezone.tab.about',
-    defaultMessage: 'Thông tin',
-  },
-});
+export const DOMAIN = __DEV__
+  ? 'https://apiwebbz.bkav.com'
+  : 'https://apibz.bkav.com';

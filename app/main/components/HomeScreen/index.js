@@ -251,14 +251,14 @@ class HomeTab extends React.Component {
               <SwitchLanguage />
             </View>
             <ImageBackground
-                source={require('./styles/images/Banner.png')}
-                style={{
-                  width: width,
-                  height: height / setHeight1,
-                  justifyContent: 'flex-end',
-                }}>
+              source={require('./styles/images/Banner.png')}
+              style={{
+                width: width,
+                height: height / setHeight1,
+                justifyContent: 'flex-end',
+              }}>
               <View
-                  style={[style.header, {height: ((width * 298) / 360) * 0.38}]}>
+                style={[style.header, {height: (height / setHeight1) * 0.38}]}>
                 <Text style={style.textHeader}>
                   {formatMessage(message.header)}
                 </Text>

@@ -32,8 +32,7 @@ import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
-
-const DOMAIN = 'https://apibz.bkav.com';
+import {DOMAIN} from './apis/server';
 
 // CONST
 const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
@@ -90,6 +89,16 @@ const saveUserToFile = UserCode => {
     })
     .catch(err => {
       console.log('WRITEN ID TO FILE ERROR:' + err.message);
+    });
+};
+
+const removeFileSaveUser = () => {
+  return RNFS.unlink(filePath)
+    .then(() => {
+      console.log('FILE DELETED');
+    })
+    .catch(err => {
+      console.log(err.message);
     });
 };
 
@@ -175,6 +184,8 @@ const configuration = {
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
   Language: null,
+  Register_Phone: 'FirstOTP',
+  FirstOTP: null,
 };
 
 const getConfigurationAsync = async () => {
@@ -183,24 +194,49 @@ const getConfigurationAsync = async () => {
     'Configuration',
     'TokenFirebase',
     'Language',
+    'FirstOTP',
+    'StatusNotifyRegister',
   ]).then(results => {
     let keys = {};
     results.forEach(result => {
       Object.assign(keys, {[result[0]]: result[1]});
     });
 
-    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const {
+      Token,
+      Configuration,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
-    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+    mergeConfiguration(
+      configObject,
+      Token,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    );
   });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
+const mergeConfiguration = (
+  configObject,
+  Token,
+  TokenFirebase,
+  Language,
+  FirstOTP,
+  StatusNotifyRegister,
+) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
+    FirstOTP: FirstOTP || null,
+    StatusNotifyRegister: StatusNotifyRegister || null,
   });
 };
 
@@ -211,10 +247,12 @@ const getUserCodeAsync = async () => {
     Object.assign(configuration, {
       UserCode: UserCode,
     });
-    Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    // Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    Platform.OS !== 'ios' && removeFileSaveUser();
   } else {
     // Service.restoreDb();
-    getUserIdFromFile(getUserIdFromFileCallback);
+    // getUserIdFromFile(getUserIdFromFileCallback);
+    getUserIdFromFileCallback();
   }
 };
 
@@ -227,7 +265,7 @@ const getUserIdFromFileCallback = async userCodeFromFile => {
   Object.assign(configuration, {
     UserCode: userCode,
   });
-  Platform.OS !== 'ios' && saveUserToFile(userCode);
+  // Platform.OS !== 'ios' && saveUserToFile(userCode);
 };
 
 function notifySchedule(notify, timestamp) {
@@ -238,8 +276,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-    subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+    bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+    subText: isVietnamese ? notify.subText : notify.subText_en,
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -254,8 +292,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: isVietnamese ? notify['title'] : notify['title_en'],
-    message: isVietnamese ? notify['message'] : notify['message_en'],
+    title: isVietnamese ? notify.title : notify.title_en,
+    message: isVietnamese ? notify.message : notify.message_en,
     playSound: false,
     date: new Date(timestamp),
   });
@@ -332,8 +370,8 @@ const createNotifyPermission = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-      subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+      bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+      subText: isVietnamese ? notify.subText : notify.subText_en,
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -348,8 +386,8 @@ const createNotifyPermission = () => {
       },
 
       /* iOS and Android properties */
-      title: isVietnamese ? notify['title'] : notify['title_en'],
-      message: isVietnamese ? notify['message'] : notify['message_en'],
+      title: isVietnamese ? notify.title : notify.title_en,
+      message: isVietnamese ? notify.message : notify.message_en,
       playSound: false,
       number: notify.number,
       repeatType: 'time',
@@ -372,6 +410,7 @@ const getConfigurationAPI = async (successCb, errorCb) => {
       if (response && response.status === 200) {
         try {
           const data = response.data.Object;
+
           const firstTimeAsync = await AsyncStorage.getItem('firstTimeOpen');
           let firstTime = firstTimeAsync
             ? Number.parseInt(firstTimeAsync, 10)

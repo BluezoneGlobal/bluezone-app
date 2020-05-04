@@ -25,6 +25,7 @@ import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
 import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import Modal from 'react-native-modal';
@@ -42,6 +43,7 @@ import {
   requestNotifications,
 } from 'react-native-permissions';
 import configuration, {getUserCodeAsync} from '../../../Configuration';
+import {isRegister} from '../AuthLoadingScreen';
 
 // Language
 import message from '../../../msg/home';
@@ -254,29 +256,37 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     PushNotification.localNotificationSchedule({
       /* Android Only Properties */
-      id: 'notify.id',
+      id: '1995',
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: 'Test',
-      subText: 'Test',
+      bigText: formatMessage(message.scheduleNotifyOTP),
+      subText: '',
       vibrate: true,
       importance: '',
       priority: 'high',
       allowWhileIdle: false,
-      ignoreInForeground: true,
+      ignoreInForeground: false,
 
       /* iOS only properties */
       alertAction: 'view',
       category: '',
       userInfo: {
-        id: 'notify.id',
+        id: '1995',
       },
 
       /* iOS and Android properties */
-      title: 'aaaaaaaaaa',
-      message: 'bbbbbbbbbbbbbbb',
+      title: formatMessage(message.updatePhoneNumber),
+      message: formatMessage(message.scheduleNotifyOTP),
       playSound: false,
       number: 10,
       repeatType: 'day',

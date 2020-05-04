@@ -79,9 +79,9 @@ const styles = StyleSheet.create({
   },
 
   iconLogoMic: {
-    width: 38,
-    height: 38,
-    marginRight: 16,
+    width: 30,
+    height: 30,
+    marginRight: 12,
   },
 
   borderLogo: {
@@ -91,9 +91,9 @@ const styles = StyleSheet.create({
   },
 
   iconLogoBoyte: {
-    width: 38,
-    height: 38,
-    marginLeft: 16,
+    width: 30,
+    height: 30,
+    marginLeft: 12,
   },
 
   center: {

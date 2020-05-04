@@ -37,6 +37,8 @@ import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
+import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -46,6 +48,7 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
+import {isRegister} from '../AuthLoadingScreen';
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -59,6 +62,7 @@ import configuration, {
   removeNotifyPermisson,
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
+import firebase from 'react-native-firebase';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -97,6 +101,7 @@ class ModalNotify extends React.Component {
       this,
     );
     this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -183,6 +188,7 @@ class ModalNotify extends React.Component {
       }
 
       if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
+        this.setState({isVisibleFlash: true});
       }
     }
   }
@@ -259,7 +265,6 @@ class ModalNotify extends React.Component {
         if (this.isWizardCheckPermissionLocationBlockFinished()) {
           // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
           if (this.isWizardCheckPermissionWriteFinished()) {
-            debugger;
             getUserCodeAsync();
             if (
               this.statusWrite !== 'granted' ||
@@ -275,6 +280,8 @@ class ModalNotify extends React.Component {
         if (this.statusLocation === 'granted') {
           this.checkGeolocationState();
         }
+
+        this.setNotifyRegister();
       },
     );
   }
@@ -399,6 +406,35 @@ class ModalNotify extends React.Component {
 
   setLoadingModalFlash() {
     this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    const {Token, StatusNotifyRegister} = configuration;
+    const currentTime = new Date().setHours(0, 0, 0, 0);
+    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+      return;
+    }
+    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('1995')
+      .setTitle(formatMessage(message.updatePhoneNumber))
+      .setBody(formatMessage(message.scheduleNotifyOTP))
+      .setData({
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: 'icon_bluezone',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: '',
+        timestamp: '1588517528002',
+        unRead: false,
+      })
+      .android.setChannelId('bluezone-channel')
+      .android.setSmallIcon('icon_bluezone');
+    firebase.notifications().displayNotification(notification);
   }
 
   render() {

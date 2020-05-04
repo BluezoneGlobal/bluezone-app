@@ -98,41 +98,6 @@ class NotifyScreen extends React.Component {
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
-    const dataWar = {
-      items: [
-        {
-          largeIcon: 'bluezone',
-          title: 'Bluezone',
-          text: 'Bạn được xác định tiếp xúc ...',
-          bigText: 'Bạn được xác định tiếp xúc ...',
-          timestamp: 1588517528002,
-          _group: 'info',
-          unRead: 'true',
-        },
-        {
-          largeIcon: 'bluezone',
-          title: 'Bluezone',
-          text: 'Bạn có thể đã tiếp xúc với F0',
-          bigText: 'Bạn có thể đã tiếp xúc với F0',
-          timestamp: 1588517528002,
-          _group: 'info',
-          unRead: 'false',
-        },
-        {
-          largeIcon: 'bluezone',
-          title: 'Bluezone',
-          text: 'Bạn được xác định là F0',
-          bigText: 'Bạn được xác định là F0',
-          timestamp: 1588517528002,
-          _group: 'info',
-          unRead: 'false',
-        },
-      ],
-      callback: {
-        onPress: this.onPressWarning,
-      },
-    };
-
     const dataNtf = {
       items: notifications,
       callback: {
@@ -155,35 +120,17 @@ class NotifyScreen extends React.Component {
             <View style={styles.header}>
               <MediumText style={styles.textHeader}>Thông báo</MediumText>
             </View>
-            {
-              notifications.length > 0 ? (
-                  <View style={styles.wrapper}>
-                    {/*<NotifySection*/}
-                    {/*  title={'Cảnh báo'}*/}
-                    {/*  data={dataWar}*/}
-                    {/*  styleTitle={styles.titleWar}*/}
-                    {/*  styleTextTitle={styles.textTitleWar}*/}
-                    {/*/>*/}
-                    <NotifySection
-                        title={'Thông báo'}
-                        data={dataNtf}
-                        styleTitle={styles.titleNtf}
-                        styleTextTitle={styles.textTitleNtf}
-                        onGet={this.onGetDataFromDB}
-                    />
-                  </View>
-              ) : (
-                  <View style={styles.listEmptyContainer}>
-                    <View style={styles.listEmptyCircle}>
-                      <View style={styles.circle} />
-                    </View>
-                    <Text style={styles.listEmptyText}>
-                      {formatMessage(message.noList)}
-                    </Text>
-                  </View>
-              )
-            }
-          </View>
+            <>
+              <View style={styles.wrapper}>
+                <NotifySection
+                  title={'Thông báo'}
+                  data={dataNtf}
+                  styleTitle={styles.titleNtf}
+                  styleTextTitle={styles.textTitleNtf}
+                />
+              </View>
+            </>
+          </ScrollView>
         )}
       </SafeAreaView>
     );

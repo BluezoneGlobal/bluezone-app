@@ -22,6 +22,7 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import * as fontSize from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   layout1: {
@@ -154,7 +155,8 @@ const styles = StyleSheet.create({
     marginRight: 0,
     textAlign: 'center',
     backgroundColor: '#e8e8e8',
-    // selectionColor: '#F15A22',
+    height: 50,
+    fontSize: fontSize.large,
   },
   inputOTPMax: {
     borderRadius: 8,
@@ -162,13 +164,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
     textAlign: 'center',
     backgroundColor: '#e8e8e8',
-    // selectionColor: '#F15A22',
+    height: 50,
+    fontSize: fontSize.large,
   },
   inputContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
     marginTop: 30,
     marginHorizontal: 15,
+  },
+
+  buttonInvite: {
+    position: 'absolute',
+    right: 20,
+    bottom: 16,
+  },
+
+  textInvite: {
+    color: '#000000',
+    fontWeight: '600',
   },
 });
 

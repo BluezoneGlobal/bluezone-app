@@ -1,5 +1,6 @@
 {
   "bluezone.tab.home": "Trang chủ",
+  "bluezone.tab.report": "Thông báo",
   "bluezone.tab.invite": "Mời",
   "bluezone.tab.about": "Thông tin",
 
@@ -12,6 +13,8 @@
   "bluezone.home.bluezoner": "Bluezoner",
   "bluezone.home.traceButton": "Quét xung quanh",
   "bluezone.home.historyButton": " Lịch sử tiếp xúc ",
+  "bluezone.home.scheduleNotifyOTP": "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+  "bluezone.home.updatePhoneNumber": "Cập nhật số điên thoại",
 
   "bluezone.invite.title": "Mời",
   "bluezone.invite.productLabel1": "Bảo vệ người thân, bạn bè trước",
@@ -37,12 +40,26 @@
   "bluezone.history.bluezoners": "Bluezoners",
 
   "bluezone.auth.label1": "Chưa phát hiện",
-  "bluezone.auth.label2": "F0 nào tiếp xúc với bạn",
+  "bluezone.auth.label2": "F0 nào tiếp xúc gần với bạn",
 
   "bluezone.modal.hasNewVersion": "Đã có phiên bản mới",
   "bluezone.modal.updateVersion": "Bạn hãy cập nhật phiên bản mới để sử dụng các tính năng mới nhất",
   "bluezone.modal.Ok": "Cập nhật",
   "bluezone.modal.Cancel": "Bỏ qua",
   "bluezone.modal.openSettingLocation": "Đến cài đặt Bật vị trí",
-  "bluezone.modal.openSettingIOFile": "Đến cài đặt Bật lưu trữ"
+  "bluezone.modal.openSettingIOFile": "Đến cài đặt Bật lưu trữ",
+
+  "bluezone.register.title": "Khẩu trang điện tử Bluezone là ứng dụng cảnh báo nếu bạn đã tiếp xúc gần với người nhiễm COVID-19, giảm thiểu các nguy cơ lây lan trong cộng đồng, giúp mọi người trở lại cuộc sống bình thường. Bạn vui lòng đăng ký số điện thoại để tiếp tục sử dụng ứng dụng.",
+  "bluezone.register.numberphone": "Nhập số điện thoại",
+  "bluezone.register.pleaseEnterYourPhone": "Vui lòng nhập số điện thoại",
+  "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",
+  "bluezone.register.next": "Tiếp tục",
+  "bluezone.register.skip": "Bỏ qua >>",
+
+  "bluezone.verifyOTP.title": "Xác thực mã OTP",
+  "bluezone.verifyOTP.enterPin": "Nhập mã xác nhận đã được gửi qua số điện thoại:",
+  "bluezone.verifyOTP.pleaseEnterPin": "Vui lòng nhập mã OTP",
+  "bluezone.verifyOTP.validPin": "Mã có hiệu lực trong",
+  "bluezone.verifyOTP.confirm": "Xác nhận",
+  "bluezone.verifyOTP.receivedOTP": "Bạn chưa nhận được mã OTP hoặc mã đã hết hạn?"
 }

@@ -44,9 +44,12 @@ async function requestUserPermission(callback) {
 }
 
 async function requestTokenFirebase() {
-  if(Platform.OS === 'android') {
-    const channel = new firebase.notifications.Android.Channel('bluezone-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
-        .setDescription('My apps test channel');
+  if (Platform.OS === 'android') {
+    const channel = new firebase.notifications.Android.Channel(
+      'bluezone-channel',
+      'Test Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('My apps test channel');
 
     // Create the channel
     firebase.notifications().android.createChannel(channel);
