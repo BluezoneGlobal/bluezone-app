@@ -117,6 +117,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
+  button: {
+    backgroundColor: '#015cd0',
+    width: '50%',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textButton: {
+    color: '#fff',
+    fontSize: fontSize.normal,
+  },
 });
 
 export default styles;

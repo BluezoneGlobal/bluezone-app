@@ -61,7 +61,6 @@ async function requestTokenFirebase() {
     .then(token => {
       return setTokenFirebase(token);
     });
-  //
   // // Listen to whether the token changes
   // messaging().onTokenRefresh(token => {
   //   return setTokenFirebase(token);
@@ -89,19 +88,20 @@ function getTokenFirebase(callback) {
 function pushNotify(notifyObj, language = 'vi') {
   const notification = new firebase.notifications.Notification()
       .setNotificationId(notifyObj.data.notifyId)
-      .setTitle(!(!language || language === 'vi') ? notifyObj.data.titleEn : notifyObj.data.title)
-      .setBody(!(!language || language === 'vi') ? notifyObj.data.textEn : notifyObj.data.text)
+      .setTitle(language !== 'vi' ? notifyObj.data.titleEn : notifyObj.data.title)
+      .setBody(language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText)
       .setData({
         group: notifyObj.data.group,
+        timestamp: notifyObj.data.timestamp,
+        text: language !== 'vi' ? notifyObj.data.textEn : notifyObj.data.text,
       })
       .android.setSmallIcon('icon_bluezone');
   if(Platform.OS === 'android') {
     notification
         .android.setChannelId('bluezone-channel')
         .android.setSmallIcon('icon_bluezone');
-  } else {
-
   }
+
   firebase.notifications().displayNotification(notification);
 }
 

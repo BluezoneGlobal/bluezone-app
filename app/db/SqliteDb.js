@@ -66,17 +66,16 @@ const close = () => {
 };
 
 const createNotify = () => {
-    // console.log('createNotify');
     db.transaction(function (txn) {
         txn.executeSql(
             "SELECT name FROM sqlite_master WHERE type='table' AND name='notify'",
             [],
             function (tx, res) {
-                console.log('cuongntg - item:', res.rows.length);
+                // console.log('cuongntg - item:', res.rows.length);
                 if (res.rows.length === 0) {
                     txn.executeSql('DROP TABLE IF EXISTS notify', []);
                     txn.executeSql(
-                        'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp LONG, unRead TEXT, data TEXT)',
+                        'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp TEXT, unRead TEXT, data TEXT)',
                         []
                     );
                     txn.executeSql(
@@ -115,17 +114,17 @@ const replaceNotify = (notifyObj, language = 'vi') => {
                 }
             },
         );
-        // txn.executeSql(
-        //     'SELECT * FROM notify',
-        //     [],
-        //     (tx, results) => {
-        //         var temp = [];
-        //         for (let i = 0; i < results.rows.length; ++i) {
-        //             temp.push(results.rows.item(i));
-        //         }
-        //         console.log('CUONGNTG - temp', temp);
-        //     },
-        // );
+        txn.executeSql(
+            'SELECT * FROM notify',
+            [],
+            (tx, results) => {
+                var temp = [];
+                for (let i = 0; i < results.rows.length; ++i) {
+                    temp.push(results.rows.item(i));
+                }
+                console.log('CUONGNTG - temp', temp);
+            },
+        );
     });
 };
 

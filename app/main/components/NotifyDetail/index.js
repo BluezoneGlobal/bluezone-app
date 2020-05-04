@@ -22,7 +22,7 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView} from 'react-native';
+import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import {injectIntl, intlShape} from 'react-intl';
 import FastImage from 'react-native-fast-image';
@@ -48,6 +48,10 @@ class NotifyScreen extends React.Component {
     this.props.navigation.goBack();
     return true;
   }
+
+  onPress = () => {
+    this.props.navigation.goBack();
+  };
 
   render() {
     const {route, intl} = this.props;
@@ -77,11 +81,13 @@ class NotifyScreen extends React.Component {
               </MediumText>
               <MediumText style={styles.colorDes}>
                 {Language === 'vi'
-                  ? `Thời gian: ${moment(item.timestamp).format(
+                  ? `Thời gian: ${moment(Number(item.timestamp)).format(
                       'HH:mm',
-                    )} Ngày: ${moment(item.timestamp).format('DD/MM/YYYY')}`
-                  : `${moment(item.timestamp).format('HH:mm')} ${moment(
-                      item.timestamp,
+                    )} Ngày: ${moment(Number(item.timestamp)).format(
+                      'DD/MM/YYYY',
+                    )}`
+                  : `${moment(Number(item.timestamp)).format('HH:mm')} ${moment(
+                      Number(item.timestamp),
                     ).format('DD/MM/YYYY')}`}
               </MediumText>
             </View>
@@ -89,6 +95,11 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
+          <TouchableOpacity onPress={this.onPress} style={styles.button}>
+            <Text style={styles.textButton}>
+              Khai báo số điện thoại
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
