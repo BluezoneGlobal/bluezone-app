@@ -609,10 +609,12 @@ const checkNotifyOfDay = () => {
     StatusNotifyRegister,
     Token,
   } = configuration;
-  const date = new Date();
 
   if(!StatusNotifyRegister) return true;
 
+  const date = new Date();
+  const currentTimeOfHours = date.getHours();
+  const Time_ScheduleNotify = ScheduleNotifyDay * 86400000;
   StatusNotifyRegister = parseInt(StatusNotifyRegister || new Date().getTime());
   const currentTimeOfDay = date.setHours(0, 0, 0, 0);
   const StatusNotifyRegisterForHour = new Date(StatusNotifyRegister).setHours(
@@ -621,10 +623,9 @@ const checkNotifyOfDay = () => {
     0,
     0,
   );
-  const checkDay =
-    currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
+  const checkDay = currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
 
-  if (Token || !checkDay) {
+  if (Token || (checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) || (currentTimeOfDay === StatusNotifyRegisterForHour && currentTimeOfHours < ScheduleNotifyHour[0])) {
     return false;
   }
 

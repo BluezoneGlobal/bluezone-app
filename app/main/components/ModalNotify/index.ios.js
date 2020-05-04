@@ -264,10 +264,10 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    // const checkNotify = checkNotifyOfDay();
-    // if (!checkNotify) {
-    //   return;
-    // }
+    const checkNotify = checkNotifyOfDay();
+    if (!checkNotify) {
+      return;
+    }
     const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
     const messageNotify = {
