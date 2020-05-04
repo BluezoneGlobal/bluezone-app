@@ -75,5 +75,6 @@
   "bluezone.verifyOTP.resetOTP": "Gửi lại mã OTP",
   "bluezone.verifyOTP.optNotValid": "Mã OTP không hợp lệ, hoặc đã hết hạn",
   "bluezone.verifyOTP.retry": "Thử lại",
-  "bluezone.verifyOTP.saveOTP": "Vui lòng nhập lại mã OTP"
+  "bluezone.verifyOTP.saveOTP": "Vui lòng nhập lại mã OTP",
+  "bluezone.verifyOTP.otpsuccess": "Xác thực OTP thành công"
 }

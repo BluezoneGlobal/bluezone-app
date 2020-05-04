@@ -72,7 +72,7 @@ class AuthLoadingScreen extends React.Component {
     const {Register_Phone, FirstOTP} = configuration;
     if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
       AsyncStorage.setItem('FirstOTP', 'true');
-      return 'Register';
+      return 'RegisterAuth';
     }
 
     return 'Home';

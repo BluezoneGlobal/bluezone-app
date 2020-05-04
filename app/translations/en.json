@@ -75,5 +75,6 @@
     "bluezone.verifyOTP.resetOTP": "Resend the OTP code",
     "bluezone.verifyOTP.optNotValid": "OTP code is not valid or the code has expired",
     "bluezone.verifyOTP.retry": "Retry",
-    "bluezone.verifyOTP.saveOTP": "Please enter OTP again"
+    "bluezone.verifyOTP.saveOTP": "Please enter OTP again",
+    "bluezone.verifyOTP.otpsuccess": "OTP verification is successful"
 }

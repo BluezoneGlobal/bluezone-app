@@ -40,7 +40,7 @@ import InsertOTP from './InsertOTP';
 import {MediumText} from '../../../base/components/Text';
 
 // Utils
-import {setToken} from '../../../Configuration';
+import {setToken, setPhoneNumber} from '../../../Configuration';
 import * as fontSize from '../../../utils/fontSize';
 import {blue_bluezone} from '../../../utils/color';
 
@@ -60,6 +60,7 @@ class VerifyOTPScreen extends React.Component {
       showModal: false,
       showModalError: false,
       visibleBtnSenOTP: false,
+      visibleVerifiSuccess: false,
     };
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
     this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
@@ -69,6 +70,7 @@ class VerifyOTPScreen extends React.Component {
     this.onHandleConfirmSuccess = this.onHandleConfirmSuccess.bind(this);
     this.onHandleConfirmFail = this.onHandleConfirmFail.bind(this);
     this.onVisibleResetOTP = this.onVisibleResetOTP.bind(this);
+    this.onChangeNavigateApp = this.onChangeNavigateApp.bind(this);
   }
   onConfirmPress = () => {
     const {otp} = this.state;
@@ -85,10 +87,17 @@ class VerifyOTPScreen extends React.Component {
 
   onHandleConfirmSuccess(response) {
     const {Token} = response.data.Object;
-    const {setLoading, navigation} = this.props;
+    const phoneNumber = this.props.route.params.phoneNumber;
     setToken(Token);
-    Toast.success('Đăng kí số điện thoai thành công !', 2);
-    setLoading ? setLoading('Home') : navigation.goBack();
+    setPhoneNumber(phoneNumber);
+    this.setState({visibleVerifiSuccess: true});
+  }
+
+  onChangeNavigateApp () {
+    const {setLoading, navigation} = this.props;
+    this.setState({visibleVerifiSuccess: false}, () => {
+      setLoading ? setLoading('Home') : navigation.goBack();
+    });
   }
 
   onHandleConfirmFail(error) {
@@ -156,7 +165,7 @@ class VerifyOTPScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {showModal, showModalError, disabled, visibleBtnSenOTP} = this.state;
+    const {showModal, showModalError, disabled, visibleBtnSenOTP, visibleVerifiSuccess} = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (
@@ -235,6 +244,34 @@ class VerifyOTPScreen extends React.Component {
             </View>
           </Modal>
         )}
+
+        <Modal
+            isVisible={visibleVerifiSuccess}
+            style={styles.modalConfirm}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={600}
+            animationOutTiming={600}
+            backdropTransitionInTiming={600}
+            backdropTransitionOutTiming={600}
+            onBackButtonPress={this.onCloseModal}
+            onBackdropPress={this.onCloseModal}>
+          <View style={styles.modalCont}>
+            <View>
+              <Text style={styles.titleModal}>
+                {formatMessage(message.otpsuccess)}
+            </Text>
+            </View>
+            <View style={styles.lBtnModal}>
+              <TouchableOpacity
+                  style={styles.btnModal}
+                  onPress={this.onChangeNavigateApp}>
+                <Text style={styles.textBtnSkip}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
         {showModalError && (
           <Modal
             isVisible={showModalError}

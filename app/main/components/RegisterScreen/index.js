@@ -94,7 +94,9 @@ class RegisterScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.props.navigation.replace('VerifyOTP', {
+    const {setLoading} = this.props;
+    const router = setLoading ? 'VerifyOTPAuth' : 'VerifyOTP';
+    this.props.navigation.replace(router, {
       phoneNumber: numberPhone,
     });
     this.setState({showLoading: false});

@@ -47,7 +47,6 @@
   "TimeEnableBluetooth": 300000,
   "BatteryEnableBluetooth": 15,
   "Notifications": [],
-  "Register_Phone": "FirstOTP",
   "PermissonNotificationsAndroid": [
     {
       "id": "000001",

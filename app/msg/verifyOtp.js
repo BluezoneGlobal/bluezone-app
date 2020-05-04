@@ -68,4 +68,8 @@ export default defineMessages({
     id: 'bluezone.verifyOTP.saveOTP',
     defaultMessage: 'Vui lòng nhập lại mã OTP',
   },
+  otpsuccess: {
+    id: 'bluezone.verifyOTP.otpsuccess',
+    defaultMessage: 'Xác thực OTP thành công',
+  }
 });

@@ -191,7 +191,7 @@ const configuration = {
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
   StatusNotifyRegister: null,
-  isRegisterFirst: false,
+  PhoneNumber: '',
 };
 
 const getConfigurationAsync = async () => {
@@ -216,6 +216,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
+      PhoneNumber
     } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
@@ -226,6 +227,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
+        PhoneNumber,
     );
   });
 };
@@ -237,6 +239,7 @@ const mergeConfiguration = (
   Language,
   FirstOTP,
   StatusNotifyRegister,
+  PhoneNumber,
 ) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
@@ -244,6 +247,7 @@ const mergeConfiguration = (
     Language: Language || 'vi',
     FirstOTP: FirstOTP || null,
     StatusNotifyRegister: StatusNotifyRegister || null,
+    PhoneNumber: PhoneNumber || ''
   });
 };
 
@@ -460,6 +464,14 @@ const setToken = Token => {
   }
 };
 
+// Lưu số điện thoại
+const setPhoneNumber = PhoneNumber => {
+  Object.assign(configuration, {PhoneNumber});
+  if (PhoneNumber) {
+    AsyncStorage.setItem('PhoneNumber', PhoneNumber); // TODO by NhatPA: Đang xảy ra trường hợp null
+  }
+};
+
 // Lưu thông tin TokenFirebase
 const setTokenFirebase = TokenFirebase => {
   console.log('TokenFirebase', TokenFirebase);
@@ -645,4 +657,5 @@ export {
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,
+  setPhoneNumber
 };
