@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     }),
   },
   header: {
-    height: 80,
+    height: 42,
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%',
@@ -92,26 +92,29 @@ const styles = StyleSheet.create({
     height: 52,
   },
   content: {
-    marginHorizontal: 13,
+    marginLeft: 13,
+    marginRight: 55,
   },
   titleText: {
     fontSize: fontSize.large,
   },
   desText: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.smaller,
     color: '#707070',
   },
   desTextUnread: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.smaller,
   },
   timer: {
     alignItems: 'flex-end',
   },
   textTimerUnread: {
     alignItems: 'flex-end',
+    fontSize: fontSize.smaller,
   },
   textTimer: {
     color: '#707070',
+    fontSize: fontSize.smaller,
   },
   wrapper: {
     justifyContent: 'space-between',
@@ -119,32 +122,18 @@ const styles = StyleSheet.create({
   },
 
   listEmptyContainer: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 23,
-  },
-
-  listEmptyCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  circle: {
-    height: 64,
-    width: 64,
-    borderRadius: 32,
-    borderWidth: 2,
-    borderColor: '#dedede',
   },
 
   listEmptyText: {
+    marginTop: 15,
     color: '#484848',
     fontSize: large,
+  },
+  empty: {
+    width: 44,
+    height: 64,
   },
 
 });

@@ -24,6 +24,7 @@
 import React from 'react';
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {ScrollView, TouchableOpacity, View, VirtualizedList} from 'react-native';
@@ -33,6 +34,8 @@ import {MediumText} from '../../../base/components/Text';
 
 // Styles
 import styles from './styles/index.css';
+import configuration from "../../../Configuration";
+import message from '../../../msg/trace';
 
 class NotifySession extends React.Component {
   constructor(props) {
@@ -41,12 +44,14 @@ class NotifySession extends React.Component {
   }
 
   getTime = (time) => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     const toDay = moment().startOf('day');
     const startOfToday = toDay.valueOf();
     const prevToday = toDay.subtract(1, 'days').valueOf();
     const nextToday = toDay.add(1, 'days').valueOf();
     if(prevToday <= time && time < startOfToday) {
-      return 'Hôm qua';
+      return formatMessage(message.yesterday);
     }else if(startOfToday <= time && time < nextToday) {
       return moment(time).format("HH:mm");
     }
@@ -54,12 +59,14 @@ class NotifySession extends React.Component {
   };
 
   renderItem = ({item}) => {
-      const {data} = this.props;
+    const {data} = this.props;
     const _callback = () => {
       data.callback.onPress(item);
     };
     const uri = item.largeIcon && item.largeIcon.length > 0 ? {uri: item.largeIcon} : require('./styles/images/corona.png');
     const textTime = this.getTime(item.timestamp);
+    const {Language} = configuration;
+
     return (
       <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>
         <View style={styles.notifyWrapper}>
@@ -69,26 +76,21 @@ class NotifySession extends React.Component {
           />
           <View style={styles.content}>
             <MediumText numberOfLines={1} style={styles.titleText}>
-              {item.title}
+              {Language === 'vi' ? item.title : item.titleEn}
             </MediumText>
-            {item.unRead === 'true' ? (
-              <MediumText
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={styles.desTextUnread}>
+            {item.unRead ? (
+              <MediumText numberOfLines={1} style={styles.desTextUnread}>
                 {item.text}
               </MediumText>
             ) : (
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={styles.desText}>
-                {item.text}
+              <Text numberOfLines={1} style={styles.desText}>
+                {Language === 'vi' ? item.text : item.textEn}
               </Text>
             )}
           </View>
         </View>
         <View style={styles.timer}>
+          <MediumText numberOfLines={1} style={styles.titleText} />
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {textTime}
           </Text>
@@ -104,7 +106,6 @@ class NotifySession extends React.Component {
     getItem = (data, index) => data[index];
 
     handleOnScroll = event => {
-        debugger;
         const {onGet} = this.props;
         const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
         if (
@@ -132,4 +133,8 @@ class NotifySession extends React.Component {
   }
 }
 
-export default NotifySession;
+NotifySession.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifySession);

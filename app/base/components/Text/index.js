@@ -21,10 +21,10 @@
 
 'use strict';
 
-import Text from './RobotoRegularText';
-import ThinText from './RobotoThinText';
-import MediumText from './RobotoMediumText';
-import LightText from './RobotoLightText';
+import Text from './OpenSansText';
+import ThinText from './OpenSansThinText';
+import MediumText from './OpenSansMediumText';
+import LightText from './OpenSansLightText';
 
 export default Text;
 export {ThinText, MediumText, LightText};

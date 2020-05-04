@@ -32,8 +32,7 @@ import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
-
-const DOMAIN = 'https://apibz.bkav.com';
+import {DOMAIN} from './apis/server';
 
 // CONST
 const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
@@ -90,6 +89,16 @@ const saveUserToFile = UserCode => {
     })
     .catch(err => {
       console.log('WRITEN ID TO FILE ERROR:' + err.message);
+    });
+};
+
+const removeFileSaveUser = () => {
+  return RNFS.unlink(filePath)
+    .then(() => {
+      console.log('FILE DELETED');
+    })
+    .catch(err => {
+      console.log(err.message);
     });
 };
 
@@ -166,15 +175,23 @@ const configuration = {
     'Bluezone cannot record "close contact" because the device has not enabled access to file.\n\nHowever, according to Google policy, the device automatically recommends "access to photos, media and files” even if Bluezone does not use the two first permissions.\n\nYou need to accept the permissions to enable storage by going to "Settings / pplications / Bluezone / Permissions".',
   LinkGroupFace: 'http://facebook.com/groups/bluezonevn',
   LinkGroupFace_en: 'http://facebook.com/groups/bluezonevn',
-  UserCode: '',
-  Token: '',
-  TokenFirebase: '',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
   Language: null,
+  ScheduleNotifyDay: 1,
+  ScheduleNotifyHour: [8, 13, 20],
+
+  // Lưu gửi AsyncStorage
+  UserCode: '',
+  Token: '',
+  TokenFirebase: '',
+  Register_Phone: 'FirstOTP',
+  FirstOTP: null,
+  StatusNotifyRegister: null,
+  isRegisterFirst: false,
 };
 
 const getConfigurationAsync = async () => {
@@ -183,24 +200,49 @@ const getConfigurationAsync = async () => {
     'Configuration',
     'TokenFirebase',
     'Language',
+    'FirstOTP',
+    'StatusNotifyRegister',
   ]).then(results => {
     let keys = {};
     results.forEach(result => {
       Object.assign(keys, {[result[0]]: result[1]});
     });
 
-    const {Token, Configuration, TokenFirebase, Language} = keys;
+    const {
+      Token,
+      Configuration,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
-    mergeConfiguration(configObject, Token, TokenFirebase, Language);
+    mergeConfiguration(
+      configObject,
+      Token,
+      TokenFirebase,
+      Language,
+      FirstOTP,
+      StatusNotifyRegister,
+    );
   });
 };
 
-const mergeConfiguration = (configObject, Token, TokenFirebase, Language) => {
+const mergeConfiguration = (
+  configObject,
+  Token,
+  TokenFirebase,
+  Language,
+  FirstOTP,
+  StatusNotifyRegister,
+) => {
   Object.assign(configuration, configObject, {
     Token: Token || '',
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
+    FirstOTP: FirstOTP || null,
+    StatusNotifyRegister: StatusNotifyRegister || null,
   });
 };
 
@@ -211,10 +253,12 @@ const getUserCodeAsync = async () => {
     Object.assign(configuration, {
       UserCode: UserCode,
     });
-    Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    // Platform.OS !== 'ios' && saveUserToFile(UserCode);
+    Platform.OS !== 'ios' && removeFileSaveUser();
   } else {
     // Service.restoreDb();
-    getUserIdFromFile(getUserIdFromFileCallback);
+    // getUserIdFromFile(getUserIdFromFileCallback);
+    getUserIdFromFileCallback();
   }
 };
 
@@ -227,7 +271,7 @@ const getUserIdFromFileCallback = async userCodeFromFile => {
   Object.assign(configuration, {
     UserCode: userCode,
   });
-  Platform.OS !== 'ios' && saveUserToFile(userCode);
+  // Platform.OS !== 'ios' && saveUserToFile(userCode);
 };
 
 function notifySchedule(notify, timestamp) {
@@ -238,8 +282,8 @@ function notifySchedule(notify, timestamp) {
     id: notify.id,
     largeIcon: 'icon_bluezone_null',
     smallIcon: 'icon_bluezone_service',
-    bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-    subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+    bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+    subText: isVietnamese ? notify.subText : notify.subText_en,
     vibrate: true,
     importance: notify.importance,
     priority: notify.priority,
@@ -254,8 +298,8 @@ function notifySchedule(notify, timestamp) {
     },
 
     /* iOS and Android properties */
-    title: isVietnamese ? notify['title'] : notify['title_en'],
-    message: isVietnamese ? notify['message'] : notify['message_en'],
+    title: isVietnamese ? notify.title : notify.title_en,
+    message: isVietnamese ? notify.message : notify.message_en,
     playSound: false,
     date: new Date(timestamp),
   });
@@ -332,8 +376,8 @@ const createNotifyPermission = () => {
       id: notify.id,
       largeIcon: 'icon_bluezone_null',
       smallIcon: 'icon_bluezone_service',
-      bigText: isVietnamese ? notify['bigText'] : notify['bigText_en'],
-      subText: isVietnamese ? notify['subText'] : notify['subText_en'],
+      bigText: isVietnamese ? notify.bigText : notify.bigText_en,
+      subText: isVietnamese ? notify.subText : notify.subText_en,
       vibrate: true,
       importance: notify.importance,
       priority: notify.priority,
@@ -348,8 +392,8 @@ const createNotifyPermission = () => {
       },
 
       /* iOS and Android properties */
-      title: isVietnamese ? notify['title'] : notify['title_en'],
-      message: isVietnamese ? notify['message'] : notify['message_en'],
+      title: isVietnamese ? notify.title : notify.title_en,
+      message: isVietnamese ? notify.message : notify.message_en,
       playSound: false,
       number: notify.number,
       repeatType: 'time',
@@ -372,6 +416,7 @@ const getConfigurationAPI = async (successCb, errorCb) => {
       if (response && response.status === 200) {
         try {
           const data = response.data.Object;
+
           const firstTimeAsync = await AsyncStorage.getItem('firstTimeOpen');
           let firstTime = firstTimeAsync
             ? Number.parseInt(firstTimeAsync, 10)
@@ -537,6 +582,64 @@ const setLanguage = Language => {
   Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
+const setStatusNotifyRegister = StatusNotifyRegister => {
+  Object.assign(configuration, {StatusNotifyRegister});
+  AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
+};
+
+const setIsRegisterFirst = isRegisterFirst => {
+  Object.assign(configuration, {isRegisterFirst});
+};
+
+const checkNotifyOfDay = () => {
+  let {
+    ScheduleNotifyDay,
+    ScheduleNotifyHour,
+    StatusNotifyRegister,
+    Token,
+    isRegisterFirst,
+  } = configuration;
+  const date = new Date();
+
+  if(!StatusNotifyRegister && isRegisterFirst) return false;
+  if(!StatusNotifyRegister && !isRegisterFirst) return true;
+
+  StatusNotifyRegister = parseInt(StatusNotifyRegister || new Date().getTime());
+  const currentTimeOfDay = date.setHours(0, 0, 0, 0);
+  const StatusNotifyRegisterForHour = new Date(StatusNotifyRegister).setHours(
+    0,
+    0,
+    0,
+    0,
+  );
+  const checkDay =
+    currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
+
+  console.log('isRegisterFirst', isRegisterFirst);
+  console.log('Token', Token,);
+  console.log('currentTimeOfDay', currentTimeOfDay);
+  console.log('ScheduleNotifyDay', ScheduleNotifyDay);
+  console.log('StatusNotifyRegisterForHour', StatusNotifyRegisterForHour);
+  console.log('checkDay', checkDay);
+  console.log('StatusNotifyRegister', StatusNotifyRegister);
+  if (isRegisterFirst || Token || !checkDay) {
+    return false;
+  }
+
+  const hoursOld = new Date(StatusNotifyRegister).getHours();
+  for (let i = 0; i < ScheduleNotifyHour.length; i++) {
+    if (
+      (i === ScheduleNotifyHour.length - 1 &&
+        ScheduleNotifyHour[ScheduleNotifyHour.length - 1] < hoursOld) ||
+      (ScheduleNotifyHour[i] <= hoursOld &&
+        ScheduleNotifyHour[i + 1] >= hoursOld)
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -550,4 +653,7 @@ export {
   createNotifyPermission,
   DOMAIN,
   setLanguage,
+  setStatusNotifyRegister,
+  checkNotifyOfDay,
+  setIsRegisterFirst,
 };

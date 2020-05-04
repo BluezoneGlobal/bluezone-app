@@ -32,6 +32,10 @@ export default defineMessages({
     id: 'bluezone.trace.aroundYou',
     defaultMessage: 'Xung quanh bạn',
   },
+  announcement: {
+    id: 'bluezone.trace.announcement',
+    defaultMessage: 'Thông báo',
+  },
   bluezoner: {
     id: 'bluezone.trace.bluezoner',
     defaultMessage: 'Bluezoner',
@@ -63,5 +67,9 @@ export default defineMessages({
   myBluezoneId: {
     id: 'bluezone.trace.myBluezoneId',
     defaultMessage: 'Mã Bluezone ID của bạn',
+  },
+  yesterday: {
+    id: 'bluezone.trace.yesterday',
+    defaultMessage: 'Hôm qua',
   },
 });

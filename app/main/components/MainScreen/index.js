@@ -23,6 +23,8 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
+import {View} from 'react-native';
+import {Badge} from '@ant-design/react-native';
 
 // Components
 import HomeScreen from '../HomeScreen';
@@ -90,13 +92,16 @@ class HomeTabScreen extends React.Component {
           name="Notify"
           component={NotifyScreen}
           options={{
-              tabBarLabel: 'Thông báo',
-              tabBarIcon: ({focused, color, size}) => (
-                  <FastImage
-                      source={focused ? iconActive.Notify : icon.Notify}
-                      style={styles.iconSquare}
-                  />
-              ),
+            tabBarLabel: formatMessage(message.report),
+            tabBarIcon: ({focused, color, size}) => (
+              <View>
+                {!focused && <Badge text="8" style={styles.badge} dot={true} />}
+                <FastImage
+                  source={focused ? iconActive.Notify : icon.Notify}
+                  style={styles.iconSquare}
+                />
+              </View>
+            ),
           }}
         />
         <Tab.Screen

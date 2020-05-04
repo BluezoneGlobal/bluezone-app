@@ -37,6 +37,8 @@ import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
+import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -57,8 +59,12 @@ import configuration, {
   getUserCodeAsync,
   createNotifyPermisson,
   removeNotifyPermisson,
+  checkNotifyOfDay,
+  setStatusNotifyRegister
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
+import firebase from 'react-native-firebase';
+import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -97,6 +103,7 @@ class ModalNotify extends React.Component {
       this,
     );
     this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -183,6 +190,7 @@ class ModalNotify extends React.Component {
       }
 
       if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
+        this.setState({isVisibleFlash: true});
       }
     }
   }
@@ -259,7 +267,6 @@ class ModalNotify extends React.Component {
         if (this.isWizardCheckPermissionLocationBlockFinished()) {
           // Điều kiện này chỉ để đảm bảo kịch bản xin quyền bộ nhớ đã kết thúc thì mới làm việc tiếp theo
           if (this.isWizardCheckPermissionWriteFinished()) {
-            debugger;
             getUserCodeAsync();
             if (
               this.statusWrite !== 'granted' ||
@@ -275,6 +282,8 @@ class ModalNotify extends React.Component {
         if (this.statusLocation === 'granted') {
           this.checkGeolocationState();
         }
+
+        this.setNotifyRegister();
       },
     );
   }
@@ -399,6 +408,32 @@ class ModalNotify extends React.Component {
 
   setLoadingModalFlash() {
     this.setState({isVisibleFlash: false});
+  }
+
+  setNotifyRegister() {
+    const checkNotify = checkNotifyOfDay();
+    if (!checkNotify) {
+      return;
+    }0
+    const {language} = this.context;
+    setStatusNotifyRegister(new Date().getTime().toString());
+    const messageNotify = {
+      data: {
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: '',
+        title: "Cập nhật số điên thoại",
+        text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        titleEn: "Update phone number",
+        textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        group: 'OTP',
+        timestamp: '1588517528002',
+        unRead: false,
+      },
+    };
+    replaceNotify(messageNotify, language);
   }
 
   render() {

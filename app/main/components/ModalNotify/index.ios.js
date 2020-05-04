@@ -25,6 +25,7 @@ import * as React from 'react';
 import {BluetoothStatus} from 'react-native-bluetooth-status';
 import * as PropTypes from 'prop-types';
 import firebase from 'react-native-firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import Modal from 'react-native-modal';
@@ -41,7 +42,10 @@ import {
   requestMultiple,
   requestNotifications,
 } from 'react-native-permissions';
-import configuration, {getUserCodeAsync} from '../../../Configuration';
+import configuration, {
+  getUserCodeAsync,
+  checkNotifyOfDay, setStatusNotifyRegister,
+} from '../../../Configuration';
 
 // Language
 import message from '../../../msg/home';
@@ -50,6 +54,7 @@ import {injectIntl, intlShape} from 'react-intl';
 // Styles
 import styles from './styles/index.css';
 import PushNotification from 'react-native-push-notification';
+import {replaceNotify} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -113,7 +118,6 @@ class ModalNotify extends React.Component {
         this.checkRequestMultiple();
       }
 
-      // Check để mở màn hình flash
       if (
         this.statusPermissionNotify !== '' &&
         this.state.isVisiblePermissionNotify === false
@@ -254,39 +258,35 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    PushNotification.localNotificationSchedule({
-      /* Android Only Properties */
-      id: 'notify.id',
-      largeIcon: 'icon_bluezone_null',
-      smallIcon: 'icon_bluezone_service',
-      bigText: 'Test',
-      subText: 'Test',
-      vibrate: true,
-      importance: '',
-      priority: 'high',
-      allowWhileIdle: false,
-      ignoreInForeground: true,
-
-      /* iOS only properties */
-      alertAction: 'view',
-      category: '',
-      userInfo: {
-        id: 'notify.id',
+    const checkNotify = checkNotifyOfDay();
+    if (!checkNotify) {
+      return;
+    }
+    const {language} = this.context;
+    setStatusNotifyRegister(new Date().getTime().toString());
+    const messageNotify = {
+      data: {
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: '',
+        title: "Cập nhật số điên thoại",
+        text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        titleEn: "Update phone number",
+        textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        group: 'OTP',
+        timestamp: '1588517528002',
+        unRead: false,
       },
-
-      /* iOS and Android properties */
-      title: 'aaaaaaaaaa',
-      message: 'bbbbbbbbbbbbbbb',
-      playSound: false,
-      number: 10,
-      repeatType: 'day',
-      date: new Date(Date.now() + 5 * 1000),
-    });
+    };
+    replaceNotify(messageNotify, language);
   }
 
   render() {
     const {language} = this.context;
     const {intl} = this.props;
+
     const {
       isVisiblePermissionBLE,
       isVisibleBLE,

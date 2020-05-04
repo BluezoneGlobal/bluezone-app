@@ -89,7 +89,7 @@ class NotifyDoubt extends React.Component {
                   width: 34,
                   height: 34,
                 }}
-                source={require('./styles/images/frame.png')}
+                source={require('./styles/images/icon_add.png')}
               />
               <MediumText
                 style={{
@@ -106,7 +106,7 @@ class NotifyDoubt extends React.Component {
                   width: 34,
                   height: 34,
                 }}
-                source={require('./styles/images/frame.png')}
+                source={require('./styles/images/icon_phone.png')}
               />
               <MediumText
                 style={{
@@ -123,7 +123,7 @@ class NotifyDoubt extends React.Component {
                   width: 34,
                   height: 34,
                 }}
-                source={require('./styles/images/frame.png')}
+                source={require('./styles/images/icon_chat.png')}
               />
               <MediumText
                 style={{

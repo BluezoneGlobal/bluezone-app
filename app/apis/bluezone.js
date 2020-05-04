@@ -22,7 +22,8 @@
 'use strict';
 
 import axios from 'axios';
-import {DOMAIN} from '../Configuration';
+import configuration from '../Configuration';
+import {DOMAIN} from './server';
 
 // 1. Trả về trạng phái phiên bản app mới nhất trên server
 export const getCheckVersions = async (success, fail) => {
@@ -61,18 +62,44 @@ export const getBluezonerAmount = async (success, fail) => {
 };
 
 // 3.
-export function CreateAndSendOTPCode(numberPhone, successCb, errorCb) {
+export function CreateAndSendOTPCode(PhoneNumber, successCb, errorCb) {
+  const {TokenFirebase} = configuration;
   const options = {
     method: 'post',
     data: {
-      PhoneNumber: numberPhone,
+      PhoneNumber: PhoneNumber,
+      TokenFirebase: TokenFirebase,
     },
     url: `${DOMAIN}/api/App/CreateAndSendOTPCode`,
   };
-  this.setState({showLoading: true});
   axios(options).then(
     response => {
-      successCb(response);
+      if (response && response.status === 200) {
+        successCb(response);
+      }
+    },
+    error => {
+      errorCb(error);
+    },
+  );
+}
+
+export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
+  const {TokenFirebase} = configuration;
+  const options = {
+    method: 'post',
+    data: {
+      TokenFirebase: TokenFirebase,
+      PhoneNumber: PhoneNumber,
+      OTPCode: OTPCode,
+    },
+    url: `${DOMAIN}/api/App/ConfirmOTPCode`,
+  };
+  axios(options).then(
+    response => {
+      if (response && response.status === 200) {
+        successCb(response);
+      }
     },
     error => {
       errorCb(error);
