@@ -23,7 +23,7 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import {View, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {close, open} from '../../../db/SqliteDb';
 
 // Components
@@ -46,6 +46,7 @@ class NotifyScreen extends React.Component {
     super(props);
     this.state = {
       notifications: [],
+      statusLoadding: true,
     };
     this.index = 0;
     this.onBack = this.onBack.bind(this);
@@ -56,6 +57,9 @@ class NotifyScreen extends React.Component {
     this.focusListener = this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });
+    this.timeOutLoadingBluezoner = setTimeout(() => {
+      this.setState({statusLoadding: false});
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -94,7 +98,7 @@ class NotifyScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {notifications} = this.state;
+    const {notifications, statusLoadding} = this.state;
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
@@ -153,7 +157,7 @@ class NotifyScreen extends React.Component {
         ) : (
           <View>
             <View style={styles.header}>
-              <MediumText style={styles.textHeader}>Thông báo</MediumText>
+              <MediumText style={styles.textHeader}>{formatMessage(message.notification)}</MediumText>
             </View>
             {
               notifications.length > 0 ? (
@@ -165,12 +169,16 @@ class NotifyScreen extends React.Component {
                     {/*  styleTextTitle={styles.textTitleWar}*/}
                     {/*/>*/}
                     <NotifySection
-                        title={'Thông báo'}
+                        title={formatMessage(message.notification)}
                         data={dataNtf}
                         styleTitle={styles.titleNtf}
                         styleTextTitle={styles.textTitleNtf}
                         onGet={this.onGetDataFromDB}
                     />
+                  </View>
+              ) : statusLoadding ? (
+                  <View style={styles.listEmptyContainer}>
+                    <ActivityIndicator size="large" color="#015CD0" />
                   </View>
               ) : (
                   <View style={styles.listEmptyContainer}>

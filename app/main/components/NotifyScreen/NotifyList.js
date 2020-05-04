@@ -58,7 +58,7 @@ class NotifySession extends React.Component {
     const _callback = () => {
       data.callback.onPress(item);
     };
-    const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
+    const uri = item.largeIcon && item.largeIcon.length > 0 ? {uri: item.largeIcon} : require('./styles/images/corona.png');
     const textTime = this.getTime(item.timestamp);
     return (
       <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>

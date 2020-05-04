@@ -56,6 +56,10 @@ export default defineMessages({
     id: 'bluezone.trace.noList',
     defaultMessage: 'Danh sách trống',
   },
+  notification: {
+    id: 'bluezone.trace.notification',
+    defaultMessage: 'Thông báo',
+  },
   myBluezoneId: {
     id: 'bluezone.trace.myBluezoneId',
     defaultMessage: 'Mã Bluezone ID của bạn',
