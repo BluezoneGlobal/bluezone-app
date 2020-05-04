@@ -85,9 +85,7 @@ class VerifyOTPScreen extends React.Component {
     const {setLoading, navigation} = this.props;
     setToken(Token);
     Toast.success('Đăng kí số điện thoai thành công !', 2);
-    setTimeout(() => {
-      setLoading ? setLoading('Home') : navigation.push('Home');
-    }, 2000);
+    setLoading ? setLoading('Home') : navigation.push('Home');
   }
 
   onHandleConfirmFail(error) {

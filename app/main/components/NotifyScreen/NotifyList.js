@@ -55,7 +55,7 @@ class NotifySession extends React.Component {
   };
 
   renderItem = ({item}) => {
-      const {data} = this.props;
+    const {data} = this.props;
     const _callback = () => {
       data.callback.onPress(item);
     };

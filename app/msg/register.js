@@ -45,6 +45,18 @@ export default defineMessages({
     id: 'bluezone.register.skip',
     defaultMessage: 'Bỏ qua',
   },
+  try: {
+    id: 'bluezone.register.try',
+    defaultMessage: 'Thử lại',
+  },
+  error: {
+    id: 'bluezone.register.error',
+    defaultMessage: 'Đã xảy ra sự cố',
+  },
+  redo: {
+    id: 'bluezone.register.redo',
+    defaultMessage: 'Vui lòng thao tác lại để sử dụng dịch vụ',
+  },
   phoneEnterNotValid: {
     id: 'bluezone.register.phoneEnterNotValid',
     defaultMessage: 'Số điện thoại bạn nhập không hợp lệ',

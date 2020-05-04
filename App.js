@@ -68,8 +68,6 @@ export default function App() {
 
   // const routeNameRef = useRef();
 
-  registerAppWithFCM();
-
   const setAuthLoading = navi => {
     if(navi === 'Register') {
       navigate('Register')
@@ -81,6 +79,7 @@ export default function App() {
 
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
+    registerAppWithFCM();
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
@@ -176,15 +175,15 @@ export default function App() {
               <>
                 <Stack.Screen
                   name="AuthLoading"
-                  component={() => <AuthLoading setLoading={setAuthLoading} />}
+                  component={(props) => <AuthLoading setLoading={setAuthLoading} {...props} />}
                 />
                 <Stack.Screen
                   name="Register"
-                  component={() => <Register setLoading={setAuthLoading} />}
+                  component={(props) => <Register setLoading={setAuthLoading} {...props}  />}
                 />
                 <Stack.Screen
                   name="VerifyOTP"
-                  component={() => <VerifyOTP setLoading={setAuthLoading} />}
+                  component={(props) => <VerifyOTP setLoading={setAuthLoading} {...props}  />}
                 />
               </>
             ) : (

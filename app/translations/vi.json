@@ -60,6 +60,9 @@
   "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",
   "bluezone.register.next": "Tiếp tục",
   "bluezone.register.skip": "Bỏ qua >>",
+  "bluezone.register.try": "Thử lại",
+  "bluezone.register.error": "Đã xảy ra sự cố",
+  "bluezone.register.redo": "Vui lòng thao tác lại để sử dụng dịch vụ",
 
   "bluezone.verifyOTP.title": "Xác thực mã OTP",
   "bluezone.verifyOTP.enterPin": "Nhập mã xác nhận đã được gửi qua số điện thoại:",

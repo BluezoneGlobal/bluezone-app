@@ -22,7 +22,13 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Components
@@ -37,7 +43,7 @@ import styles from './styles/index.css';
 
 // Utils
 import {getNotifications} from '../../../../app/db/SqliteDb';
-import message from "../../../msg/trace";
+import message from '../../../msg/trace';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -66,7 +72,7 @@ class NotifyScreen extends React.Component {
     });
   };
 
-  onGetDataFromDB = async (index) => {
+  onGetDataFromDB = async index => {
     getNotifications(index, items => {
       this.setState(prev => ({
         notifications: prev.notifications.concat(items),
@@ -93,6 +99,7 @@ class NotifyScreen extends React.Component {
   render() {
     const {route, intl} = this.props;
     const {notifications, statusLoadding} = this.state;
+    console.log('Notify - ', notifications);
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
@@ -116,40 +123,40 @@ class NotifyScreen extends React.Component {
         ) : (
           <View>
             <View style={styles.header}>
-              <MediumText style={styles.textHeader}>{formatMessage(message.announcement)}</MediumText>
+              <MediumText style={styles.textHeader}>
+                {formatMessage(message.announcement)}
+              </MediumText>
             </View>
-            {
-              notifications.length > 0 ? (
-                  <View style={styles.wrapper}>
-                    {/*<NotifySession*/}
-                    {/*  title={'Cảnh báo'}*/}
-                    {/*  data={dataWar}*/}
-                    {/*  styleTitle={styles.titleWar}*/}
-                    {/*  styleTextTitle={styles.textTitleWar}*/}
-                    {/*/>*/}
-                    <NotifySession
-                        title={formatMessage(message.announcement)}
-                        data={dataNtf}
-                        styleTitle={styles.titleNtf}
-                        styleTextTitle={styles.textTitleNtf}
-                        onGet={this.onGetDataFromDB}
-                    />
-                  </View>
-              ) : statusLoadding ? (
-                  <View style={styles.listEmptyContainer}>
-                    <ActivityIndicator size="large" color="#015CD0" />
-                  </View>
-              ) : (
-                  <View style={styles.listEmptyContainer}>
-                    <View style={styles.listEmptyCircle}>
-                      <View style={styles.circle} />
-                    </View>
-                    <Text style={styles.listEmptyText}>
-                      {formatMessage(message.noList)}
-                    </Text>
-                  </View>
-              )
-            }
+            {notifications.length > 0 ? (
+              <View style={styles.wrapper}>
+                {/*<NotifySession*/}
+                {/*  title={'Cảnh báo'}*/}
+                {/*  data={dataWar}*/}
+                {/*  styleTitle={styles.titleWar}*/}
+                {/*  styleTextTitle={styles.textTitleWar}*/}
+                {/*/>*/}
+                <NotifySession
+                  title={formatMessage(message.announcement)}
+                  data={dataNtf}
+                  styleTitle={styles.titleNtf}
+                  styleTextTitle={styles.textTitleNtf}
+                  onGet={this.onGetDataFromDB}
+                />
+              </View>
+            ) : statusLoadding ? (
+              <View style={styles.listEmptyContainer}>
+                <ActivityIndicator size="large" color="#015CD0" />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
           </View>
         )}
       </SafeAreaView>
