@@ -33,8 +33,7 @@ import {
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
 import {isRegisterFirst} from './main/components/AuthLoadingScreen';
-
-const DOMAIN = 'https://apibz.bkav.com';
+import {DOMAIN} from './apis/server';
 
 // CONST
 const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
@@ -417,6 +416,7 @@ const getConfigurationAPI = async (successCb, errorCb) => {
       if (response && response.status === 200) {
         try {
           const data = response.data.Object;
+
           const firstTimeAsync = await AsyncStorage.getItem('firstTimeOpen');
           let firstTime = firstTimeAsync
             ? Number.parseInt(firstTimeAsync, 10)

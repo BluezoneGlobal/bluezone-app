@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
     <!-- < Only if you're using GCM or localNotificationSchedule() > -->
     <permission
@@ -94,7 +95,7 @@
 
         <service android:name="com.scan.backup.BackupDatabaseService"/>
 
-        <service android:name="com.airbnb.android.react.maps.BackupDatabaseService"/>
+        <receiver android:name="com.scan.notification.NotificationReceiver" />
 
         <receiver android:name=".BootStartReceiver">
             <intent-filter>

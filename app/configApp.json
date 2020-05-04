@@ -61,7 +61,6 @@
       "subText_en": "Bluezone cần cấp quyền",
       "dayStartTime": 32400000,
       "repeatTime": 86400000,
-      "number": 113,
       "importance": "hight",
       "priority": "hight"
     }
@@ -75,9 +74,59 @@
       "message_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
       "dayStartTime": 32400000,
       "repeatTime": 86400000,
-      "number": 113,
       "importance": "hight",
       "priority": "hight"
     }
-  ]
+  ],
+  "NotificationRequestPermissonAndroid": {
+    "itemRepeat": [
+      {
+        "id": 5,
+        "repeatTime": 86400000,
+        "dayStartTime": 18900000
+      }
+    ],
+    "bigText": "",
+    "bigText_en": "",
+    "subText": "",
+    "subText_en": "",
+    "title": "",
+    "title_en": "",
+    "message": "",
+    "message_en": ""
+  },
+  "NotificationRequestBluetooth": {
+    "itemRepeat": [
+      {
+        "id": 5,
+        "repeatTime": 86400000,
+        "dayStartTime": 18900000
+      }
+    ],
+    "bigText": "bigText request bluetooth",
+    "bigText_en": "bigText request bluetooth En",
+    "subText": "subText request bluetooth",
+    "subText_en": "subText request bluetooth En",
+    "title": "title request bluetooth",
+    "title_en": "title request bluetooth En",
+    "message": "message request bluetooth",
+    "message_en": "message request bluetooth En"
+  },
+  "NotificationRequestLocation": {
+    "itemRepeat": [
+      {
+        "id": 6,
+        "repeatTime": 86400000,
+        "dayStartTime": 18900000
+      }
+    ],
+    "bigText": "bigText Request location",
+    "bigText_en": "bigText Request location En",
+    "subText": "subText Request location",
+    "subText_en": "subText Request location En",
+    "title": "title Request location",
+    "title_en": "title Request location En",
+    "message": "message Request location",
+    "message_en": "message Request location En"
+  }
 }

@@ -22,7 +22,8 @@
 'use strict';
 
 import axios from 'axios';
-import configuration, {DOMAIN} from '../Configuration';
+import configuration from '../Configuration';
+import {DOMAIN} from './server';
 
 // 1. Trả về trạng phái phiên bản app mới nhất trên server
 export const getCheckVersions = async (success, fail) => {
@@ -70,7 +71,6 @@ export function CreateAndSendOTPCode(PhoneNumber, successCb, errorCb) {
       TokenFirebase: TokenFirebase,
     },
     url: `${DOMAIN}/api/App/CreateAndSendOTPCode`,
-    // url: 'https://apiwebbz.bkav.com/api/App/CreateAndSendOTPCode',
   };
   axios(options).then(
     response => {
@@ -94,7 +94,6 @@ export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
       OTPCode: OTPCode,
     },
     url: `${DOMAIN}/api/App/ConfirmOTPCode`,
-    // url: 'https://apiwebbz.bkav.com/api/App/ConfirmOTPCode',
   };
   axios(options).then(
     response => {
