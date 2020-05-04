@@ -71,7 +71,7 @@
     "bluezone.verifyOTP.enterPin": "An OTP code has been sent to:",
     "bluezone.verifyOTP.pleaseEnterPin": "Please enter the OTP code",
     "bluezone.verifyOTP.validPin": "OTP code is valid in",
-    "bluezone.verifyOTP.confirm": "Confirmed",
+    "bluezone.verifyOTP.confirm": "Confirm",
     "bluezone.verifyOTP.receivedOTP": "You have not received OTP code or the code has expired?",
     "bluezone.verifyOTP.resetOTP": "Resend the OTP code",
     "bluezone.verifyOTP.optNotValid": "OTP code is not valid or the code has expired",
