@@ -50,7 +50,8 @@ class NotifyScreen extends React.Component {
   }
 
   onPress = () => {
-    this.props.navigation.goBack();
+    const {PhoneNumber} = configuration;
+    this.props.navigation.navigate('Register', {phoneNumber: PhoneNumber});
   };
 
   render() {
@@ -95,11 +96,13 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
-          <TouchableOpacity onPress={this.onPress} style={styles.button}>
-            <Text style={styles.textButton}>
-              Khai báo số điện thoại
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.declare}>
+            <TouchableOpacity onPress={this.onPress} style={styles.button}>
+              <Text style={styles.textButton}>
+                {formatMessage(msg.declare)}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );

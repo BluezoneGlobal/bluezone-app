@@ -425,7 +425,7 @@ class ModalNotify extends React.Component {
         title: "Bluezone",
         text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
         bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
-        titleEn: "Update phone number",
+        titleEn: "Bluezone",
         textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
         bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
         group: 'OTP',

@@ -35,6 +35,7 @@
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
     "bluezone.trace.announcement": "Announcement",
     "bluezone.trace.yesterday": "Yesterday",
+    "bluezone.trace.declare": "Declare phone number",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",

@@ -202,6 +202,7 @@ const getConfigurationAsync = async () => {
     'Language',
     'FirstOTP',
     'StatusNotifyRegister',
+    'PhoneNumber',
   ]).then(results => {
     let keys = {};
     results.forEach(result => {

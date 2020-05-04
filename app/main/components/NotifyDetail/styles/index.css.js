@@ -117,13 +117,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
+  declare: {
+    paddingVertical: 20,
+    paddingHorizontal: 60,
+  },
   button: {
     backgroundColor: '#015cd0',
-    width: '50%',
-    paddingHorizontal: 10,
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 15,
   },
   textButton: {
     color: '#fff',

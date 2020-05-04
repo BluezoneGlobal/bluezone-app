@@ -72,4 +72,8 @@ export default defineMessages({
     id: 'bluezone.trace.yesterday',
     defaultMessage: 'Hôm qua',
   },
+  declare: {
+    id: 'bluezone.trace.declare',
+    defaultMessage: 'Khai báo số điện thoại',
+  },
 });
