@@ -29,10 +29,12 @@ import {Text} from 'react-native';
 // Styles
 import styles from './styles/index.css';
 
+const TIME = 180;
+
 class CountDown extends React.Component {
   constructor() {
     super();
-    this.state = {time: {}, seconds: 90};
+    this.state = {time: {}, seconds: TIME};
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -56,8 +58,8 @@ class CountDown extends React.Component {
   startCountDown = () => {
     clearInterval(this.timer);
     this.timer = 0;
-    let timeLeftVar = this.secondsToTime(90);
-    this.setState({time: timeLeftVar, seconds: 90});
+    let timeLeftVar = this.secondsToTime(TIME);
+    this.setState({time: timeLeftVar, seconds: TIME});
     this.startTimer();
   };
 
@@ -78,6 +80,7 @@ class CountDown extends React.Component {
     // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(this.timer);
+      this.props.onVisibleResetOTP();
     }
   }
 

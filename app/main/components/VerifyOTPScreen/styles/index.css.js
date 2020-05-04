@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: blue_bluezone,
   },
-  btn: {
+  btnActive: {
     height: 54,
     borderColor: blue_bluezone,
     borderWidth: 1,
@@ -78,8 +78,21 @@ const styles = StyleSheet.create({
     borderRadius: 28,
   },
 
-  textSendOTP: {
+  btn: {
+    height: 54,
+    backgroundColor: '#e8e8e8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 28,
+  },
+
+  textSendOTPActive: {
     color: blue_bluezone,
+    paddingHorizontal: 36,
+  },
+
+  textSendOTP: {
+    color: '#ffffff',
     paddingHorizontal: 36,
   },
 
@@ -92,7 +105,7 @@ const styles = StyleSheet.create({
   titleModal: {
     fontSize: fontSize.large,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   detailModal: {
     fontSize: 13,
@@ -206,7 +219,7 @@ const styles = StyleSheet.create({
   textBtnSkip: {
     fontWeight: '500',
     fontSize: large,
-    color: '#bfbfbf',
+    color: blue_bluezone,
   },
 });
 

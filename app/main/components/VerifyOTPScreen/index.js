@@ -31,6 +31,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
+import {injectIntl, intlShape} from 'react-intl';
 
 import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
@@ -47,7 +48,6 @@ import {blue_bluezone} from '../../../utils/color';
 import styles from './styles/index.css';
 import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
-import {injectIntl, intlShape} from 'react-intl';
 import message from '../../../msg/verifyOtp';
 
 class VerifyOTPScreen extends React.Component {
@@ -59,6 +59,7 @@ class VerifyOTPScreen extends React.Component {
       otp: '',
       showModal: false,
       showModalError: false,
+      visibleBtnSenOTP: false,
     };
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
     this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
@@ -67,17 +68,19 @@ class VerifyOTPScreen extends React.Component {
     this.createAndSendOTPCodeFail = this.createAndSendOTPCodeFail.bind(this);
     this.onHandleConfirmSuccess = this.onHandleConfirmSuccess.bind(this);
     this.onHandleConfirmFail = this.onHandleConfirmFail.bind(this);
+    this.onVisibleResetOTP = this.onVisibleResetOTP.bind(this);
   }
   onConfirmPress = () => {
     const {otp} = this.state;
     const phoneNumber = this.props.route.params.phoneNumber;
-    // this.setState({showModal: true});
-    VerifyOTPCode(
-      phoneNumber,
-      otp,
-      this.onHandleConfirmSuccess,
-      this.onHandleConfirmFail,
-    );
+    this.setState({showModalError: false, showModal: false}, () => {
+      VerifyOTPCode(
+          phoneNumber,
+          otp,
+          this.onHandleConfirmSuccess,
+          this.onHandleConfirmFail,
+      );
+    });
   };
 
   onHandleConfirmSuccess(response) {
@@ -85,7 +88,7 @@ class VerifyOTPScreen extends React.Component {
     const {setLoading, navigation} = this.props;
     setToken(Token);
     Toast.success('Đăng kí số điện thoai thành công !', 2);
-    setLoading ? setLoading('Home') : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
   }
 
   onHandleConfirmFail(error) {
@@ -120,7 +123,7 @@ class VerifyOTPScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.props.navigation.navigate('VerifyOTP', {
+    this.props.navigation.replace('VerifyOTP', {
       phoneNumber: numberPhone,
     });
     this.setState({showLoading: false});
@@ -144,12 +147,16 @@ class VerifyOTPScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-    setLoading ? setLoading('Home') : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
+  }
+
+  onVisibleResetOTP() {
+    this.setState({visibleBtnSenOTP: true});
   }
 
   render() {
     const {route, intl} = this.props;
-    const {showModal, showModalError, disabled} = this.state;
+    const {showModal, showModalError, disabled, visibleBtnSenOTP} = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (
@@ -174,12 +181,12 @@ class VerifyOTPScreen extends React.Component {
           </Text>
           <View style={styles.layout2}>
             <Text style={styles.text3}>{formatMessage(message.validPin)} </Text>
-            <CountDown ref={this.setRef} />
+            <CountDown ref={this.setRef} onVisibleResetOTP={this.onVisibleResetOTP} />
           </View>
           <InsertOTP getOtp={this.getOtp} />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
-              // disabled={disabled}
+              disabled={disabled}
               onPress={this.onConfirmPress}
               text={formatMessage(message.confirm)}
               styleBtn={disabled ? styles.btnConfim : styles.colorButtonConfirm}
@@ -187,12 +194,13 @@ class VerifyOTPScreen extends React.Component {
               styleIcon={styles.iconButtonConfirm}
             />
           </View>
+
           <View style={styles.layout3}>
             <Text style={styles.text4}>
               {formatMessage(message.receivedOTP)}
             </Text>
-            <TouchableOpacity onPress={this.onReGetOTP} style={styles.btn}>
-              <MediumText style={styles.textSendOTP}>Gửi lại mã OTP</MediumText>
+            <TouchableOpacity disabled={!visibleBtnSenOTP} onPress={this.onReGetOTP} style={visibleBtnSenOTP ? styles.btnActive : styles.btn}>
+              <MediumText style={visibleBtnSenOTP ? styles.textSendOTPActive : styles.textSendOTP}>{formatMessage(message.resetOTP)}</MediumText>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -200,27 +208,28 @@ class VerifyOTPScreen extends React.Component {
           <Modal
             isVisible={showModal}
             style={styles.modalConfirm}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={600}
+            animationOutTiming={600}
+            backdropTransitionInTiming={600}
+            backdropTransitionOutTiming={600}
             onBackButtonPress={this.onCloseModal}
             onBackdropPress={this.onCloseModal}>
             <View style={styles.modalCont}>
               <View>
                 <Text style={styles.titleModal}>
-                  Mã OTP không hợp lệ, hoặc đã hết hạn
+                  {formatMessage(message.optNotValid)}
                 </Text>
               </View>
               <View>
-                <Text style={styles.detailModal}>Vui lòng nhận lại mã OTP</Text>
+                <Text style={styles.detailModal}>{formatMessage(message.saveOTP)}</Text>
               </View>
               <View style={styles.lBtnModal}>
                 <TouchableOpacity
                   style={styles.btnModal}
                   onPress={this.onCloseModal}>
-                  <Text style={styles.textBtnSkip}>Bỏ qua</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.btnModal}
-                  onPress={this.onReGetOTP}>
-                  <Text style={styles.textBtn}>Cập nhật</Text>
+                  <Text style={styles.textBtnSkip}>OK</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -252,7 +261,7 @@ class VerifyOTPScreen extends React.Component {
                 <View style={styles.borderBtn} />
                 <TouchableOpacity
                   style={styles.buttonContinued}
-                  onPress={this.onPress}>
+                  onPress={this.onConfirmPress}>
                   <Text style={styles.textButtonContinued}>Thử lại</Text>
                 </TouchableOpacity>
               </View>
@@ -260,7 +269,7 @@ class VerifyOTPScreen extends React.Component {
           </Modal>
         )}
         <ButtonText
-          text={formatMessage(message.skip)}
+          text={`${formatMessage(message.skip)} >>`}
           onPress={this.onChangeNavigate}
           styleBtn={styles.buttonInvite}
           styleText={styles.textInvite}

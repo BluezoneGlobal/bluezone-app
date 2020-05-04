@@ -21,7 +21,7 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigationState} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
@@ -63,8 +63,6 @@ const getActiveRouteName = state => {
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [initialRoute, setInitialRoute] = useState('AuthLoading');
-
-  // const routeNameRef = useRef();
 
   const setAuthLoading = navi => {
     if(navi === 'Register') {

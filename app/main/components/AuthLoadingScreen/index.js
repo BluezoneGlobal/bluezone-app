@@ -38,7 +38,6 @@ import message from '../../../msg/auth';
 import configuration, {
   getConfigurationAPI,
   getConfigurationAsync,
-  setIsRegisterFirst
 } from '../../../Configuration';
 
 // Styles
@@ -73,7 +72,6 @@ class AuthLoadingScreen extends React.Component {
     const {Register_Phone, FirstOTP} = configuration;
     if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
       AsyncStorage.setItem('FirstOTP', 'true');
-      setIsRegisterFirst(true);
       return 'Register';
     }
 

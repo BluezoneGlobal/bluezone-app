@@ -97,8 +97,11 @@ export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
   };
   axios(options).then(
     response => {
-      if (response && response.status === 200) {
+      debugger;
+      if (response && response.status === 200 && response.data.isOk === true) {
         successCb(response);
+      } else {
+        errorCb(response.isError);
       }
     },
     error => {

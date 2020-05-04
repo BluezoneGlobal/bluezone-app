@@ -94,7 +94,7 @@ class RegisterScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.props.navigation.navigate('VerifyOTP', {
+    this.props.navigation.replace('VerifyOTP', {
       phoneNumber: numberPhone,
     });
     this.setState({showLoading: false});
@@ -110,7 +110,7 @@ class RegisterScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-    setLoading ? setLoading('Home') : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
   }
 
   render() {
@@ -191,7 +191,7 @@ class RegisterScreen extends React.Component {
           )}
         </ScrollView>
         <ButtonText
-          text={formatMessage(message.skip)}
+          text={`${formatMessage(message.skip)} >>`}
           onPress={this.onChangeNavigate}
           styleBtn={styles.buttonInvite}
           styleText={styles.textInvite}

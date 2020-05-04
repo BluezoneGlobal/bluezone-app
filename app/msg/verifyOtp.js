@@ -30,7 +30,7 @@ export default defineMessages({
   },
   enterPin: {
     id: 'bluezone.verifyOTP.enterPin',
-    defaultMessage: 'Nhập mã xác nhận đã được gửi qua số điện thoại:',
+    defaultMessage: 'Mã OTP đã được gửi qua số điện thoại:',
   },
   pleaseEnterPin: {
     id: 'bluezone.verifyOTP.pleaseEnterPin',
@@ -51,5 +51,21 @@ export default defineMessages({
   skip: {
     id: 'bluezone.register.skip',
     defaultMessage: 'Bỏ qua',
+  },
+  resetOTP: {
+    id: 'bluezone.verifyOTP.resetOTP',
+    defaultMessage: 'Gửi lại mã OTP',
+  },
+  optNotValid: {
+    id: 'bluezone.verifyOTP.optNotValid',
+    defaultMessage: 'Mã OTP không hợp lệ, hoặc đã hết hạn',
+  },
+  retry: {
+    id: 'bluezone.verifyOTP.retry',
+    defaultMessage: 'Thử lại',
+  },
+  saveOTP: {
+    id: 'bluezone.verifyOTP.saveOTP',
+    defaultMessage: 'Vui lòng nhập lại mã OTP',
   },
 });
