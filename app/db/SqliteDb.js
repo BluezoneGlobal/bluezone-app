@@ -65,65 +65,69 @@ const close = () => {
   }
 };
 
-const writeNotifyDb = notifyObj => {
-  console.log('writeNotifyDb', notifyObj);
-  db.transaction(function(txn) {
-    txn.executeSql(
-      "SELECT name FROM sqlite_master WHERE type='table' AND name='notify'",
-      [],
-      function(tx, res) {
-        console.log('cuongntg - item:', res.rows.length);
-        if (res.rows.length === 0) {
-          txn.executeSql('DROP TABLE IF EXISTS notify', []);
-          txn.executeSql(
-            'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, _group TEXT, timestamp LONG, unRead TEXT, data TEXT)',
+const createNotify = () => {
+    // console.log('createNotify');
+    db.transaction(function (txn) {
+        txn.executeSql(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='notify'",
             [],
-          );
-          txn.executeSql(
-            'CREATE UNIQUE INDEX idx_positions_title ON notify (notifyId)',
-          );
-        }
-      },
-    );
-  });
-  db.transaction(function(txn) {
-    txn.executeSql(
-      'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?)',
-      [
-        notifyObj.data.notifyId ||
-          notifyObj.data.timestamp ||
-          new Date().getTime(),
-        notifyObj.data.smallIcon,
-        notifyObj.data.largeIcon,
-        notifyObj.data.title,
-        notifyObj.data.text,
-        notifyObj.data.bigText,
-        notifyObj.data.group, // push thông tin cấu hình(CONFIG), push thông báo (INFO), push cảnh báo (WARN), push xác minh kết quả tiếp xúc (VERIFY), push nhắc cấp quyền (PERMISSION), push nhắc bật/tắt dịch vụ (SERVICE), push nhắc khai số điện thoại (MOBILE)
-        notifyObj.data.timestamp || new Date().getTime(),
-        notifyObj.data.unRead,
-        JSON.stringify(notifyObj.data.data || {}),
-      ],
-      async (tx, results) => {
-        console.log('CUONGNTG - INSERT INTO notify', results.rowsAffected);
-        if (results.rowsAffected > 0) {
-        } else {
-          console.log('cuongntg - Insert notify Failed');
-        }
-      },
-    );
-    // txn.executeSql(
-    //     'SELECT * FROM notify',
-    //     [],
-    //     (tx, results) => {
-    //         var temp = [];
-    //         for (let i = 0; i < results.rows.length; ++i) {
-    //             temp.push(results.rows.item(i));
-    //         }
-    //         console.log('cuongntg - temp', temp);
-    //     },
-    // );
-  });
-  pushNotify(notifyObj);
+            function (tx, res) {
+                console.log('cuongntg - item:', res.rows.length);
+                if (res.rows.length === 0) {
+                    txn.executeSql('DROP TABLE IF EXISTS notify', []);
+                    txn.executeSql(
+                        'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp LONG, unRead TEXT, data TEXT)',
+                        []
+                    );
+                    txn.executeSql(
+                        'CREATE UNIQUE INDEX idx_positions_title ON notify (notifyId)',
+                    );
+                }
+            }
+        );
+    });
+};
+
+const replaceNotify = (notifyObj, language = 'vi') => {
+    // console.log('replaceNotify', notifyObj);
+    db.transaction(function(txn) {
+        txn.executeSql(
+            'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            [
+                notifyObj.data.notifyId || notifyObj.data.timestamp || new Date().getTime(),
+                notifyObj.data.smallIcon,
+                notifyObj.data.largeIcon,
+                notifyObj.data.title,
+                notifyObj.data.text,
+                notifyObj.data.bigText,
+                notifyObj.data.titleEn,
+                notifyObj.data.textEn,
+                notifyObj.data.bigTextEn,
+                notifyObj.data.group, // push thông tin cấu hình(CONFIG), push thông báo (INFO), push cảnh báo (WARN), push xác minh kết quả tiếp xúc (VERIFY), push nhắc cấp quyền (PERMISSION), push nhắc bật/tắt dịch vụ (SERVICE), push nhắc khai số điện thoại (MOBILE)
+                notifyObj.data.timestamp || new Date().getTime(),
+                notifyObj.data.unRead,
+                JSON.stringify(notifyObj.data.data || {}),
+            ],
+            async (tx, results) => {
+                if (results.rowsAffected > 0) {
+                } else {
+                    console.log('cuongntg - Insert notify Failed');
+                }
+            },
+        );
+        txn.executeSql(
+            'SELECT * FROM notify',
+            [],
+            (tx, results) => {
+                var temp = [];
+                for (let i = 0; i < results.rows.length; ++i) {
+                    temp.push(results.rows.item(i));
+                }
+                console.log('CUONGNTG - temp', temp);
+            },
+        );
+    });
+    pushNotify(notifyObj, language);
 };
 
 const getDays = async (days, callback) => {
@@ -151,4 +155,4 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays, writeNotifyDb};
+export {open, close, getDays, replaceNotify, createNotify};

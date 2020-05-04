@@ -25,8 +25,11 @@ import firebase from 'react-native-firebase';
 import {setTokenFirebase} from './Configuration';
 // Optional flow type
 import type {RemoteMessage} from 'react-native-firebase';
-import {open, writeNotifyDb} from './db/SqliteDb';
+import {replaceNotify} from "./db/SqliteDb";
 import {Platform} from 'react-native';
+import AsyncStorage from "@react-native-community/async-storage";
+import type { RemoteMessage } from 'react-native-firebase';
+import {Platform} from "react-native";
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
@@ -68,9 +71,8 @@ async function requestTokenFirebase() {
 }
 
 async function registerBackgroundMessageHandler(message: RemoteMessage) {
-  // console.log('registerBackgroundMessageHandler', message);
-  open();
-  writeNotifyDb(message);
+  const language = await AsyncStorage.getItem('Language');
+  replaceNotify(message, language);
   // Register background handler
   return Promise.resolve();
 }
@@ -86,17 +88,17 @@ function getTokenFirebase(callback) {
     .then(callback);
 }
 
-function pushNotify(notifyObj) {
-  if (Platform.OS === 'android') {
+function pushNotify(notifyObj, language = 'vi') {
+  if(Platform.OS === 'android') {
     const notification = new firebase.notifications.Notification()
-      .setNotificationId(notifyObj.data.notifyId)
-      .setTitle(notifyObj.data.title)
-      .setBody(notifyObj.data.text)
-      .android.setChannelId('bluezone-channel')
-      .setData({
-        group: notifyObj.data.group,
-      })
-      .android.setSmallIcon('icon_bluezone');
+        .setNotificationId(notifyObj.data.notifyId)
+        .setTitle(!(!language || language === 'vi') ? notifyObj.data.titleEn : notifyObj.data.title)
+        .setBody(!(!language || language === 'vi') ? notifyObj.data.textEn : notifyObj.data.text)
+        .android.setChannelId('bluezone-channel')
+        .setData({
+          group: notifyObj.data.group,
+        })
+        .android.setSmallIcon('icon_bluezone');
     firebase.notifications().displayNotification(notification);
   }
 }

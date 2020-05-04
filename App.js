@@ -39,24 +39,25 @@ import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 import {navigationRef, navigate} from './RootNavigation';
 import {registerAppWithFCM, registerMessageHandler} from './app/CloudMessaging';
-import {writeNotifyDb, open} from './app/db/SqliteDb';
+import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
 
 // Gets the current screen from navigation state
 const getActiveRouteName = state => {
-  const route = state.routes[state.index];
+    const route = state.routes[state.index];
 
-  if (route.state) {
-    // Dive into nested navigators
-    return getActiveRouteName(route.state);
-  }
+    if (route.state) {
+        // Dive into nested navigators
+        return getActiveRouteName(route.state);
+    }
 
-  return route.name;
+    return route.name;
 };
 
 export default function App() {
@@ -78,10 +79,9 @@ export default function App() {
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
-    registerMessageHandler(onRemotemessage => {
-      // console.log('registerMessageHandler', onRemotemessage.data);
-      open();
-      writeNotifyDb(onRemotemessage);
+    registerMessageHandler(async onRemotemessage => {
+        const language = await AsyncStorage.getItem('Language');
+        replaceNotify(onRemotemessage, language);
     });
 
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
