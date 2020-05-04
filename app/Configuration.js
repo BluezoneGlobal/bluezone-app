@@ -175,17 +175,23 @@ const configuration = {
     'Bluezone cannot record "close contact" because the device has not enabled access to file.\n\nHowever, according to Google policy, the device automatically recommends "access to photos, media and files” even if Bluezone does not use the two first permissions.\n\nYou need to accept the permissions to enable storage by going to "Settings / pplications / Bluezone / Permissions".',
   LinkGroupFace: 'http://facebook.com/groups/bluezonevn',
   LinkGroupFace_en: 'http://facebook.com/groups/bluezonevn',
-  UserCode: '',
-  Token: '',
-  TokenFirebase: '',
   TimeEnableBluetooth: 300000,
   BatteryEnableBluetooth: 15,
   Notifications: [],
   PermissonNotificationsAndroid: [],
   PermissonNotificationsIos: [],
   Language: null,
+  ScheduleNotifyDay: 1,
+  ScheduleNotifyHour: [8, 13, 20],
+
+  // Lưu gửi AsyncStorage
+  UserCode: '',
+  Token: '',
+  TokenFirebase: '',
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
+  StatusNotifyRegister: null,
+  isRegisterFirst: false,
 };
 
 const getConfigurationAsync = async () => {
@@ -576,6 +582,64 @@ const setLanguage = Language => {
   Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
+const setStatusNotifyRegister = StatusNotifyRegister => {
+  Object.assign(configuration, {StatusNotifyRegister});
+  AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
+};
+
+const setIsRegisterFirst = isRegisterFirst => {
+  Object.assign(configuration, {isRegisterFirst});
+};
+
+const checkNotifyOfDay = () => {
+  let {
+    ScheduleNotifyDay,
+    ScheduleNotifyHour,
+    StatusNotifyRegister,
+    Token,
+    isRegisterFirst,
+  } = configuration;
+  const date = new Date();
+
+  if(!StatusNotifyRegister && isRegisterFirst) return false;
+  if(!StatusNotifyRegister && !isRegisterFirst) return true;
+
+  StatusNotifyRegister = parseInt(StatusNotifyRegister || new Date().getTime());
+  const currentTimeOfDay = date.setHours(0, 0, 0, 0);
+  const StatusNotifyRegisterForHour = new Date(StatusNotifyRegister).setHours(
+    0,
+    0,
+    0,
+    0,
+  );
+  const checkDay =
+    currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
+
+  console.log('isRegisterFirst', isRegisterFirst);
+  console.log('Token', Token,);
+  console.log('currentTimeOfDay', currentTimeOfDay);
+  console.log('ScheduleNotifyDay', ScheduleNotifyDay);
+  console.log('StatusNotifyRegisterForHour', StatusNotifyRegisterForHour);
+  console.log('checkDay', checkDay);
+  console.log('StatusNotifyRegister', StatusNotifyRegister);
+  if (isRegisterFirst || Token || !checkDay) {
+    return false;
+  }
+
+  const hoursOld = new Date(StatusNotifyRegister).getHours();
+  for (let i = 0; i < ScheduleNotifyHour.length; i++) {
+    if (
+      (i === ScheduleNotifyHour.length - 1 &&
+        ScheduleNotifyHour[ScheduleNotifyHour.length - 1] < hoursOld) ||
+      (ScheduleNotifyHour[i] <= hoursOld &&
+        ScheduleNotifyHour[i + 1] >= hoursOld)
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export default configuration;
 export {
   setTokenFirebase,
@@ -589,4 +653,7 @@ export {
   createNotifyPermission,
   DOMAIN,
   setLanguage,
+  setStatusNotifyRegister,
+  checkNotifyOfDay,
+  setIsRegisterFirst,
 };

@@ -90,7 +90,6 @@ class HistoryScanScreen extends React.Component {
 
   componentWillUnmount() {
     AsyncStorage.setItem('historyDays', JSON.stringify(this.days));
-    close();
     this.db = null;
   }
 

@@ -24,6 +24,8 @@
 import React from 'react';
 import {View, ScrollView, SafeAreaView} from 'react-native';
 import moment from 'moment';
+import {injectIntl, intlShape} from 'react-intl';
+import FastImage from 'react-native-fast-image';
 import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
@@ -33,8 +35,8 @@ import Header from '../../../base/components/Header';
 
 // Styles
 import styles from './styles/index.css';
-import FastImage from 'react-native-fast-image';
-// import InviteScreen from "../InviteScreen";
+import msg from '../../../msg/trace';
+import configuration from "../../../Configuration";
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -48,9 +50,13 @@ class NotifyScreen extends React.Component {
   }
 
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
     const item = (route && route.params.item) || {};
+    console.log('cuongntg - navigate vaof cmnr', item);
     const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
+    const {formatMessage} = intl;
+    const {Language} = configuration;
+
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -58,7 +64,7 @@ class NotifyScreen extends React.Component {
           colorIcon={'#015cd0'}
           styleTitle={styles.textHeader}
           showBack
-          title={'Thông báo'}
+          title={formatMessage(msg.notification)}
         />
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -68,18 +74,27 @@ class NotifyScreen extends React.Component {
             />
             <View style={styles.content}>
               <MediumText numberOfLines={1} style={styles.titleText}>
-                {item.title}
+                {Language === 'vi' ? item.title : item.titleEn}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                Thời gian: {moment(item.timestamp).format("HH:mm")} Ngày: {moment(item.timestamp).format("DD/MM/YYYY")}
+                {
+                  Language === 'vi' ?
+                      (
+                          `Thời gian: ${moment(Number(item.timestamp)).format("HH:mm")} Ngày: ${moment(Number(item.timestamp)).format("DD/MM/YYYY")}`
+                          ) : `${moment(Number(item.timestamp)).format("HH:mm")} ${moment(Number(item.timestamp)).format("DD/MM/YYYY")}`
+                }
               </MediumText>
             </View>
           </View>
-          <Text style={styles.textContent}>{item.bigText}</Text>
+          <Text style={styles.textContent}>{Language === 'vi' ? item.bigText : item.bigTextEn}</Text>
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
 
-export default NotifyScreen;
+NotifyScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifyScreen);

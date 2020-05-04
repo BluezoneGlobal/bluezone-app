@@ -97,7 +97,9 @@ export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
   };
   axios(options).then(
     response => {
-      successCb(response);
+      if (response && response.status === 200) {
+        successCb(response);
+      }
     },
     error => {
       errorCb(error);

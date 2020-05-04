@@ -15,6 +15,7 @@
   "bluezone.home.historyButton": " Lịch sử tiếp xúc ",
   "bluezone.home.scheduleNotifyOTP": "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
   "bluezone.home.updatePhoneNumber": "Cập nhật số điên thoại",
+  "bluezone.home.warn": "Cảnh báo",
 
   "bluezone.invite.title": "Mời",
   "bluezone.invite.productLabel1": "Bảo vệ người thân, bạn bè trước",
@@ -30,6 +31,8 @@
   "bluezone.trace.around": "Ở xung quanh",
   "bluezone.trace.invite": "Mời",
   "bluezone.trace.noList": "Danh sách trống",
+  "bluezone.trace.notification": "Thông báo",
+  "bluezone.trace.announcement": "Thông báo",
   "bluezone.trace.myBluezoneId": "Mã Bluezone ID của bạn",
 
   "bluezone.history.header": "Lịch sử tiếp xúc",
@@ -48,8 +51,10 @@
   "bluezone.modal.Cancel": "Bỏ qua",
   "bluezone.modal.openSettingLocation": "Đến cài đặt Bật vị trí",
   "bluezone.modal.openSettingIOFile": "Đến cài đặt Bật lưu trữ",
+  "bluezone.modal.report": "Thông báo",
 
-  "bluezone.register.title": "Khẩu trang điện tử Bluezone là ứng dụng cảnh báo nếu bạn đã tiếp xúc gần với người nhiễm COVID-19, giảm thiểu các nguy cơ lây lan trong cộng đồng, giúp mọi người trở lại cuộc sống bình thường. Bạn vui lòng đăng ký số điện thoại để tiếp tục sử dụng ứng dụng.",
+  "bluezone.register.summary": "Bluezone - Khẩu trang điện tử",
+  "bluezone.register.title": "Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần người nhiễm COVID-19. Hãy đăng kí số điện thoại để nhận được hỗ trợ y tế sớm nhất khi bạn có nguy cơ.",
   "bluezone.register.numberphone": "Nhập số điện thoại",
   "bluezone.register.pleaseEnterYourPhone": "Vui lòng nhập số điện thoại",
   "bluezone.register.phoneEnterNotValid": "Số điện thoại bạn nhập không hợp lệ",

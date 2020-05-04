@@ -33,6 +33,7 @@ import {MediumText} from '../../../base/components/Text';
 
 // Styles
 import styles from './styles/index.css';
+import configuration from "../../../Configuration";
 
 class NotifySession extends React.Component {
   constructor(props) {
@@ -58,8 +59,10 @@ class NotifySession extends React.Component {
     const _callback = () => {
       data.callback.onPress(item);
     };
-    const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
+    const uri = item.largeIcon && item.largeIcon.length > 0 ? {uri: item.largeIcon} : require('./styles/images/corona.png');
     const textTime = this.getTime(item.timestamp);
+    const {Language} = configuration;
+
     return (
       <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>
         <View style={styles.notifyWrapper}>
@@ -69,21 +72,21 @@ class NotifySession extends React.Component {
           />
           <View style={styles.content}>
             <MediumText numberOfLines={1} style={styles.titleText}>
-              {item.title}
+              {Language === 'vi' ? item.title : item.titleEn}
             </MediumText>
             {item.unRead === 'true' ? (
               <MediumText
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.desTextUnread}>
-                {item.text}
+                {Language === 'vi' ? item.text : item.textEn}
               </MediumText>
             ) : (
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.desText}>
-                {item.text}
+                {Language === 'vi' ? item.text : item.textEn}
               </Text>
             )}
           </View>
@@ -104,7 +107,6 @@ class NotifySession extends React.Component {
     getItem = (data, index) => data[index];
 
     handleOnScroll = event => {
-        debugger;
         const {onGet} = this.props;
         const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
         if (

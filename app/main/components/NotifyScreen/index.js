@@ -22,14 +22,13 @@
 'use strict';
 
 import React from 'react';
-import * as PropTypes from 'prop-types';
-import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
-import {close, open} from '../../../db/SqliteDb';
+import {View, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
-import NotifySection from './NotifySession';
+import NotifySession from './NotifySession';
 // import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Styles
@@ -39,13 +38,13 @@ import styles from './styles/index.css';
 // Utils
 import {getNotifications} from '../../../../app/db/SqliteDb';
 import message from "../../../msg/trace";
-import {injectIntl, intlShape} from 'react-intl';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       notifications: [],
+      statusLoadding: true,
     };
     this.index = 0;
     this.onBack = this.onBack.bind(this);
@@ -53,14 +52,12 @@ class NotifyScreen extends React.Component {
 
   componentDidMount() {
     this.initData();
-    this.focusListener = this.props.navigation.addListener('tabPress', () => {
+    this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });
-  }
-
-  componentWillUnmount() {
-    this.focusListener.remove();
-    close();
+    this.timeOutLoadingBluezoner = setTimeout(() => {
+      this.setState({statusLoadding: false});
+    }, 15000);
   }
 
   initData = async () => {
@@ -89,12 +86,13 @@ class NotifyScreen extends React.Component {
 
   onPressNotification = item => {
     // doSomething.
+    console.log('cuongntg123', item);
     this.props.navigation.navigate('NotifyDetail', {item});
   };
 
   render() {
     const {route, intl} = this.props;
-    const {notifications} = this.state;
+    const {notifications, statusLoadding} = this.state;
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
@@ -113,24 +111,46 @@ class NotifyScreen extends React.Component {
             colorIcon={'#015cd0'}
             styleTitle={styles.textHeader}
             showBack
-            title={'Thông báo'}
+            title={formatMessage(message.announcement)}
           />
         ) : (
           <View>
             <View style={styles.header}>
-              <MediumText style={styles.textHeader}>Thông báo</MediumText>
+              <MediumText style={styles.textHeader}>{formatMessage(message.announcement)}</MediumText>
             </View>
-            <>
-              <View style={styles.wrapper}>
-                <NotifySection
-                  title={'Thông báo'}
-                  data={dataNtf}
-                  styleTitle={styles.titleNtf}
-                  styleTextTitle={styles.textTitleNtf}
-                />
-              </View>
-            </>
-          </ScrollView>
+            {
+              notifications.length > 0 ? (
+                  <View style={styles.wrapper}>
+                    {/*<NotifySession*/}
+                    {/*  title={'Cảnh báo'}*/}
+                    {/*  data={dataWar}*/}
+                    {/*  styleTitle={styles.titleWar}*/}
+                    {/*  styleTextTitle={styles.textTitleWar}*/}
+                    {/*/>*/}
+                    <NotifySession
+                        title={formatMessage(message.announcement)}
+                        data={dataNtf}
+                        styleTitle={styles.titleNtf}
+                        styleTextTitle={styles.textTitleNtf}
+                        onGet={this.onGetDataFromDB}
+                    />
+                  </View>
+              ) : statusLoadding ? (
+                  <View style={styles.listEmptyContainer}>
+                    <ActivityIndicator size="large" color="#015CD0" />
+                  </View>
+              ) : (
+                  <View style={styles.listEmptyContainer}>
+                    <View style={styles.listEmptyCircle}>
+                      <View style={styles.circle} />
+                    </View>
+                    <Text style={styles.listEmptyText}>
+                      {formatMessage(message.noList)}
+                    </Text>
+                  </View>
+              )
+            }
+          </View>
         )}
       </SafeAreaView>
     );

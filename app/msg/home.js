@@ -24,6 +24,10 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
+  warn: {
+    id: 'bluezone.home.warn',
+    defaultMessage: 'Cảnh báo',
+  },
   header: {
     id: 'bluezone.home.header',
     defaultMessage: 'Bảo vệ mình, bảo vệ cộng đồng',
@@ -91,5 +95,9 @@ export default defineMessages({
   updatePhoneNumber: {
     id: 'bluezone.home.updatePhoneNumber',
     defaultMessage: 'bluezone.home.updatePhoneNumber',
+  },
+  report: {
+    id: 'bluezone.modal.report',
+    defaultMessage: 'bluezone.modal.report',
   },
 });

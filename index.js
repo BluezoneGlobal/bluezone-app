@@ -7,7 +7,6 @@ const _XHR = GLOBAL.originalXMLHttpRequest
       GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest);
 XMLHttpRequest = _XHR;
 
-import React from 'react';
 import {AppRegistry} from 'react-native';
 
 // Components

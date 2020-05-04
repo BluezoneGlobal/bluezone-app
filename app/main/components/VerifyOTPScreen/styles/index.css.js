@@ -23,10 +23,11 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {blue_bluezone} from '../../../../utils/color';
+import {large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   layout1: {
-    backgroundColor: 'rgba(241, 90, 34, 0.07)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     paddingVertical: 24,
@@ -34,66 +35,66 @@ const styles = StyleSheet.create({
   },
   text1: {
     textAlign: 'center',
-    fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 17,
-    lineHeight: 20,
+    fontSize: fontSize.large,
+    lineHeight: 30,
   },
   text2: {
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: 19,
     lineHeight: 20,
-    color: '#F15A22',
+    color: blue_bluezone,
     textAlign: 'center',
     marginTop: 40,
   },
   layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
   text3: {
     fontStyle: 'normal',
-    fontSize: 17,
+    fontSize: fontSize.large,
     lineHeight: 20,
   },
   layout3: {
-    backgroundColor: 'rgba(241, 90, 34, 0.07)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     borderRadius: 8,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 60,
   },
   text4: {
-    fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 17,
-    lineHeight: 20,
+    fontSize: fontSize.large,
     paddingVertical: 24,
-    width: '75%',
+    textAlign: 'center',
+    paddingHorizontal: 50,
+    lineHeight: 30,
+    color: blue_bluezone,
   },
   btn: {
-    width: 56,
-    height: 56,
-    backgroundColor: '#FFFFFF',
+    height: 54,
+    borderColor: blue_bluezone,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 28,
-    elevation: 4,
-    shadowOffset: {width: 0, height: 5},
-    shadowColor: '#fff',
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
   },
+
+  textSendOTP: {
+    color: blue_bluezone,
+    paddingHorizontal: 36,
+  },
+
+  modalCont: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    paddingTop: 19,
+  },
+
   titleModal: {
-    fontSize: 17,
+    fontSize: fontSize.large,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontStyle: 'normal',
   },
   detailModal: {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: 13,
     lineHeight: 16,
     textAlign: 'center',
@@ -104,24 +105,30 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderTopColor: 'rgba(60, 60, 67, 0.29)',
     width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 45,
   },
-  btnModal: {alignItems: 'center', marginTop: 10},
+  btnModal: {
+    alignItems: 'center',
+    flex: 1,
+  },
   textBtn: {
-    fontWeight: 'bold',
-    fontSize: 17,
-    color: '#F15A22',
+    fontSize: fontSize.large,
+    color: blue_bluezone,
+    fontWeight: '500',
   },
   textTimer: {
-    fontSize: 17,
-    color: '#F15A22',
+    fontSize: fontSize.large,
+    color: blue_bluezone,
     lineHeight: 20,
   },
   container: {
     flex: 1,
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#ffffff',
   },
   scroll: {
     flex: 1,
@@ -135,8 +142,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 48,
   },
   colorButtonConfirm: {
-    backgroundColor: '#F15A22',
+    backgroundColor: blue_bluezone,
+    height: 54,
+    borderRadius: 28,
+    marginHorizontal: 78,
   },
+
+  btnConfim: {
+    backgroundColor: '#e8e8e8',
+    height: 54,
+    borderRadius: 28,
+    marginHorizontal: 78,
+  },
+
   iconButtonConfirm: {
     width: 18,
     height: 18,
@@ -176,13 +194,19 @@ const styles = StyleSheet.create({
 
   buttonInvite: {
     position: 'absolute',
-    right: 20,
+    right: 8,
     bottom: 16,
   },
 
   textInvite: {
     color: '#000000',
-    fontWeight: '600',
+    fontWeight: '500',
+  },
+
+  textBtnSkip: {
+    fontWeight: '500',
+    fontSize: large,
+    color: '#bfbfbf',
   },
 });
 

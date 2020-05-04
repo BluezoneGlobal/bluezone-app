@@ -75,7 +75,7 @@ const createNotify = () => {
                 if (res.rows.length === 0) {
                     txn.executeSql('DROP TABLE IF EXISTS notify', []);
                     txn.executeSql(
-                        'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp LONG, unRead TEXT, data TEXT)',
+                        'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp TEXT, unRead TEXT, data TEXT)',
                         []
                     );
                     txn.executeSql(
@@ -88,6 +88,7 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi') => {
+    pushNotify(notifyObj, language);
     db.transaction(function(txn) {
         txn.executeSql(
             'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -113,19 +114,18 @@ const replaceNotify = (notifyObj, language = 'vi') => {
                 }
             },
         );
-        // txn.executeSql(
-        //     'SELECT * FROM notify',
-        //     [],
-        //     (tx, results) => {
-        //         var temp = [];
-        //         for (let i = 0; i < results.rows.length; ++i) {
-        //             temp.push(results.rows.item(i));
-        //         }
-        //         console.log('CUONGNTG - temp', temp);
-        //     },
-        // );
+        txn.executeSql(
+            'SELECT * FROM notify',
+            [],
+            (tx, results) => {
+                var temp = [];
+                for (let i = 0; i < results.rows.length; ++i) {
+                    temp.push(results.rows.item(i));
+                }
+                console.log('CUONGNTG - temp', temp);
+            },
+        );
     });
-    pushNotify(notifyObj, language);
 };
 
 const getNotifications = async (index, callback) => {
@@ -176,11 +176,4 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {
-  open,
-  close,
-  getDays,
-  replaceNotify,
-  createNotify,
-  getNotifications,
-};
+export {open, close, getDays, replaceNotify, createNotify, getNotifications};

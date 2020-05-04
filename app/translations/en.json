@@ -5,8 +5,8 @@
     "bluezone.tab.about": "About",
 
     "bluezone.home.header": "Protect yourself\nProtect our community",
-    "bluezone.home.productLabel1": "This app is to alert if you have been in close contact with people",
-    "bluezone.home.productLabel2": "who have tested positive for ",
+    "bluezone.home.productLabel1": "This app is to alert if you have been in close contact",
+    "bluezone.home.productLabel2": "with people who have tested positive for ",
     "bluezone.home.productLabel3": "COVID-19",
     "bluezone.home.around": "around you",
     "bluezone.home.community": "community",
@@ -15,6 +15,7 @@
     "bluezone.home.historyButton": "View history",
     "bluezone.home.scheduleNotifyOTP": "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
     "bluezone.home.updatePhoneNumber": "Update phone number",
+    "bluezone.home.warn": "Warning",
 
     "bluezone.invite.title": "Invite",
     "bluezone.invite.productLabel1": "Protect your relatives and friends",
@@ -30,7 +31,9 @@
     "bluezone.trace.around": "Around you",
     "bluezone.trace.invite": "Invite",
     "bluezone.trace.noList": "Empty list",
+    "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
+    "bluezone.trace.announcement": "Announcement",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",
@@ -48,8 +51,10 @@
     "bluezone.modal.Cancel": "Cancel",
     "bluezone.modal.openSettingLocation": "Open setting",
     "bluezone.modal.openSettingIOFile": "Open setting",
+    "bluezone.modal.report": "Report",
 
-    "bluezone.register.title": "Electronic mask Bluezone is an application that alert you when you have been in close contact with people who have tested positive for COVID-19, minimizing the risk of spreading the virus to the community, helping people return to their normal life. Please register your phone number to continue using the application.",
+    "bluezone.register.summary": "Bluezone - Electronic mask",
+    "bluezone.register.title": "This app is to alert if you have been in close contact with people who has tested positive for COVID-19. Register your phone number to get medical help at the earliest time in case of potential exposure.",
     "bluezone.register.numberphone": "Enter your phone number",
     "bluezone.register.pleaseEnterYourPhone": "Please enter your phone number",
     "bluezone.register.phoneEnterNotValid": "The phone number you entered is not valid",

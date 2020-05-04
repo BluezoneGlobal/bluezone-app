@@ -40,10 +40,10 @@ import VerifyOTP from './app/main/components/VerifyOTPScreen';
 import {navigationRef, navigate} from './RootNavigation';
 import {registerAppWithFCM, registerMessageHandler} from './app/CloudMessaging';
 import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
-import ContextProvider from "./LanguageContext";
-import LanguageProvider from "./app/utils/LanguageProvider";
-import {translationMessages} from "./app/i18n";
-import AsyncStorage from "@react-native-community/async-storage";
+import ContextProvider from './LanguageContext';
+import LanguageProvider from './app/utils/LanguageProvider';
+import {translationMessages} from './app/i18n';
+import configuration from './app/Configuration';
 
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
@@ -82,25 +82,27 @@ export default function App() {
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
-    registerMessageHandler(onRemotemessage => {
-      // console.log('registerMessageHandler', onRemotemessage.data);
-      open();
-      writeNotifyDb(onRemotemessage);
+    registerMessageHandler(async onRemotemessage => {
+        const {Language} = configuration;
+        // console.log('registerMessageHandler', onRemotemessage);
+        replaceNotify(onRemotemessage, Language);
     });
 
+      open();
+      createNotify();
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
+      const obj = remoteMessage.notification;
       if (
-        remoteMessage.notification &&
-        remoteMessage.notification.data.group === 'WARN'
+        obj && obj.data.group === 'WARN'
       ) {
-        navigate('NotifyWarning', remoteMessage);
+        navigate('NotifyWarning', {item: obj});
       } else if (
-        remoteMessage.notification &&
-        remoteMessage.notification.data.group === 'INFO'
+          obj && obj.data.group === 'INFO'
       ) {
-        navigate('NotifyDetail', remoteMessage);
+        console.log('namvh 1', {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text});
+        navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
       } else {
         navigate('Register', remoteMessage);
       }
@@ -121,18 +123,18 @@ export default function App() {
       .notifications()
       .getInitialNotification()
       .then(remoteMessage => {
+        const obj = remoteMessage.notification;
         if (remoteMessage) {
           if (
-            remoteMessage.notification &&
-            remoteMessage.notification.data.group === 'WARN'
+              obj && obj.data.group === 'WARN'
           ) {
-            navigate('NotifyWarning', remoteMessage);
+            navigate('NotifyWarning', {item: obj});
           }
           if (
-            remoteMessage.notification &&
-            remoteMessage.notification.data.group === 'INFO'
+              obj && obj.data.group === 'INFO'
           ) {
-            navigate('NotifyDetail', remoteMessage);
+            console.log('namvh 1', {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text});
+            navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
           }
           firebase
             .notifications()
@@ -173,16 +175,16 @@ export default function App() {
               />
             ) : (
               <>
+                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen
                   name="Home"
                   component={decorateMainAppStart(Home)}
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen name="NotifyDetail" component={NotifyDetail} />
+                <Stack.Screen path="cuongntg" name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
-                <Stack.Screen name="Register" component={Register} />
                 <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
               </>
             )}
