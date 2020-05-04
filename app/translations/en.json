@@ -30,6 +30,7 @@
     "bluezone.trace.around": "Around you",
     "bluezone.trace.invite": "Invite",
     "bluezone.trace.noList": "Empty list",
+    "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
 
     "bluezone.history.header": "View history",

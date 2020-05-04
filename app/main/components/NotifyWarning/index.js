@@ -23,6 +23,8 @@
 
 import React from 'react';
 import {View, SafeAreaView} from 'react-native';
+import moment from 'moment';
+import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
 import FastImage from 'react-native-fast-image';
@@ -75,7 +77,7 @@ class NotifyScreen extends React.Component {
                 {item.title}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                Thời gian: {item.timer} Ngày: {item.date}
+                Thời gian: {moment(item.timestamp).format("HH:mm")} Ngày: {moment(item.timestamp).format("DD/MM/YYYY")}
               </MediumText>
             </View>
           </View>

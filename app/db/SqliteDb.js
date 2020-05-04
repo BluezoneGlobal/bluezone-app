@@ -115,17 +115,17 @@ const replaceNotify = (notifyObj, language = 'vi') => {
                 }
             },
         );
-        txn.executeSql(
-            'SELECT * FROM notify',
-            [],
-            (tx, results) => {
-                var temp = [];
-                for (let i = 0; i < results.rows.length; ++i) {
-                    temp.push(results.rows.item(i));
-                }
-                console.log('CUONGNTG - temp', temp);
-            },
-        );
+        // txn.executeSql(
+        //     'SELECT * FROM notify',
+        //     [],
+        //     (tx, results) => {
+        //         var temp = [];
+        //         for (let i = 0; i < results.rows.length; ++i) {
+        //             temp.push(results.rows.item(i));
+        //         }
+        //         console.log('CUONGNTG - temp', temp);
+        //     },
+        // );
     });
     pushNotify(notifyObj, language);
 };

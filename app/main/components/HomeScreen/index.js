@@ -232,17 +232,18 @@ class HomeTab extends React.Component {
         <ScrollView
           style={style.background}
           contentContainerStyle={style.scrollView}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+        >
           <View style={{paddingTop: 20, backgroundColor: '#015cd0'}}>
             <View style={style.logo}>
               <FastImage
-                source={require('./styles/images/icon_mic.png')}
-                style={style.iconLogoMic}
+                  source={require('./styles/images/icon_mic.png')}
+                  style={style.iconLogoMic}
               />
               <View style={style.borderLogo} />
               <FastImage
-                source={require('./styles/images/icon_boyte.png')}
-                style={style.iconLogoBoyte}
+                  source={require('./styles/images/icon_boyte.png')}
+                  style={style.iconLogoBoyte}
               />
             </View>
             <View style={style.switchLanguage}>

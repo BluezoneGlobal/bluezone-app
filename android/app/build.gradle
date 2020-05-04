@@ -206,7 +206,7 @@ dependencies {
    implementation project(':react-native-push-notification')
     implementation 'com.android.support:multidex:1.0.3'
 
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
 
