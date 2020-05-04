@@ -89,7 +89,7 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi') => {
-    // console.log('replaceNotify', notifyObj);
+    pushNotify(notifyObj, language);
     db.transaction(function(txn) {
         txn.executeSql(
             'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -127,7 +127,29 @@ const replaceNotify = (notifyObj, language = 'vi') => {
         //     },
         // );
     });
-    pushNotify(notifyObj, language);
+};
+
+const getNotifications = async (index, callback) => {
+    const SQL_QUERY = `SELECT * FROM notify WHERE ID > ${index * 15} LIMIT 15`;
+    db = open();
+    db.transaction(tx => {
+        tx.executeSql(
+            SQL_QUERY,
+            [],
+            async (txTemp, results) => {
+                let temp = [];
+                if (results.rows.length > 0) {
+                    for (let i = 0; i < results.rows.length; ++i) {
+                        temp.push(results.rows.item(i));
+                    }
+                }
+                callback(temp);
+            },
+            (error, error2) => {
+                callback([]);
+            },
+        );
+    });
 };
 
 const getDays = async (days, callback) => {
@@ -155,4 +177,4 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays, replaceNotify, createNotify};
+export {open, close, getDays, replaceNotify, createNotify, getNotifications};

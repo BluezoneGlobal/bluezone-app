@@ -54,7 +54,7 @@ import {injectIntl, intlShape} from 'react-intl';
 // Styles
 import styles from './styles/index.css';
 import PushNotification from 'react-native-push-notification';
-import {open, writeNotifyDb} from '../../../db/SqliteDb';
+import {replaceNotify} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -262,9 +262,8 @@ class ModalNotify extends React.Component {
     if (!checkNotify) {
       return;
     }
+    const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
-    const {intl} = this.props;
-    const {formatMessage} = intl;
     const messageNotify = {
       data: {
         notifyId: '1995',
@@ -281,41 +280,13 @@ class ModalNotify extends React.Component {
         unRead: false,
       },
     };
-    open();
-    writeNotifyDb(messageNotify);
-    PushNotification.localNotificationSchedule({
-      /* Android Only Properties */
-      id: '1995',
-      largeIcon: 'icon_bluezone_null',
-      smallIcon: 'icon_bluezone_service',
-      bigText: formatMessage(message.scheduleNotifyOTP),
-      subText: '',
-      vibrate: true,
-      importance: '',
-      priority: 'high',
-      allowWhileIdle: false,
-      ignoreInForeground: false,
-
-      /* iOS only properties */
-      alertAction: 'view',
-      category: '',
-      userInfo: {
-        id: '1995',
-      },
-
-      /* iOS and Android properties */
-      title: formatMessage(message.updatePhoneNumber),
-      message: formatMessage(message.scheduleNotifyOTP),
-      playSound: false,
-      number: 10,
-      repeatType: 'day',
-      date: new Date(Date.now() + 5 * 1000),
-    });
+    replaceNotify(messageNotify, language);
   }
 
   render() {
     const {language} = this.context;
     const {intl} = this.props;
+
     const {
       isVisiblePermissionBLE,
       isVisibleBLE,

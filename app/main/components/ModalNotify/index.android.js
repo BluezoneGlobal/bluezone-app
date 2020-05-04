@@ -64,7 +64,7 @@ import configuration, {
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
 import firebase from 'react-native-firebase';
-import {open, writeNotifyDb} from '../../../db/SqliteDb';
+import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -415,45 +415,25 @@ class ModalNotify extends React.Component {
     if (!checkNotify) {
       return;
     }
+    const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
-    const {intl} = this.props;
-    const {formatMessage} = intl;
-      const messageNotify = {
-          data: {
-              notifyId: '1995',
-              smallIcon: 'icon_bluezone',
-              largeIcon: 'icon_bluezone',
-              title: "Cập nhật số điên thoại",
-              text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
-              bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
-              titleEn: "Update phone number",
-              textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
-              bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
-              group: 'OTP',
-              timestamp: '1588517528002',
-              unRead: false,
-          },
-      };
-    open();
-    writeNotifyDb(messageNotify);
-    const notification = new firebase.notifications.Notification()
-      .setNotificationId('1995')
-      .setTitle(formatMessage(message.updatePhoneNumber))
-      .setBody(formatMessage(message.scheduleNotifyOTP))
-      .setData({
+    const messageNotify = {
+      data: {
         notifyId: '1995',
         smallIcon: 'icon_bluezone',
         largeIcon: 'icon_bluezone',
-        title: formatMessage(message.updatePhoneNumber),
-        text: formatMessage(message.scheduleNotifyOTP),
-        bigText: formatMessage(message.scheduleNotifyOTP),
-        group: '',
+        title: "Cập nhật số điên thoại",
+        text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
+        titleEn: "Update phone number",
+        textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        group: 'OTP',
         timestamp: '1588517528002',
         unRead: false,
-      })
-      .android.setChannelId('bluezone-channel')
-      .android.setSmallIcon('icon_bluezone');
-    firebase.notifications().displayNotification(notification);
+      },
+    };
+    replaceNotify(messageNotify, language);
   }
 
   render() {

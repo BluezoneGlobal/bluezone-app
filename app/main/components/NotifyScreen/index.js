@@ -64,7 +64,6 @@ class NotifyScreen extends React.Component {
 
   componentWillUnmount() {
     this.focusListener.remove();
-    close();
   }
 
   initData = async () => {
