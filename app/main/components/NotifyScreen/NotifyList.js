@@ -53,23 +53,18 @@ class NotifySession extends React.Component {
               {item.title}
             </MediumText>
             {item.unRead ? (
-              <MediumText
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={styles.desTextUnread}>
+              <MediumText numberOfLines={1} style={styles.desTextUnread}>
                 {item.description}
               </MediumText>
             ) : (
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={styles.desText}>
+              <Text numberOfLines={1} style={styles.desText}>
                 {item.description}
               </Text>
             )}
           </View>
         </View>
         <View style={styles.timer}>
+          <MediumText numberOfLines={1} style={styles.titleText} />
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {item.timer}
           </Text>
