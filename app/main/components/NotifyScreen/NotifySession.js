@@ -45,7 +45,7 @@ class NotifySession extends React.Component {
   render() {
     const {type, title, styleTitle, styleTextTitle, data, onGet} = this.props;
     return (
-      <View style={{height: 250}}>
+      <View>
         <View style={styleTitle}>
           <MediumText style={styleTextTitle}>{title}</MediumText>
         </View>

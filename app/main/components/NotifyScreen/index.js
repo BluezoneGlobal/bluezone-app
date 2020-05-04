@@ -22,11 +22,12 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
 import {close, open} from '../../../db/SqliteDb';
 
 // Components
-import {MediumText} from '../../../base/components/Text';
+import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
 import NotifySection from './NotifySession';
 // import ButtonIconText from '../../../base/components/ButtonIconText';
@@ -35,6 +36,11 @@ import NotifySection from './NotifySession';
 import styles from './styles/index.css';
 // import InviteScreen from "../InviteScreen";
 
+// Utils
+import {getNotifications} from '../../../../app/db/SqliteDb';
+import message from "../../../msg/trace";
+import {injectIntl, intlShape} from 'react-intl';
+
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -42,95 +48,32 @@ class NotifyScreen extends React.Component {
       notifications: [],
     };
     this.index = 0;
-    // this.db = null;
-    this.db = open();
-    this.db.transaction(function(txn) {
-      txn.executeSql(
-          "SELECT name FROM sqlite_master WHERE type='table' AND name='table_CPMS'",
-          [],
-          function(tx, res) {
-            txn.executeSql('DROP TABLE IF EXISTS table_CPMS', []);
-            txn.executeSql(
-                'CREATE TABLE IF NOT EXISTS table_CPMS(id INTEGER PRIMARY KEY AUTOINCREMENT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, timestamp REAL, _group TEXT, unRead TEXT)',
-                [],
-            );
-          },
-      );
-    });
     this.onBack = this.onBack.bind(this);
   }
 
   componentDidMount() {
-    // this.initData();
-    this.onWrite();
+    this.initData();
+    this.focusListener = this.props.navigation.addListener('tabPress', () => {
+      this.initData();
+    });
   }
 
   componentWillUnmount() {
+    this.focusListener.remove();
     close();
-    this.db = null;
   }
 
-  onWrite = () => {
-    this.db.transaction(function(tx) {
-      for (let i = 0; i < 100; ++i) {
-        tx.executeSql(
-            'INSERT INTO table_CPMS (largeIcon, title, text, bigText, timestamp, _group, unRead) VALUES (?,?,?,?,?,?,?)',
-            [
-              'boyte',
-              'Bộ Y tế',
-              'Cách ly thêm 1 tuần đối với Hà...',
-              'Được biết đối tượng F3 Hà... xét nghiệm đã cho kết quả âm tính lần 2. Tiến hành cách ly thêm một tuần để theo dõi và xét nghiệm.',
-              1588517528002,
-              'info',
-              'false',
-            ],
-            (tx, results) => {
-              if (results.rowsAffected > 0) {
-              } else {
-                alert('Registration Failed');
-              }
-            },
-        );
-      }
-    });
-  };
-
   initData = async () => {
-    this.getNotifications(this.index, items => {
-      this.setState(prev => ({
-        notifications: prev.notifications.concat(items),
-      }));
+    getNotifications(this.index, items => {
+      this.setState({notifications: items});
     });
   };
 
   onGetDataFromDB = async (index) => {
-    this.getNotifications(index, items => {
+    getNotifications(index, items => {
       this.setState(prev => ({
         notifications: prev.notifications.concat(items),
       }));
-    });
-  };
-
-  getNotifications = async (index, callback) => {
-    const SQL_QUERY = `SELECT * FROM table_CPMS WHERE _group IS NOT "warn" AND ID > ${index * 5} LIMIT 5`;
-    // this.db = open();
-    this.db.transaction(tx => {
-      tx.executeSql(
-          SQL_QUERY,
-          [],
-          async (txTemp, results) => {
-            let temp = [];
-            if (results.rows.length > 0) {
-              for (let i = 0; i < results.rows.length; ++i) {
-                temp.push(results.rows.item(i));
-              }
-            }
-            callback(temp);
-          },
-          (error, error2) => {
-            callback([]);
-          },
-      );
     });
   };
 
@@ -150,8 +93,9 @@ class NotifyScreen extends React.Component {
   };
 
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
     const {notifications} = this.state;
+    const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
     const dataWar = {
@@ -190,37 +134,7 @@ class NotifyScreen extends React.Component {
     };
 
     const dataNtf = {
-      items:
-      // [
-      //   {
-      //     largeIcon: 'bluezone',
-      //     title: 'Bluezone',
-      //     text: 'Bạn được xác định tiếp xúc ...',
-      //     bigText: 'Bạn được xác định tiếp xúc ...',
-      //     timestamp: 1588517528002,
-      //     _group: 'info',
-      //     unRead: 'false',
-      //   },
-      //   {
-      //     largeIcon: 'boyte',
-      //     title: 'Bộ Y tế',
-      //     text: 'Cách ly thêm 1 tuần đối với Hà...',
-      //     bigText: 'Cách ly thêm 1 tuần đối với Hà...',
-      //     timestamp: 1588517528002,
-      //     _group: 'info',
-      //     unRead: 'false',
-      //   },
-      //   {
-      //     largeIcon: 'bluezone',
-      //     title: 'Bluezone',
-      //     text: 'Bạn được xác định là F0',
-      //     bigText: 'Bạn được xác định là F0',
-      //     timestamp: 1588517528002,
-      //     _group: 'info',
-      //     unRead: 'false',
-      //   },
-      // ],
-      notifications,
+      items: notifications,
       callback: {
         onPress: this.onPressNotification,
       },
@@ -238,24 +152,37 @@ class NotifyScreen extends React.Component {
           />
         ) : (
           <View>
-            <TouchableOpacity onPress={this.initData} style={styles.header}>
+            <View style={styles.header}>
               <MediumText style={styles.textHeader}>Thông báo</MediumText>
-            </TouchableOpacity>
-            <View style={styles.wrapper}>
-              <NotifySection
-                title={'Cảnh báo'}
-                data={dataWar}
-                styleTitle={styles.titleWar}
-                styleTextTitle={styles.textTitleWar}
-              />
-              <NotifySection
-                title={'Thông báo'}
-                data={dataNtf}
-                styleTitle={styles.titleNtf}
-                styleTextTitle={styles.textTitleNtf}
-                onGet={this.onGetDataFromDB}
-              />
             </View>
+            {
+              notifications.length > 0 ? (
+                  <View style={styles.wrapper}>
+                    {/*<NotifySection*/}
+                    {/*  title={'Cảnh báo'}*/}
+                    {/*  data={dataWar}*/}
+                    {/*  styleTitle={styles.titleWar}*/}
+                    {/*  styleTextTitle={styles.textTitleWar}*/}
+                    {/*/>*/}
+                    <NotifySection
+                        title={'Thông báo'}
+                        data={dataNtf}
+                        styleTitle={styles.titleNtf}
+                        styleTextTitle={styles.textTitleNtf}
+                        onGet={this.onGetDataFromDB}
+                    />
+                  </View>
+              ) : (
+                  <View style={styles.listEmptyContainer}>
+                    <View style={styles.listEmptyCircle}>
+                      <View style={styles.circle} />
+                    </View>
+                    <Text style={styles.listEmptyText}>
+                      {formatMessage(message.noList)}
+                    </Text>
+                  </View>
+              )
+            }
           </View>
         )}
       </SafeAreaView>
@@ -263,4 +190,8 @@ class NotifyScreen extends React.Component {
   }
 }
 
-export default NotifyScreen;
+NotifyScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifyScreen);

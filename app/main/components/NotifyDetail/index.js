@@ -50,6 +50,7 @@ class NotifyScreen extends React.Component {
   render() {
     const {route} = this.props;
     const item = (route && route.params.item) || {};
+    const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -62,7 +63,7 @@ class NotifyScreen extends React.Component {
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
             <FastImage
-              source={require('./styles/images/mic.png')}
+              source={uri}
               style={styles.avatar}
             />
             <View style={styles.content}>
