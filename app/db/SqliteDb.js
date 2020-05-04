@@ -66,13 +66,12 @@ const close = () => {
 };
 
 const createNotify = () => {
-    // console.log('createNotify');
     db.transaction(function (txn) {
         txn.executeSql(
             "SELECT name FROM sqlite_master WHERE type='table' AND name='notify'",
             [],
             function (tx, res) {
-                console.log('cuongntg - item:', res.rows.length);
+                // console.log('cuongntg - item:', res.rows.length);
                 if (res.rows.length === 0) {
                     txn.executeSql('DROP TABLE IF EXISTS notify', []);
                     txn.executeSql(
@@ -89,7 +88,6 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi') => {
-    // console.log('replaceNotify', notifyObj);
     db.transaction(function(txn) {
         txn.executeSql(
             'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -115,19 +113,42 @@ const replaceNotify = (notifyObj, language = 'vi') => {
                 }
             },
         );
-        txn.executeSql(
-            'SELECT * FROM notify',
+        // txn.executeSql(
+        //     'SELECT * FROM notify',
+        //     [],
+        //     (tx, results) => {
+        //         var temp = [];
+        //         for (let i = 0; i < results.rows.length; ++i) {
+        //             temp.push(results.rows.item(i));
+        //         }
+        //         console.log('CUONGNTG - temp', temp);
+        //     },
+        // );
+    });
+    pushNotify(notifyObj, language);
+};
+
+const getNotifications = async (index, callback) => {
+    const SQL_QUERY = `SELECT * FROM notify WHERE ID > ${index * 15} LIMIT 15`;
+    db = open();
+    db.transaction(tx => {
+        tx.executeSql(
+            SQL_QUERY,
             [],
-            (tx, results) => {
-                var temp = [];
-                for (let i = 0; i < results.rows.length; ++i) {
-                    temp.push(results.rows.item(i));
+            async (txTemp, results) => {
+                let temp = [];
+                if (results.rows.length > 0) {
+                    for (let i = 0; i < results.rows.length; ++i) {
+                        temp.push(results.rows.item(i));
+                    }
                 }
-                console.log('CUONGNTG - temp', temp);
+                callback(temp);
+            },
+            (error, error2) => {
+                callback([]);
             },
         );
     });
-    pushNotify(notifyObj, language);
 };
 
 const getDays = async (days, callback) => {
@@ -155,4 +176,11 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays, replaceNotify, createNotify};
+export {
+  open,
+  close,
+  getDays,
+  replaceNotify,
+  createNotify,
+  getNotifications,
+};

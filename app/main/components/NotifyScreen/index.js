@@ -22,10 +22,12 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView} from 'react-native';
+import * as PropTypes from 'prop-types';
+import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import {close, open} from '../../../db/SqliteDb';
 
 // Components
-import {MediumText} from '../../../base/components/Text';
+import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
 import NotifySection from './NotifySession';
 // import ButtonIconText from '../../../base/components/ButtonIconText';
@@ -34,11 +36,46 @@ import NotifySection from './NotifySession';
 import styles from './styles/index.css';
 // import InviteScreen from "../InviteScreen";
 
+// Utils
+import {getNotifications} from '../../../../app/db/SqliteDb';
+import message from "../../../msg/trace";
+import {injectIntl, intlShape} from 'react-intl';
+
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      notifications: [],
+    };
+    this.index = 0;
     this.onBack = this.onBack.bind(this);
   }
+
+  componentDidMount() {
+    this.initData();
+    this.focusListener = this.props.navigation.addListener('tabPress', () => {
+      this.initData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+    close();
+  }
+
+  initData = async () => {
+    getNotifications(this.index, items => {
+      this.setState({notifications: items});
+    });
+  };
+
+  onGetDataFromDB = async (index) => {
+    getNotifications(index, items => {
+      this.setState(prev => ({
+        notifications: prev.notifications.concat(items),
+      }));
+    });
+  };
 
   onBack() {
     this.props.navigation.goBack();
@@ -56,55 +93,39 @@ class NotifyScreen extends React.Component {
   };
 
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
+    const {notifications} = this.state;
+    const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;
     const dataWar = {
       items: [
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn được xác định tiếp xúc ...',
-          content: 'Bạn được xác định tiếp xúc ...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: true,
+          text: 'Bạn được xác định tiếp xúc ...',
+          bigText: 'Bạn được xác định tiếp xúc ...',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'true',
         },
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn có thể đã tiếp xúc với F0',
-          content: 'Bạn có thể đã tiếp xúc với F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
+          text: 'Bạn có thể đã tiếp xúc với F0',
+          bigText: 'Bạn có thể đã tiếp xúc với F0',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'false',
         },
         {
-          avatar: 'bluezone',
+          largeIcon: 'bluezone',
           title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
+          text: 'Bạn được xác định là F0',
+          bigText: 'Bạn được xác định là F0',
+          timestamp: 1588517528002,
+          _group: 'info',
+          unRead: 'false',
         },
       ],
       callback: {
@@ -113,35 +134,7 @@ class NotifyScreen extends React.Component {
     };
 
     const dataNtf = {
-      items: [
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định tiếp xúc ...',
-          content: 'Bạn được xác định tiếp xúc ...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'boyte',
-          title: 'Bộ Y tế',
-          description: 'Cách ly thêm 1 tuần đối với Hà...',
-          content: 'Cách ly thêm 1 tuần đối với Hà...',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-        {
-          avatar: 'bluezone',
-          title: 'Bluezone',
-          description: 'Bạn được xác định là F0',
-          content: 'Bạn được xác định là F0',
-          timer: '14:03',
-          date: '22/04/2020',
-          unRead: false,
-        },
-      ],
+      items: notifications,
       callback: {
         onPress: this.onPressNotification,
       },
@@ -158,31 +151,47 @@ class NotifyScreen extends React.Component {
             title={'Thông báo'}
           />
         ) : (
-          <ScrollView>
+          <View>
             <View style={styles.header}>
               <MediumText style={styles.textHeader}>Thông báo</MediumText>
             </View>
-            <>
-              <View style={styles.wrapper}>
-                <NotifySection
-                  title={'Cảnh báo'}
-                  data={dataWar}
-                  styleTitle={styles.titleWar}
-                  styleTextTitle={styles.textTitleWar}
-                />
-                <NotifySection
-                  title={'Thông báo'}
-                  data={dataNtf}
-                  styleTitle={styles.titleNtf}
-                  styleTextTitle={styles.textTitleNtf}
-                />
-              </View>
-            </>
-          </ScrollView>
+            {
+              notifications.length > 0 ? (
+                  <View style={styles.wrapper}>
+                    {/*<NotifySection*/}
+                    {/*  title={'Cảnh báo'}*/}
+                    {/*  data={dataWar}*/}
+                    {/*  styleTitle={styles.titleWar}*/}
+                    {/*  styleTextTitle={styles.textTitleWar}*/}
+                    {/*/>*/}
+                    <NotifySection
+                        title={'Thông báo'}
+                        data={dataNtf}
+                        styleTitle={styles.titleNtf}
+                        styleTextTitle={styles.textTitleNtf}
+                        onGet={this.onGetDataFromDB}
+                    />
+                  </View>
+              ) : (
+                  <View style={styles.listEmptyContainer}>
+                    <View style={styles.listEmptyCircle}>
+                      <View style={styles.circle} />
+                    </View>
+                    <Text style={styles.listEmptyText}>
+                      {formatMessage(message.noList)}
+                    </Text>
+                  </View>
+              )
+            }
+          </View>
         )}
       </SafeAreaView>
     );
   }
 }
 
-export default NotifyScreen;
+NotifyScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifyScreen);

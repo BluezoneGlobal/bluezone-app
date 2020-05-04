@@ -22,9 +22,11 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
+import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View, VirtualizedList} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Text from '../../../base/components/Text';
 import {MediumText} from '../../../base/components/Text';
@@ -35,57 +37,97 @@ import styles from './styles/index.css';
 class NotifySession extends React.Component {
   constructor(props) {
     super(props);
+    this.index = 0;
   }
 
-  renderItemNotify = (item, callback) => {
+  getTime = (time) => {
+    const toDay = moment().startOf('day');
+    const startOfToday = toDay.valueOf();
+    const prevToday = toDay.subtract(1, 'days').valueOf();
+    const nextToday = toDay.add(1, 'days').valueOf();
+    if(prevToday <= time && time < startOfToday) {
+      return 'Hôm qua';
+    }else if(startOfToday <= time && time < nextToday) {
+      return moment(time).format("HH:mm");
+    }
+    return moment(item.timestamp).format("DD/MM/YYYY");
+  };
+
+  renderItem = ({item}) => {
+      const {data} = this.props;
     const _callback = () => {
-      callback.onPress(item);
+      data.callback.onPress(item);
     };
+    const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
+    const textTime = this.getTime(item.timestamp);
     return (
       <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>
         <View style={styles.notifyWrapper}>
           <FastImage
-            source={require('./styles/images/boyte.png')}
+            source={uri}
             style={styles.avatar}
           />
           <View style={styles.content}>
             <MediumText numberOfLines={1} style={styles.titleText}>
               {item.title}
             </MediumText>
-            {item.unRead ? (
+            {item.unRead === 'true' ? (
               <MediumText
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.desTextUnread}>
-                {item.description}
+                {item.text}
               </MediumText>
             ) : (
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.desText}>
-                {item.description}
+                {item.text}
               </Text>
             )}
           </View>
         </View>
         <View style={styles.timer}>
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
-            {item.timer}
+            {textTime}
           </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
+    keyExtractor = item => item;
+
+    getItemCount = data => (data ? data.length : 0);
+
+    getItem = (data, index) => data[index];
+
+    handleOnScroll = event => {
+        debugger;
+        const {onGet} = this.props;
+        const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+        if (
+            layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - 100
+        ) {
+            this.index = this.index + 1;
+            onGet(this.index);
+        }
+    };
+
   render() {
     const {data} = this.props;
     return (
-      <ScrollView>
-        {data.items.map(item => {
-          return this.renderItemNotify(item, data.callback);
-        })}
-      </ScrollView>
+        <VirtualizedList
+          onScroll={this.handleOnScroll}
+          data={data.items}
+          initialNumToRender={4}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+          getItemCount={this.getItemCount}
+          getItem={this.getItem}
+      />
     );
   }
 }

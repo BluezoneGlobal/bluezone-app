@@ -23,6 +23,7 @@
 
 import {Platform, StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {large} from "../../../../utils/fontSize";
 
 const styles = StyleSheet.create({
   container: {
@@ -116,6 +117,36 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 23,
   },
+
+  listEmptyContainer: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 23,
+  },
+
+  listEmptyCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  circle: {
+    height: 64,
+    width: 64,
+    borderRadius: 32,
+    borderWidth: 2,
+    borderColor: '#dedede',
+  },
+
+  listEmptyText: {
+    color: '#484848',
+    fontSize: large,
+  },
+
 });
 
 export default styles;
