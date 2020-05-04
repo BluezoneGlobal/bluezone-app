@@ -41,12 +41,11 @@ import InsertOTP from './InsertOTP';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Utils
-// import configuration from '../../../Configuration';
+import {setToken} from '../../../Configuration';
 import * as fontSize from '../../../utils/fontSize';
 
 // Styles
 import styles from './styles/index.css';
-import style from '../HomeScreen/styles/index.css';
 import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
 import {injectIntl, intlShape} from 'react-intl';
@@ -84,8 +83,11 @@ class VerifyOTPScreen extends React.Component {
 
   onHandleConfirmSuccess(response) {
     const {Token} = response.data.Object;
-    AsyncStorage.setItem('Token', Token);
-    this.props.navigation.navigate('Home');
+    setToken(Token);
+    Toast.success('Đăng kí số điện thoai thành công !', 2);
+    setTimeout(() => {
+      this.props.navigation.navigate('Home');
+    }, 2000);
   }
 
   onHandleConfirmFail(error) {

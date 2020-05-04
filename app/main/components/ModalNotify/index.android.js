@@ -48,7 +48,6 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
-import {isRegister} from '../AuthLoadingScreen';
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -60,9 +59,12 @@ import configuration, {
   getUserCodeAsync,
   createNotifyPermisson,
   removeNotifyPermisson,
+  checkNotifyOfDay,
+  setStatusNotifyRegister
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
 import firebase from 'react-native-firebase';
+import {open, writeNotifyDb} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -409,14 +411,28 @@ class ModalNotify extends React.Component {
   }
 
   setNotifyRegister() {
-    const {Token, StatusNotifyRegister} = configuration;
-    const currentTime = new Date().setHours(0, 0, 0, 0);
-    if (isRegister || Token || currentTime === parseInt(StatusNotifyRegister)) {
+    const checkNotify = checkNotifyOfDay();
+    if (!checkNotify) {
       return;
     }
-    AsyncStorage.setItem('StatusNotifyRegister', currentTime.toString());
+    setStatusNotifyRegister(new Date().getTime().toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
+    const messageNotify = {
+      data: {
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: 'icon_bluezone',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: 'OTP',
+        timestamp: '1588517528002',
+        unRead: false,
+      },
+    };
+    open();
+    writeNotifyDb(messageNotify);
     const notification = new firebase.notifications.Notification()
       .setNotificationId('1995')
       .setTitle(formatMessage(message.updatePhoneNumber))

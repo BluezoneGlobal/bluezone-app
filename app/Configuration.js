@@ -32,7 +32,7 @@ import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
-import {isRegister} from './main/components/AuthLoadingScreen';
+import {isRegisterFirst} from './main/components/AuthLoadingScreen';
 
 const DOMAIN = 'https://apibz.bkav.com';
 
@@ -582,7 +582,10 @@ const setLanguage = Language => {
   Platform.OS === 'android' && NativeModules.TraceCovid.setLanguage(Language);
 };
 
-export let isRegisterFirst = false;
+const setStatusNotifyRegister = StatusNotifyRegister => {
+  Object.assign(configuration, {StatusNotifyRegister});
+  AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
+};
 
 const checkNotifyOfDay = () => {
   const {
@@ -637,5 +640,6 @@ export {
   createNotifyPermission,
   DOMAIN,
   setLanguage,
+  setStatusNotifyRegister,
   checkNotifyOfDay,
 };

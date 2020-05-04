@@ -44,7 +44,7 @@ import {
 } from 'react-native-permissions';
 import configuration, {
   getUserCodeAsync,
-  checkNotifyOfDay,
+  checkNotifyOfDay, setStatusNotifyRegister,
 } from '../../../Configuration';
 
 // Language
@@ -54,6 +54,7 @@ import {injectIntl, intlShape} from 'react-intl';
 // Styles
 import styles from './styles/index.css';
 import PushNotification from 'react-native-push-notification';
+import {open, writeNotifyDb} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -258,14 +259,27 @@ class ModalNotify extends React.Component {
 
   setNotifyRegister() {
     const checkNotify = checkNotifyOfDay();
-    console.log('checkNotify', checkNotify);
     if (!checkNotify) {
       return;
     }
-    debugger;
-    AsyncStorage.setItem('StatusNotifyRegister', new Date().toString());
+    setStatusNotifyRegister(new Date().getTime().toString());
     const {intl} = this.props;
     const {formatMessage} = intl;
+    const messageNotify = {
+      data: {
+        notifyId: '1995',
+        smallIcon: 'icon_bluezone',
+        largeIcon: 'icon_bluezone',
+        title: formatMessage(message.updatePhoneNumber),
+        text: formatMessage(message.scheduleNotifyOTP),
+        bigText: formatMessage(message.scheduleNotifyOTP),
+        group: 'OTP',
+        timestamp: '1588517528002',
+        unRead: false,
+      },
+    };
+    open();
+    writeNotifyDb(messageNotify);
     PushNotification.localNotificationSchedule({
       /* Android Only Properties */
       id: '1995',

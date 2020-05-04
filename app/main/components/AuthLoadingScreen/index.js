@@ -38,11 +38,12 @@ import message from '../../../msg/auth';
 import configuration, {
   getConfigurationAPI,
   getConfigurationAsync,
-  isRegisterFirst,
 } from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
+
+export let isRegisterFirst = false;
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {

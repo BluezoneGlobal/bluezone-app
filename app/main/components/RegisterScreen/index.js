@@ -29,7 +29,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   ScrollView,
   ActivityIndicator,
   Alert,
