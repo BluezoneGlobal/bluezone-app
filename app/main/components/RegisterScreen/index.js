@@ -110,8 +110,7 @@ class RegisterScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-
-    setLoading ? setLoading() : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.goBack();
   }
 
   render() {

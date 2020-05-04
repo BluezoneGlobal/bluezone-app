@@ -86,7 +86,7 @@ class VerifyOTPScreen extends React.Component {
     setToken(Token);
     Toast.success('Đăng kí số điện thoai thành công !', 2);
     setTimeout(() => {
-      setLoading ? setLoading() : navigation.push('Home');
+      setLoading ? setLoading('Home') : navigation.push('Home');
     }, 2000);
   }
 
@@ -146,7 +146,7 @@ class VerifyOTPScreen extends React.Component {
 
   onChangeNavigate() {
     const {setLoading, navigation} = this.props;
-    setLoading ? setLoading() : navigation.push('Home');
+    setLoading ? setLoading('Home') : navigation.push('Home');
   }
 
   render() {

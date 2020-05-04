@@ -69,9 +69,12 @@ export default function App() {
   // const routeNameRef = useRef();
 
   const setAuthLoading = navi => {
-    setLoading(true);
-    navigate(navi);
-    setInitialRoute('Home');
+    if(navi === 'Register') {
+      navigate('Register')
+    } else {
+      setLoading(true);
+      setInitialRoute('Home');
+    }
   };
 
   registerAppWithFCM();
