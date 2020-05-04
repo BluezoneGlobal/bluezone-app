@@ -64,7 +64,7 @@ class NotifyScreen extends React.Component {
           colorIcon={'#015cd0'}
           styleTitle={styles.textHeader}
           showBack
-          title={formatMessage(msg.notification)}
+          title={formatMessage(msg.announcement)}
         />
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>

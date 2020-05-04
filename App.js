@@ -26,7 +26,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
 
-// Navigate
+//
 import AuthLoading from './app/main/components/AuthLoadingScreen';
 import Home from './app/main/components/MainScreen';
 import decorateMainAppStart from './app/main/decorateMainAppStart';
@@ -43,7 +43,6 @@ import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
-import AsyncStorage from '@react-native-community/async-storage';
 import configuration from './app/Configuration';
 
 const Stack = createStackNavigator();
@@ -105,7 +104,6 @@ export default function App() {
       } else if (
           obj && obj.data.group === 'INFO'
       ) {
-        console.log('namvh 1', {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text});
         navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
       } else {
         navigate('Register', remoteMessage);
@@ -137,7 +135,6 @@ export default function App() {
           if (
               obj && obj.data.group === 'INFO'
           ) {
-            console.log('namvh 1', {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text});
             navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
           }
           firebase
