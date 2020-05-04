@@ -22,14 +22,12 @@
 'use strict';
 
 import firebase from 'react-native-firebase';
+import {Platform} from "react-native";
 import {setTokenFirebase} from './Configuration';
 // Optional flow type
-import type {RemoteMessage} from 'react-native-firebase';
 import {replaceNotify} from "./db/SqliteDb";
-import {Platform} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
 import type { RemoteMessage } from 'react-native-firebase';
-import {Platform} from "react-native";
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
@@ -89,18 +87,22 @@ function getTokenFirebase(callback) {
 }
 
 function pushNotify(notifyObj, language = 'vi') {
+  const notification = new firebase.notifications.Notification()
+      .setNotificationId(notifyObj.data.notifyId)
+      .setTitle(!(!language || language === 'vi') ? notifyObj.data.titleEn : notifyObj.data.title)
+      .setBody(!(!language || language === 'vi') ? notifyObj.data.textEn : notifyObj.data.text)
+      .setData({
+        group: notifyObj.data.group,
+      })
+      .android.setSmallIcon('icon_bluezone');
   if(Platform.OS === 'android') {
-    const notification = new firebase.notifications.Notification()
-        .setNotificationId(notifyObj.data.notifyId)
-        .setTitle(!(!language || language === 'vi') ? notifyObj.data.titleEn : notifyObj.data.title)
-        .setBody(!(!language || language === 'vi') ? notifyObj.data.textEn : notifyObj.data.text)
+    notification
         .android.setChannelId('bluezone-channel')
-        .setData({
-          group: notifyObj.data.group,
-        })
         .android.setSmallIcon('icon_bluezone');
-    firebase.notifications().displayNotification(notification);
+  } else {
+
   }
+  firebase.notifications().displayNotification(notification);
 }
 
 export {

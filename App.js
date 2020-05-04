@@ -45,6 +45,8 @@ import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
 import AsyncStorage from "@react-native-community/async-storage";
 
+import configuration from './app/Configuration';
+
 const Stack = createStackNavigator();
 // const prefix = 'mic.bluezone://';
 
@@ -80,10 +82,13 @@ export default function App() {
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
     registerMessageHandler(async onRemotemessage => {
-        const language = await AsyncStorage.getItem('Language');
-        replaceNotify(onRemotemessage, language);
+        const {Language} = configuration;
+        console.log('registerMessageHandler', onRemotemessage);
+        replaceNotify(onRemotemessage, Language);
     });
 
+      open();
+      createNotify();
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
