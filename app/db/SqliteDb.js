@@ -66,7 +66,6 @@ const close = () => {
 };
 
 const writeNotifyDb = (notifyObj) => {
-    debugger;
     console.log('writeNotifyDb', notifyObj);
     db.transaction(function(txn) {
       txn.executeSql(
@@ -126,7 +125,6 @@ const writeNotifyDb = (notifyObj) => {
 };
 
 const getNotifications = async (index, callback) => {
-    debugger;
     const SQL_QUERY = `SELECT * FROM notify WHERE ID > ${index * 15} LIMIT 15`;
     db = open();
     db.transaction(tx => {
@@ -140,7 +138,6 @@ const getNotifications = async (index, callback) => {
                         temp.push(results.rows.item(i));
                     }
                 }
-                debugger;
                 callback(temp);
             },
             (error, error2) => {
