@@ -29,7 +29,7 @@ import {Text} from 'react-native';
 // Styles
 import styles from './styles/index.css';
 
-const TIME = 180;
+const TIME = 10;
 
 class CountDown extends React.Component {
   constructor() {

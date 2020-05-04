@@ -27,7 +27,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
+  ScrollView, ActivityIndicator,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
@@ -61,6 +61,7 @@ class VerifyOTPScreen extends React.Component {
       showModalError: false,
       visibleBtnSenOTP: false,
       visibleVerifiSuccess: false,
+      showLoading: false
     };
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
     this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
@@ -121,7 +122,7 @@ class VerifyOTPScreen extends React.Component {
 
   onReGetOTP = () => {
     const phoneNumber = this.props.route.params.phoneNumber;
-    this.setState({showModal: false}, () => {
+    this.setState({showModal: false, showLoading: true}, () => {
       CreateAndSendOTPCode(
         phoneNumber,
         this.createAndSendOTPCodeSuccess,
@@ -132,9 +133,9 @@ class VerifyOTPScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.props.navigation.replace('VerifyOTP', {
-      phoneNumber: numberPhone,
-    });
+    // this.props.navigation.replace('VerifyOTP', {
+    //   phoneNumber: numberPhone,
+    // });
     this.setState({showLoading: false});
   }
 
@@ -165,7 +166,7 @@ class VerifyOTPScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {showModal, showModalError, disabled, visibleBtnSenOTP, visibleVerifiSuccess} = this.state;
+    const {showModal, showModalError, disabled, visibleBtnSenOTP, visibleVerifiSuccess, showLoading} = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (
@@ -192,6 +193,11 @@ class VerifyOTPScreen extends React.Component {
             <Text style={styles.text3}>{formatMessage(message.validPin)} </Text>
             <CountDown ref={this.setRef} onVisibleResetOTP={this.onVisibleResetOTP} />
           </View>
+          {showLoading && (
+              <Modal isVisible={showLoading} style={styles.center}>
+                <ActivityIndicator size="large" color={'#fff'} />
+              </Modal>
+          )}
           <InsertOTP getOtp={this.getOtp} />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
