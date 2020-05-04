@@ -71,11 +71,11 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    position: 'absolute',
-    top: 6,
-    left: 16,
+    // position: 'absolute',
+    // top: 6,
+    // left: 16,
     flexDirection: 'row',
-    zIndex: 99,
+    // zIndex: 99,
   },
 
   iconLogoMic: {
@@ -283,9 +283,13 @@ const styles = StyleSheet.create({
   },
 
   switchLanguage: {
-    position: 'absolute',
-    right: 16,
-    top: 12,
+    backgroundColor: '#015cd0',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 6,
+    marginBottom: -10,
     zIndex: 99,
   },
 

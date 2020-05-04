@@ -46,7 +46,8 @@ import {
 } from 'react-native-permissions';
 import configuration, {
   getUserCodeAsync,
-  checkNotifyOfDay, setStatusNotifyRegister,
+  checkNotifyOfDay,
+  setStatusNotifyRegister,
 } from '../../../Configuration';
 
 // Language
@@ -274,14 +275,18 @@ class ModalNotify extends React.Component {
         notifyId: '1995',
         smallIcon: 'icon_bluezone',
         largeIcon: '',
-        title: "Bluezone",
-        text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm Covid 19",
-        bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm Covid 19",
-        titleEn: "Bluezone",
-        textEn: "You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19",
-        bigTextEn: "You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19",
+        title: 'Bluezone',
+        text:
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
+        bigText:
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
+        titleEn: 'Bluezone',
+        textEn:
+          'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
+        bigTextEn:
+          'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         group: 'OTP',
-        timestamp: '1588517528002',
+        timestamp: 1588517528002,
         unRead: false,
       },
     };

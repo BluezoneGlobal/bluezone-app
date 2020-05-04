@@ -60,12 +60,12 @@ import configuration, {
   createNotifyPermisson,
   removeNotifyPermisson,
   checkNotifyOfDay,
-  setStatusNotifyRegister
+  setStatusNotifyRegister,
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
 import firebase from 'react-native-firebase';
 import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
-import {navigationRef} from "../../../../RootNavigation";
+import {navigationRef} from '../../../../RootNavigation';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -191,8 +191,12 @@ class ModalNotify extends React.Component {
       }
 
       const navigations = navigationRef.current.getRootState();
-      if (this.statusWrite !== '' && this.state.isVisibleLocation === false && navigations.routes.length === 0 &&
-          navigations.routes[0].name === "Home") {
+      if (
+        this.statusWrite !== '' &&
+        this.state.isVisibleLocation === false &&
+        navigations.routes.length === 1 &&
+        navigations.routes[0].name === 'Home'
+      ) {
         this.setState({isVisibleFlash: true});
       }
     }
@@ -417,7 +421,8 @@ class ModalNotify extends React.Component {
     const checkNotify = checkNotifyOfDay();
     if (!checkNotify) {
       return;
-    }0
+    }
+    0;
     const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
     const messageNotify = {
@@ -425,14 +430,18 @@ class ModalNotify extends React.Component {
         notifyId: '1995',
         smallIcon: 'icon_bluezone',
         largeIcon: '',
-        title: "Bluezone",
-        text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
-        bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
-        titleEn: "Bluezone",
-        textEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
-        bigTextEn: "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
+        title: 'Bluezone',
+        text:
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+        bigText:
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+        titleEn: 'Bluezone',
+        textEn:
+          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
+        bigTextEn:
+          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
         group: 'OTP',
-        timestamp: '1588517528002',
+        timestamp: 1588517528002,
         unRead: false,
       },
     };
