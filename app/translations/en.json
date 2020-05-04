@@ -15,6 +15,7 @@
     "bluezone.home.historyButton": "View history",
     "bluezone.home.scheduleNotifyOTP": "You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.",
     "bluezone.home.updatePhoneNumber": "Update phone number",
+    "bluezone.home.warn": "Warning",
 
     "bluezone.invite.title": "Invite",
     "bluezone.invite.productLabel1": "Protect your relatives and friends",
@@ -32,6 +33,7 @@
     "bluezone.trace.noList": "Empty list",
     "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
+    "bluezone.trace.announcement": "Announcement",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",
@@ -58,6 +60,9 @@
     "bluezone.register.phoneEnterNotValid": "The phone number you entered is not valid",
     "bluezone.register.next": "Next",
     "bluezone.register.skip": "Skip >>",
+    "bluezone.register.try": "Try again",
+    "bluezone.register.error": "There was a problem",
+    "bluezone.register.redo": "Please redo it to use the service",
 
     "bluezone.verifyOTP.title": "OTP authentication",
     "bluezone.verifyOTP.enterPin": "Enter PIN:",

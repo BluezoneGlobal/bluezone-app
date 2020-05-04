@@ -38,12 +38,11 @@ import message from '../../../msg/auth';
 import configuration, {
   getConfigurationAPI,
   getConfigurationAsync,
+  setIsRegisterFirst
 } from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
-
-export let isRegisterFirst = false;
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -74,7 +73,7 @@ class AuthLoadingScreen extends React.Component {
     const {Register_Phone, FirstOTP} = configuration;
     if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
       AsyncStorage.setItem('FirstOTP', 'true');
-      isRegisterFirst = true;
+      setIsRegisterFirst(true);
       return 'Register';
     }
 
