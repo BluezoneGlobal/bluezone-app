@@ -24,11 +24,10 @@
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
 import {blue_bluezone} from '../../../../utils/color';
-import {large} from "../../../../utils/fontSize";
+import {large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   layout1: {
-    backgroundColor: 'rgba(144,159,208,0.31)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     paddingVertical: 24,
@@ -36,10 +35,9 @@ const styles = StyleSheet.create({
   },
   text1: {
     textAlign: 'center',
-    fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: fontSize.large,
-    lineHeight: 20,
+    lineHeight: 30,
   },
   text2: {
     fontStyle: 'normal',
@@ -57,35 +55,32 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   layout3: {
-    backgroundColor: 'rgba(144,159,208,0.31)',
     marginHorizontal: 15,
     paddingHorizontal: 15,
     borderRadius: 8,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 60,
   },
   text4: {
-    fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: fontSize.large,
-    lineHeight: 20,
     paddingVertical: 24,
-    width: '75%',
+    textAlign: 'center',
+    paddingHorizontal: 50,
+    lineHeight: 30,
+    color: blue_bluezone,
   },
   btn: {
-    width: 56,
-    height: 56,
-    backgroundColor: '#FFFFFF',
+    height: 54,
+    borderColor: blue_bluezone,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 28,
-    elevation: 4,
-    shadowOffset: {width: 0, height: 5},
-    shadowColor: '#fff',
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
+  },
+
+  textSendOTP: {
+    color: blue_bluezone,
+    paddingHorizontal: 36,
   },
 
   modalCont: {
@@ -130,10 +125,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#ffffff',
   },
   scroll: {
     flex: 1,
@@ -148,10 +143,16 @@ const styles = StyleSheet.create({
   },
   colorButtonConfirm: {
     backgroundColor: blue_bluezone,
+    height: 54,
+    borderRadius: 28,
+    marginHorizontal: 78,
   },
 
   btnConfim: {
     backgroundColor: '#e8e8e8',
+    height: 54,
+    borderRadius: 28,
+    marginHorizontal: 78,
   },
 
   iconButtonConfirm: {

@@ -28,9 +28,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  StatusBar,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
 
@@ -38,11 +36,12 @@ import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountDown from './CountDown';
 import InsertOTP from './InsertOTP';
-import AsyncStorage from '@react-native-community/async-storage';
+import {MediumText} from '../../../base/components/Text';
 
 // Utils
 import {setToken} from '../../../Configuration';
 import * as fontSize from '../../../utils/fontSize';
+import {blue_bluezone} from '../../../utils/color';
 
 // Styles
 import styles from './styles/index.css';
@@ -156,13 +155,13 @@ class VerifyOTPScreen extends React.Component {
     const phoneNumber = route.params.phoneNumber;
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#F9F9F9" />
         <Header
           onBack={this.onBack}
           showBack
           title={formatMessage(message.title)}
           styleView={styles.header}
-          colorIcon={'#000000'}
+          colorIcon={blue_bluezone}
+          styleTitle={{color: blue_bluezone}}
         />
         <ScrollView style={styles.scroll}>
           <View style={styles.layout1}>
@@ -194,10 +193,7 @@ class VerifyOTPScreen extends React.Component {
               {formatMessage(message.receivedOTP)}
             </Text>
             <TouchableOpacity onPress={this.onReGetOTP} style={styles.btn}>
-              <FastImage
-                source={require('./styles/images/ic_refresh.png')}
-                style={styles.iconButtonRefresh}
-              />
+              <MediumText style={styles.textSendOTP}>Gửi lại mã OTP</MediumText>
             </TouchableOpacity>
           </View>
         </ScrollView>
