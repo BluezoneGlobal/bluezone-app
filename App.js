@@ -26,7 +26,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
 
-// Navigate
+//
 import AuthLoading from './app/main/components/AuthLoadingScreen';
 import Home from './app/main/components/MainScreen';
 import decorateMainAppStart from './app/main/decorateMainAppStart';
@@ -43,8 +43,6 @@ import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
-import AsyncStorage from '@react-native-community/async-storage';
-
 import configuration from './app/Configuration';
 
 const Stack = createStackNavigator();
@@ -75,6 +73,11 @@ export default function App() {
     }
   };
 
+    open();
+    createNotify();
+
+  registerAppWithFCM();
+
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
     registerAppWithFCM();
@@ -82,9 +85,8 @@ export default function App() {
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
     registerMessageHandler(async onRemotemessage => {
-      const {Language} = configuration;
-      console.log('registerMessageHandler', onRemotemessage);
-      replaceNotify(onRemotemessage, Language);
+        const {Language} = configuration;
+        replaceNotify(onRemotemessage, Language);
     });
 
     open();
@@ -92,16 +94,15 @@ export default function App() {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
     firebase.notifications().onNotificationOpened(remoteMessage => {
+      const obj = remoteMessage.notification;
       if (
-        remoteMessage.notification &&
-        remoteMessage.notification.data.group === 'WARN'
+        obj && obj.data.group === 'WARN'
       ) {
-        navigate('NotifyWarning', remoteMessage);
+        navigate('NotifyWarning', {item: obj});
       } else if (
-        remoteMessage.notification &&
-        remoteMessage.notification.data.group === 'INFO'
+          obj && obj.data.group === 'INFO'
       ) {
-        navigate('NotifyDetail', remoteMessage);
+        navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
       } else {
         navigate('Register', remoteMessage);
       }
@@ -122,20 +123,17 @@ export default function App() {
       .notifications()
       .getInitialNotification()
       .then(remoteMessage => {
+        const obj = remoteMessage.notification;
         if (remoteMessage) {
           if (
-            remoteMessage.notification &&
-            remoteMessage.notification.data.group === 'WARN'
+              obj && obj.data.group === 'WARN'
           ) {
-            console.log('namvh', remoteMessage);
-            navigate('NotifyWarning', remoteMessage);
+            navigate('NotifyWarning', {item: obj});
           }
           if (
-            remoteMessage.notification &&
-            remoteMessage.notification.data.group === 'INFO'
+              obj && obj.data.group === 'INFO'
           ) {
-            console.log('namvh', remoteMessage);
-            navigate('NotifyDetail', remoteMessage);
+            navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
           }
           firebase
             .notifications()
@@ -192,7 +190,7 @@ export default function App() {
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen name="NotifyDetail" component={NotifyDetail} />
+                <Stack.Screen path="cuongntg" name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />

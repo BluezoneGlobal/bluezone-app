@@ -52,6 +52,7 @@ class NotifyScreen extends React.Component {
   render() {
     const {route, intl} = this.props;
     const item = (route && route.params.item) || {};
+    console.log('cuongntg - navigate vaof cmnr', item);
     const uri = item.largeIcon && item.largeIcon.length > 0 ? item.largeIcon : require('./styles/images/corona.png');
     const {formatMessage} = intl;
     const {Language} = configuration;
@@ -63,7 +64,7 @@ class NotifyScreen extends React.Component {
           colorIcon={'#015cd0'}
           styleTitle={styles.textHeader}
           showBack
-          title={formatMessage(msg.notification)}
+          title={formatMessage(msg.announcement)}
         />
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -79,8 +80,8 @@ class NotifyScreen extends React.Component {
                 {
                   Language === 'vi' ?
                       (
-                          `Thời gian: ${moment(item.timestamp).format("HH:mm")} Ngày: ${moment(item.timestamp).format("DD/MM/YYYY")}`
-                          ) : `${moment(item.timestamp).format("HH:mm")} ${moment(item.timestamp).format("DD/MM/YYYY")}`
+                          `Thời gian: ${moment(Number(item.timestamp)).format("HH:mm")} Ngày: ${moment(Number(item.timestamp)).format("DD/MM/YYYY")}`
+                          ) : `${moment(Number(item.timestamp)).format("HH:mm")} ${moment(Number(item.timestamp)).format("DD/MM/YYYY")}`
                 }
               </MediumText>
             </View>

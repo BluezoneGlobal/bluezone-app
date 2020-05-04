@@ -80,7 +80,7 @@ class NotifySession extends React.Component {
             </MediumText>
             {item.unRead ? (
               <MediumText numberOfLines={1} style={styles.desTextUnread}>
-                {item.text}
+                {Language === 'vi' ? item.text : item.textEn}
               </MediumText>
             ) : (
               <Text numberOfLines={1} style={styles.desText}>

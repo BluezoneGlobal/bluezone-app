@@ -65,6 +65,7 @@ import configuration, {
 import AuthLoadingScreen from '../AuthLoadingScreen';
 import firebase from 'react-native-firebase';
 import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
+import {navigationRef} from "../../../../RootNavigation";
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -189,7 +190,9 @@ class ModalNotify extends React.Component {
         this.requestPermissionWrite();
       }
 
-      if (this.statusWrite !== '' && this.state.isVisibleLocation === false) {
+      const navigations = navigationRef.current.getRootState();
+      if (this.statusWrite !== '' && this.state.isVisibleLocation === false && navigations.routes.length === 0 &&
+          navigations.routes[0].name === "Home") {
         this.setState({isVisibleFlash: true});
       }
     }
