@@ -24,6 +24,7 @@
 import React from 'react';
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {ScrollView, TouchableOpacity, View, VirtualizedList} from 'react-native';
@@ -34,6 +35,7 @@ import {MediumText} from '../../../base/components/Text';
 // Styles
 import styles from './styles/index.css';
 import configuration from "../../../Configuration";
+import message from '../../../msg/trace';
 
 class NotifySession extends React.Component {
   constructor(props) {
@@ -42,12 +44,14 @@ class NotifySession extends React.Component {
   }
 
   getTime = (time) => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     const toDay = moment().startOf('day');
     const startOfToday = toDay.valueOf();
     const prevToday = toDay.subtract(1, 'days').valueOf();
     const nextToday = toDay.add(1, 'days').valueOf();
     if(prevToday <= time && time < startOfToday) {
-      return 'Hôm qua';
+      return formatMessage(message.yesterday);
     }else if(startOfToday <= time && time < nextToday) {
       return moment(time).format("HH:mm");
     }
@@ -128,4 +132,8 @@ class NotifySession extends React.Component {
   }
 }
 
-export default NotifySession;
+NotifySession.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifySession);

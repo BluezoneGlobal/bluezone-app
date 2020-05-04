@@ -34,6 +34,7 @@
     "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
     "bluezone.trace.announcement": "Announcement",
+    "bluezone.trace.yesterday": "Yesterday",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",
