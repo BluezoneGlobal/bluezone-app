@@ -422,7 +422,7 @@ class ModalNotify extends React.Component {
         notifyId: '1995',
         smallIcon: 'icon_bluezone',
         largeIcon: '',
-        title: "Cập nhật số điên thoại",
+        title: "Bluezone",
         text: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
         bigText: "Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn \"tiếp xúc gần\" với người nhiễm COVID-19 trong tương lai.",
         titleEn: "Update phone number",

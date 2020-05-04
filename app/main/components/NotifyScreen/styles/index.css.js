@@ -122,32 +122,18 @@ const styles = StyleSheet.create({
   },
 
   listEmptyContainer: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 23,
-  },
-
-  listEmptyCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  circle: {
-    height: 64,
-    width: 64,
-    borderRadius: 32,
-    borderWidth: 2,
-    borderColor: '#dedede',
   },
 
   listEmptyText: {
+    marginTop: 15,
     color: '#484848',
     fontSize: large,
+  },
+  empty: {
+    width: 44,
+    height: 64,
   },
 
 });
