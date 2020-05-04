@@ -26,14 +26,19 @@ import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
-import {ScrollView, TouchableOpacity, View, VirtualizedList} from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  VirtualizedList,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Text from '../../../base/components/Text';
 import {MediumText} from '../../../base/components/Text';
 
 // Styles
 import styles from './styles/index.css';
-import configuration from "../../../Configuration";
+import configuration from '../../../Configuration';
 
 class NotifySession extends React.Component {
   constructor(props) {
@@ -41,17 +46,17 @@ class NotifySession extends React.Component {
     this.index = 0;
   }
 
-  getTime = (time) => {
+  getTime = time => {
     const toDay = moment().startOf('day');
     const startOfToday = toDay.valueOf();
     const prevToday = toDay.subtract(1, 'days').valueOf();
     const nextToday = toDay.add(1, 'days').valueOf();
-    if(prevToday <= time && time < startOfToday) {
+    if (prevToday <= time && time < startOfToday) {
       return 'Hôm qua';
-    }else if(startOfToday <= time && time < nextToday) {
-      return moment(time).format("HH:mm");
+    } else if (startOfToday <= time && time < nextToday) {
+      return moment(time).format('HH:mm');
     }
-    return moment(item.timestamp).format("DD/MM/YYYY");
+    return moment(item.timestamp).format('DD/MM/YYYY');
   };
 
   renderItem = ({item}) => {
@@ -59,17 +64,17 @@ class NotifySession extends React.Component {
     const _callback = () => {
       data.callback.onPress(item);
     };
-    const uri = item.largeIcon && item.largeIcon.length > 0 ? {uri: item.largeIcon} : require('./styles/images/corona.png');
+    const uri =
+      item.largeIcon && item.largeIcon.length > 0
+        ? {uri: item.largeIcon}
+        : require('./styles/images/corona.png');
     const textTime = this.getTime(item.timestamp);
     const {Language} = configuration;
 
     return (
       <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>
         <View style={styles.notifyWrapper}>
-          <FastImage
-            source={uri}
-            style={styles.avatar}
-          />
+          <FastImage source={uri} style={styles.avatar} />
           <View style={styles.content}>
             <MediumText numberOfLines={1} style={styles.titleText}>
               {Language === 'vi' ? item.title : item.titleEn}
@@ -95,35 +100,35 @@ class NotifySession extends React.Component {
     );
   };
 
-    keyExtractor = item => item;
+  keyExtractor = item => item;
 
-    getItemCount = data => (data ? data.length : 0);
+  getItemCount = data => (data ? data.length : 0);
 
-    getItem = (data, index) => data[index];
+  getItem = (data, index) => data[index];
 
-    handleOnScroll = event => {
-        const {onGet} = this.props;
-        const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
-        if (
-            layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - 100
-        ) {
-            this.index = this.index + 1;
-            onGet(this.index);
-        }
-    };
+  handleOnScroll = event => {
+    const {onGet} = this.props;
+    const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+    if (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - 100
+    ) {
+      this.index = this.index + 1;
+      onGet(this.index);
+    }
+  };
 
   render() {
     const {data} = this.props;
     return (
-        <VirtualizedList
-          onScroll={this.handleOnScroll}
-          data={data.items}
-          initialNumToRender={4}
-          renderItem={this.renderItem}
-          keyExtractor={this.keyExtractor}
-          getItemCount={this.getItemCount}
-          getItem={this.getItem}
+      <VirtualizedList
+        onScroll={this.handleOnScroll}
+        data={data.items}
+        initialNumToRender={4}
+        renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+        getItemCount={this.getItemCount}
+        getItem={this.getItem}
       />
     );
   }
