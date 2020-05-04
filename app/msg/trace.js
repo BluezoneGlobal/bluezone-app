@@ -76,4 +76,8 @@ export default defineMessages({
     id: 'bluezone.trace.declare',
     defaultMessage: 'Đăng ký số điện thoại',
   },
+  registerPhone: {
+    id: 'bluezone.trace.registerPhone',
+    defaultMessage: 'Số điện thoại đã đăng ký',
+  },
 });

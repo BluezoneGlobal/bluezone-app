@@ -36,6 +36,7 @@
   "bluezone.trace.yesterday": "Hôm qua",
   "bluezone.trace.myBluezoneId": "Mã Bluezone ID của bạn",
   "bluezone.trace.declare": "Đăng ký số điện thoại",
+  "bluezone.trace.registerPhone": "Số điện thoại đã đăng ký",
 
   "bluezone.history.header": "Lịch sử tiếp xúc",
   "bluezone.history.totalContact": "Tổng tiếp xúc",

@@ -36,6 +36,7 @@
     "bluezone.trace.announcement": "Announcement",
     "bluezone.trace.yesterday": "Yesterday",
     "bluezone.trace.declare": "Register phone number",
+    "bluezone.trace.registerPhone": "The phone number has been registered",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",

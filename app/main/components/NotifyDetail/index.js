@@ -50,8 +50,7 @@ class NotifyScreen extends React.Component {
   }
 
   onPress = () => {
-    const {PhoneNumber} = configuration;
-    this.props.navigation.navigate('Register', {phoneNumber: PhoneNumber});
+    this.props.navigation.navigate('Register');
   };
 
   render() {
@@ -62,7 +61,7 @@ class NotifyScreen extends React.Component {
         ? item.largeIcon
         : require('./styles/images/corona.png');
     const {formatMessage} = intl;
-    const {Language} = configuration;
+    const {Language, PhoneNumber} = configuration;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -96,13 +95,19 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
-          <View style={styles.declare}>
-            <TouchableOpacity onPress={this.onPress} style={styles.button}>
-              <Text style={styles.textButton}>
-                {formatMessage(msg.declare)}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {PhoneNumber ? (
+            <Text style={styles.textPhoneNumber}>
+              {formatMessage(msg.registerPhone)}: {PhoneNumber}
+            </Text>
+          ) : (
+            <View style={styles.declare}>
+              <TouchableOpacity onPress={this.onPress} style={styles.button}>
+                <Text style={styles.textButton}>
+                  {formatMessage(msg.declare)}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </ScrollView>
       </SafeAreaView>
     );

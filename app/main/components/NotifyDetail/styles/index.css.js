@@ -103,6 +103,10 @@ const styles = StyleSheet.create({
     marginTop: 26,
     fontSize: fontSize.normal,
   },
+  textPhoneNumber: {
+    marginTop: 10,
+    fontSize: fontSize.normal,
+  },
   timer: {
     alignItems: 'flex-end',
   },
