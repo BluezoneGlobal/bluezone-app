@@ -22,14 +22,13 @@
 'use strict';
 
 import React from 'react';
-import * as PropTypes from 'prop-types';
 import {View, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator} from 'react-native';
-import {close, open} from '../../../db/SqliteDb';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
-import NotifySection from './NotifySession';
+import NotifySession from './NotifySession';
 // import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Styles
@@ -39,7 +38,6 @@ import styles from './styles/index.css';
 // Utils
 import {getNotifications} from '../../../../app/db/SqliteDb';
 import message from "../../../msg/trace";
-import {injectIntl, intlShape} from 'react-intl';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -54,16 +52,12 @@ class NotifyScreen extends React.Component {
 
   componentDidMount() {
     this.initData();
-    this.focusListener = this.props.navigation.addListener('tabPress', () => {
+    this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });
     this.timeOutLoadingBluezoner = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
-  }
-
-  componentWillUnmount() {
-    this.focusListener.remove();
   }
 
   initData = async () => {
@@ -92,6 +86,7 @@ class NotifyScreen extends React.Component {
 
   onPressNotification = item => {
     // doSomething.
+    console.log('cuongntg123', item);
     this.props.navigation.navigate('NotifyDetail', {item});
   };
 
@@ -116,24 +111,24 @@ class NotifyScreen extends React.Component {
             colorIcon={'#015cd0'}
             styleTitle={styles.textHeader}
             showBack
-            title={'Thông báo'}
+            title={formatMessage(message.announcement)}
           />
         ) : (
           <View>
             <View style={styles.header}>
-              <MediumText style={styles.textHeader}>{formatMessage(message.notification)}</MediumText>
+              <MediumText style={styles.textHeader}>{formatMessage(message.announcement)}</MediumText>
             </View>
             {
               notifications.length > 0 ? (
                   <View style={styles.wrapper}>
-                    {/*<NotifySection*/}
+                    {/*<NotifySession*/}
                     {/*  title={'Cảnh báo'}*/}
                     {/*  data={dataWar}*/}
                     {/*  styleTitle={styles.titleWar}*/}
                     {/*  styleTextTitle={styles.textTitleWar}*/}
                     {/*/>*/}
-                    <NotifySection
-                        title={formatMessage(message.notification)}
+                    <NotifySession
+                        title={formatMessage(message.announcement)}
                         data={dataNtf}
                         styleTitle={styles.titleNtf}
                         styleTextTitle={styles.textTitleNtf}

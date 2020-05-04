@@ -24,6 +24,10 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
+  warn: {
+    id: 'bluezone.home.warn',
+    defaultMessage: 'Cảnh báo',
+  },
   header: {
     id: 'bluezone.home.header',
     defaultMessage: 'Bảo vệ mình, bảo vệ cộng đồng',

@@ -32,7 +32,6 @@ import {
   hasNotifySystem,
   // NOTIFY_INVITE_NUMBER,
 } from './utils/notifyConfiguration';
-import {isRegisterFirst} from './main/components/AuthLoadingScreen';
 import {DOMAIN} from './apis/server';
 
 // CONST
@@ -192,6 +191,7 @@ const configuration = {
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
   StatusNotifyRegister: null,
+  isRegisterFirst: false,
 };
 
 const getConfigurationAsync = async () => {
@@ -587,14 +587,24 @@ const setStatusNotifyRegister = StatusNotifyRegister => {
   AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
 };
 
+const setIsRegisterFirst = isRegisterFirst => {
+  Object.assign(configuration, {isRegisterFirst});
+};
+
 const checkNotifyOfDay = () => {
-  const {
+  let {
     ScheduleNotifyDay,
     ScheduleNotifyHour,
     StatusNotifyRegister,
     Token,
+    isRegisterFirst,
   } = configuration;
   const date = new Date();
+
+  if(!StatusNotifyRegister && isRegisterFirst) return false;
+  if(!StatusNotifyRegister && !isRegisterFirst) return true;
+
+  StatusNotifyRegister = parseInt(StatusNotifyRegister || new Date().getTime());
   const currentTimeOfDay = date.setHours(0, 0, 0, 0);
   const StatusNotifyRegisterForHour = new Date(StatusNotifyRegister).setHours(
     0,
@@ -605,15 +615,18 @@ const checkNotifyOfDay = () => {
   const checkDay =
     currentTimeOfDay / StatusNotifyRegisterForHour === ScheduleNotifyDay;
 
-  if (!StatusNotifyRegister) {
-    return true;
-  }
-
+  console.log('isRegisterFirst', isRegisterFirst);
+  console.log('Token', Token,);
+  console.log('currentTimeOfDay', currentTimeOfDay);
+  console.log('ScheduleNotifyDay', ScheduleNotifyDay);
+  console.log('StatusNotifyRegisterForHour', StatusNotifyRegisterForHour);
+  console.log('checkDay', checkDay);
+  console.log('StatusNotifyRegister', StatusNotifyRegister);
   if (isRegisterFirst || Token || !checkDay) {
     return false;
   }
 
-  const hoursOld = StatusNotifyRegister.getHours();
+  const hoursOld = new Date(StatusNotifyRegister).getHours();
   for (let i = 0; i < ScheduleNotifyHour.length; i++) {
     if (
       (i === ScheduleNotifyHour.length - 1 &&
@@ -642,4 +655,5 @@ export {
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,
+  setIsRegisterFirst,
 };

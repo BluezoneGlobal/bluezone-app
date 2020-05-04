@@ -24,6 +24,7 @@
 import React from 'react';
 import {View, SafeAreaView} from 'react-native';
 import moment from 'moment';
+import {injectIntl, intlShape} from "react-intl";
 import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
@@ -38,6 +39,8 @@ import NotifyVerified from './NotifyVerified';
 
 // Styles
 import styles from './styles/index.css';
+import msg from '../../../msg/home';
+import configuration from "../../../Configuration";
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -54,9 +57,12 @@ class NotifyScreen extends React.Component {
   }
 
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
     const {status} = this.state;
     const item = (route && route.params.item) || {};
+    const {formatMessage} = intl;
+    const {Language} = configuration;
+
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -64,7 +70,7 @@ class NotifyScreen extends React.Component {
           colorIcon={'#015cd0'}
           styleTitle={styles.textHeader}
           showBack
-          title={'Cảnh báo'}
+          title={formatMessage(msg.warn)}
         />
         <View style={styles.wrapper}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -74,10 +80,15 @@ class NotifyScreen extends React.Component {
             />
             <View style={styles.content}>
               <MediumText numberOfLines={1} style={styles.titleText}>
-                {item.title}
+                {Language === 'vi' ? item.title : item.titleEn}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                Thời gian: {moment(item.timestamp).format("HH:mm")} Ngày: {moment(item.timestamp).format("DD/MM/YYYY")}
+                {
+                  Language === 'vi' ?
+                      (
+                          `Thời gian: ${moment(item.timestamp).format("HH:mm")} Ngày: ${moment(item.timestamp).format("DD/MM/YYYY")}`
+                      ) : `${moment(item.timestamp).format("HH:mm")} ${moment(item.timestamp).format("DD/MM/YYYY")}`
+                }
               </MediumText>
             </View>
           </View>
@@ -93,4 +104,8 @@ class NotifyScreen extends React.Component {
   }
 }
 
-export default NotifyScreen;
+NotifyScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(NotifyScreen);

@@ -109,7 +109,7 @@ class RegisterScreen extends React.Component {
   }
 
   onChangeNavigate() {
-    this.props.navigation.navigate('Home');
+    this.props.navigation.push('Home');
   }
 
   render() {

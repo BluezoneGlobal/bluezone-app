@@ -127,12 +127,14 @@ export default function App() {
             remoteMessage.notification &&
             remoteMessage.notification.data.group === 'WARN'
           ) {
+            console.log('namvh', remoteMessage);
             navigate('NotifyWarning', remoteMessage);
           }
           if (
             remoteMessage.notification &&
             remoteMessage.notification.data.group === 'INFO'
           ) {
+            console.log('namvh', remoteMessage);
             navigate('NotifyDetail', remoteMessage);
           }
           firebase
