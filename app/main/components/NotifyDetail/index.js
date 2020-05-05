@@ -66,7 +66,7 @@ class NotifyScreen extends React.Component {
       );
       return;
     }
-    this.props.navigation.navigate('Register');
+    this.props.navigation.replace('Register');
   };
 
   formatNumberPhone = numberPhone => {

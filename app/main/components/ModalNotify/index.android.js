@@ -37,8 +37,6 @@ import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import RNSettings from 'react-native-settings';
 import SendIntentAndroid from 'react-native-send-intent';
 import * as PropTypes from 'prop-types';
-import PushNotification from 'react-native-push-notification';
-import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import ButtonText from '../../../base/components/ButtonText';
@@ -48,6 +46,7 @@ import ModalBase from './ModalBase';
 // Language
 import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
+import {messageNotifyOTP} from './data';
 
 // Api
 import {getCheckVersions} from '../../../apis/bluezone';
@@ -418,30 +417,9 @@ class ModalNotify extends React.Component {
     if (!checkNotify) {
       return;
     }
-    0;
     const {language} = this.context;
     setStatusNotifyRegister(new Date().getTime().toString());
-    const messageNotify = {
-      data: {
-        notifyId: '1995',
-        smallIcon: 'icon_bluezone',
-        largeIcon: '',
-        title: 'Bluezone',
-        text:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
-        bigText:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
-        titleEn: 'Bluezone',
-        textEn:
-          'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
-        bigTextEn:
-          'You You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
-        group: 'mobile',
-        timestamp: new Date().getTime(),
-        unRead: false,
-      },
-    };
-    replaceNotify(messageNotify, language);
+    replaceNotify(messageNotifyOTP, language);
   }
 
   render() {

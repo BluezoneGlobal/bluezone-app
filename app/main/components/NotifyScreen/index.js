@@ -63,6 +63,10 @@ class NotifyScreen extends React.Component {
   componentDidMount() {
     Dimensions.addEventListener('change', this.handleDimensionsChange);
     this.initData();
+    this.props.navigation.addListener('focus', () => {
+      // do something
+      this.initData();
+    });
     this.props.navigation.addListener('tabPress', () => {
       this.initData();
     });

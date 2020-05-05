@@ -49,6 +49,8 @@ import styles from './styles/index.css';
 import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
 import message from '../../../msg/verifyOtp';
+import {replaceNotify} from "../../../db/SqliteDb";
+import {messageNotifyOTPSuccess} from "../ModalNotify/data";
 
 class VerifyOTPScreen extends React.Component {
   // Render any loading content that you like here
@@ -95,10 +97,12 @@ class VerifyOTPScreen extends React.Component {
   }
 
   onChangeNavigateApp () {
+    const {language} = this.context;
     const {setLoading, navigation} = this.props;
     this.setState({visibleVerifiSuccess: false}, () => {
       setLoading ? setLoading('Home') : navigation.goBack();
     });
+    replaceNotify(messageNotifyOTPSuccess, language, false);
   }
 
   onHandleConfirmFail(error) {
@@ -134,9 +138,6 @@ class VerifyOTPScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    // this.props.navigation.replace('VerifyOTP', {
-    //   phoneNumber: numberPhone,
-    // });
     this.setState({showLoading: false});
   }
 
@@ -270,11 +271,9 @@ class VerifyOTPScreen extends React.Component {
             onBackButtonPress={this.onCloseModal}
             onBackdropPress={this.onCloseModal}>
           <View style={styles.modalCont}>
-            <View>
-              <Text style={styles.titleModal}>
-                {formatMessage(message.otpsuccess)}
+            <Text style={styles.titleModal}>
+              {formatMessage(message.otpsuccess)}
             </Text>
-            </View>
             <View style={styles.lBtnModal}>
               <TouchableOpacity
                   style={styles.btnModal}

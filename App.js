@@ -188,7 +188,7 @@ export default function App() {
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen path="cuongntg" name="NotifyDetail" component={NotifyDetail} />
+                <Stack.Screen path="NotifyDetail" name="NotifyDetail" component={NotifyDetail} />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />

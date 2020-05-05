@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
   modalCont: {
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
-    paddingTop: 19,
   },
 
   titleModal: {
     fontSize: fontSize.large,
     textAlign: 'center',
     fontWeight: '500',
+    paddingVertical: 15
   },
   detailModal: {
     fontSize: 13,

@@ -87,8 +87,11 @@ const createNotify = () => {
   });
 };
 
-const replaceNotify = (notifyObj, language = 'vi') => {
-  pushNotify(notifyObj, language);
+const replaceNotify = (notifyObj, language = 'vi', notify = true) => {
+    // Hiển thị notify.
+    notify  && pushNotify(notifyObj, language);
+
+    // Lưu data xuống db.
   db.transaction(function(txn) {
     txn.executeSql(
       'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
