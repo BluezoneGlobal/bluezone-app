@@ -40,7 +40,7 @@ import {MediumText} from '../../../base/components/Text';
 // Styles
 import styles from './styles/index.css';
 import configuration from '../../../Configuration';
-import message from '../../../msg/trace';
+import message from '../../../msg/notify';
 
 class NotifySession extends React.Component {
   constructor(props) {

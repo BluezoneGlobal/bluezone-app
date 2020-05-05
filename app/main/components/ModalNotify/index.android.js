@@ -81,6 +81,7 @@ class ModalNotify extends React.Component {
       isModalUpdate: false,
       forceUpdate: false,
       isVisibleFlash: false,
+      isVisibleBLE: false,
     };
 
     this.requestPermissionLocation = this.requestPermissionLocation.bind(this);
@@ -105,6 +106,7 @@ class ModalNotify extends React.Component {
     );
     this.setLoadingModalFlash = this.setLoadingModalFlash.bind(this);
     this.setNotifyRegister = this.setNotifyRegister.bind(this);
+    this.setStatusBluetooth = this.setStatusBluetooth.bind(this);
 
     this.numberOfCheckLocationPermission = 0;
     this.numberOfCheckWritePermission = 0;
@@ -121,9 +123,9 @@ class ModalNotify extends React.Component {
     // Check Update App
     this.onCheckUpdate();
 
-    this.checkBluetoothState();
+    // this.checkBluetoothState();
 
-    BluetoothStatus.addListener(this.props.onChangeBlue);
+    BluetoothStatus.addListener(this.setStatusBluetooth);
 
     AppState.addEventListener('change', this.handleAppStateChange);
 
@@ -172,7 +174,7 @@ class ModalNotify extends React.Component {
 
   handleAppStateChange(appState) {
     if (appState === 'active') {
-      this.checkBluetoothState();
+      // this.checkBluetoothState();
 
       if (this.statusLocation === 'granted') {
         this.checkGeolocationState();
@@ -291,6 +293,7 @@ class ModalNotify extends React.Component {
         }
 
         this.setNotifyRegister();
+        this.checkBluetoothState();
       },
     );
   }
@@ -303,7 +306,7 @@ class ModalNotify extends React.Component {
 
   async checkBluetoothState() {
     const isEnabled = await BluetoothStatus.state();
-    this.props.onChangeBlue(isEnabled);
+    this.setStatusBluetooth(isEnabled);
   }
 
   checkGeolocationState() {
@@ -339,6 +342,11 @@ class ModalNotify extends React.Component {
     });
   }
 
+  setStatusBluetooth(status) {
+    this.props.onChangeBlue(status);
+    this.setState({isVisibleBLE: !status});
+  }
+
   onCheckUpdate() {
     getCheckVersions(
       response => {
@@ -362,21 +370,9 @@ class ModalNotify extends React.Component {
   }
 
   onStartBluetooth() {
-    if (Platform.OS === 'android') {
-      SystemSetting.switchBluetooth(() => {
-        console.log('switch bluetooth successfully');
-      });
-    } else {
-      Linking.canOpenURL('app-settings://prefs:root=General&path=Bluetooth')
-        .then(supported => {
-          if (!supported) {
-            console.log("Can't handle settings url");
-          } else {
-            return Linking.openURL('app-settings:');
-          }
-        })
-        .catch(err => console.error('An error occurred', err));
-    }
+    SystemSetting.switchBluetooth(() => {
+      console.log('switch bluetooth successfully');
+    });
   }
 
   onUpdate = () => {
@@ -432,16 +428,16 @@ class ModalNotify extends React.Component {
         largeIcon: '',
         title: 'Bluezone',
         text:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
         bigText:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
         titleEn: 'Bluezone',
         textEn:
-          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
+          'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         bigTextEn:
-          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
+          'You You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         group: 'mobile',
-        timestamp: 1588517528002,
+        timestamp: new Date().getTime(),
         unRead: false,
       },
     };
@@ -460,6 +456,7 @@ class ModalNotify extends React.Component {
       isVisiblePermissionLocationBlocked,
       isVisiblePermissionWriteBlocked,
       isVisibleFlash,
+      isVisibleBLE,
     } = this.state;
     const {formatMessage} = intl;
     const {
@@ -473,6 +470,8 @@ class ModalNotify extends React.Component {
       NOTIFI_PERMISSION_BLOCK_LOCATION_ANDROID_TEXT_en,
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT,
       NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en,
+      NOTIFI_BLUETOOTH_ANDROID_TEXT,
+      NOTIFI_BLUETOOTH_ANDROID_TEXT_en,
     } = configuration;
 
     const en = language && language !== 'vi';
@@ -491,6 +490,9 @@ class ModalNotify extends React.Component {
     const _NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT = en
       ? NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT_en
       : NOTIFI_PERMISSION_WRITE_FILE_BLOCK_TEXT;
+    const _NOTIFI_BLUETOOTH_ANDROID_TEXT = en
+      ? NOTIFI_BLUETOOTH_ANDROID_TEXT_en
+      : NOTIFI_BLUETOOTH_ANDROID_TEXT;
 
     return (
       <View>
@@ -511,6 +513,7 @@ class ModalNotify extends React.Component {
           onPress={this.onTurnOnLocation}
           btnText={formatMessage(message.openSettingLocation)}
         />
+
         <Modal
           isVisible={isVisibleFlash}
           style={{justifyContent: 'flex-end', margin: 0}}
@@ -525,6 +528,12 @@ class ModalNotify extends React.Component {
             <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
           </View>
         </Modal>
+
+        <ModalBase
+          isVisible={isVisibleBLE}
+          content={_NOTIFI_BLUETOOTH_ANDROID_TEXT}
+          onPress={this.onStartBluetooth}
+        />
         <Modal
           isVisible={isModalUpdate}
           style={styles.modal}
