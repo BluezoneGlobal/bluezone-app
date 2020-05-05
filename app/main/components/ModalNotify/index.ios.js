@@ -125,8 +125,8 @@ class ModalNotify extends React.Component {
       if (
         this.statusPermissionNotify !== '' &&
         this.state.isVisiblePermissionNotify === false &&
-          navigations.routes.length === 1 &&
-          navigations.routes[0].name === "Home"
+        navigations.routes.length === 1 &&
+        navigations.routes[0].name === 'Home'
       ) {
         this.setState({isVisibleFlash: true});
       }
