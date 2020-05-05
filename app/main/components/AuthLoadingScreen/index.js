@@ -26,7 +26,7 @@ import * as PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, StatusBar} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
 import {MediumText} from '../../../base/components/Text';
@@ -83,6 +83,7 @@ class AuthLoadingScreen extends React.Component {
     const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
+        <StatusBar hidden={true} />
         <FastImage
           source={require('./styles/images/bluezone.png')}
           style={styles.logo}

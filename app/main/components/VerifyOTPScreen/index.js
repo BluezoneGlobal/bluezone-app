@@ -27,7 +27,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView, ActivityIndicator, TextInput,
+  ScrollView,
+  ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
@@ -49,8 +51,8 @@ import styles from './styles/index.css';
 import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
 import message from '../../../msg/verifyOtp';
-import {replaceNotify} from "../../../db/SqliteDb";
-import {messageNotifyOTPSuccess} from "../ModalNotify/data";
+import {replaceNotify} from '../../../db/SqliteDb';
+import {messageNotifyOTPSuccess} from '../ModalNotify/data';
 
 class VerifyOTPScreen extends React.Component {
   // Render any loading content that you like here
@@ -63,7 +65,7 @@ class VerifyOTPScreen extends React.Component {
       showModalError: false,
       visibleBtnSenOTP: false,
       visibleVerifiSuccess: false,
-      showLoading: false
+      showLoading: false,
     };
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
     this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
@@ -78,14 +80,17 @@ class VerifyOTPScreen extends React.Component {
   onConfirmPress = () => {
     const {otp} = this.state;
     const phoneNumber = this.props.route.params.phoneNumber;
-    this.setState({showModalError: false, showModal: false, showLoading: true}, () => {
-      VerifyOTPCode(
+    this.setState(
+      {showModalError: false, showModal: false, showLoading: true},
+      () => {
+        VerifyOTPCode(
           phoneNumber,
           otp,
           this.onHandleConfirmSuccess,
           this.onHandleConfirmFail,
-      );
-    });
+        );
+      },
+    );
   };
 
   onHandleConfirmSuccess(response) {
@@ -96,7 +101,7 @@ class VerifyOTPScreen extends React.Component {
     this.setState({visibleVerifiSuccess: true, showLoading: false});
   }
 
-  onChangeNavigateApp () {
+  onChangeNavigateApp() {
     const {language} = this.context;
     const {setLoading, navigation} = this.props;
     this.setState({visibleVerifiSuccess: false}, () => {
@@ -114,8 +119,8 @@ class VerifyOTPScreen extends React.Component {
   };
 
   onBack = () => {
-    this.props.navigation.goBack();
-    return true;
+    const {setLoading, navigation} = this.props;
+    navigation.replace(setLoading ? 'RegisterAuth' : 'Register');
   };
 
   onChangeText = value => {
@@ -168,7 +173,14 @@ class VerifyOTPScreen extends React.Component {
 
   render() {
     const {route, intl} = this.props;
-    const {showModal, showModalError, disabled, visibleBtnSenOTP, visibleVerifiSuccess, showLoading} = this.state;
+    const {
+      showModal,
+      showModalError,
+      disabled,
+      visibleBtnSenOTP,
+      visibleVerifiSuccess,
+      showLoading,
+    } = this.state;
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (
@@ -181,7 +193,7 @@ class VerifyOTPScreen extends React.Component {
           colorIcon={blue_bluezone}
           styleTitle={{color: blue_bluezone}}
         />
-        <ScrollView style={styles.scroll} keyboardShouldPersistTaps={'handled'}>
+        <ScrollView keyboardShouldPersistTaps={'handled'}>
           <View style={styles.layout1}>
             <Text style={styles.text1}>
               {formatMessage(message.enterPin)}{' '}
@@ -193,19 +205,22 @@ class VerifyOTPScreen extends React.Component {
           </Text>
           <View style={styles.layout2}>
             <Text style={styles.text3}>{formatMessage(message.validPin)} </Text>
-            <CountDown ref={this.setRef} onVisibleResetOTP={this.onVisibleResetOTP} />
+            <CountDown
+              ref={this.setRef}
+              onVisibleResetOTP={this.onVisibleResetOTP}
+            />
           </View>
           {showLoading && (
-              <Modal isVisible={showLoading} style={styles.center}>
-                <ActivityIndicator size="large" color={'#fff'} />
-              </Modal>
+            <Modal isVisible={showLoading} style={styles.center}>
+              <ActivityIndicator size="large" color={'#fff'} />
+            </Modal>
           )}
           <TextInput
-              autoFocus={true}
-              style={styles.inputOTPMax}
-              maxLength={6}
-              keyboardType={'number-pad'}
-              onChangeText={this.onChangeText}
+            autoFocus={true}
+            style={styles.inputOTPMax}
+            maxLength={6}
+            keyboardType={'number-pad'}
+            onChangeText={this.onChangeText}
           />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
@@ -222,8 +237,18 @@ class VerifyOTPScreen extends React.Component {
             <Text style={styles.text4}>
               {formatMessage(message.receivedOTP)}
             </Text>
-            <TouchableOpacity disabled={!visibleBtnSenOTP} onPress={this.onReGetOTP} style={visibleBtnSenOTP ? styles.btnActive : styles.btn}>
-              <MediumText style={visibleBtnSenOTP ? styles.textSendOTPActive : styles.textSendOTP}>{formatMessage(message.resetOTP)}</MediumText>
+            <TouchableOpacity
+              disabled={!visibleBtnSenOTP}
+              onPress={this.onReGetOTP}
+              style={visibleBtnSenOTP ? styles.btnActive : styles.btn}>
+              <MediumText
+                style={
+                  visibleBtnSenOTP
+                    ? styles.textSendOTPActive
+                    : styles.textSendOTP
+                }>
+                {formatMessage(message.resetOTP)}
+              </MediumText>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -246,7 +271,9 @@ class VerifyOTPScreen extends React.Component {
                 </Text>
               </View>
               <View>
-                <Text style={styles.detailModal}>{formatMessage(message.saveOTP)}</Text>
+                <Text style={styles.detailModal}>
+                  {formatMessage(message.saveOTP)}
+                </Text>
               </View>
               <View style={styles.lBtnModal}>
                 <TouchableOpacity
@@ -260,24 +287,24 @@ class VerifyOTPScreen extends React.Component {
         )}
 
         <Modal
-            isVisible={visibleVerifiSuccess}
-            style={styles.modalConfirm}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={600}
-            animationOutTiming={600}
-            backdropTransitionInTiming={600}
-            backdropTransitionOutTiming={600}
-            onBackButtonPress={this.onCloseModal}
-            onBackdropPress={this.onCloseModal}>
+          isVisible={visibleVerifiSuccess}
+          style={styles.modalConfirm}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={600}
+          animationOutTiming={600}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          onBackButtonPress={this.onCloseModal}
+          onBackdropPress={this.onCloseModal}>
           <View style={styles.modalCont}>
             <Text style={styles.titleModal}>
               {formatMessage(message.otpsuccess)}
             </Text>
             <View style={styles.lBtnModal}>
               <TouchableOpacity
-                  style={styles.btnModal}
-                  onPress={this.onChangeNavigateApp}>
+                style={styles.btnModal}
+                onPress={this.onChangeNavigateApp}>
                 <Text style={styles.textBtnSkip}>OK</Text>
               </TouchableOpacity>
             </View>

@@ -34,7 +34,8 @@ import {
   Alert,
   Keyboard,
   KeyboardAvoidingView,
-  Animated
+  Animated,
+  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -52,7 +53,7 @@ import * as fontSize from '../../../utils/fontSize';
 
 import message from '../../../msg/register';
 import {injectIntl, intlShape} from 'react-intl';
-import FastImage from "react-native-fast-image";
+import FastImage from 'react-native-fast-image';
 
 class RegisterScreen extends React.Component {
   // Render any loading content that you like here
@@ -76,9 +77,15 @@ class RegisterScreen extends React.Component {
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
   }
 
-  componentDidMount(){
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+  componentDidMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      'keyboardWillShow',
+      this.keyboardWillShow,
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      'keyboardWillHide',
+      this.keyboardWillHide,
+    );
   }
 
   componentWillUnmount() {
@@ -86,20 +93,19 @@ class RegisterScreen extends React.Component {
     this.keyboardWillHideSub.remove();
   }
 
-  keyboardWillShow = (event) => {
+  keyboardWillShow = event => {
     Animated.timing(this.imageHeight, {
       duration: event.duration,
       toValue: 70,
     }).start();
   };
 
-  keyboardWillHide = (event) => {
+  keyboardWillHide = event => {
     Animated.timing(this.imageHeight, {
       duration: event.duration,
       toValue: 124,
     }).start();
   };
-
 
   onChangeText(value) {
     this.setState({numberPhone: value});
@@ -153,11 +159,19 @@ class RegisterScreen extends React.Component {
     const disabled = numberPhone.length === 0;
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView  keyboardShouldPersistTaps={'handled'}>
-          <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 36,}}>
+        <ScrollView keyboardShouldPersistTaps={'handled'}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 36,
+            }}>
             <Animated.Image
-                source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
-                style={[styles.logo, { height: this.imageHeight, width: this.imageHeight }]}
+              source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
+              style={[
+                styles.logo,
+                {height: this.imageHeight, width: this.imageHeight},
+              ]}
             />
           </View>
           <View style={styles.layout1}>
@@ -170,11 +184,11 @@ class RegisterScreen extends React.Component {
               <Text style={styles.textColorActive}> *</Text>
             </Text>
             <TextInput
-                autoFocus={true}
-                keyboardType={'number-pad'}
-                style={styles.textInput}
-                placeholder={formatMessage(message.pleaseEnterYourPhone)}
-                onChangeText={this.onChangeText}
+              autoFocus={true}
+              keyboardType={'number-pad'}
+              style={styles.textInput}
+              placeholder={formatMessage(message.pleaseEnterYourPhone)}
+              onChangeText={this.onChangeText}
             />
             <ButtonIconText
               disabled={disabled}
@@ -231,10 +245,10 @@ class RegisterScreen extends React.Component {
           )}
         </ScrollView>
         <ButtonText
-            text={`${formatMessage(message.skip)} >>`}
-            onPress={this.onChangeNavigate}
-            styleBtn={styles.buttonInvite}
-            styleText={styles.textInvite}
+          text={`${formatMessage(message.skip)} >>`}
+          onPress={this.onChangeNavigate}
+          styleBtn={styles.buttonInvite}
+          styleText={styles.textInvite}
         />
       </SafeAreaView>
     );
