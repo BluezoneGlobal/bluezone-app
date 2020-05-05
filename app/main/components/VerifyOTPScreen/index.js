@@ -94,10 +94,9 @@ class VerifyOTPScreen extends React.Component {
   };
 
   onHandleConfirmSuccess(response) {
-    const {Token} = response.data.Object;
-    const phoneNumber = this.props.route.params.phoneNumber;
+    const {Token, PhoneNumber} = response.data.Object;
+    setPhoneNumber(PhoneNumber);
     setToken(Token);
-    setPhoneNumber(phoneNumber);
     this.setState({visibleVerifiSuccess: true, showLoading: false});
   }
 
@@ -124,10 +123,7 @@ class VerifyOTPScreen extends React.Component {
   };
 
   onChangeText = value => {
-    this.setState({otp: value});
-    if (value.length === 6) {
-      this.setState({disabled: false});
-    }
+    this.setState({otp: value, disabled: !(value.length === 6)});
   };
 
   onReGetOTP = () => {
