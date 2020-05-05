@@ -286,7 +286,7 @@ class ModalNotify extends React.Component {
         bigTextEn:
           'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         group: 'mobile',
-        timestamp: 1588517528002,
+        timestamp: new Date().getTime(),
         unRead: false,
       },
     };

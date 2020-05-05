@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 
   banner: {
     paddingVertical: 20,
-    paddingHorizontal: 23,
+    paddingHorizontal: 15,
   },
 
   textBanner: {

@@ -32,11 +32,14 @@
   "bluezone.trace.invite": "Mời",
   "bluezone.trace.noList": "Danh sách trống",
   "bluezone.trace.notification": "Thông báo",
-  "bluezone.trace.announcement": "Thông báo",
-  "bluezone.trace.yesterday": "Hôm qua",
   "bluezone.trace.myBluezoneId": "Mã Bluezone ID của bạn",
-  "bluezone.trace.declare": "Đăng ký số điện thoại",
-  "bluezone.trace.registerPhone": "Số điện thoại đã đăng ký",
+
+  "bluezone.notify.announcement": "Thông báo",
+  "bluezone.notify.notification": "Thông báo",
+  "bluezone.notify.yesterday": "Hôm qua",
+  "bluezone.notify.declare": "Đăng ký số điện thoại",
+  "bluezone.notify.registeredPhone": "Số điện thoại đã đăng ký",
+  "bluezone.notify.noList": "Danh sách trống",
 
   "bluezone.history.header": "Lịch sử tiếp xúc",
   "bluezone.history.totalContact": "Tổng tiếp xúc",

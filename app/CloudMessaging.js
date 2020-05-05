@@ -22,12 +22,12 @@
 'use strict';
 
 import firebase from 'react-native-firebase';
-import {Platform} from "react-native";
+import {Platform} from 'react-native';
 import {setTokenFirebase} from './Configuration';
 // Optional flow type
-import {replaceNotify} from "./db/SqliteDb";
-import AsyncStorage from "@react-native-community/async-storage";
-import type { RemoteMessage } from 'react-native-firebase';
+import {replaceNotify} from './db/SqliteDb';
+import AsyncStorage from '@react-native-community/async-storage';
+import type {RemoteMessage} from 'react-native-firebase';
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
@@ -87,19 +87,24 @@ function getTokenFirebase(callback) {
 
 function pushNotify(notifyObj, language = 'vi') {
   const notification = new firebase.notifications.Notification()
-      .setNotificationId(notifyObj.data.notifyId)
-      .setTitle(language !== 'vi' ? notifyObj.data.titleEn : notifyObj.data.title)
-      .setBody(language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText)
-      .setData({
-        group: notifyObj.data.group,
-        timestamp: notifyObj.data.timestamp,
-        text: language !== 'vi' ? notifyObj.data.textEn : notifyObj.data.text,
-      })
+    .setNotificationId(notifyObj.data.notifyId)
+    .setTitle(language !== 'vi' ? notifyObj.data.titleEn : notifyObj.data.title)
+    .setBody(
+      language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
+    )
+    .setData({
+      group: notifyObj.data.group,
+      timestamp: notifyObj.data.timestamp,
+      text: language !== 'vi' ? notifyObj.data.textEn : notifyObj.data.text,
+    })
+    .android.setBigText(
+      language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
+    )
+    .android.setSmallIcon('icon_bluezone');
+  if (Platform.OS === 'android') {
+    notification.android
+      .setChannelId('bluezone-channel')
       .android.setSmallIcon('icon_bluezone');
-  if(Platform.OS === 'android') {
-    notification
-        .android.setChannelId('bluezone-channel')
-        .android.setSmallIcon('icon_bluezone');
   }
 
   firebase.notifications().displayNotification(notification);

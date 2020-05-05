@@ -45,7 +45,7 @@ import styles from './styles/index.css';
 
 // Utils
 import {getNotifications} from '../../../../app/db/SqliteDb';
-import message from '../../../msg/trace';
+import message from '../../../msg/notify';
 
 class NotifyScreen extends React.Component {
   constructor(props) {

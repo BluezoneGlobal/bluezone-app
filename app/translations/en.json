@@ -33,10 +33,13 @@
     "bluezone.trace.noList": "Empty list",
     "bluezone.trace.notification": "Notification",
     "bluezone.trace.myBluezoneId": "Your Bluezone ID",
-    "bluezone.trace.announcement": "Announcement",
-    "bluezone.trace.yesterday": "Yesterday",
-    "bluezone.trace.declare": "Register phone number",
-    "bluezone.trace.registerPhone": "The phone number has been registered",
+
+    "bluezone.notify.announcement": "Announcement",
+    "bluezone.notify.yesterday": "Yesterday",
+    "bluezone.notify.declare": "Register phone number",
+    "bluezone.notify.registeredPhone": "The phone number has been registered",
+    "bluezone.notify.Notification": "Notification",
+    "bluezone.notify.noList": "Empty list",
 
     "bluezone.history.header": "View history",
     "bluezone.history.totalContact": "Total of contacts",

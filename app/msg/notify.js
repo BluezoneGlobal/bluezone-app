@@ -24,44 +24,28 @@
 import {defineMessages} from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'bluezone.trace.header',
-    defaultMessage: 'Quét xung quanh',
-  },
-  aroundYou: {
-    id: 'bluezone.trace.aroundYou',
-    defaultMessage: 'Xung quanh bạn',
-  },
-  bluezoner: {
-    id: 'bluezone.trace.bluezoner',
-    defaultMessage: 'Bluezoner',
-  },
-  bluezoners: {
-    id: 'bluezone.trace.bluezoners',
-    defaultMessage: 'Bluezoner',
-  },
-  nearYou: {
-    id: 'bluezone.trace.nearYou',
-    defaultMessage: 'Ở gần bạn',
-  },
-  around: {
-    id: 'bluezone.trace.around',
-    defaultMessage: 'Ở xung quanh',
-  },
-  invite: {
-    id: 'bluezone.trace.invite',
-    defaultMessage: 'Mời',
-  },
-  noList: {
-    id: 'bluezone.trace.noList',
-    defaultMessage: 'Danh sách trống',
-  },
-  notification: {
-    id: 'bluezone.trace.notification',
+  announcement: {
+    id: 'bluezone.notify.announcement',
     defaultMessage: 'Thông báo',
   },
-  myBluezoneId: {
-    id: 'bluezone.trace.myBluezoneId',
-    defaultMessage: 'Mã Bluezone ID của bạn',
+  notification: {
+    id: 'bluezone.notify.notification',
+    defaultMessage: 'Thông báo',
+  },
+  yesterday: {
+    id: 'bluezone.notify.yesterday',
+    defaultMessage: 'Hôm qua',
+  },
+  declare: {
+    id: 'bluezone.notify.declare',
+    defaultMessage: 'Đăng ký số điện thoại',
+  },
+  registeredPhone: {
+    id: 'bluezone.notify.registeredPhone',
+    defaultMessage: 'Số điện thoại đã đăng ký',
+  },
+  noList: {
+    id: 'bluezone.notify.noList',
+    defaultMessage: 'Danh sách trống',
   },
 });

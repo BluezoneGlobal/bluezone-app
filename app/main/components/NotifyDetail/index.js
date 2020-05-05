@@ -22,7 +22,13 @@
 'use strict';
 
 import React from 'react';
-import {View, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import moment from 'moment';
 import {injectIntl, intlShape} from 'react-intl';
 import FastImage from 'react-native-fast-image';
@@ -35,7 +41,7 @@ import Header from '../../../base/components/Header';
 
 // Styles
 import styles from './styles/index.css';
-import msg from '../../../msg/trace';
+import msg from '../../../msg/notify';
 import configuration from '../../../Configuration';
 
 class NotifyScreen extends React.Component {
@@ -50,7 +56,21 @@ class NotifyScreen extends React.Component {
   }
 
   onPress = () => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const {PhoneNumber} = configuration;
+    if (PhoneNumber) {
+      Alert.alert(
+        formatMessage(msg.notification),
+        formatMessage(msg.registeredPhone),
+      );
+      return;
+    }
     this.props.navigation.navigate('Register');
+  };
+
+  formatNumberPhone = numberPhone => {
+    return numberPhone.replace(/^(\d{4})\d*(\d{3})$/g, '$1***$2');
   };
 
   render() {
@@ -98,7 +118,8 @@ class NotifyScreen extends React.Component {
           {item._group === 'mobile' ? (
             PhoneNumber ? (
               <Text style={styles.textPhoneNumber}>
-                {formatMessage(msg.registerPhone)}: {PhoneNumber}
+                {formatMessage(msg.registeredPhone)}:{' '}
+                {this.formatNumberPhone(PhoneNumber)}
               </Text>
             ) : (
               <View style={styles.declare}>
