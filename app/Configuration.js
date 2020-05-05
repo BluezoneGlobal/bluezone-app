@@ -216,7 +216,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
-      PhoneNumber
+      PhoneNumber,
     } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
@@ -227,7 +227,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
-        PhoneNumber,
+      PhoneNumber,
     );
   });
 };
@@ -247,7 +247,7 @@ const mergeConfiguration = (
     Language: Language || 'vi',
     FirstOTP: FirstOTP || null,
     StatusNotifyRegister: StatusNotifyRegister || null,
-    PhoneNumber: PhoneNumber || ''
+    PhoneNumber: PhoneNumber || '',
   });
 };
 
@@ -600,8 +600,6 @@ const setStatusNotifyRegister = StatusNotifyRegister => {
   AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
 };
 
-
-
 const checkNotifyOfDay = () => {
   let {
     ScheduleNotifyDay, // Giá trị số ngày để hiển thị thông báo.
@@ -611,10 +609,14 @@ const checkNotifyOfDay = () => {
   } = configuration;
 
   // Trường hợp người dùng khai báo OTP lần đầu vào app;
-  if(PhoneNumber) return false;
+  if (PhoneNumber) {
+    return false;
+  }
 
   // Trường hợp người dùng "bỏ qua" lần đầu vào app thì sẽ cho hiển thị notify cho app.
-  if(!StatusNotifyRegister) return true;
+  if (!StatusNotifyRegister) {
+    return true;
+  }
 
   const date = new Date();
   const currentTimeOfHours = date.getHours();
@@ -629,12 +631,17 @@ const checkNotifyOfDay = () => {
   );
 
   // Check trạng thái đến ngày notify
-  const checkDay = currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
+  const checkDay =
+    currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
 
   // Check trường hợp đến ngày notify
   // + Trường hợp 1: Ngày + Thời gian hiện tại nhỏ hơn số giờ đầu.
   // + Trường hợp 2: Trạng thái cuối cùng hiển thị notify của ngày.
-  if ((checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) || (currentTimeOfDay === StatusNotifyRegisterForHour && currentTimeOfHours < ScheduleNotifyHour[0])) {
+  if (
+    (checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) ||
+    (currentTimeOfDay === StatusNotifyRegisterForHour &&
+      currentTimeOfHours < ScheduleNotifyHour[0])
+  ) {
     return false;
   }
 
@@ -668,5 +675,5 @@ export {
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,
-  setPhoneNumber
+  setPhoneNumber,
 };
