@@ -607,11 +607,11 @@ const checkNotifyOfDay = () => {
     ScheduleNotifyDay, // Giá trị số ngày để hiển thị thông báo.
     ScheduleNotifyHour, // Khung giờ nhắc trong ngày VD: [8, 13, 20].
     StatusNotifyRegister, // Thời gian cuối cùng hiển thị thông báo.
-    Token,
+    PhoneNumber,
   } = configuration;
 
   // Trường hợp người dùng khai báo OTP lần đầu vào app;
-  if(Token) return false;
+  if(PhoneNumber) return false;
 
   // Trường hợp người dùng "bỏ qua" lần đầu vào app thì sẽ cho hiển thị notify cho app.
   if(!StatusNotifyRegister) return true;
