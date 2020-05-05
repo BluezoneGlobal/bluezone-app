@@ -432,14 +432,14 @@ class ModalNotify extends React.Component {
         largeIcon: '',
         title: 'Bluezone',
         text:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
         bigText:
-          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm COVID-19 trong tương lai.',
+          'Bạn cần cập nhật số điện thoại để nhận được sự hỗ trợ trực tiếp trong trường hợp bạn "tiếp xúc gần" với người nhiễm Covid 19',
         titleEn: 'Bluezone',
         textEn:
-          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
+          'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         bigTextEn:
-          'You need to enter your phone number to receive direct support if you are in close contact with infected people in the future.',
+          'You You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
         group: 'mobile',
         timestamp: 1588517528002,
         unRead: false,
