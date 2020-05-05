@@ -23,6 +23,7 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {isIPhoneX} from '../../../../utils/checkIphoneX';
 
 const styles = StyleSheet.create({
   background: {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    paddingHorizontal: 26,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -288,8 +289,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 6,
-    marginBottom: -10,
+    paddingTop: isIPhoneX ? 26 : 6,
+    marginBottom: isIPhoneX ? -30 : -10,
     zIndex: 99,
   },
 

@@ -68,7 +68,7 @@
   "bluezone.register.redo": "Vui lòng thao tác lại để sử dụng dịch vụ",
 
   "bluezone.verifyOTP.title": "Xác thực mã OTP",
-  "bluezone.verifyOTP.enterPin": "Mã OTP đã được gửi qua số điện thoại:",
+  "bluezone.verifyOTP.enterPin": "Mã OTP đã được gửi tới số điện thoại:",
   "bluezone.verifyOTP.pleaseEnterPin": "Vui lòng nhập mã OTP",
   "bluezone.verifyOTP.validPin": "Mã có hiệu lực trong",
   "bluezone.verifyOTP.confirm": "Xác nhận",

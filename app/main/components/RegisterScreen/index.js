@@ -32,6 +32,9 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Animated
 } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -49,6 +52,7 @@ import * as fontSize from '../../../utils/fontSize';
 
 import message from '../../../msg/register';
 import {injectIntl, intlShape} from 'react-intl';
+import FastImage from "react-native-fast-image";
 
 class RegisterScreen extends React.Component {
   // Render any loading content that you like here
@@ -60,6 +64,8 @@ class RegisterScreen extends React.Component {
       showErrorModal: false,
     };
 
+    this.imageHeight = new Animated.Value(124);
+
     this.onChangeText = this.onChangeText.bind(this);
     this.onPress = this.onPress.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
@@ -69,6 +75,31 @@ class RegisterScreen extends React.Component {
     this.createAndSendOTPCodeFail = this.createAndSendOTPCodeFail.bind(this);
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
   }
+
+  componentDidMount(){
+    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: 70,
+    }).start();
+  };
+
+  keyboardWillHide = (event) => {
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: 124,
+    }).start();
+  };
+
 
   onChangeText(value) {
     this.setState({numberPhone: value});
@@ -122,7 +153,13 @@ class RegisterScreen extends React.Component {
     const disabled = numberPhone.length === 0;
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.keyBoardContainer} behavior={'position'}>
+        <ScrollView  keyboardShouldPersistTaps={'handled'}>
+          <View style={{alignItems: 'center', justifyContent: 'center', marginTop: 36,}}>
+            <Animated.Image
+                source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
+                style={[styles.logo, { height: this.imageHeight, width: this.imageHeight }]}
+            />
+          </View>
           <View style={styles.layout1}>
             <Text style={styles.text1}>{formatMessage(message.summary)}</Text>
             <Text style={styles.text2}>{formatMessage(message.title)}</Text>
@@ -133,10 +170,11 @@ class RegisterScreen extends React.Component {
               <Text style={styles.textColorActive}> *</Text>
             </Text>
             <TextInput
-              keyboardType={'phone-pad'}
-              style={styles.textInput}
-              placeholder={formatMessage(message.pleaseEnterYourPhone)}
-              onChangeText={this.onChangeText}
+                autoFocus={true}
+                keyboardType={'number-pad'}
+                style={styles.textInput}
+                placeholder={formatMessage(message.pleaseEnterYourPhone)}
+                onChangeText={this.onChangeText}
             />
             <ButtonIconText
               disabled={disabled}
@@ -193,10 +231,10 @@ class RegisterScreen extends React.Component {
           )}
         </ScrollView>
         <ButtonText
-          text={`${formatMessage(message.skip)} >>`}
-          onPress={this.onChangeNavigate}
-          styleBtn={styles.buttonInvite}
-          styleText={styles.textInvite}
+            text={`${formatMessage(message.skip)} >>`}
+            onPress={this.onChangeNavigate}
+            styleBtn={styles.buttonInvite}
+            styleText={styles.textInvite}
         />
       </SafeAreaView>
     );

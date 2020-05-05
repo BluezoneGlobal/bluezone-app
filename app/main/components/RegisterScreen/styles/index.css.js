@@ -27,10 +27,10 @@ import {blue_bluezone} from '../../../../utils/color';
 
 const styles = StyleSheet.create({
   layout1: {
-    marginTop: 50,
+    marginTop: 30,
     backgroundColor: 'rgba(144,159,208,0.31)',
     borderRadius: 8,
-    marginHorizontal: 15,
+    marginHorizontal: 20,
   },
 
   text1: {
@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    height: 44,
+    height: 45,
     borderRadius: 8,
     marginTop: 10,
-    backgroundColor: '#e8e8e8',
+    borderWidth: 1,
+    borderColor: '#e8e8e8',
     paddingLeft: 10,
     fontSize: 15,
     marginBottom: 16,
@@ -77,6 +78,11 @@ const styles = StyleSheet.create({
 
   keyBoardContainer: {
     height: 500,
+  },
+
+  logo: {
+    width: 124,
+    height: 124,
   },
 
   phone: {
@@ -163,13 +169,13 @@ const styles = StyleSheet.create({
 
   buttonInvite: {
     position: 'absolute',
-    right: 8,
-    bottom: 16,
+    bottom: 20,
+    right: 10,
   },
 
   textInvite: {
-    color: '#000000',
-    fontWeight: '500',
+    color: blue_bluezone,
+    // fontWeight: '500',
   },
 });
 

@@ -27,7 +27,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView, ActivityIndicator,
+  ScrollView, ActivityIndicator, TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {Toast} from '@ant-design/react-native';
@@ -76,7 +76,7 @@ class VerifyOTPScreen extends React.Component {
   onConfirmPress = () => {
     const {otp} = this.state;
     const phoneNumber = this.props.route.params.phoneNumber;
-    this.setState({showModalError: false, showModal: false}, () => {
+    this.setState({showModalError: false, showModal: false, showLoading: true}, () => {
       VerifyOTPCode(
           phoneNumber,
           otp,
@@ -91,7 +91,7 @@ class VerifyOTPScreen extends React.Component {
     const phoneNumber = this.props.route.params.phoneNumber;
     setToken(Token);
     setPhoneNumber(phoneNumber);
-    this.setState({visibleVerifiSuccess: true});
+    this.setState({visibleVerifiSuccess: true, showLoading: false});
   }
 
   onChangeNavigateApp () {
@@ -102,7 +102,7 @@ class VerifyOTPScreen extends React.Component {
   }
 
   onHandleConfirmFail(error) {
-    this.setState({showModal: true});
+    this.setState({showModal: true, showLoading: false});
   }
 
   onHandleReGetOTP = response => {
@@ -113,7 +113,8 @@ class VerifyOTPScreen extends React.Component {
     this.props.navigation.goBack();
     return true;
   };
-  getOtp = value => {
+
+  onChangeText = value => {
     this.setState({otp: value});
     if (value.length === 6) {
       this.setState({disabled: false});
@@ -179,7 +180,7 @@ class VerifyOTPScreen extends React.Component {
           colorIcon={blue_bluezone}
           styleTitle={{color: blue_bluezone}}
         />
-        <ScrollView style={styles.scroll}>
+        <ScrollView style={styles.scroll} keyboardShouldPersistTaps={'handled'}>
           <View style={styles.layout1}>
             <Text style={styles.text1}>
               {formatMessage(message.enterPin)}{' '}
@@ -198,7 +199,13 @@ class VerifyOTPScreen extends React.Component {
                 <ActivityIndicator size="large" color={'#fff'} />
               </Modal>
           )}
-          <InsertOTP getOtp={this.getOtp} />
+          <TextInput
+              autoFocus={true}
+              style={styles.inputOTPMax}
+              maxLength={6}
+              keyboardType={'number-pad'}
+              onChangeText={this.onChangeText}
+          />
           <View style={styles.buttonConfirm}>
             <ButtonIconText
               disabled={disabled}

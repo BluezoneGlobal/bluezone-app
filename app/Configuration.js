@@ -604,12 +604,16 @@ const setStatusNotifyRegister = StatusNotifyRegister => {
 
 const checkNotifyOfDay = () => {
   let {
-    ScheduleNotifyDay,
-    ScheduleNotifyHour,
-    StatusNotifyRegister,
+    ScheduleNotifyDay, // Giá trị số ngày để hiển thị thông báo.
+    ScheduleNotifyHour, // Khung giờ nhắc trong ngày VD: [8, 13, 20].
+    StatusNotifyRegister, // Thời gian cuối cùng hiển thị thông báo.
     Token,
   } = configuration;
 
+  // Trường hợp người dùng khai báo OTP lần đầu vào app;
+  if(Token) return false;
+
+  // Trường hợp người dùng "bỏ qua" lần đầu vào app thì sẽ cho hiển thị notify cho app.
   if(!StatusNotifyRegister) return true;
 
   const date = new Date();
@@ -623,12 +627,18 @@ const checkNotifyOfDay = () => {
     0,
     0,
   );
+
+  // Check trạng thái đến ngày notify
   const checkDay = currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
 
-  if (Token || (checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) || (currentTimeOfDay === StatusNotifyRegisterForHour && currentTimeOfHours < ScheduleNotifyHour[0])) {
+  // Check trường hợp đến ngày notify
+  // + Trường hợp 1: Ngày + Thời gian hiện tại nhỏ hơn số giờ đầu.
+  // + Trường hợp 2: Trạng thái cuối cùng hiển thị notify của ngày.
+  if ((checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) || (currentTimeOfDay === StatusNotifyRegisterForHour && currentTimeOfHours < ScheduleNotifyHour[0])) {
     return false;
   }
 
+  // Check trường hợp hiển thị ở các khung giờ khác nhau.
   const hoursOld = new Date(StatusNotifyRegister).getHours();
   for (let i = 0; i < ScheduleNotifyHour.length; i++) {
     if (

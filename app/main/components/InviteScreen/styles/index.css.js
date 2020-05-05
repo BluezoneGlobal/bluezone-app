@@ -72,12 +72,11 @@ const styles = StyleSheet.create({
 
   banner: {
     paddingVertical: 20,
-    paddingHorizontal: 23,
+    paddingHorizontal: 10,
   },
 
   textBanner: {
     color: '#015cd0',
-    fontStyle: 'normal',
     fontSize: fontSize.large,
     textAlign: 'center',
   },

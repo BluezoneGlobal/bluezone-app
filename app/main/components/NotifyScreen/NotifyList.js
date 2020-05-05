@@ -60,7 +60,7 @@ class NotifySession extends React.Component {
     } else if (startOfToday <= time && time < nextToday) {
       return moment(time).format('HH:mm');
     }
-    return moment(time).format('DD/MM/YYYY');
+    return moment(time).format('DD/MM');
   };
 
   renderItem = ({item}) => {
@@ -95,7 +95,7 @@ class NotifySession extends React.Component {
           </View>
         </View>
         <View style={styles.timer}>
-          <MediumText numberOfLines={1} style={styles.titleText} />
+          <MediumText numberOfLines={1} style={styles.titleText} text={' '}/>
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {textTime}
           </Text>

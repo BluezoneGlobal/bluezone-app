@@ -56,26 +56,15 @@ class InsertOTP extends React.Component {
     this.props.getOtp(otp.join(''));
   }
 
-  renderInputs() {
-    const inputs = Array(6).fill(0);
-    return inputs.map((i, j) => {
-      return (
+  render() {
+    return (
         <TextInput
-          style={j < 5 ? styles.inputOTPMax : styles.inputOTPMin}
+          style={styles.inputOTPMax}
           maxLength={1}
           keyboardType="numeric"
           onChangeText={v => this.focusNext(j, v)}
-          onKeyPress={e => this.focusPrevious(e.nativeEvent.key, j)}
-          ref={ref => {
-            this.otpTextInput[j] = ref;
-          }}
         />
-      );
-    });
-  }
-
-  render() {
-    return <View style={styles.inputContainer}>{this.renderInputs()}</View>;
+    );
   }
 }
 

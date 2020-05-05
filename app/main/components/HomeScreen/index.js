@@ -254,6 +254,7 @@ class HomeTab extends React.Component {
               width: width,
               height: height / setHeight1,
               justifyContent: 'flex-end',
+              backgroundColor: '#015cd0'
             }}>
             <View
               style={[style.header, {height: (height / setHeight1) * 0.38}]}>

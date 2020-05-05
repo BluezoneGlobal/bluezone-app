@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonConfirm: {
-    marginVertical: 40,
+    marginVertical: 30,
     marginHorizontal: 48,
   },
   colorButtonConfirm: {
@@ -190,13 +190,16 @@ const styles = StyleSheet.create({
     fontSize: fontSize.large,
   },
   inputOTPMax: {
+    height: 45,
     borderRadius: 8,
-    width: 45,
-    marginRight: 10,
-    textAlign: 'center',
-    backgroundColor: '#e8e8e8',
-    height: 50,
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#e8e8e8',
+    paddingLeft: 10,
     fontSize: fontSize.large,
+    marginBottom: 16,
+    marginHorizontal: 50,
+    textAlign: 'center'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -212,8 +215,7 @@ const styles = StyleSheet.create({
   },
 
   textInvite: {
-    color: '#000000',
-    fontWeight: '500',
+    color: blue_bluezone,
   },
 
   textBtnSkip: {
