@@ -60,13 +60,13 @@ class NotifyDoubt extends React.Component {
               alignItems: 'center',
                 marginTop: 18,
             }}>
-            <MediumText style={{fontSize: fontSize.large, lineHeight: 29}}>
+            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
               Bạn CÓ THỂ đã tiếp xúc với F0
             </MediumText>
-            <MediumText style={{fontSize: fontSize.large, lineHeight: 29}}>
+            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
               Trong lịch sử tiếp xúc của bạn
             </MediumText>
-            <MediumText style={{fontSize: fontSize.large, lineHeight: 29}}>
+            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
               có F0
             </MediumText>
           </View>

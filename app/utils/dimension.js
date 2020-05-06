@@ -19,24 +19,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
-import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
-
-const styles = StyleSheet.create({
-  container: {
-    height: 44,
-    justifyContent: 'center',
-    borderRadius: 8,
-  },
-
-  text: {
-    fontSize: fontSize.larger,
-    textAlign: 'center',
-    color: '#FFFFFF',
-    paddingHorizontal: 12,
-  },
-});
-
-export default styles;
+import {Dimensions, PixelRatio} from 'react-native';
+const widthPercentageToDP = widthPercent => {
+  const screenWidth = Dimensions.get('window').width;
+  // Convert string input to decimal number
+  const elemWidth = parseFloat(widthPercent);
+  return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
+};
+const heightPercentageToDP = heightPercent => {
+  const screenHeight = Dimensions.get('window').height;
+  // Convert string input to decimal number
+  const elemHeight = parseFloat(heightPercent);
+  return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
+};
+export {widthPercentageToDP, heightPercentageToDP};

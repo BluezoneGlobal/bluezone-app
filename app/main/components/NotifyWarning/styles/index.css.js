@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleText: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
   textContent: {
     marginTop: 26,

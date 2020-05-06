@@ -79,7 +79,9 @@ class SwitchLanguage extends React.Component {
                       ? style.textBtnLanguageActive
                       : style.textBtnLanguage
                   }>
-                  Vi
+                  {
+                    language === 'vi' ? 'Vi' : ''
+                  }
                 </Text>
               </View>
               <View
@@ -93,7 +95,9 @@ class SwitchLanguage extends React.Component {
                       ? style.textBtnLanguageActive
                       : style.textBtnLanguage
                   }>
-                  En
+                  {
+                    language === 'en' ? 'En' : ''
+                  }
                 </Text>
               </View>
             </TouchableOpacity>

@@ -269,9 +269,7 @@ class WatchScanScreen extends React.Component {
   };
 
   renderItemLog = item => {
-    const content = item.userId
-      ? `${item.userId}`
-      : `${item.name}`; // (${item.address})
+    const content = item.userId ? `${item.userId}` : `${item.name}`; // (${item.address})
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -319,97 +317,84 @@ class WatchScanScreen extends React.Component {
         <ScrollView>
           <View style={styles.infoContainer}>
             <View style={styles.infoItem}>
-              <View style={styles.infoAround}>
-                <View style={styles.infoAround1}>
-                  <Text style={styles.infoItemValue}>{logs.length}</Text>
-                </View>
-              </View>
-              <Text style={styles.infoItemDesc}>
-                {formatMessage(message.aroundYou)}
-              </Text>
-            </View>
-
-            <View style={styles.infoItem}>
               <View style={styles.infoBluezone}>
                 <View style={styles.infoBluezone1}>
                   <Text style={styles.infoItemValue}>{countBlueZone}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>
-                {countBlueZone > 1
-                  ? formatMessage(message.bluezoners)
-                  : formatMessage(message.bluezoner)}
-              </Text>
             </View>
           </View>
 
-          <View>
-            <View style={styles.listContainer}>
-              <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>
-                  {formatMessage(message.nearYou)}
-                </MediumText>
-                <MediumText style={styles.textListHeaderValue}>
-                  {itemsLogNear.length}
-                </MediumText>
-              </View>
-              {itemsLogNear.length > 0 ? (
-                <View style={styles.listBodyContainer}>
-                  {itemsLogNear.map(item => {
-                    return this.renderItemLog(item);
-                  })}
-                </View>
-              ) : statusLoadding ? (
-                <View style={styles.listEmptyContainer}>
-                  <ActivityIndicator size="large" color="#015CD0" />
-                </View>
-              ) : (
-                <View style={styles.listEmptyContainer}>
-                  <View style={styles.listEmptyCircle}>
-                    <View style={styles.circle} />
-                  </View>
-                  <Text style={styles.listEmptyText}>
-                    {formatMessage(message.noList)}
-                  </Text>
-                </View>
-              )}
-            </View>
-            <View style={styles.listContainer}>
-              <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>
-                  {formatMessage(message.around)}
-                </MediumText>
-                <MediumText style={styles.textListHeaderValue}>
-                  {itemsLogDiff.length}
-                </MediumText>
-              </View>
-              {itemsLogDiff.length > 0 ? (
-                <View style={styles.listBodyContainer}>
-                  {itemsLogDiff.map(item => {
-                    return this.renderItemLog(item);
-                  })}
-                </View>
-              ) : statusLoadding ? (
-                <View style={styles.listEmptyContainer}>
-                  <ActivityIndicator size="large" color="#015CD0" />
-                </View>
-              ) : (
-                <View style={styles.listEmptyContainer}>
-                  <View style={styles.listEmptyCircle}>
-                    <View style={styles.circle} />
-                  </View>
-                  <Text style={styles.listEmptyText}>
-                    {formatMessage(message.noList)}
-                  </Text>
-                </View>
-              )}
-            </View>
+          <Text style={styles.infoItemDesc}>
+            {countBlueZone > 1
+              ? formatMessage(message.bluezoners)
+              : formatMessage(message.bluezoner)}
+          </Text>
+          <View style={styles.listContainer}>
             <View style={styles.listHeaderContainer}>
               <MediumText style={styles.textListHeader}>
-                {formatMessage(message.myBluezoneId)}
+                {formatMessage(message.nearYou)}
               </MediumText>
-              <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
+              <MediumText style={styles.textListHeaderValue}>
+                {itemsLogNear.length}
+              </MediumText>
             </View>
+            {itemsLogNear.length > 0 ? (
+              <View style={styles.listBodyContainer}>
+                {itemsLogNear.map(item => {
+                  return this.renderItemLog(item);
+                })}
+              </View>
+            ) : statusLoadding ? (
+              <View style={styles.listEmptyContainer}>
+                <ActivityIndicator size="large" color="#015CD0" />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.listContainer}>
+            <View style={styles.listHeaderContainer}>
+              <MediumText style={styles.textListHeader}>
+                {formatMessage(message.around)}
+              </MediumText>
+              <MediumText style={styles.textListHeaderValue}>
+                {itemsLogDiff.length}
+              </MediumText>
+            </View>
+            {itemsLogDiff.length > 0 ? (
+              <View style={styles.listBodyContainer}>
+                {itemsLogDiff.map(item => {
+                  return this.renderItemLog(item);
+                })}
+              </View>
+            ) : statusLoadding ? (
+              <View style={styles.listEmptyContainer}>
+                <ActivityIndicator size="large" color="#015CD0" />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.listHeaderContainer}>
+            <MediumText style={styles.textListHeader}>
+              {formatMessage(message.myBluezoneId)}
+            </MediumText>
+            <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
           </View>
         </ScrollView>
       </SafeAreaView>

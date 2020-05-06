@@ -46,7 +46,7 @@ export default defineMessages({
   },
   around: {
     id: 'bluezone.trace.around',
-    defaultMessage: 'Ở xung quanh',
+    defaultMessage: 'Ở xa',
   },
   invite: {
     id: 'bluezone.trace.invite',

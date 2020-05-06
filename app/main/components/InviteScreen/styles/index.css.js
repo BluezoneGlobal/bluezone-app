@@ -21,21 +21,20 @@
 
 'use strict';
 
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const HEADER_PADDING_TOP = heightPercentageToDP((37 / 720) * 100);
+const HEADER_PADDING_BOTTOM = heightPercentageToDP((32 / 720) * 100);
+const FOOTER_PADDING_BOTTOM = heightPercentageToDP((38 / 720) * 100);
+const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((192 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    ...Platform.select({
-      ios: {
-        paddingTop: 0,
-      },
-      android: {
-        paddingTop: 20,
-      },
-    }),
   },
 
   frame: {
@@ -59,19 +58,19 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: 80,
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%',
   },
 
   textHeader: {
+    paddingTop: HEADER_PADDING_TOP,
     color: '#015cd0',
     fontSize: fontSize.bigger,
+    paddingBottom: HEADER_PADDING_BOTTOM,
   },
 
   banner: {
-    paddingVertical: 20,
     paddingHorizontal: 10,
   },
 
@@ -90,26 +89,26 @@ const styles = StyleSheet.create({
   share: {
     paddingHorizontal: 43,
     justifyContent: 'center',
-    marginBottom: 38,
+    paddingBottom: FOOTER_PADDING_BOTTOM,
   },
   btnShare: {
-    marginBottom: 18,
+    marginBottom: SCAN_PADDING_BOTTOM,
     backgroundColor: '#015cd0',
   },
   textBtnShare: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.normal,
     marginLeft: 5,
   },
 
   btnAddGroup: {
     borderWidth: 0.65,
     borderColor: '#015cd0',
-    paddingVertical: 13.5,
+    paddingVertical: 13,
   },
 
   textBtnAddGroup: {
     color: '#015cd0',
-    fontSize: fontSize.large,
+    fontSize: fontSize.normal,
     marginLeft: 5,
   },
 
@@ -127,5 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+
+export {LOGO_HEIGHT};
 
 export default styles;

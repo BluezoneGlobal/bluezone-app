@@ -40,7 +40,7 @@ import {injectIntl, intlShape} from 'react-intl';
 import configuration from '../../../Configuration';
 
 // Styles
-import styles from './styles/index.css';
+import styles, {LOGO_HEIGHT} from './styles/index.css';
 
 class InviteScreen extends React.Component {
   constructor(props) {
@@ -127,7 +127,7 @@ class InviteScreen extends React.Component {
           </View>
         )}
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{flex: 1}}>
+          <View>
             <View style={styles.banner}>
               <MediumText style={styles.textBanner}>
                 {formatMessage(message.productLabel1)}
@@ -139,11 +139,9 @@ class InviteScreen extends React.Component {
                 {formatMessage(message.productLabel3)}
               </MediumText>
             </View>
-            <View style={styles.imageQR}>
-              <View style={styles.containerQR}>
-                <IconBluezone />
-              </View>
-            </View>
+          </View>
+          <View style={styles.imageQR}>
+            <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
           </View>
           <View style={styles.share}>
             <ButtonIconText
@@ -152,15 +150,6 @@ class InviteScreen extends React.Component {
               source={require('./styles/images/icon_share.png')}
               styleBtn={styles.btnShare}
               styleText={styles.textBtnShare}
-            />
-
-            <ButtonIconText
-              onPress={this.onAddGroupFace}
-              text={joinGroupText}
-              source={require('./styles/images/icon_face.png')}
-              styleBtn={styles.btnAddGroup}
-              styleText={styles.textBtnAddGroup}
-              styleIcon={styles.iconFace}
             />
           </View>
         </View>

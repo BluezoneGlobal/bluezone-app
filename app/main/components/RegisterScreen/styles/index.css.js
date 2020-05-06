@@ -22,15 +22,20 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {huge, large} from '../../../../utils/fontSize';
+import {huge, large, normal} from '../../../../utils/fontSize';
 import {blue_bluezone} from '../../../../utils/color';
 
 const styles = StyleSheet.create({
   layout1: {
-    marginTop: 30,
-    backgroundColor: 'rgba(144,159,208,0.31)',
+    marginTop: 20,
     borderRadius: 8,
-    marginHorizontal: 20,
+    marginHorizontal: 30,
+  },
+
+  logoView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
   },
 
   text1: {
@@ -43,10 +48,16 @@ const styles = StyleSheet.create({
   },
 
   text2: {
-    padding: 15,
-    fontSize: large,
+    fontSize: normal,
     fontStyle: 'normal',
-    lineHeight: 20,
+    lineHeight: 25,
+    textAlign: 'center',
+  },
+
+  text4: {
+    fontSize: normal,
+    fontStyle: 'normal',
+    lineHeight: 38,
   },
 
   layout2: {
@@ -61,14 +72,13 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    height: 45,
+    height: 40,
     borderRadius: 8,
-    marginTop: 10,
     borderWidth: 1,
     borderColor: '#e8e8e8',
-    paddingLeft: 10,
+    paddingLeft: 16,
     fontSize: 15,
-    marginBottom: 16,
+    marginBottom: 51,
   },
 
   container: {
@@ -86,8 +96,8 @@ const styles = StyleSheet.create({
   },
 
   phone: {
-    marginVertical: 40,
-    marginHorizontal: 40,
+    marginTop: 28,
+    marginHorizontal: 30,
   },
 
   textColorActive: {
@@ -159,24 +169,27 @@ const styles = StyleSheet.create({
 
   buttonActive: {
     backgroundColor: blue_bluezone,
-    marginBottom: 30,
   },
 
   buttonDisable: {
     backgroundColor: '#ccc',
-    marginBottom: 30,
   },
 
   buttonInvite: {
     position: 'absolute',
-    bottom: 20,
     right: 10,
-
+    bottom: 16,
   },
 
   textInvite: {
+    fontSize: normal,
     color: blue_bluezone,
-    // fontWeight: '500',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+
+  btnNext: {
+    height: 46,
   },
 });
 

@@ -26,21 +26,30 @@ import 'react-native-get-random-values';
 import * as PropTypes from 'prop-types';
 
 // Components
-import {SafeAreaView, StatusBar, BackHandler} from 'react-native';
-import WebView from 'react-native-webview';
+import {
+  SafeAreaView,
+  StatusBar,
+  BackHandler,
+  View,
+  Linking,
+} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import Error from './Error';
+import Text, {MediumText} from '../../../base/components/Text';
 
 // Utils
 import configuration from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 class InfoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       backButtonEnabled: null,
+      version: DeviceInfo.getVersion(),
     };
     this.onGoBack = this.onGoBack.bind(this);
     this.reload = this.reload.bind(this);
@@ -82,29 +91,41 @@ class InfoScreen extends React.Component {
   }
 
   render() {
+    const {version} = this.state;
     const {language} = this.context;
-
-    const url =
-      language && language !== 'vi'
-        ? configuration.Introduce_en
-        : configuration.Introduce;
 
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
-        <WebView
-          // style={styles.flex}
-          ref={this.setRef}
-          source={{uri: url}}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          startInLoadingState={true}
-          scalesPageToFit={false}
-          thirdPartyCookiesEnabled={true}
-          javaScriptEnabledAndroid={true}
-          onNavigationStateChange={this.onNavigationStateChange}
-          renderError={this.renderError}
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <MediumText style={styles.title}>Bluezone phiên bản {version}</MediumText>
+          <Text style={styles.date}>Ngày phát hành 05/5/2020.</Text>
+          <Text />
+          <Text style={styles.description}>
+            Ứng dụng do Bộ Thông tin và Truyền thông, Bộ Y tế chủ trì, với sự
+            tham gia phát triển của BKAV và cộng đồng CNTT. Ứng dụng giúp người
+            dân tự theo dõi các tiếp xúc gần, giúp bảo vệ bản thân, bảo vệ cộng
+            đồng, góp phần phòng, chống dịch bệnh.
+          </Text>
+          <Text />
+          <Text style={styles.textContact}>
+            Chi tiết xem tại:{' '}
+            <Text
+              style={styles.linkweb}
+              onPress={() => Linking.openURL('www.bluezone.gov.vn')}>
+              www.bluezone.gov.vn
+            </Text>
+          </Text>
+          <Text />
+          <Text style={styles.textContact}>
+            Thông tin liên hệ:{' '}
+            <Text
+              style={styles.linkweb}
+              onPress={() => Linking.openURL('mailto:lienhe@bluezone.gov.vn')}>
+              lienhe@bluezone.gov.vn
+            </Text>
+          </Text>
+        </View>
       </SafeAreaView>
     );
   }
