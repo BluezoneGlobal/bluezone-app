@@ -297,14 +297,6 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.totalContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={styles.human}>
-                  <MediumText style={[styles.textValue, styles.colorText]}>
-                    {total}
-                  </MediumText>
-                  <Text style={[styles.text, styles.colorText]}>
-                    {formatMessage(message.people)}
-                  </Text>
-                </View>
                 <View style={styles.bluezone}>
                   <MediumText style={styles.textValue}>
                     {totalBluezoner}
@@ -322,14 +314,6 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.closeContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={[styles.human, styles.backgroundPeople]}>
-                  <Text style={[styles.textValue, styles.colorNumber]}>
-                    {nearTotal}
-                  </Text>
-                  <Text style={[styles.text, styles.colorNumber]}>
-                    {formatMessage(message.people)}
-                  </Text>
-                </View>
                 <View style={[styles.bluezone, styles.backgroundBlue]}>
                   <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
                   <Text style={styles.text}>

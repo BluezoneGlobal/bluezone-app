@@ -129,6 +129,7 @@ class ModalNotify extends React.Component {
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home'
       ) {
+        this.onCheckUpdate();
         this.setState({isVisibleFlash: true});
       }
     }

@@ -23,11 +23,30 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {blue_bluezone} from '../../../../utils/color';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#265bd0',
+    backgroundColor: '#ffffff',
+  },
+
+  title: {
+    marginTop: 39,
+    fontSize: fontSize.huge,
+    color: blue_bluezone,
+    textAlign: 'center',
+    marginBottom: 32,
+  },
+
+  description: {
+    // textAlign: 'center',
+    fontSize: fontSize.large,
+    lineHeight: 25
+  },
+
+  date: {
+    fontSize: fontSize.large,
   },
 
   error: {
@@ -41,12 +60,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  textContact: {
+    fontSize: fontSize.large,
+  },
+
   textTitle: {
     color: '#000',
     marginBottom: 10,
     fontSize: fontSize.huge,
     paddingHorizontal: 20,
-    textAlign: 'center',
   },
 
   btnError: {
@@ -59,7 +81,11 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 20,
     color: '#0166de',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
+  },
+
+  linkweb: {
+    color: '#0166de',
   },
 });
 

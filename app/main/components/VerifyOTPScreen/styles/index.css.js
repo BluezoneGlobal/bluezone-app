@@ -24,7 +24,6 @@
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
 import {blue_bluezone} from '../../../../utils/color';
-import {large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   layout1: {
@@ -33,11 +32,18 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     borderRadius: 8,
   },
+
+  content: {
+    paddingHorizontal: 50,
+    justifyContent: 'center',
+    marginTop: 62,
+    marginBottom: 64,
+  },
+
   text1: {
     textAlign: 'center',
-    fontWeight: 'normal',
-    fontSize: fontSize.large,
-    lineHeight: 30,
+    fontSize: fontSize.larger,
+    lineHeight: 25,
   },
   text2: {
     fontStyle: 'normal',
@@ -48,11 +54,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 40,
   },
+
   layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
   text3: {
-    fontStyle: 'normal',
-    fontSize: fontSize.large,
-    lineHeight: 20,
+    fontSize: fontSize.small,
+    lineHeight: 25,
+    color: blue_bluezone,
   },
   layout3: {
     marginHorizontal: 15,
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
   },
   text4: {
     fontWeight: 'normal',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     paddingVertical: 24,
     textAlign: 'center',
     paddingHorizontal: 50,
@@ -70,7 +77,6 @@ const styles = StyleSheet.create({
     color: blue_bluezone,
   },
   btnActive: {
-    height: 54,
     borderColor: blue_bluezone,
     borderWidth: 1,
     alignItems: 'center',
@@ -92,8 +98,10 @@ const styles = StyleSheet.create({
   },
 
   textSendOTP: {
-    color: '#ffffff',
-    paddingHorizontal: 36,
+    fontSize: fontSize.small,
+    lineHeight: 25,
+    color: blue_bluezone,
+    paddingBottom: 20,
   },
 
   modalCont: {
@@ -102,10 +110,10 @@ const styles = StyleSheet.create({
   },
 
   titleModal: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     textAlign: 'center',
     fontWeight: '500',
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   detailModal: {
     fontSize: 13,
@@ -127,14 +135,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textBtn: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     color: blue_bluezone,
     fontWeight: '500',
   },
   textTimer: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.small,
+    lineHeight: 25,
     color: blue_bluezone,
-    lineHeight: 20,
   },
   container: {
     flex: 1,
@@ -142,6 +150,8 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#ffffff',
+    marginTop: 10,
+    height: 40,
   },
   scroll: {
     flex: 1,
@@ -149,23 +159,24 @@ const styles = StyleSheet.create({
   },
   textPhoneNumber: {
     fontWeight: 'bold',
+    marginTop: 40,
+    lineHeight: 25,
+    fontSize: fontSize.larger,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   buttonConfirm: {
-    marginVertical: 30,
-    marginHorizontal: 48,
+    marginHorizontal: 43,
+    marginBottom: 27,
   },
   colorButtonConfirm: {
     backgroundColor: blue_bluezone,
-    height: 54,
-    borderRadius: 28,
-    marginHorizontal: 78,
+    height: 46,
   },
 
   btnConfim: {
     backgroundColor: '#e8e8e8',
-    height: 54,
-    borderRadius: 28,
-    marginHorizontal: 78,
+    height: 46,
   },
 
   iconButtonConfirm: {
@@ -187,19 +198,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#e8e8e8',
     height: 50,
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
   inputOTPMax: {
-    height: 45,
+    height: 40,
     borderRadius: 8,
-    marginTop: 20,
     borderWidth: 1,
     borderColor: '#e8e8e8',
-    paddingLeft: 10,
+    paddingLeft: 12,
     fontSize: fontSize.large,
-    marginBottom: 16,
-    marginHorizontal: 50,
-    textAlign: 'center'
+    marginBottom: 51,
+    marginHorizontal: 30,
+    textAlign: 'center',
+    paddingTop: 9,
+    paddingBottom: 9,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -208,19 +220,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
 
+  textNumber: {
+    textAlign: 'center',
+    color: '#f18b25'
+  },
+
   buttonInvite: {
     position: 'absolute',
-    right: 8,
+    right: 10,
     bottom: 16,
   },
 
   textInvite: {
+    fontSize: fontSize.normal,
     color: blue_bluezone,
+    paddingHorizontal: 20,
+    paddingVertical: 20
   },
 
   textBtnSkip: {
-    fontWeight: '500',
-    fontSize: large,
+    fontSize: fontSize.normal,
     color: blue_bluezone,
   },
 });

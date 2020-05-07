@@ -84,8 +84,17 @@ class CountDown extends React.Component {
     }
   }
 
+  formatTime = time => {
+    const minute = parseInt(time / 60);
+    const seconds = time % 60;
+    const secondsConvert = seconds > 10 ? seconds : `0${seconds}`;
+    return `0${minute}:${secondsConvert}`;
+  };
+
   render() {
-    return <Text style={styles.textTimer}>{this.state.time.s}s</Text>;
+    return (
+      <Text style={styles.textTimer}>{this.formatTime(this.state.time.s)}</Text>
+    );
   }
 }
 

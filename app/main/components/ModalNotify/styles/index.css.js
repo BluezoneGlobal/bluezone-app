@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   textCenterIOS: {
     textAlign: 'center',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
   flex: {
     flex: 1,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   textContent: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     lineHeight: 20,
   },
 });

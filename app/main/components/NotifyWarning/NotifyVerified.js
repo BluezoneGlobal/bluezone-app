@@ -62,7 +62,7 @@ class NotifyDoubt extends React.Component {
             }}>
             <MediumText
               style={{
-                fontSize: fontSize.large,
+                fontSize: fontSize.larger,
                 lineHeight: 29,
                 color: '#00000069',
                 textAlign: 'center',

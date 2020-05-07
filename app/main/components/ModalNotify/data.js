@@ -24,7 +24,7 @@
 export const messageNotifyOTP = {
   data: {
     notifyId: '1234',
-    smallIcon: 'icon_bluezone',
+    smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
     text:
@@ -120,7 +120,9 @@ export const verifySafe = {
 export const messageNotifyOTPSuccess = {
   data: {
     notifyId: '4444',
-    smallIcon: 'icon_bluezone',
+    smallIcon: 'icon_bluezone_service',
+    timestamp: new Date().getTime(),
+    unRead: false,
     largeIcon: '',
     title: 'Bluezone',
     text: 'Bạn đã cập nhật thành công số điện thoại.',
@@ -129,7 +131,5 @@ export const messageNotifyOTPSuccess = {
     textEn: 'You have successfully updated your phone number.',
     bigTextEn: 'You have successfully updated your phone number.',
     group: 'MOBILE',
-    timestamp: new Date().getTime(),
-    unRead: false,
   },
 };

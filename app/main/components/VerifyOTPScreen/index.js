@@ -30,15 +30,14 @@ import {
   ScrollView,
   ActivityIndicator,
   TextInput,
+  Keyboard, Animated,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {Toast} from '@ant-design/react-native';
 import {injectIntl, intlShape} from 'react-intl';
 
 import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountDown from './CountDown';
-import InsertOTP from './InsertOTP';
 import {MediumText} from '../../../base/components/Text';
 
 // Utils
@@ -67,6 +66,9 @@ class VerifyOTPScreen extends React.Component {
       visibleVerifiSuccess: false,
       showLoading: false,
     };
+
+    this.marginTop = new Animated.Value(62);
+
     this.onChangeNavigate = this.onChangeNavigate.bind(this);
     this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
       this,
@@ -77,6 +79,32 @@ class VerifyOTPScreen extends React.Component {
     this.onVisibleResetOTP = this.onVisibleResetOTP.bind(this);
     this.onChangeNavigateApp = this.onChangeNavigateApp.bind(this);
   }
+
+  componentDidMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
+  }
+
+  keyboardDidShow = event => {
+    Animated.timing(this.marginTop, {
+      duration: event.duration,
+      toValue: 20,
+    }).start();
+  };
+
+  keyboardDidHide = event => {
+    Animated.timing(this.marginTop, {
+      duration: event.duration,
+      toValue: 62,
+    }).start();
+  };
+
   onConfirmPress = () => {
     const {otp} = this.state;
     const phoneNumber = this.props.route.params.phoneNumber;
@@ -139,7 +167,7 @@ class VerifyOTPScreen extends React.Component {
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    this.setState({showLoading: false});
+    this.setState({showLoading: false, visibleBtnSenOTP: false});
   }
 
   createAndSendOTPCodeFail(error) {
@@ -185,36 +213,27 @@ class VerifyOTPScreen extends React.Component {
           onBack={this.onBack}
           showBack
           title={formatMessage(message.title)}
-          styleView={styles.header}
+          styleHeader={styles.header}
           colorIcon={blue_bluezone}
-          styleTitle={{color: blue_bluezone}}
+          styleTitle={{
+            color: blue_bluezone,
+            fontSize: fontSize.bigger,
+            lineHeight: 47,
+          }}
         />
-        <ScrollView keyboardShouldPersistTaps={'handled'}>
-          <View style={styles.layout1}>
-            <Text style={styles.text1}>
-              {formatMessage(message.enterPin)}{' '}
-              <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
+        <ScrollView contentContainerStyle={{flex: 1}} keyboardShouldPersistTaps={'handled'}>
+          <Animated.View style={[styles.content, {marginTop: this.marginTop, marginBottom: this.marginTop}]}>
+            <Text style={styles.text1}>{formatMessage(message.enterPin)}</Text>
+            <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
+            <Text style={styles.textNumber} onPress={this.onBack}>
+              {formatMessage(message.textNumber)}
             </Text>
-          </View>
-          <Text style={styles.text2}>
-            {formatMessage(message.pleaseEnterPin)}
-          </Text>
-          <View style={styles.layout2}>
-            <Text style={styles.text3}>{formatMessage(message.validPin)} </Text>
-            <CountDown
-              ref={this.setRef}
-              onVisibleResetOTP={this.onVisibleResetOTP}
-            />
-          </View>
-          {showLoading && (
-            <Modal isVisible={showLoading} style={styles.center}>
-              <ActivityIndicator size="large" color={'#fff'} />
-            </Modal>
-          )}
+          </Animated.View>
           <TextInput
             autoFocus={true}
             style={styles.inputOTPMax}
             maxLength={6}
+            placeholder={formatMessage(message.pleaseEnterYourPhone)}
             keyboardType={'number-pad'}
             onChangeText={this.onChangeText}
           />
@@ -223,31 +242,43 @@ class VerifyOTPScreen extends React.Component {
               disabled={disabled}
               onPress={this.onConfirmPress}
               text={formatMessage(message.confirm)}
-              styleBtn={disabled ? styles.btnConfim : styles.colorButtonConfirm}
+              styleBtn={[
+                disabled ? styles.btnConfim : styles.colorButtonConfirm,
+              ]}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={styles.iconButtonConfirm}
             />
           </View>
-
-          <View style={styles.layout3}>
-            <Text style={styles.text4}>
-              {formatMessage(message.receivedOTP)}
-            </Text>
-            <TouchableOpacity
-              disabled={!visibleBtnSenOTP}
-              onPress={this.onReGetOTP}
-              style={visibleBtnSenOTP ? styles.btnActive : styles.btn}>
-              <MediumText
-                style={
-                  visibleBtnSenOTP
-                    ? styles.textSendOTPActive
-                    : styles.textSendOTP
-                }>
+          <View style={styles.layout2}>
+            {!visibleBtnSenOTP ? (
+              <>
+                <Text style={styles.text3}>
+                  {formatMessage(message.validPin)}{' '}
+                </Text>
+                <CountDown
+                  ref={this.setRef}
+                  onVisibleResetOTP={this.onVisibleResetOTP}
+                  visibleBtnSenOTP={visibleBtnSenOTP}
+                />
+              </>
+            ) : (
+              <MediumText onPress={this.onReGetOTP} style={styles.textSendOTP}>
                 {formatMessage(message.resetOTP)}
               </MediumText>
-            </TouchableOpacity>
+            )}
           </View>
         </ScrollView>
+        <ButtonText
+          text={`${formatMessage(message.skip)}`}
+          onPress={this.onChangeNavigate}
+          styleBtn={styles.buttonInvite}
+          styleText={styles.textInvite}
+        />
+        {showLoading && (
+          <Modal isVisible={showLoading} style={styles.center}>
+            <ActivityIndicator size="large" color={'#fff'} />
+          </Modal>
+        )}
         {showModal && (
           <Modal
             isVisible={showModal}
@@ -340,12 +371,6 @@ class VerifyOTPScreen extends React.Component {
             </View>
           </Modal>
         )}
-        <ButtonText
-          text={`${formatMessage(message.skip)} >>`}
-          onPress={this.onChangeNavigate}
-          styleBtn={styles.buttonInvite}
-          styleText={styles.textInvite}
-        />
       </SafeAreaView>
     );
   }

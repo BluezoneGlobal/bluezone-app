@@ -24,9 +24,17 @@
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
 import {isIPhoneX} from '../../../../utils/checkIphoneX';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const HEADER_PADDING_BOTTOM = heightPercentageToDP((20 / 720) * 100);
+const HEADER_BACKGROUND_HEIGHT = heightPercentageToDP((152.4 / 720) * 100);
+const FOOTER_PADDING_BOTTOM = heightPercentageToDP((38 / 720) * 100);
+const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
 
 const styles = StyleSheet.create({
   background: {
+    flex: 1,
     backgroundColor: '#ffffff',
   },
 
@@ -40,9 +48,9 @@ const styles = StyleSheet.create({
   },
 
   watchScan: {
+    flex: 1,
     flexDirection: 'row',
-    paddingHorizontal: 42,
-    paddingTop: 36,
+    alignItems: 'center',
     justifyContent: 'center',
   },
 
@@ -54,16 +62,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: HEADER_PADDING_BOTTOM,
   },
 
   buttonScan: {
     backgroundColor: '#015cd0',
-    marginBottom: 18,
+    marginBottom: SCAN_PADDING_BOTTOM,
   },
 
   buttonHistory: {
     backgroundColor: '#119a01',
-    marginBottom: 18,
   },
 
   buttonIcon: {
@@ -72,29 +80,31 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    // position: 'absolute',
-    // top: 6,
-    // left: 16,
     flexDirection: 'row',
-    // zIndex: 99,
+    alignItems: 'center',
   },
 
   iconLogoMic: {
     width: 30,
     height: 30,
-    marginRight: 12,
+    marginHorizontal: 10.6,
   },
 
   borderLogo: {
-    borderRightWidth: 0.2,
-    borderRightColor: '#b5b5b5',
-    marginVertical: 6,
+    borderWidth: 0.2,
+    borderColor: '#b5b5b5',
+    height: 24,
+  },
+
+  iconLogoBluezone: {
+    width: 28.8,
+    height: 34.6,
   },
 
   iconLogoBoyte: {
     width: 30,
     height: 30,
-    marginLeft: 12,
+    marginLeft: 10.6,
   },
 
   center: {
@@ -133,6 +143,7 @@ const styles = StyleSheet.create({
 
   button: {
     paddingHorizontal: 43,
+    paddingBottom: FOOTER_PADDING_BOTTOM,
     justifyContent: 'center',
   },
 
@@ -184,14 +195,13 @@ const styles = StyleSheet.create({
 
   numberBluezone: {
     // flex: 1,
-    borderRadius: 70,
-    paddingTop: 21,
-    paddingBottom: 19,
+    borderRadius: SCANNING_HEIGHT / 2,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#f2f2f2',
-    width: 140,
-    height: 140,
+    borderWidth: 4,
+    borderColor: '#e5e5e5',
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
   },
 
   scanButton: {
@@ -223,7 +233,7 @@ const styles = StyleSheet.create({
   textProtectCommunity: {
     textAlign: 'center',
     paddingVertical: 12,
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
 
   bluezone: {
@@ -256,9 +266,8 @@ const styles = StyleSheet.create({
   textBlueNumber: {
     // fontFamily: 'OpenSans',
     fontWeight: 'bold',
-    fontSize: fontSize.bigger,
+    fontSize: fontSize.biggest,
     color: '#0166de',
-    marginBottom: 7,
   },
 
   textSmallBlueNumber: {
@@ -278,49 +287,52 @@ const styles = StyleSheet.create({
   },
 
   textBlue: {
-    // fontFamily: 'OpenSans',
     color: '#484848',
     fontSize: fontSize.normal,
   },
 
   switchLanguage: {
-    backgroundColor: '#015cd0',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: isIPhoneX ? 26 : 6,
-    marginBottom: isIPhoneX ? -30 : -10,
+    paddingHorizontal: 15,
+    paddingTop: isIPhoneX ? 32 : 12,
     zIndex: 99,
   },
 
   btnLanguage: {
     flexDirection: 'row',
-    height: 24,
-    borderRadius: 18,
-    borderColor: '#ffffff',
-    borderWidth: 0.2,
+    borderRadius: 15,
     alignItems: 'center',
+    height: 30,
+    backgroundColor: '#4f9cfa',
   },
 
   btnLanguageActive: {
     backgroundColor: '#ffffff',
-    borderRadius: 16,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 26,
+    height: 26,
   },
 
   textBtnLanguageActive: {
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-    fontSize: fontSize.small,
+    fontSize: fontSize.smallest,
     color: '#0166de',
+    alignItems: 'center',
+    paddingVertical: 2,
+    fontWeight: '600',
   },
 
   textBtnLanguage: {
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-    fontSize: fontSize.small,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    fontSize: fontSize.smallest,
     color: '#ffffff',
   },
 });
+
+export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT};
 
 export default styles;

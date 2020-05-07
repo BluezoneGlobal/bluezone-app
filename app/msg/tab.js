@@ -38,6 +38,6 @@ export default defineMessages({
   },
   about: {
     id: 'bluezone.tab.about',
-    defaultMessage: 'Thông tin',
+    defaultMessage: 'Giới thiệu',
   },
 });

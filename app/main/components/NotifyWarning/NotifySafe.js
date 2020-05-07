@@ -72,7 +72,7 @@ class NotifySafe extends React.Component {
             }}>
             <MediumText
               style={{
-                fontSize: fontSize.large,
+                fontSize: fontSize.larger,
                 lineHeight: 29,
                 textAlign: 'center',
                 paddingHorizontal: 21,

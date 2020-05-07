@@ -24,7 +24,6 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
 import {View} from 'react-native';
-import {Badge} from '@ant-design/react-native';
 
 // Components
 import HomeScreen from '../HomeScreen';
@@ -38,6 +37,7 @@ import styles from './style/index.css';
 // Language
 import message from '../../../msg/tab';
 import {injectIntl, intlShape} from 'react-intl';
+import {smallest} from '../../../utils/fontSize';
 
 // Consts
 const Tab = createBottomTabNavigator();
@@ -73,6 +73,7 @@ class HomeTabScreen extends React.Component {
           activeTintColor: '#015cd0',
           labelStyle: {
             marginBottom: 5,
+            fontSize: smallest,
           },
         }}>
         <Tab.Screen

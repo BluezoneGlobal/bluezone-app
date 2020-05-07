@@ -62,11 +62,12 @@ import {
 } from '../../../utils/notifyConfiguration';
 
 // Styles
-import style from './styles/index.css';
+import style, {HEADER_BACKGROUND_HEIGHT} from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
 import * as PropTypes from 'prop-types';
+import {heightPercentageToDP} from '../../../utils/dimension';
 
 // Test notify
 // import {checkNotify} from "../../../db/SqliteDb";
@@ -74,7 +75,6 @@ import * as PropTypes from 'prop-types';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
-const setHeight1 = 2.4;
 
 class HomeTab extends React.Component {
   constructor(props) {
@@ -224,8 +224,6 @@ class HomeTab extends React.Component {
   render() {
     const {intl} = this.props;
     const {
-      width,
-      height,
       showModalInvite,
       titleModal,
       messageModal,
@@ -237,35 +235,38 @@ class HomeTab extends React.Component {
     return (
       <View style={style.container}>
         <StatusBar hidden={true} />
-        <ScrollView
-          style={style.background}
-          contentContainerStyle={style.scrollView}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={style.switchLanguage}>
-            <View style={style.logo}>
-              <FastImage
-                source={require('./styles/images/icon_mic.png')}
-                style={style.iconLogoMic}
-              />
-              <View style={style.borderLogo} />
-              <FastImage
-                source={require('./styles/images/icon_boyte.png')}
-                style={style.iconLogoBoyte}
-              />
+        <View style={style.background}>
+          <View style={{backgroundColor: '#015cd0'}}>
+            <View style={style.switchLanguage}>
+              <View style={style.logo}>
+                <FastImage
+                  source={require('./styles/images/icon_bluezone.png')}
+                  style={style.iconLogoBluezone}
+                />
+                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                  <Text style={{color: '#ffffff', fontSize: fontSize.huge, paddingHorizontal: 8.8}}>
+                    Bluezone<Text style={{fontSize: fontSize.smallest,}}>.gov.vn</Text>
+                  </Text>
+                </View>
+                <View style={style.borderLogo} />
+                <FastImage
+                  source={require('./styles/images/icon_mic.png')}
+                  style={style.iconLogoMic}
+                />
+                <View style={style.borderLogo} />
+                <FastImage
+                  source={require('./styles/images/icon_boyte.png')}
+                  style={style.iconLogoBoyte}
+                />
+              </View>
+              <SwitchLanguage />
             </View>
-            <SwitchLanguage />
-          </View>
-          <ImageBackground
-            source={require('./styles/images/Banner.png')}
-            style={{
-              width: width,
-              height: height / setHeight1,
-              justifyContent: 'flex-end',
-              backgroundColor: '#015cd0',
-            }}>
-            <View
-              style={[style.header, {height: (height / setHeight1) * 0.38}]}>
+            <FastImage
+              source={require('./styles/images/Banner.png')}
+              style={{height: HEADER_BACKGROUND_HEIGHT}}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <View style={[style.header]}>
               <Text style={style.textHeader}>
                 {formatMessage(message.header)}
               </Text>
@@ -279,7 +280,7 @@ class HomeTab extends React.Component {
                 </MediumText>
               </Text>
             </View>
-          </ImageBackground>
+          </View>
           <View style={style.watchScan}>
             <TouchableOpacity
               onPress={this.watchScan}
@@ -293,7 +294,7 @@ class HomeTab extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[style.button, {height: height / setHeight}]}>
+          <View style={[style.button]}>
             <ButtonIconText
               onPress={this.watchScan}
               text={formatMessage(message.traceButton)}
@@ -311,7 +312,7 @@ class HomeTab extends React.Component {
               styleIcon={style.buttonIcon}
             />
           </View>
-        </ScrollView>
+        </View>
         <ModalNotify onChangeBlue={this.onChangeBlue} />
         <Modal
           isVisible={showModalInvite}
