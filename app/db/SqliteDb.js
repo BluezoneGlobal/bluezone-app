@@ -26,6 +26,7 @@ import SQLite from 'react-native-sqlite-storage';
 import moment from 'moment';
 import {pushNotify} from '../CloudMessaging';
 import Service from '../apis/service';
+import validateNotify from '../utils/validateNotification';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -89,6 +90,11 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi', notify = true) => {
+  if (!notifyObj.data || !notifyObj.data.notifyId) {
+    notifyObj.data.notifyId =
+      (notifyObj.data.timestamp && notifyObj.data.timestamp.toString()) ||
+      new Date().getTime().toString();
+  }
   // Hiển thị notify.
   notify && pushNotify(notifyObj, language);
 
@@ -97,9 +103,7 @@ const replaceNotify = (notifyObj, language = 'vi', notify = true) => {
     txn.executeSql(
       'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
       [
-        notifyObj.data.notifyId ||
-          notifyObj.data.timestamp ||
-          new Date().getTime(),
+        notifyObj.data.notifyId,
         notifyObj.data.smallIcon,
         notifyObj.data.largeIcon,
         notifyObj.data.title,
@@ -178,17 +182,34 @@ const getDays = async (days, callback) => {
   });
 };
 
+// push thông tin cấu hình(CONFIG),
+// push thông báo (INFO),
+// push cảnh báo (WARN),
+// push xác minh kết quả tiếp xúc (VERIFY),
+// push nhắc cấp quyền (PERMISSION),
+// push nhắc bật/tắt dịch vụ (SERVICE),
+// push nhắc khai số điện thoại (MOBILE)
 const checkNotify = async (notifyObj, language) => {
+  if (!validateNotify(notifyObj)) {
+    return;
+  }
+
   switch (notifyObj.data.group) {
     case 'INFO':
-    case 'VERIFY':
-    case 'PERMISSION':
     case 'SERVICE':
+    case 'PERMISSION':
     case 'MOBILE':
       replaceNotify(notifyObj, language);
       break;
     case 'CONFIG':
-      // Xử lý config ...
+      // Change app config ...
+      break;
+    case 'VERIFY':
+      // Replace in data base
+      const {data} = notifyObj;
+      const {FindFID} = data.data;
+      notifyObj.data.notifyId = FindFID;
+      replaceNotify(notifyObj, language);
       break;
     case 'WARN':
       // Check bluezoneId

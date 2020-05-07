@@ -203,14 +203,13 @@ export function uploadHistoryF0(filePath, OTPCode, successCb, errorCb) {
   );
 }
 
-export function declaration(Token, FindFID, InfoJson, successCb, errorCb) {
+export function declaration(FindFID, InfoJson, successCb, errorCb) {
   const {TokenFirebase, UserCode} = configuration;
 
   const options = {
     method: 'POST',
     data: {
       FindFID: 1,
-      Token: Token,
       BluezoneID: UserCode,
       TokenFirebase: TokenFirebase,
       InfoJson: InfoJson,

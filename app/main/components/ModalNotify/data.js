@@ -44,7 +44,6 @@ export const messageNotifyOTP = {
 
 export const warn = {
   data: {
-    notifyId: '1111',
     smallIcon: 'icon_bluezone',
     largeIcon: '',
     title: 'Bluezone',
@@ -54,65 +53,58 @@ export const warn = {
     textEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
     bigTextEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
     unRead: false,
-    timestamp: new Date().getTime(),
+    timestamp: 1588868540072,
     group: 'WARN',
     data: {
       bluezoneIds: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách bluezone bị nhiễm
       // FO: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách Id F0
       // F1: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách Id F1
+      // hasSendHistory: true, // => Nếu đã gửi lịch sử tiếp xúc
+      // FindFID: '123213123', // => Nếu đã gửi lịch sử tiếp xúc, thì phải có FindFID
     },
   },
 };
 
 export const verifyInfected = {
   data: {
-    notifyId: '2222',
     smallIcon: 'icon_bluezone',
     largeIcon: '',
     title: 'Bluezone',
-    text:
-      'Bạn đã tiếp xúc với F0',
-    bigText:
-      'Bạn đã tiếp xúc với F0',
+    text: 'Bạn đã tiếp xúc với F0',
+    bigText: 'Bạn đã tiếp xúc với F0',
     titleEn: 'Bluezone',
-    textEn:
-      'Bạn đã tiếp xúc với F0',
-    bigTextEn:
-      'Bạn đã tiếp xúc với F0',
+    textEn: 'Bạn đã tiếp xúc với F0',
+    bigTextEn: 'Bạn đã tiếp xúc với F0',
     unRead: false,
     timestamp: new Date().getTime(),
     group: 'VERIFY',
     data: {
-      FindFID: '123',
-      result: 'infected',
-      object: 'F1', // F0, F1, F2, Thông tin định danh là F0, F1 hay F2
-      contactId: '3Ih7QP', // ID tiếp xúc
-      timeContact: [123456789, 123456789, 123123123, 123123123], // THời gian tiếp xúc
+      FindFID: '1588868540072',
+      result: 'INFECTED',
+      // object: 'F1', // F0, F1, F2, Thông tin định danh là F0, F1 hay F2
+      // contactId: '3Ih7QP', // ID tiếp xúc
+      // timeContact: [123456789, 123456789, 123123123, 123123123], // THời gian tiếp xúc
+      // hasInfected: true, // => Nếu đã khai báo thông tin
     },
   },
 };
 
 export const verifySafe = {
   data: {
-    notifyId: '3333',
     smallIcon: 'icon_bluezone',
     largeIcon: '',
     title: 'Bluezone',
-    text:
-      'Chúc mừng bạn an toàn',
-    bigText:
-      'Chúc mừng bạn an toàn',
+    text: 'Chúc mừng bạn an toàn',
+    bigText: 'Chúc mừng bạn an toàn',
     titleEn: 'Bluezone',
-    textEn:
-      'Chúc mừng bạn an toàn',
-    bigTextEn:
-      'Chúc mừng bạn an toàn',
+    textEn: 'Chúc mừng bạn an toàn',
+    bigTextEn: 'Chúc mừng bạn an toàn',
     unRead: false,
     timestamp: new Date().getTime(),
     group: 'VERIFY',
     data: {
-      FindFID: '123',
-      result: 'safe',
+      FindFID: '1588868540072',
+      result: 'SAFE',
     },
   },
 };

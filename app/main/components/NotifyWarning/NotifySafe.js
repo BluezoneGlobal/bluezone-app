@@ -41,14 +41,22 @@ import * as fontSize from '../../../utils/fontSize';
 class NotifySafe extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      phone: '',
+    };
   }
 
   onPress = () => {
-    this.props.onPress && this.props.onPress();
+    this.props.onPress && this.props.onPress(this.state.phone);
+  };
+
+  onChangePhone = phone => {
+    this.setState({phone});
   };
 
   render() {
     const {intl} = this.props;
+    const {phone} = this.state;
     const {formatMessage} = intl;
     return (
       <View
@@ -103,7 +111,8 @@ class NotifySafe extends React.Component {
             // onChangeText={}
             placeholder={formatMessage(message.phoneNumber)}
             placeholderTextColor={''}
-            value={''}
+            keyboardType={'numeric'}
+            value={phone}
           />
           {/*<TextInput*/}
           {/*  style={{*/}

@@ -110,6 +110,7 @@ class NotifyPending extends React.Component {
             {formatMessage(message.uploadSuccessMsg)}
           </Text>
           <ButtonIconText
+            disabled={true}
             text={formatMessage(message.uploadText)}
             source={require('./styles/images/send.png')}
             styleBtn={styles.buttonSendActive}

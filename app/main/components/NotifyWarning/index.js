@@ -37,7 +37,10 @@ import NotifySafe from './NotifySafe';
 import NotifyInfected from './NotifyInfected';
 import NotifyVerified from './NotifyVerified';
 import Service from '../../../apis/service';
+
+// Api
 import {uploadHistoryF12, declaration} from '../../../apis/bluezone';
+import {replaceNotify} from '../../../db/SqliteDb';
 
 // Styles
 import styles from './styles/index.css';
@@ -47,12 +50,13 @@ import configuration from '../../../Configuration';
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
+    const {route} = props;
     this.state = {
-      status: (props.route && props.route.params.state) || 'doubt',
+      status: route.params.status || 'doubt',
       statusUpload: null,
     };
-    this.bluezoneIds =
-      (props.route && props.route.params.data.bluezoneIds) || [];
+    this.bluezoneIds = (route && route.params.data.data.bluezoneIds) || [];
+    this.notifyId = route && route.params.data.notifyId;
     this.onBack = this.onBack.bind(this);
     this.sendHistory = this.sendHistory.bind(this);
     this.onDeclaration = this.onDeclaration.bind(this);
@@ -64,38 +68,70 @@ class NotifyScreen extends React.Component {
     return true;
   }
 
-  handleUpdateSuccess = () => {
+  handleUploadSuccess = () => {
+    const {route} = this.props;
     this.setState({
       statusUpload: 'success',
       status: 'pending',
     });
+    // Cập nhật lại notify
+    const notifyObj = route.params.data;
+    if (!notifyObj.data) {
+      notifyObj.data = {
+        bluezoneIds: this.bluezoneIds,
+      };
+    }
+    notifyObj.data.hasSendHistory = true;
+    notifyObj.data.FindFID = this.notifyId;
+    replaceNotify(
+      {
+        data: notifyObj,
+      },
+      '',
+      false,
+    );
   };
 
-  handleUpdateError = () => {
+  handleUploadError = () => {
     this.setState({
       statusUpload: 'failed',
     });
   };
 
   async sendHistory() {
+    if (this.state.statusUpload === 'waiting') {
+      return;
+    }
     this.setState({
       statusUpload: 'waiting',
     });
     const filePath = await Service.writeHistoryContact(this.bluezoneIds);
-    uploadHistoryF12(
-      filePath,
-      3,
-      this.handleUpdateSuccess,
-      this.handleUpdateError,
-    );
+
+    if (this.notifyId) {
+      uploadHistoryF12(
+        filePath,
+        this.notifyId,
+        this.handleUploadSuccess,
+        this.handleUploadError,
+      );
+    }
   }
 
+  // declarationSuccess = () => {};
+
+  // declarationError = () => {};
+
   onDeclaration = (phoneNumber, name, address) => {
-    // ...
-    // declaration(); // ...
+    // const InfoJson =
+    // declaration(
+    //   this.notifyId,
+    //   InfoJson,
+    //   this.declarationSuccess,
+    //   this.declarationError,
+    // ); // ...
   };
 
-  onSafe = () => {
+  onSafe = phone => {
     this.onBack();
   };
 
@@ -137,7 +173,12 @@ class NotifyScreen extends React.Component {
             </View>
           </View>
           {/* Content */}
-          {status === 'doubt' && <NotifyDoubt statusUpload={statusUpload} onPress={this.sendHistory} />}
+          {status === 'doubt' && (
+            <NotifyDoubt
+              statusUpload={statusUpload}
+              onPress={this.sendHistory}
+            />
+          )}
           {status === 'pending' && <NotifyPending onPress={this.onSafe} />}
           {status === 'safe' && <NotifySafe onPress={this.onSafe} />}
           {status === 'infected' && (

@@ -93,12 +93,11 @@ function pushNotify(notifyObj, language = 'vi') {
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
     )
     .setData({
-      ...notifyObj.data.data,
       ...notifyObj.data,
     })
     .android.setBigText(
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
-    )
+    );
   if (Platform.OS === 'android') {
     notification.android
       .setChannelId('bluezone-channel')

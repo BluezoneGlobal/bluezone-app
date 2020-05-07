@@ -44,8 +44,9 @@ import styles from './styles/index.css';
 // import InviteScreen from "../InviteScreen";
 
 // Utils
-import {getNotifications} from '../../../../app/db/SqliteDb';
+import {getNotifications, replaceNotify} from '../../../../app/db/SqliteDb';
 import message from '../../../msg/notify';
+import Service from '../../../apis/service';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -97,13 +98,78 @@ class NotifyScreen extends React.Component {
   }
 
   onPressWarning = item => {
-    // doSomething.
-    this.props.navigation.navigate('NotifyWarning', {item});
+    const {data: dataJson} = item;
+    let data;
+    try {
+      data = JSON.parse(dataJson);
+    } catch (e) {
+      data = {};
+    }
+    const {hasSendHistory} = data;
+    let status;
+    if (hasSendHistory) {
+      status = 'pending';
+    } else {
+      status = 'doubt';
+    }
+    this.props.navigation.navigate('NotifyWarning', {
+      status,
+      data: {
+        ...item,
+        group: item._group,
+        data: data,
+      },
+    });
+  };
+
+  onPressVerify = item => {
+    const {data: dataJson} = item;
+    let data;
+    try {
+      data = JSON.parse(dataJson);
+    } catch (e) {
+      data = {};
+    }
+
+    const {result} = data;
+    let status;
+
+    // if (result === 'INFECTED') {
+    //   status = 'infected';
+    // } else if (result === 'SAFE') {
+    //   status = 'safe';
+    // }
+
+    status = result.toLowerCase();
+    this.props.navigation.navigate('NotifyWarning', {
+      status,
+      data: {
+        ...item,
+        group: item._group,
+        data: data,
+      },
+    });
   };
 
   onPressNotification = item => {
-    // doSomething.
-    this.props.navigation.navigate('NotifyDetail', {item});
+    const {_group} = item;
+    switch (_group) {
+      case 'INFO':
+      case 'SERVICE':
+      case 'PERMISSION':
+      case 'MOBILE':
+        this.props.navigation.navigate('NotifyDetail', {item});
+        break;
+      case 'CONFIG':
+        // Không xử lý
+        break;
+      case 'WARN':
+        this.onPressWarning(item);
+        break;
+      case 'VERIFY':
+        this.onPressVerify(item);
+        break;
+    }
   };
 
   render() {

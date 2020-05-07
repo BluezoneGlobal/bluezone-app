@@ -46,7 +46,6 @@ import ButtonText from '../../../base/components/ButtonText';
 import ModalNotify from '../ModalNotify';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
-import NumberAnimate from '../../../base/components/NumberAnimate';
 import CountBluezoner from './CountBluezoner';
 import SwitchLanguage from './SwitchLanguage';
 
@@ -67,11 +66,10 @@ import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
 import * as PropTypes from 'prop-types';
-import {heightPercentageToDP} from '../../../utils/dimension';
 
 // Test notify
-// import {checkNotify} from "../../../db/SqliteDb";
-// import {warn, verifyInfected, verifySafe} from "../ModalNotify/data";
+// import {checkNotify} from '../../../db/SqliteDb';
+// import {warn, verifyInfected, verifySafe} from '../ModalNotify/data';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
@@ -117,9 +115,21 @@ class HomeTab extends React.Component {
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
 
     // const {Language} = configuration;
-    // checkNotify(warn, Language);
-    // checkNotify(verifyInfected, Language);
-    // checkNotify(verifySafe, Language);
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, warn.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifyInfected.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifySafe.data)}),
+    //   Language,
+    // );
   }
 
   setNewAmount(oldAmount) {
@@ -244,8 +254,14 @@ class HomeTab extends React.Component {
                   style={style.iconLogoBluezone}
                 />
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text style={{color: '#ffffff', fontSize: fontSize.huge, paddingHorizontal: 8.8}}>
-                    Bluezone<Text style={{fontSize: fontSize.smallest,}}>.gov.vn</Text>
+                  <Text
+                    style={{
+                      color: '#ffffff',
+                      fontSize: fontSize.huge,
+                      paddingHorizontal: 8.8,
+                    }}>
+                    Bluezone
+                    <Text style={{fontSize: fontSize.smallest}}>.gov.vn</Text>
                   </Text>
                 </View>
                 <View style={style.borderLogo} />

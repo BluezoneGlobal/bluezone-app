@@ -89,12 +89,12 @@ export default function App() {
     if (obj && obj.data.group === 'WARN') {
       navigate('NotifyWarning', {
         data: obj.data,
-        state: 'doubt',
+        status: 'doubt',
       });
     } else if (obj && obj.data.group === 'VERIFY') {
       navigate('NotifyWarning', {
         data: obj.data,
-        state: obj.data.result,
+        status: obj.data.result,
       });
     } else if (obj && obj.data.group === 'INFO') {
       navigate('NotifyDetail', {
