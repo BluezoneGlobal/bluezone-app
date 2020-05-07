@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
   textCenterIOS: {
     textAlign: 'center',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
 
   flex: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
 
   textContent: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     lineHeight: 20,
   },
 });

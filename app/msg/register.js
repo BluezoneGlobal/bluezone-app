@@ -27,7 +27,11 @@ export default defineMessages({
   title: {
     id: 'bluezone.register.title',
     defaultMessage:
-      'Khẩu trang điện tử Bluezone là ứng dụng cảnh báo nếu bạn đã tiếp xúc gần với người nhiễm COVID-19, giảm thiểu các nguy cơ lây lan trong cộng đồng, giúp mọi người trở lại cuộc sống bình thường. Bạn vui lòng đăng ký số điện thoại để tiếp tục sử dụng ứng dụng.',
+      'Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần người nhiễm COVID-19.',
+  },
+  title1: {
+    id: 'bluezone.register.title1',
+    defaultMessage: 'Hãy nhập số điện thoại để xác thực.',
   },
   numberphone: {
     id: 'bluezone.register.numberphone',
@@ -35,7 +39,7 @@ export default defineMessages({
   },
   pleaseEnterYourPhone: {
     id: 'bluezone.register.pleaseEnterYourPhone',
-    defaultMessage: '"Vui lòng nhập số điện thoại"',
+    defaultMessage: 'Nhập số điện thoại',
   },
   next: {
     id: 'bluezone.register.next',

@@ -100,11 +100,10 @@ function pushNotify(notifyObj, language = 'vi') {
     .android.setBigText(
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
     )
-    .android.setSmallIcon('icon_bluezone');
   if (Platform.OS === 'android') {
     notification.android
       .setChannelId('bluezone-channel')
-      .android.setSmallIcon('icon_bluezone');
+      .android.setSmallIcon('icon_bluezone_service');
   }
 
   firebase.notifications().displayNotification(notification);

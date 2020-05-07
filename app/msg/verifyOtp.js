@@ -26,11 +26,11 @@ import {defineMessages} from 'react-intl';
 export default defineMessages({
   title: {
     id: 'bluezone.verifyOTP.title',
-    defaultMessage: 'Xác thực mã OTP',
+    defaultMessage: 'Xác thực',
   },
   enterPin: {
     id: 'bluezone.verifyOTP.enterPin',
-    defaultMessage: 'Mã OTP đã được gửi qua số điện thoại:',
+    defaultMessage: 'Chúng tôi đang gửi SMS đến số điện thoại của bạn',
   },
   pleaseEnterPin: {
     id: 'bluezone.verifyOTP.pleaseEnterPin',
@@ -38,11 +38,11 @@ export default defineMessages({
   },
   validPin: {
     id: 'bluezone.verifyOTP.validPin',
-    defaultMessage: 'Mã có hiệu lực trong',
+    defaultMessage: 'Resend the message',
   },
   confirm: {
     id: 'bluezone.verifyOTP.confirm',
-    defaultMessage: 'Xác nhận',
+    defaultMessage: 'Kích hoạt',
   },
   receivedOTP: {
     id: 'bluezone.verifyOTP.receivedOTP',
@@ -71,5 +71,13 @@ export default defineMessages({
   otpsuccess: {
     id: 'bluezone.verifyOTP.otpsuccess',
     defaultMessage: 'Xác thực OTP thành công',
-  }
+  },
+  textNumber: {
+    id: 'bluezone.verifyOTP.textNumber',
+    defaultMessage: 'Số điện thoại không đúng?',
+  },
+  pleaseEnterYourPhone: {
+    id: 'bluezone.verifyOTP.pleaseEnterYourPhone',
+    defaultMessage: 'Nhập mã xác thực',
+  },
 });

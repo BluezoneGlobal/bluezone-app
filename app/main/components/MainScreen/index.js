@@ -36,6 +36,7 @@ import styles from './style/index.css';
 
 // Language
 import message from '../../../msg/tab';
+import {smallest} from '../../../utils/fontSize';
 
 // Consts
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,7 @@ class HomeTabScreen extends React.Component {
           activeTintColor: '#015cd0',
           labelStyle: {
             marginBottom: 5,
+            fontSize: smallest,
           },
         }}>
         <Tab.Screen

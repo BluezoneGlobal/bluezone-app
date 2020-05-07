@@ -79,12 +79,12 @@ class RegisterScreen extends React.Component {
 
   componentDidMount() {
     this.keyboardWillShowSub = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow,
+      'keyboardDidShow',
+      this.keyboardDidShow,
     );
     this.keyboardWillHideSub = Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardWillHide,
+      'keyboardDidHide',
+      this.keyboardDidHide,
     );
   }
 
@@ -93,14 +93,14 @@ class RegisterScreen extends React.Component {
     this.keyboardWillHideSub.remove();
   }
 
-  keyboardWillShow = event => {
+  keyboardDidShow = event => {
     Animated.timing(this.imageHeight, {
       duration: event.duration,
       toValue: 70,
     }).start();
   };
 
-  keyboardWillHide = event => {
+  keyboardDidHide = event => {
     Animated.timing(this.imageHeight, {
       duration: event.duration,
       toValue: 124,
@@ -159,13 +159,8 @@ class RegisterScreen extends React.Component {
     const disabled = numberPhone.length === 0;
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView keyboardShouldPersistTaps={'handled'}>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 36,
-            }}>
+        <ScrollView contentContainerStyle={{flex: 1}} keyboardShouldPersistTaps={'handled'}>
+          <View style={styles.logoView}>
             <Animated.Image
               source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
               style={[
@@ -175,14 +170,10 @@ class RegisterScreen extends React.Component {
             />
           </View>
           <View style={styles.layout1}>
-            <Text style={styles.text1}>{formatMessage(message.summary)}</Text>
             <Text style={styles.text2}>{formatMessage(message.title)}</Text>
           </View>
           <View style={styles.phone}>
-            <Text style={styles.text3}>
-              {formatMessage(message.numberphone)}
-              <Text style={styles.textColorActive}> *</Text>
-            </Text>
+            <Text style={styles.text4}>{formatMessage(message.title1)}</Text>
             <TextInput
               autoFocus={true}
               keyboardType={'number-pad'}
@@ -194,62 +185,68 @@ class RegisterScreen extends React.Component {
               disabled={disabled}
               onPress={this.onPress}
               text={formatMessage(message.next)}
-              styleBtn={disabled ? styles.buttonDisable : styles.buttonActive}
+              styleBtn={[
+                styles.btnNext,
+                disabled ? styles.buttonDisable : styles.buttonActive,
+              ]}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={styles.buttonIcon}
             />
           </View>
-          {showLoading && (
-            <Modal isVisible={showLoading} style={styles.center}>
-              <ActivityIndicator size="large" color={'#fff'} />
-            </Modal>
-          )}
-          {showErrorModal && (
-            <Modal
-              isVisible={showErrorModal}
-              style={styles.center}
-              animationIn="zoomInDown"
-              animationOut="zoomOutUp"
-              animationInTiming={600}
-              animationOutTiming={600}
-              backdropTransitionInTiming={600}
-              backdropTransitionOutTiming={600}
-              onBackButtonPress={this.onCloseModal}
-              onBackdropPress={this.onCloseModal}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalContentText01}>
-                  {formatMessage(message.error)}
-                </Text>
-                <Text style={styles.modalContentText02}>
-                  {formatMessage(message.redo)}
-                </Text>
-                <View style={styles.modalFooter}>
-                  <TouchableOpacity
-                    style={styles.buttonContinued}
-                    onPress={this.onCloseModal}>
-                    <Text style={styles.textButtonSkip}>
-                      {formatMessage(message.skip)}
-                    </Text>
-                  </TouchableOpacity>
-                  <View style={styles.borderBtn} />
-                  <TouchableOpacity
-                    style={styles.buttonContinued}
-                    onPress={this.onPress}>
-                    <Text style={styles.textButtonContinued}>
-                      {formatMessage(message.try)}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-          )}
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ButtonText
+              text={`${formatMessage(message.skip)}`}
+              onPress={this.onChangeNavigate}
+              styleBtn={styles.buttonInvite}
+              styleText={styles.textInvite}
+            />
+          </View>
         </ScrollView>
-        <ButtonText
-          text={`${formatMessage(message.skip)} >>`}
-          onPress={this.onChangeNavigate}
-          styleBtn={styles.buttonInvite}
-          styleText={styles.textInvite}
-        />
+        {showLoading && (
+          <Modal isVisible={showLoading} style={styles.center}>
+            <ActivityIndicator size="large" color={'#fff'} />
+          </Modal>
+        )}
+        {showErrorModal && (
+          <Modal
+            isVisible={showErrorModal}
+            style={styles.center}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={600}
+            animationOutTiming={600}
+            backdropTransitionInTiming={600}
+            backdropTransitionOutTiming={600}
+            onBackButtonPress={this.onCloseModal}
+            onBackdropPress={this.onCloseModal}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalContentText01}>
+                {formatMessage(message.error)}
+              </Text>
+              <Text style={styles.modalContentText02}>
+                {formatMessage(message.redo)}
+              </Text>
+              <View style={styles.modalFooter}>
+                <TouchableOpacity
+                  style={styles.buttonContinued}
+                  onPress={this.onCloseModal}>
+                  <Text style={styles.textButtonSkip}>
+                    {formatMessage(message.skip)}
+                  </Text>
+                </TouchableOpacity>
+                <View style={styles.borderBtn} />
+                <TouchableOpacity
+                  style={styles.buttonContinued}
+                  onPress={this.onPress}>
+                  <Text style={styles.textButtonContinued}>
+                    {formatMessage(message.try)}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        )}
       </SafeAreaView>
     );
   }

@@ -62,7 +62,6 @@ import configuration, {
   setStatusNotifyRegister,
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
-import firebase from 'react-native-firebase';
 import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
 import {navigationRef} from '../../../../RootNavigation';
 
@@ -198,6 +197,7 @@ class ModalNotify extends React.Component {
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home'
       ) {
+        this.onCheckUpdate();
         this.setState({isVisibleFlash: true});
       }
     }

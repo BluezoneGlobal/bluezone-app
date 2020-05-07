@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   iconRectangle: {
     height: 24,
     width: 28,
+    paddingRight: 4,
   },
 
   badge: {

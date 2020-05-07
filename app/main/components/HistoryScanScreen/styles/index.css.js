@@ -22,7 +22,7 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {bigger, small, normal, larger, large} from '../../../../utils/fontSize';
+import {bigger, small, smaller, normal, larger, large} from '../../../../utils/fontSize';
 
 const styles = StyleSheet.create({
   flex: {
@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopRightRadius: 100,
-    borderBottomRightRadius: 100,
+    borderRadius: 100,
     backgroundColor: '#015cd0',
   },
   title: {
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   text: {
-    fontSize: small,
+    fontSize: smaller,
     color: '#fff',
   },
   datePickerT: {

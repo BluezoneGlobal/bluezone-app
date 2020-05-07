@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginRight: 55,
   },
   titleText: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
   desText: {
     fontSize: fontSize.smaller,
