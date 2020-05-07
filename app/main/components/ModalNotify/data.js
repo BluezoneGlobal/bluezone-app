@@ -38,7 +38,7 @@ export const messageNotifyOTP = {
       'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
     group: 'MOBILE',
     timestamp: new Date().getTime(),
-    unRead: false,
+    unRead: 0,
   },
 };
 
@@ -52,7 +52,7 @@ export const warn = {
     titleEn: 'Bluezone',
     textEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
     bigTextEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
-    unRead: false,
+    unRead: 0,
     timestamp: 1588868540072,
     group: 'WARN',
     data: {
@@ -75,7 +75,7 @@ export const verifyInfected = {
     titleEn: 'Bluezone',
     textEn: 'Bạn đã tiếp xúc với F0',
     bigTextEn: 'Bạn đã tiếp xúc với F0',
-    unRead: false,
+    unRead: 0,
     timestamp: new Date().getTime(),
     group: 'VERIFY',
     data: {
@@ -99,7 +99,7 @@ export const verifySafe = {
     titleEn: 'Bluezone',
     textEn: 'Chúc mừng bạn an toàn',
     bigTextEn: 'Chúc mừng bạn an toàn',
-    unRead: false,
+    unRead: 0,
     timestamp: new Date().getTime(),
     group: 'VERIFY',
     data: {
@@ -114,7 +114,7 @@ export const messageNotifyOTPSuccess = {
     notifyId: '4444',
     smallIcon: 'icon_bluezone_service',
     timestamp: new Date().getTime(),
-    unRead: false,
+    unRead: 0,
     largeIcon: '',
     title: 'Bluezone',
     text: 'Bạn đã cập nhật thành công số điện thoại.',

@@ -133,10 +133,12 @@ class RegisterScreen extends React.Component {
     const {numberPhone} = this.state;
     const {setLoading} = this.props;
     const router = setLoading ? 'VerifyOTPAuth' : 'VerifyOTP';
-    this.props.navigation.replace(router, {
-      phoneNumber: numberPhone,
+
+    this.setState({showLoading: false}, () => {
+      this.props.navigation.replace(router, {
+        phoneNumber: numberPhone,
+      });
     });
-    this.setState({showLoading: false});
   }
 
   createAndSendOTPCodeFail(error) {
@@ -159,7 +161,9 @@ class RegisterScreen extends React.Component {
     const disabled = numberPhone.length === 0;
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={{flex: 1}} keyboardShouldPersistTaps={'handled'}>
+        <ScrollView
+          contentContainerStyle={{flex: 1}}
+          keyboardShouldPersistTaps={'handled'}>
           <View style={styles.logoView}>
             <Animated.Image
               source={require('../AuthLoadingScreen/styles/images/bluezone.png')}

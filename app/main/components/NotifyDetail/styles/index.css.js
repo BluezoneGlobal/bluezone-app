@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15,
+    borderRadius: 50,
   },
   textButton: {
     color: '#fff',

@@ -75,10 +75,17 @@ class NotifySession extends React.Component {
         <View style={styles.notifyWrapper}>
           <FastImage source={uri} style={styles.avatar} />
           <View style={styles.content}>
-            <MediumText numberOfLines={1} style={styles.titleText}>
-              {Language === 'vi' ? item.title : item.titleEn}
-            </MediumText>
-            {item.unRead ? (
+            {!item.unRead ? (
+              <MediumText numberOfLines={1} style={styles.titleTextUnread}>
+                {Language === 'vi' ? item.title : item.titleEn}
+              </MediumText>
+            ) : (
+              <Text numberOfLines={1} style={styles.titleText}>
+                {Language === 'vi' ? item.title : item.titleEn}
+              </Text>
+            )}
+
+            {!item.unRead ? (
               <MediumText numberOfLines={1} style={styles.desTextUnread}>
                 {Language === 'vi' ? item.text : item.textEn}
               </MediumText>
@@ -91,7 +98,7 @@ class NotifySession extends React.Component {
         </View>
         <View style={styles.timer}>
           <MediumText numberOfLines={1} style={styles.titleText} text={' '} />
-          <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
+          <Text style={!item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {textTime}
           </Text>
         </View>

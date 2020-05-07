@@ -97,7 +97,13 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: fontSize.larger,
+    color: '#707070',
   },
+
+  titleTextUnread: {
+    fontSize: fontSize.larger,
+  },
+
   desText: {
     fontSize: fontSize.smaller,
     color: '#707070',

@@ -35,7 +35,7 @@ import {injectIntl, intlShape} from 'react-intl';
 // Components
 import FastImage from 'react-native-fast-image';
 import Text, {MediumText} from '../../../base/components/Text';
-import Header from '../../../base/components/Header';
+// import Header from '../../../base/components/Header';
 import NotifySession from './NotifySession';
 // import ButtonIconText from '../../../base/components/ButtonIconText';
 
@@ -46,7 +46,7 @@ import styles from './styles/index.css';
 // Utils
 import {getNotifications, replaceNotify} from '../../../../app/db/SqliteDb';
 import message from '../../../msg/notify';
-import Service from '../../../apis/service';
+import {messageNotifyOTP} from '../ModalNotify/data';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -152,6 +152,27 @@ class NotifyScreen extends React.Component {
   };
 
   onPressNotification = item => {
+    const {data: dataJson} = item;
+    let data;
+    try {
+      data = JSON.parse(dataJson);
+    } catch (e) {
+      data = {};
+    }
+
+    replaceNotify(
+      {
+        data: {
+          ...item,
+          data: data,
+          unRead: 1,
+          group: item._group,
+        },
+      },
+      '',
+      false,
+    );
+
     const {_group} = item;
     switch (_group) {
       case 'INFO':
@@ -184,6 +205,8 @@ class NotifyScreen extends React.Component {
         onPress: this.onPressNotification,
       },
     };
+
+    debugger;
 
     return (
       <SafeAreaView style={styles.container}>

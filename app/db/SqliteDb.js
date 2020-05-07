@@ -77,7 +77,7 @@ const createNotify = () => {
         if (res.rows.length === 0) {
           txn.executeSql('DROP TABLE IF EXISTS notify', []);
           txn.executeSql(
-            'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp REAL, unRead TEXT, data TEXT)',
+            'CREATE TABLE IF NOT EXISTS notify(id INTEGER PRIMARY KEY AUTOINCREMENT, notifyId TEXT, smallIcon TEXT, largeIcon TEXT, title TEXT, text TEXT, bigText TEXT, titleEn TEXT, textEn TEXT, bigTextEn TEXT, _group TEXT, timestamp REAL, unRead REAL, data TEXT)',
             [],
           );
           txn.executeSql(
