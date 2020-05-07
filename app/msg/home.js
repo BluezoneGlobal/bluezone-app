@@ -56,6 +56,10 @@ export default defineMessages({
     id: 'bluezone.home.bluezoner',
     defaultMessage: 'Bluezoner',
   },
+  bluezoners: {
+    id: 'bluezone.home.bluezoners',
+    defaultMessage: 'bluezone.home.bluezoners',
+  },
   traceButton: {
     id: 'bluezone.home.traceButton',
     defaultMessage: 'Quét xung quanh',

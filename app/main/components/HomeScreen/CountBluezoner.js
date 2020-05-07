@@ -51,7 +51,7 @@ class CountBluezoner extends React.Component {
     this.state = {
       showModal: false,
       blueTooth: false,
-      countShield: 0,
+      countBlueZone: 0,
       newAmount: 0,
       showModalInvite: false,
       showModalWrite: false,
@@ -100,7 +100,7 @@ class CountBluezoner extends React.Component {
       if (keyMap === id) {
         this.setState(prevState => {
           return {
-            countShield: prevState.countShield + 1,
+            countBlueZone: prevState.countBlueZone + 1,
           };
         });
       }
@@ -154,7 +154,7 @@ class CountBluezoner extends React.Component {
       if (keyMap === id) {
         this.setState(prevState => {
           return {
-            countShield: prevState.countShield - 1,
+            countBlueZone: prevState.countBlueZone - 1,
           };
         });
       }
@@ -174,12 +174,12 @@ class CountBluezoner extends React.Component {
     const {intl} = this.props;
     const {formatMessage} = intl;
 
-    const {scanning, countShield} = this.state;
+    const {scanning, countBlueZone} = this.state;
     const {blueTooth} = this.props;
     return (
       <TouchableOpacity style={style.circleScan} onPress={this.watchScan}>
         <View style={style.circleSnail}>
-          {countShield === 0 && blueTooth && scanning ? (
+          {countBlueZone === 0 && blueTooth && scanning ? (
             <Progress.CircleSnail
               size={SCANNING_HEIGHT}
               color={'#015cd0'}
@@ -192,15 +192,17 @@ class CountBluezoner extends React.Component {
           )}
         </View>
 
-        {blueTooth && countShield === 0 && scanning ? (
+        {blueTooth && countBlueZone === 0 && scanning ? (
           <Text style={style.textBlue}>{formatMessage(message.scanning)}</Text>
         ) : (
           <>
             <Text style={style.textBlueNumber}>
-              {blueTooth ? countShield : '_'}
+              {blueTooth ? countBlueZone : '_'}
             </Text>
             <Text style={style.textBlue}>
-              {formatMessage(message.bluezoner)}
+              {countBlueZone > 1
+                ? formatMessage(message.bluezoners)
+                : formatMessage(message.bluezoner)}
             </Text>
             <Text style={style.textBlue}>{formatMessage(message.around)}</Text>
           </>
