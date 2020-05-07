@@ -24,7 +24,7 @@
 import React from 'react';
 import {View, SafeAreaView} from 'react-native';
 import moment from 'moment';
-import {injectIntl, intlShape} from "react-intl";
+import {injectIntl, intlShape} from 'react-intl';
 import 'moment/locale/vi'; // without this line it didn't work
 
 // Components
@@ -36,19 +36,31 @@ import NotifyPending from './NotifyPending';
 import NotifySafe from './NotifySafe';
 import NotifyInfected from './NotifyInfected';
 import NotifyVerified from './NotifyVerified';
+import Service from '../../../apis/service';
+
+// Api
+import {uploadHistoryF12, declaration} from '../../../apis/bluezone';
+import {replaceNotify} from '../../../db/SqliteDb';
 
 // Styles
 import styles from './styles/index.css';
 import msg from '../../../msg/home';
-import configuration from "../../../Configuration";
+import configuration from '../../../Configuration';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.onBack = this.onBack.bind(this);
+    const {route} = props;
     this.state = {
-      status: 'infected',
+      status: route.params.status || 'doubt',
+      statusUpload: null,
     };
+    this.bluezoneIds = (route && route.params.data.data.bluezoneIds) || [];
+    this.notifyId = route && route.params.data.notifyId;
+    this.onBack = this.onBack.bind(this);
+    this.sendHistory = this.sendHistory.bind(this);
+    this.onDeclaration = this.onDeclaration.bind(this);
+    this.onSafe = this.onSafe.bind(this);
   }
 
   onBack() {
@@ -56,10 +68,77 @@ class NotifyScreen extends React.Component {
     return true;
   }
 
+  handleUploadSuccess = () => {
+    const {route} = this.props;
+    this.setState({
+      statusUpload: 'success',
+      status: 'pending',
+    });
+    // Cập nhật lại notify
+    const notifyObj = route.params.data;
+    if (!notifyObj.data) {
+      notifyObj.data = {
+        bluezoneIds: this.bluezoneIds,
+      };
+    }
+    notifyObj.data.hasSendHistory = true;
+    notifyObj.data.FindFID = this.notifyId;
+    replaceNotify(
+      {
+        data: notifyObj,
+      },
+      '',
+      false,
+    );
+  };
+
+  handleUploadError = () => {
+    this.setState({
+      statusUpload: 'failed',
+    });
+  };
+
+  async sendHistory() {
+    if (this.state.statusUpload === 'waiting') {
+      return;
+    }
+    this.setState({
+      statusUpload: 'waiting',
+    });
+    const filePath = await Service.writeHistoryContact(this.bluezoneIds);
+
+    if (this.notifyId) {
+      uploadHistoryF12(
+        filePath,
+        this.notifyId,
+        this.handleUploadSuccess,
+        this.handleUploadError,
+      );
+    }
+  }
+
+  // declarationSuccess = () => {};
+
+  // declarationError = () => {};
+
+  onDeclaration = (phoneNumber, name, address) => {
+    // const InfoJson =
+    // declaration(
+    //   this.notifyId,
+    //   InfoJson,
+    //   this.declarationSuccess,
+    //   this.declarationError,
+    // ); // ...
+  };
+
+  onSafe = phone => {
+    this.onBack();
+  };
+
   render() {
     const {route, intl} = this.props;
-    const {status} = this.state;
-    const item = (route && route.params.item) || {};
+    const {status, statusUpload} = this.state;
+    const item = (route && route.params.data) || {};
     const {formatMessage} = intl;
     const {Language} = configuration;
 
@@ -83,21 +162,31 @@ class NotifyScreen extends React.Component {
                 {Language === 'vi' ? item.title : item.titleEn}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                {
-                  Language === 'vi' ?
-                      (
-                          `Thời gian: ${moment(item.timestamp).format("HH:mm")} Ngày: ${moment(item.timestamp).format("DD/MM/YYYY")}`
-                      ) : `${moment(item.timestamp).format("HH:mm")} ${moment(item.timestamp).format("DD/MM/YYYY")}`
-                }
+                {Language === 'vi'
+                  ? `Thời gian: ${moment(item.timestamp).format(
+                      'HH:mm',
+                    )} Ngày: ${moment(item.timestamp).format('DD/MM/YYYY')}`
+                  : `${moment(item.timestamp).format('HH:mm')} ${moment(
+                      item.timestamp,
+                    ).format('DD/MM/YYYY')}`}
               </MediumText>
             </View>
           </View>
           {/* Content */}
-          {status === 'doubt' && <NotifyDoubt />}
-          {status === 'pending' && <NotifyPending />}
-          {status === 'safe' && <NotifySafe />}
-          {status === 'infected' && <NotifyInfected />}
-          {status === 'verified' && <NotifyVerified />}
+          {status === 'doubt' && (
+            <NotifyDoubt
+              statusUpload={statusUpload}
+              onPress={this.sendHistory}
+            />
+          )}
+          {status === 'pending' && <NotifyPending onPress={this.onSafe} />}
+          {status === 'safe' && <NotifySafe onPress={this.onSafe} />}
+          {status === 'infected' && (
+            <NotifyInfected onPress={this.onDeclaration} />
+          )}
+          {status === 'verified' && (
+            <NotifyVerified onPress={this.sendHistory} />
+          )}
         </View>
       </SafeAreaView>
     );

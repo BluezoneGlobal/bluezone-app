@@ -22,12 +22,7 @@
 'use strict';
 
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
+import {View, TouchableOpacity, StatusBar, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
 
@@ -58,6 +53,10 @@ import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
 import * as PropTypes from 'prop-types';
+
+// Test notify
+// import {checkNotify} from '../../../db/SqliteDb';
+// import {warn, verifyInfected, verifySafe} from '../ModalNotify/data';
 
 class HomeTab extends React.Component {
   constructor(props) {
@@ -90,6 +89,23 @@ class HomeTab extends React.Component {
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
+
+    // const {Language} = configuration;
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, warn.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifyInfected.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifySafe.data)}),
+    //   Language,
+    // );
   }
 
   componentWillUnmount() {
@@ -159,13 +175,13 @@ class HomeTab extends React.Component {
     }
   }
 
-  onInvite () {
+  onInvite() {
     this.props.navigation.jumpTo('Invite');
     this.setState({showModalInvite: false});
-  };
+  }
 
   render() {
-    const {intl} = this.props;
+    const {intl, navigation} = this.props;
     const {
       showModalInvite,
       titleModal,
@@ -187,8 +203,14 @@ class HomeTab extends React.Component {
                   style={style.iconLogoBluezone}
                 />
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text style={{color: '#ffffff', fontSize: fontSize.huge, paddingHorizontal: 8.8}}>
-                    Bluezone<Text style={{fontSize: fontSize.smallest,}}>.gov.vn</Text>
+                  <Text
+                    style={{
+                      color: '#ffffff',
+                      fontSize: fontSize.huge,
+                      paddingHorizontal: 8.8,
+                    }}>
+                    Bluezone
+                    <Text style={{fontSize: fontSize.smallest}}>.gov.vn</Text>
                   </Text>
                 </View>
                 <View style={style.borderLogo} />
@@ -225,17 +247,7 @@ class HomeTab extends React.Component {
             </View>
           </View>
           <View style={style.watchScan}>
-            <TouchableOpacity
-              onPress={this.watchScan}
-              style={[style.numberBluezone]}>
-              <CountBluezoner blueTooth={blueTooth} />
-              <Text style={style.textBlue}>
-                {formatMessage(message.bluezoner)}
-              </Text>
-              <Text style={style.textBlue}>
-                {formatMessage(message.around)}
-              </Text>
-            </TouchableOpacity>
+            <CountBluezoner blueTooth={blueTooth} navigation={navigation} />
           </View>
           <View style={[style.button]}>
             <ButtonIconText
@@ -293,7 +305,7 @@ HomeTab.propTypes = {
 HomeTab.defaultProps = {};
 
 HomeTab.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default injectIntl(HomeTab);

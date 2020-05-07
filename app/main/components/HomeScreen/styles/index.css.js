@@ -331,6 +331,21 @@ const styles = StyleSheet.create({
     fontSize: fontSize.smallest,
     color: '#ffffff',
   },
+
+  circleScan: {
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  circleSnail: {
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
 });
 
 export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT};

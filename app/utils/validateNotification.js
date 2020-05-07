@@ -19,13 +19,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
+export default notifyObj => {
+  const {data} = notifyObj;
+  if (
+    !data.title ||
+    !data.text ||
+    !data.bigText ||
+    !data.titleEn ||
+    !data.textEn ||
+    !data.bigTextEn
+  ) {
+    return false;
+  }
+  if (
+    data.group === 'WARN' &&
+    (!data.data || !data.data.bluezoneIds || data.data.bluezoneIds.length === 0)
+  ) {
+    return false;
+  }
 
-import DeviceInfo from 'react-native-device-info';
-
-const currentVersion = DeviceInfo.getVersion();
-const dev = __DEV__ || currentVersion.endsWith('dev');
-
-export const DOMAIN = dev
-  ? 'https://apiwebbz.bkav.com'
-  : 'https://apibz.bkav.com';
+  if (data.group === 'VERIFY') {
+    if (!data.data || !data.data.result || !data.data.FindFID) {
+      return false;
+    }
+  }
+  return true;
+};

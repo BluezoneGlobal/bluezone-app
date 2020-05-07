@@ -22,17 +22,25 @@
 'use strict';
 
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, TouchableOpacity, View} from 'react-native';
+import * as PropTypes from 'prop-types';
+import * as Progress from 'react-native-progress';
 
 // Components
 import Text from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/home';
 
 // Apis
 import Service from '../../../apis/service';
 
 // Styles
 import style from './styles/index.css';
-import * as PropTypes from "prop-types";
+import {heightPercentageToDP} from '../../../utils/dimension';
+import {injectIntl, intlShape} from 'react-intl';
+
+const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
 
 const TIMEOUT = 30000;
 export let logBluezone = [];
@@ -43,15 +51,17 @@ class CountBluezoner extends React.Component {
     this.state = {
       showModal: false,
       blueTooth: false,
-      countShield: 0,
+      countBlueZone: 0,
       newAmount: 0,
       showModalInvite: false,
       showModalWrite: false,
+      scanning: true,
     };
 
     this.mapDevice = {};
     // this.logs = [];
     this.onScan = this.onScan.bind(this);
+    this.watchScan = this.watchScan.bind(this);
   }
 
   componentDidMount() {
@@ -62,6 +72,9 @@ class CountBluezoner extends React.Component {
         this.onScan,
       );
     }
+    this.timeoutScanning = setTimeout(() => {
+      this.setState({scanning: false});
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -72,6 +85,7 @@ class CountBluezoner extends React.Component {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
+    clearTimeout(this.timeoutScanning);
   }
 
   onScan({id, name = '', address = '', rssi, platform, typeScan}) {
@@ -86,7 +100,7 @@ class CountBluezoner extends React.Component {
       if (keyMap === id) {
         this.setState(prevState => {
           return {
-            countShield: prevState.countShield + 1,
+            countBlueZone: prevState.countBlueZone + 1,
           };
         });
       }
@@ -140,7 +154,7 @@ class CountBluezoner extends React.Component {
       if (keyMap === id) {
         this.setState(prevState => {
           return {
-            countShield: prevState.countShield - 1,
+            countBlueZone: prevState.countBlueZone - 1,
           };
         });
       }
@@ -152,19 +166,60 @@ class CountBluezoner extends React.Component {
     };
   }
 
+  watchScan() {
+    this.props.navigation.navigate('WatchScan', {logs: [...logBluezone]});
+  }
+
   render() {
-    const {countShield} = this.state;
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+
+    const {scanning, countBlueZone} = this.state;
     const {blueTooth} = this.props;
     return (
-      <Text style={style.textBlueNumber}>{blueTooth ? countShield : '_'}</Text>
+      <TouchableOpacity style={style.circleScan} onPress={this.watchScan}>
+        <View style={style.circleSnail}>
+          {countBlueZone === 0 && blueTooth && scanning ? (
+            <Progress.CircleSnail
+              size={SCANNING_HEIGHT}
+              color={'#015cd0'}
+              duration={800}
+              progress={0.9}
+              thickness={4}
+            />
+          ) : (
+            <View style={style.numberBluezone} />
+          )}
+        </View>
+
+        {blueTooth && countBlueZone === 0 && scanning ? (
+          <Text style={style.textBlue}>{formatMessage(message.scanning)}</Text>
+        ) : (
+          <>
+            <Text style={style.textBlueNumber}>
+              {blueTooth ? countBlueZone : '_'}
+            </Text>
+            <Text style={style.textBlue}>
+              {countBlueZone > 1
+                ? formatMessage(message.bluezoners)
+                : formatMessage(message.bluezoner)}
+            </Text>
+            <Text style={style.textBlue}>{formatMessage(message.around)}</Text>
+          </>
+        )}
+      </TouchableOpacity>
     );
   }
 }
 
+CountBluezoner.propTypes = {
+  intl: intlShape.isRequired,
+};
+
 CountBluezoner.defaultProps = {};
 
 CountBluezoner.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
-export default CountBluezoner;
+export default injectIntl(CountBluezoner);

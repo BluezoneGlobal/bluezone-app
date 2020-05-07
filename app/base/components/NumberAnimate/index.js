@@ -81,7 +81,7 @@ class InviteScreen extends React.Component {
 }
 
 InviteScreen.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default InviteScreen;

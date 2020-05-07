@@ -96,9 +96,7 @@ function pushNotify(notifyObj, language = 'vi') {
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
     )
     .setData({
-      group: notifyObj.data.group,
-      timestamp: notifyObj.data.timestamp,
-      text: language !== 'vi' ? notifyObj.data.textEn : notifyObj.data.text,
+      ...notifyObj.data,
     })
     .android.setBigText(
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,

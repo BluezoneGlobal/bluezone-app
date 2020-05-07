@@ -69,8 +69,7 @@ class WatchScanScreen extends React.Component {
         this.onScan,
       );
     }
-    // TODO cần clearTimeout trong event vẽ ra 2 danh sách xung quanh
-    this.timeOutLoadingBluezoner = setTimeout(() => {
+    this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
   }
@@ -83,6 +82,7 @@ class WatchScanScreen extends React.Component {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
+    clearTimeout(this.timeountLoading);
   }
 
   creatLog = () => {
@@ -93,6 +93,10 @@ class WatchScanScreen extends React.Component {
     const mapDevice = {};
 
     logsNavigation.forEach(log => {
+      if (!log.userId) {
+        return;
+      }
+
       const keyMap =
         log.userId && log.userId.length > 0
           ? log.userId
@@ -152,6 +156,10 @@ class WatchScanScreen extends React.Component {
   };
 
   onScan = ({id, name = '', address = '', rssi, platform, typeScan}) => {
+    if (!id) {
+      return;
+    }
+
     const {TimeShowLog} = configuration;
     const {logs} = this.state;
 

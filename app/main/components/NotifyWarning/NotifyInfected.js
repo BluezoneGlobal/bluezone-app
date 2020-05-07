@@ -22,24 +22,34 @@
 'use strict';
 
 import React from 'react';
+import {injectIntl, intlShape} from 'react-intl';
+import * as PropTypes from 'prop-types';
+import FastImage from 'react-native-fast-image';
 
 // Components
-import {TextInput, View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
-import ButtonIconText from '../../../base/components/ButtonIconText';
+import FormInput from '../Declaration/Form';
+
+// Language
+import message from '../../../msg/warning';
 
 // Styles
 import styles from './styles/index.css';
-import FastImage from 'react-native-fast-image';
 import * as fontSize from '../../../utils/fontSize';
-import FormInput from '../Declaration/Form';
 
-class NotifyDoubt extends React.Component {
+class NotifyInfected extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  onPress = () => {
+    this.props.onPress && this.props.onPress();
+  };
+
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <View
         style={{
@@ -47,7 +57,6 @@ class NotifyDoubt extends React.Component {
           flexDirection: 'column',
           justifyContent: 'space-around',
         }}>
-        {/* Khối thông tin */}
         <View style={{alignItems: 'center'}}>
           <FastImage
             style={{
@@ -68,14 +77,14 @@ class NotifyDoubt extends React.Component {
                 textAlign: 'center',
                 paddingHorizontal: 21,
               }}>
-              Bạn có tiếp xúc với F0
+              {formatMessage(message.dangerContent)}
             </MediumText>
           </View>
         </View>
-        <FormInput />
+        <FormInput onPress={this.onPress} />
         <View style={{alignItems: 'center'}}>
           <Text style={{fontSize: fontSize.small, color: '#2b77d8'}}>
-            Hoặc liên lạc trực tiếp với chúng tôi
+            {formatMessage(message.contact)}
           </Text>
           <View
             style={{
@@ -97,7 +106,7 @@ class NotifyDoubt extends React.Component {
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                Khai báo y tế
+                {formatMessage(message.declaration)}
               </MediumText>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems: 'center'}}>
@@ -114,7 +123,7 @@ class NotifyDoubt extends React.Component {
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                Gọi điện
+                {formatMessage(message.call)}
               </MediumText>
             </TouchableOpacity>
             <TouchableOpacity style={{alignItems: 'center', flex: 1}}>
@@ -131,7 +140,7 @@ class NotifyDoubt extends React.Component {
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                Nhắn tin
+                {formatMessage(message.message)}
               </MediumText>
             </TouchableOpacity>
           </View>
@@ -141,7 +150,7 @@ class NotifyDoubt extends React.Component {
               color: '#2b77d8',
               textDecorationLine: 'underline',
             }}>
-            Tìm hiểu thêm: những việc cần làm ngay
+            {formatMessage(message.information)}
           </Text>
         </View>
       </View>
@@ -149,4 +158,14 @@ class NotifyDoubt extends React.Component {
   }
 }
 
-export default NotifyDoubt;
+NotifyInfected.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+NotifyInfected.defaultProps = {};
+
+NotifyInfected.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(NotifyInfected);

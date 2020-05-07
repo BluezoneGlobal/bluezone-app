@@ -104,7 +104,7 @@ InfoScreen.propTypes = {
 };
 
 InfoScreen.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default injectIntl(InfoScreen);

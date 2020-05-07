@@ -22,23 +22,30 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {View} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 
+// Language
+import message from '../../../msg/warning';
+
 // Styles
 import styles from './styles/index.css';
 import FastImage from 'react-native-fast-image';
 import * as fontSize from '../../../utils/fontSize';
 
-class NotifyDoubt extends React.Component {
+class NotifyPending extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <View
         style={{
@@ -46,7 +53,6 @@ class NotifyDoubt extends React.Component {
           flexDirection: 'column',
           justifyContent: 'space-around',
         }}>
-        {/* Khối thông tin */}
         <View style={{alignItems: 'center'}}>
           <FastImage
             style={{
@@ -58,16 +64,25 @@ class NotifyDoubt extends React.Component {
           <View
             style={{
               alignItems: 'center',
-                marginTop: 18,
+              marginTop: 18,
             }}>
-            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
-              Bạn CÓ THỂ đã tiếp xúc với F0
+            <MediumText
+              style={{
+                fontSize: fontSize.large,
+                lineHeight: 29,
+                textAlign: 'center',
+                paddingHorizontal: 21,
+              }}>
+              {formatMessage(message.doubtContent1)}
             </MediumText>
-            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
-              Trong lịch sử tiếp xúc của bạn
-            </MediumText>
-            <MediumText style={{fontSize: fontSize.larger, lineHeight: 29}}>
-              có F0
+            <MediumText
+              style={{
+                fontSize: fontSize.large,
+                lineHeight: 29,
+                textAlign: 'center',
+                paddingHorizontal: 21,
+              }}>
+              {formatMessage(message.doubtContent2)}
             </MediumText>
           </View>
         </View>
@@ -79,24 +94,24 @@ class NotifyDoubt extends React.Component {
             borderColor: '#ececec',
             paddingVertical: 15,
           }}>
-          <Text style={{fontSize: fontSize.small, lineHeight: 29}}>
-            Đừng lo lắng, có thể có sự trùng lặp ngẫu
-          </Text>
-          <Text style={{fontSize: fontSize.small, lineHeight: 29}}>
-            nhiên bạn hãy gửi lịch sử tiếp xúc của bạn
-          </Text>
-          <Text style={{fontSize: fontSize.small, lineHeight: 29}}>
-            để hệ thống xác minh
+          <Text
+            style={{
+              fontSize: fontSize.small,
+              lineHeight: 29,
+              textAlign: 'center',
+              paddingHorizontal: 21,
+            }}>
+            {formatMessage(message.doubtTutorial)}
           </Text>
           <View />
         </View>
         <View style={{alignItems: 'center'}}>
           <Text style={{fontSize: fontSize.small, color: '#2b77d8'}}>
-            Đã gửi lịch sử tiếp xúc. Chờ xác minh
+            {formatMessage(message.uploadSuccessMsg)}
           </Text>
           <ButtonIconText
-            onPress={this.watchSend}
-            text={'Gửi lịch sử tiếp xúc '}
+            disabled={true}
+            text={formatMessage(message.uploadText)}
             source={require('./styles/images/send.png')}
             styleBtn={styles.buttonSendActive}
             styleText={{fontSize: fontSize.normal}}
@@ -108,4 +123,14 @@ class NotifyDoubt extends React.Component {
   }
 }
 
-export default NotifyDoubt;
+NotifyPending.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+NotifyPending.defaultProps = {};
+
+NotifyPending.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(NotifyPending);

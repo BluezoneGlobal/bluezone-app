@@ -50,12 +50,6 @@ class NotifyScreen extends React.Component {
     this.onBack = this.onBack.bind(this);
   }
 
-  componentDidMount() {
-    const {route} = this.props;
-    const item = route && route.params.item;
-    debugger;
-  }
-
   onBack() {
     this.props.navigation.goBack();
     return true;
@@ -121,7 +115,7 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
-          {item._group === 'mobile' ? (
+          {item._group === 'MOBILE' ? (
             PhoneNumber ? (
               <Text style={styles.textPhoneNumber}>
                 {formatMessage(msg.registeredPhone)}:{' '}

@@ -23,7 +23,7 @@
 
 export const messageNotifyOTP = {
   data: {
-    notifyId: '1995',
+    notifyId: '1234',
     smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
@@ -36,16 +36,85 @@ export const messageNotifyOTP = {
       'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
     bigTextEn:
       'You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19',
-    group: 'mobile',
+    group: 'MOBILE',
     timestamp: new Date().getTime(),
     unRead: false,
   },
 };
 
+export const warn = {
+  data: {
+    smallIcon: 'icon_bluezone',
+    largeIcon: '',
+    title: 'Bluezone',
+    text: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
+    bigText: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
+    titleEn: 'Bluezone',
+    textEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
+    bigTextEn: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
+    unRead: false,
+    timestamp: 1588868540072,
+    group: 'WARN',
+    data: {
+      bluezoneIds: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách bluezone bị nhiễm
+      // FO: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách Id F0
+      // F1: ['3Ih7QP', '3Ih7QP', '3Ih7QP', '3Ih7QP'], // Danh sách Id F1
+      // hasSendHistory: true, // => Nếu đã gửi lịch sử tiếp xúc
+      // FindFID: '123213123', // => Nếu đã gửi lịch sử tiếp xúc, thì phải có FindFID
+    },
+  },
+};
+
+export const verifyInfected = {
+  data: {
+    smallIcon: 'icon_bluezone',
+    largeIcon: '',
+    title: 'Bluezone',
+    text: 'Bạn đã tiếp xúc với F0',
+    bigText: 'Bạn đã tiếp xúc với F0',
+    titleEn: 'Bluezone',
+    textEn: 'Bạn đã tiếp xúc với F0',
+    bigTextEn: 'Bạn đã tiếp xúc với F0',
+    unRead: false,
+    timestamp: new Date().getTime(),
+    group: 'VERIFY',
+    data: {
+      FindFID: '1588868540072',
+      result: 'INFECTED',
+      // object: 'F1', // F0, F1, F2, Thông tin định danh là F0, F1 hay F2
+      // contactId: '3Ih7QP', // ID tiếp xúc
+      // timeContact: [123456789, 123456789, 123123123, 123123123], // THời gian tiếp xúc
+      // hasInfected: true, // => Nếu đã khai báo thông tin
+    },
+  },
+};
+
+export const verifySafe = {
+  data: {
+    smallIcon: 'icon_bluezone',
+    largeIcon: '',
+    title: 'Bluezone',
+    text: 'Chúc mừng bạn an toàn',
+    bigText: 'Chúc mừng bạn an toàn',
+    titleEn: 'Bluezone',
+    textEn: 'Chúc mừng bạn an toàn',
+    bigTextEn: 'Chúc mừng bạn an toàn',
+    unRead: false,
+    timestamp: new Date().getTime(),
+    group: 'VERIFY',
+    data: {
+      FindFID: '1588868540072',
+      result: 'SAFE',
+    },
+  },
+};
+
 export const messageNotifyOTPSuccess = {
   data: {
-    notifyId: '1995',
+    notifyId: '4444',
     smallIcon: 'icon_bluezone_service',
+    timestamp: new Date().getTime(),
+    unRead: false,
     largeIcon: '',
     title: 'Bluezone',
     text: 'Bạn đã cập nhật thành công số điện thoại.',
@@ -53,8 +122,6 @@ export const messageNotifyOTPSuccess = {
     titleEn: 'Bluezone',
     textEn: 'You have successfully updated your phone number.',
     bigTextEn: 'You have successfully updated your phone number.',
-    group: 'mobile',
-    timestamp: new Date().getTime(),
-    unRead: false,
+    group: 'MOBILE',
   },
 };

@@ -11,11 +11,13 @@
   "bluezone.home.around": "quanh bạn",
   "bluezone.home.community": "Bluezoner",
   "bluezone.home.bluezoner": "Bluezoner",
+  "bluezone.home.bluezoners": "Bluezoner",
   "bluezone.home.traceButton": "Quét xung quanh",
   "bluezone.home.historyButton": " Lịch sử tiếp xúc ",
   "bluezone.home.scheduleNotifyOTP": "Bạn cần cập nhật số điện thoại để nhận được hỗ trợ trực tiếp trong trường hợp bạn tiếp xúc gần với người nhiễm Covid 19.",
   "bluezone.home.updatePhoneNumber": "Cập nhật số điên thoại",
   "bluezone.home.warn": "Cảnh báo",
+  "bluezone.home.scanning": "Đang quét...",
 
   "bluezone.invite.title": "Mời",
   "bluezone.invite.productLabel1": "Bảo vệ người thân, bạn bè trước",
@@ -26,7 +28,7 @@
   "bluezone.trace.header": "Quét xung quanh",
   "bluezone.trace.aroundYou": "Xung quanh bạn",
   "bluezone.trace.bluezoner": "Bluezoner",
-  "bluezone.trace.bluezoners": "Bluezoner",
+  "bluezone.trace.bluezoners": "Bluezoners",
   "bluezone.trace.nearYou": "Ở gần bạn",
   "bluezone.trace.around": "Ở xa",
   "bluezone.trace.invite": "Mời",
@@ -52,7 +54,7 @@
   "bluezone.auth.label2": "F0 nào tiếp xúc gần với bạn",
 
   "bluezone.modal.hasNewVersion": "Đã có phiên bản mới",
-  "bluezone.modal.updateVersion": "Bạn hãy cập nhật phiên bản mới để sử dụng các tính năng mới nhất",
+  "bluezone.modal.updateVersion": "Bạn hãy cập nhật để sử dụng các tính năng mới nhất",
   "bluezone.modal.Ok": "Cập nhật",
   "bluezone.modal.Cancel": "Bỏ qua",
   "bluezone.modal.openSettingLocation": "Đến cài đặt Bật vị trí",
@@ -90,5 +92,28 @@
   "bluezone.info.detail": "Chi tiết xem tại:",
   "bluezone.info.linkDetail": "www.bluezone.gov.vn",
   "bluezone.info.infoDetail": "Thông tin liên hệ:",
-  "bluezone.info.email": "lienhe@bluezone.gov.vn"
+  "bluezone.info.email": "lienhe@bluezone.gov.vn",
+
+  "bluezone.warning.doubtContent1": "Bạn CÓ THỂ đã tiếp xúc với F0",
+  "bluezone.warning.doubtContent2": "Trong lịch sử tiếp xúc của bạn có F0",
+  "bluezone.warning.doubtTutorial": "Đừng lo lắng, có thể có sự trùng lặp ngẫu nhiên bạn hãy gửi lịch sử tiếp xúc của bạn để hệ thống xác minh",
+  "bluezone.warning.uploadMsg": "Bạn chưa gửi lịch sử tiếp xúc",
+  "bluezone.warning.uploadSuccessMsg": "Đã gửi lịch sử tiếp xúc. Chờ xác minh",
+  "bluezone.warning.uploadText": "Gửi lịch sử tiếp xúc",
+
+  "bluezone.warning.safeContent": "Chúc mừng bạn! Bluezone đã kiểm tra xác nhận bạn không tiếp xúc với F0",
+  "bluezone.warning.safeTutorial": "Đăng ký số điện thoại để được hỗ trợ tốt hơn",
+  "bluezone.warning.phoneNumber": "Điện thoại",
+  "bluezone.warning.fullName": "Họ tên",
+  "bluezone.warning.address": "Địa chỉ",
+  "bluezone.warning.continue": "Tiếp tục",
+
+  "bluezone.warning.dangerContent": "Bạn có tiếp xúc với F0",
+  "bluezone.warning.dangerTutorial": "Bạn hãy khai thông tin để được hỗ trợ nhanh nhất",
+  "bluezone.warning.send": "Gửi",
+  "bluezone.warning.contact": "Hoặc liên lạc trực tiếp với chúng tôi",
+  "bluezone.warning.declaration": "Khai báo y tế",
+  "bluezone.warning.call": "Gọi điện",
+  "bluezone.warning.message": "Nhắn tin",
+  "bluezone.warning.information": "Tìm hiểu thêm: những việc cần làm ngay"
 }

@@ -475,7 +475,12 @@ const setTokenFirebase = TokenFirebase => {
   }
 };
 
-const registerUser = async (TokenFirebase, successCb, errorCb) => {
+const registerUser = async (
+  TokenFirebase,
+  successCb,
+  errorCb,
+  TIME_RETRY = TIME_RETRY,
+) => {
   if (REGISTER_USER_RUNNING || configuration.TokenFirebase) {
     return;
   }
@@ -652,7 +657,6 @@ export {
   registerUser,
   removeNotifyPermisson,
   createNotifyPermission,
-  DOMAIN,
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,

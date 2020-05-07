@@ -22,11 +22,16 @@
 'use strict';
 
 import React from 'react';
+import {injectIntl, intlShape} from 'react-intl';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {TextInput, View} from 'react-native';
 import Text from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
+
+// Language
+import message from '../../../msg/warning';
 
 // Styles
 import styles from './styles/index.css';
@@ -54,20 +59,23 @@ class FormInput extends React.Component {
   };
 
   onSend = () => {
-    // doSomething.
+    const {phone, name, address} = this.state;
+    this.props.onPress && this.props.onPress(phone, name, address);
   };
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     const {phone, name, address} = this.state;
     return (
       <View style={styles.containerForm}>
         <Text style={styles.title}>
-          Bạn hãy khai thông tin để được hỗ trợ nhanh nhất
+          {formatMessage(message.dangerTutorial)}
         </Text>
         <TextInput
           style={styles.inputFirst}
           onChangeText={this.onChangePhone}
-          placeholder={'Điện thoại'}
+          placeholder={formatMessage(message.phoneNumber)}
           placeholderTextColor={''}
           textContentType={'telephoneNumber'}
           keyboardType={'numeric'}
@@ -76,20 +84,20 @@ class FormInput extends React.Component {
         <TextInput
           style={styles.input}
           onChangeText={this.onChangeName}
-          placeholder={'Họ tên'}
+          placeholder={formatMessage(message.fullName)}
           placeholderTextColor={''}
           value={name}
         />
         <TextInput
           style={styles.input}
           onChangeText={this.onChangeAddress}
-          placeholder={'Địa chỉ'}
+          placeholder={formatMessage(message.address)}
           placeholderTextColor={''}
           value={address}
         />
         <ButtonIconText
           onPress={this.onSend}
-          text={'Gửi'}
+          text={formatMessage(message.send)}
           styleBtn={styles.buttonSendSquare}
           styleText={styles.textButton}
         />
@@ -99,4 +107,14 @@ class FormInput extends React.Component {
   }
 }
 
-export default FormInput;
+FormInput.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+FormInput.defaultProps = {};
+
+FormInput.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(FormInput);

@@ -388,7 +388,7 @@ ModalNotify.propTypes = {
 };
 
 ModalNotify.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default withNavigation(injectIntl(ModalNotify));

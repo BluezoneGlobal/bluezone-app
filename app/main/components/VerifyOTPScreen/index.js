@@ -206,6 +206,7 @@ class VerifyOTPScreen extends React.Component {
       visibleVerifiSuccess,
       showLoading,
     } = this.state;
+    // alert(visibleBtnSenOTP);
     const {formatMessage} = intl;
     const phoneNumber = route.params.phoneNumber;
     return (

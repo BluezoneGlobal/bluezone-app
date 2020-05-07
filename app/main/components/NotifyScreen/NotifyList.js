@@ -27,12 +27,7 @@ import 'moment/locale/vi'; // without this line it didn't work
 import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import {
-  ScrollView,
-  TouchableOpacity,
-  View,
-  VirtualizedList,
-} from 'react-native';
+import {TouchableOpacity, View, VirtualizedList} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Text from '../../../base/components/Text';
 import {MediumText} from '../../../base/components/Text';
@@ -95,7 +90,7 @@ class NotifySession extends React.Component {
           </View>
         </View>
         <View style={styles.timer}>
-          <MediumText numberOfLines={1} style={styles.titleText} text={' '}/>
+          <MediumText numberOfLines={1} style={styles.titleText} text={' '} />
           <Text style={item.unRead ? styles.textTimerUnread : styles.textTimer}>
             {textTime}
           </Text>
@@ -104,7 +99,7 @@ class NotifySession extends React.Component {
     );
   };
 
-  keyExtractor = item => item;
+  keyExtractor = item => item.notifyId;
 
   getItemCount = data => (data ? data.length : 0);
 

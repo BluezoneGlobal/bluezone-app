@@ -63,7 +63,7 @@ LanguageProvider.propTypes = {
 };
 
 LanguageProvider.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default LanguageProvider;

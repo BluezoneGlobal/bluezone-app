@@ -569,7 +569,7 @@ ModalNotify.propTypes = {
 };
 
 ModalNotify.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default injectIntl(ModalNotify);

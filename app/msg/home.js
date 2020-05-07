@@ -56,6 +56,10 @@ export default defineMessages({
     id: 'bluezone.home.bluezoner',
     defaultMessage: 'Bluezoner',
   },
+  bluezoners: {
+    id: 'bluezone.home.bluezoners',
+    defaultMessage: 'bluezone.home.bluezoners',
+  },
   traceButton: {
     id: 'bluezone.home.traceButton',
     defaultMessage: 'Quét xung quanh',
@@ -63,6 +67,18 @@ export default defineMessages({
   historyButton: {
     id: 'bluezone.home.historyButton',
     defaultMessage: ' Lịch sử tiếp xúc ',
+  },
+  scheduleNotifyOTP: {
+    id: 'bluezone.home.scheduleNotifyOTP',
+    defaultMessage: 'bluezone.home.scheduleNotifyOTP',
+  },
+  updatePhoneNumber: {
+    id: 'bluezone.home.updatePhoneNumber',
+    defaultMessage: 'bluezone.home.updatePhoneNumber',
+  },
+  scanning: {
+    id: 'bluezone.home.scanning',
+    defaultMessage: 'bluezone.home.scanning',
   },
   Cancel: {
     id: 'bluezone.modal.Cancel',
@@ -87,14 +103,6 @@ export default defineMessages({
   openSettingIOFile: {
     id: 'bluezone.modal.openSettingIOFile',
     defaultMessage: 'bluezone.modal.openSettingIOFile',
-  },
-  scheduleNotifyOTP: {
-    id: 'bluezone.home.scheduleNotifyOTP',
-    defaultMessage: 'bluezone.home.scheduleNotifyOTP',
-  },
-  updatePhoneNumber: {
-    id: 'bluezone.home.updatePhoneNumber',
-    defaultMessage: 'bluezone.home.updatePhoneNumber',
   },
   report: {
     id: 'bluezone.modal.report',

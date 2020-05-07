@@ -24,12 +24,15 @@
 import React from 'react';
 import {AppState} from 'react-native';
 
-import configuration, {registerUser, setStatusNotifyRegister} from '../Configuration';
+import configuration, {
+  registerUser,
+  setStatusNotifyRegister,
+} from '../Configuration';
 import Service from '../apis/service';
 import {requestTokenFirebase, getTokenFirebase} from '../CloudMessaging';
-import {replaceNotify} from "../db/SqliteDb";
-import {messageNotifyOTP} from "./components/ModalNotify/data";
-import * as PropTypes from "prop-types";
+import {replaceNotify} from '../db/SqliteDb';
+import {messageNotifyOTP} from './components/ModalNotify/data';
+import * as PropTypes from 'prop-types';
 
 const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 550000];
 
@@ -48,10 +51,15 @@ function decorateMainAppStart(AppStack) {
     }
 
     componentDidMount() {
-
       const {TokenFirebase} = configuration;
       if (TokenFirebase === '') {
-        getTokenFirebase((TokenFB) => registerUser(TokenFB, this.registerUserSuccess, this.registerUserError));
+        getTokenFirebase(TokenFB =>
+          registerUser(
+            TokenFB,
+            this.registerUserSuccess,
+            this.registerUserError,
+          ),
+        );
       }
 
       // Xu ly lay FirebaseToken ngay khi appstart
@@ -75,7 +83,14 @@ function decorateMainAppStart(AppStack) {
     handleAppStateChange = appState => {
       if (appState === 'active') {
         if (configuration.TokenFirebase === '') {
-          getTokenFirebase((TokenFB) => registerUser(TokenFB, this.registerUserSuccess, this.registerUserError, TIME_RETRY));
+          getTokenFirebase(TokenFB =>
+            registerUser(
+              TokenFB,
+              this.registerUserSuccess,
+              this.registerUserError,
+              TIME_RETRY,
+            ),
+          );
         }
         // Start service
         this.onStartService(true);

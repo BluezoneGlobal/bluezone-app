@@ -25,6 +25,8 @@ import {Platform} from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import moment from 'moment';
 import {pushNotify} from '../CloudMessaging';
+import Service from '../apis/service';
+import validateNotify from '../utils/validateNotification';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -88,17 +90,20 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi', notify = true) => {
-    // Hiển thị notify.
-    notify  && pushNotify(notifyObj, language);
+  if (!notifyObj.data || !notifyObj.data.notifyId) {
+    notifyObj.data.notifyId =
+      (notifyObj.data.timestamp && notifyObj.data.timestamp.toString()) ||
+      new Date().getTime().toString();
+  }
+  // Hiển thị notify.
+  notify && pushNotify(notifyObj, language);
 
-    // Lưu data xuống db.
+  // Lưu data xuống db.
   db.transaction(function(txn) {
     txn.executeSql(
       'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
       [
-        notifyObj.data.notifyId ||
-          notifyObj.data.timestamp ||
-          new Date().getTime(),
+        notifyObj.data.notifyId,
         notifyObj.data.smallIcon,
         notifyObj.data.largeIcon,
         notifyObj.data.title,
@@ -177,4 +182,66 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays, replaceNotify, createNotify, getNotifications};
+// push thông tin cấu hình(CONFIG),
+// push thông báo (INFO),
+// push cảnh báo (WARN),
+// push xác minh kết quả tiếp xúc (VERIFY),
+// push nhắc cấp quyền (PERMISSION),
+// push nhắc bật/tắt dịch vụ (SERVICE),
+// push nhắc khai số điện thoại (MOBILE)
+const checkNotify = async (notifyObj, language) => {
+  if (!validateNotify(notifyObj)) {
+    return;
+  }
+
+  switch (notifyObj.data.group) {
+    case 'INFO':
+    case 'SERVICE':
+    case 'PERMISSION':
+    case 'MOBILE':
+      replaceNotify(notifyObj, language);
+      break;
+    case 'CONFIG':
+      // Change app config ...
+      break;
+    case 'VERIFY':
+      // Replace in data base
+      const {data} = notifyObj;
+      const {FindFID} = data.data;
+      notifyObj.data.notifyId = FindFID;
+      replaceNotify(notifyObj, language);
+      break;
+    case 'WARN':
+      // Check bluezoneId
+      try {
+        const result = await Service.checkContact(
+          notifyObj.data &&
+            notifyObj.data.data &&
+            notifyObj.data.data.bluezoneIds,
+        );
+        if (result) {
+          // Call Notify
+          replaceNotify(notifyObj, language);
+        }
+      } catch (error) {
+        // Exception
+        throw new Error(400);
+      }
+
+      break;
+  }
+};
+
+export {
+  open,
+  close,
+  getDays,
+  replaceNotify,
+  createNotify,
+  getNotifications,
+  checkNotify,
+};
+
+// const uriFile = await Service.writeHistoryContact(
+//     notifyObj.bluezoneIds,
+// );

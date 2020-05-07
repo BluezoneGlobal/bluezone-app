@@ -30,11 +30,16 @@ import {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
 import FormInput from './Form';
 
+// Language
+import message from '../../../msg/warning';
+
 // Util
 import * as fontSize from '../../../utils/fontSize';
 
 // Styles
 import styles from './styles/index.css';
+import {injectIntl, intlShape} from 'react-intl';
+import * as PropTypes from 'prop-types';
 
 class Declaration extends React.Component {
   constructor(props) {
@@ -51,6 +56,8 @@ class Declaration extends React.Component {
   }
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
         <Header
@@ -67,7 +74,6 @@ class Declaration extends React.Component {
             paddingHorizontal: 30,
             alignItems: 'center',
           }}>
-          {/* Khối thông tin */}
           <FastImage
             style={{
               width: 58,
@@ -97,4 +103,14 @@ class Declaration extends React.Component {
   }
 }
 
-export default Declaration;
+Declaration.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+Declaration.defaultProps = {};
+
+Declaration.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(Declaration);

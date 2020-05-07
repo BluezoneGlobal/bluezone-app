@@ -109,7 +109,7 @@ class SwitchLanguage extends React.Component {
 }
 
 SwitchLanguage.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default SwitchLanguage;
