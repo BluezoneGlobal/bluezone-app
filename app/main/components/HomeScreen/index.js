@@ -68,6 +68,10 @@ import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
 import * as PropTypes from 'prop-types';
 
+// Test notify
+// import {checkNotify} from "../../../db/SqliteDb";
+// import {warn, verifyInfected, verifySafe} from "../ModalNotify/data";
+
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
 const setHeight1 = 2.4;
@@ -111,6 +115,11 @@ class HomeTab extends React.Component {
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
+
+    // const {Language} = configuration;
+    // checkNotify(warn, Language);
+    // checkNotify(verifyInfected, Language);
+    // checkNotify(verifySafe, Language);
   }
 
   setNewAmount(oldAmount) {
@@ -127,7 +136,6 @@ class HomeTab extends React.Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
     this.scanBLEListener && this.scanBLEListener.remove();
     this.scanBlueToothListener && this.scanBlueToothListener.remove();
-    // this.demensions.remove();
     const keys = Object.keys(this.mapDevice);
     for (var i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
@@ -254,7 +262,7 @@ class HomeTab extends React.Component {
               width: width,
               height: height / setHeight1,
               justifyContent: 'flex-end',
-              backgroundColor: '#015cd0'
+              backgroundColor: '#015cd0',
             }}>
             <View
               style={[style.header, {height: (height / setHeight1) * 0.38}]}>
@@ -341,7 +349,7 @@ HomeTab.propTypes = {
 HomeTab.defaultProps = {};
 
 HomeTab.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default injectIntl(HomeTab);
