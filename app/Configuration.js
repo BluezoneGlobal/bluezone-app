@@ -214,7 +214,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
-      PhoneNumber
+      PhoneNumber,
     } = keys;
     const configObject = JSON.parse(Configuration || '{}');
 
@@ -224,7 +224,7 @@ const getConfigurationAsync = async () => {
       Language,
       FirstOTP,
       StatusNotifyRegister,
-        PhoneNumber,
+      PhoneNumber,
     );
   });
 };
@@ -242,7 +242,7 @@ const mergeConfiguration = (
     Language: Language || 'vi',
     FirstOTP: FirstOTP || null,
     StatusNotifyRegister: StatusNotifyRegister || null,
-    PhoneNumber: PhoneNumber || ''
+    PhoneNumber: PhoneNumber || '',
   });
 };
 
@@ -445,7 +445,7 @@ const getConfigurationAPI = async (successCb, errorCb) => {
         }
       }
     },
-    async error => {
+    error => {
       errorCb(error);
     },
   );
@@ -474,16 +474,16 @@ const setTokenFirebase = TokenFirebase => {
   }
 };
 
-const registerUser = async (TokenFirebase, successCb, errorCb, TIME_RETRY = TIME_RETRY) => {
+const registerUser = async (TokenFirebase, successCb, errorCb) => {
   if (REGISTER_USER_RUNNING || configuration.TokenFirebase) {
     return;
   }
   REGISTER_USER_RUNNING = true;
   // Check nếu đang setTimeOut mà vào app ở trạng thái forground thì clearTimeout.
-  if (timerRegister) {
-    CURRENT_RETRY = 0;
-    clearTimeout(timerRegister);
-  }
+  // if (timerRegister) {
+  //   CURRENT_RETRY = 0;
+  //   clearTimeout(timerRegister);
+  // }
 
   const options = {
     method: 'post',
@@ -508,9 +508,14 @@ const registerUser = async (TokenFirebase, successCb, errorCb, TIME_RETRY = TIME
       // Start kich ban thu lai lien tuc toi khi duoc
       timerRegister && clearTimeout(timerRegister);
       if (CURRENT_RETRY < TIME_RETRY.length) {
-        timerRegister = setTimeout(registerUser, TIME_RETRY[CURRENT_RETRY]);
+        console.log('CURRENT_RETRY', CURRENT_RETRY);
+        timerRegister = setTimeout(
+          () => registerUser(TokenFirebase, successCb, errorCb),
+          TIME_RETRY[CURRENT_RETRY],
+        );
         CURRENT_RETRY++;
       } else {
+        console.log('errorCb', errorCb);
         errorCb && errorCb(error);
         CURRENT_RETRY = 0;
       }
@@ -572,22 +577,24 @@ const setStatusNotifyRegister = StatusNotifyRegister => {
   AsyncStorage.setItem('StatusNotifyRegister', StatusNotifyRegister);
 };
 
-
-
 const checkNotifyOfDay = () => {
   let {
     ScheduleNotifyDay, // Giá trị số ngày để hiển thị thông báo.
     ScheduleNotifyHour, // Khung giờ nhắc trong ngày VD: [8, 13, 20].
     StatusNotifyRegister, // Thời gian cuối cùng hiển thị thông báo.
     PhoneNumber,
-      TokenFirebase,
+    TokenFirebase,
   } = configuration;
 
   // Trường hợp người dùng khai báo OTP lần đầu vào app;
-  if(PhoneNumber || !TokenFirebase) return false;
+  if (PhoneNumber || !TokenFirebase) {
+    return false;
+  }
 
   // Trường hợp người dùng "bỏ qua" lần đầu vào app thì sẽ cho hiển thị notify cho app.
-  if(!StatusNotifyRegister) return true;
+  if (!StatusNotifyRegister) {
+    return true;
+  }
 
   const date = new Date();
   const currentTimeOfHours = date.getHours();
@@ -602,12 +609,17 @@ const checkNotifyOfDay = () => {
   );
 
   // Check trạng thái đến ngày notify
-  const checkDay = currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
+  const checkDay =
+    currentTimeOfDay === StatusNotifyRegisterForHour + Time_ScheduleNotify;
 
   // Check trường hợp đến ngày notify
   // + Trường hợp 1: Ngày + Thời gian hiện tại nhỏ hơn số giờ đầu.
   // + Trường hợp 2: Trạng thái cuối cùng hiển thị notify của ngày.
-  if ((checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) || (currentTimeOfDay === StatusNotifyRegisterForHour && currentTimeOfHours < ScheduleNotifyHour[0])) {
+  if (
+    (checkDay && currentTimeOfHours < ScheduleNotifyHour[0]) ||
+    (currentTimeOfDay === StatusNotifyRegisterForHour &&
+      currentTimeOfHours < ScheduleNotifyHour[0])
+  ) {
     return false;
   }
 
@@ -640,5 +652,5 @@ export {
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,
-  setPhoneNumber
+  setPhoneNumber,
 };

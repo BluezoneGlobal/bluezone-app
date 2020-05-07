@@ -23,13 +23,17 @@
 
 import {StyleSheet} from 'react-native';
 import {large} from '../../../../utils/fontSize';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+export const LOGO_HEIGHT = heightPercentageToDP((124 / 720) * 100);
+export const CONTAINER_MARGINVERTICAL = heightPercentageToDP((137 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 137,
+    marginVertical: CONTAINER_MARGINVERTICAL,
   },
 
   logo: {

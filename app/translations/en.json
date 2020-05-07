@@ -82,5 +82,13 @@
     "bluezone.verifyOTP.retry": "Retry",
     "bluezone.verifyOTP.saveOTP": "Please enter OTP again",
     "bluezone.verifyOTP.otpsuccess": "OTP verification is successful",
-    "bluezone.verifyOTP.pleaseEnterYourPhone": "Enter auth code"
+    "bluezone.verifyOTP.pleaseEnterYourPhone": "Enter auth code",
+
+    "bluezone.info.title": "Bluezone version",
+    "bluezone.info.dateRelease": "Release date:",
+    "bluezone.info.description": "The application is chaired by Vietnam's Ministry of Information and Communications and Ministry of Health, with the participation in development of Bkav and the IT community. It helps the people follow their close contacts, protect themselves, and protect our community, contributing to the disease prevention.",
+    "bluezone.info.detail": "See details at:",
+    "bluezone.info.linkDetail": "www.bluezone.gov.vn",
+    "bluezone.info.infoDetail": "Contact information:",
+    "bluezone.info.email": "contact@bluezone.gov.vn"
 }
