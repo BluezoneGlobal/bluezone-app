@@ -96,12 +96,17 @@ class AuthLoadingScreen extends React.Component {
   registerFirebase() {
     const {TokenFirebase} = configuration;
     if (TokenFirebase === '') {
-      getTokenFirebase(TokenFirebase =>
-        registerUser(
-          TokenFirebase,
-          this.registerUserSuccess,
-          this.registerUserError,
-        ),
+      getTokenFirebase(
+        TokenFirebase => {
+          registerUser(
+            TokenFirebase,
+            this.registerUserSuccess,
+            this.registerUserError,
+          );
+        },
+        () => {
+          this.props.setLoading('Home');
+        },
       );
     } else {
       setTimeout(() => {

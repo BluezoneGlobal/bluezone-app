@@ -81,11 +81,12 @@ async function registerMessageHandler(callback) {
   return firebase.messaging().onMessage(callback);
 }
 
-function getTokenFirebase(callback) {
+function getTokenFirebase(success, failure) {
   firebase
     .messaging()
     .getToken()
-    .then(callback);
+    .then(success)
+    .catch(failure);
 }
 
 function pushNotify(notifyObj, language = 'vi') {

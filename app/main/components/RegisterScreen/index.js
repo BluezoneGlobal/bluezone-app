@@ -135,9 +135,11 @@ class RegisterScreen extends React.Component {
     const router = setLoading ? 'VerifyOTPAuth' : 'VerifyOTP';
 
     this.setState({showLoading: false}, () => {
-      this.props.navigation.replace(router, {
-        phoneNumber: numberPhone,
-      });
+      setTimeout(() => {
+        this.props.navigation.replace(router, {
+          phoneNumber: numberPhone,
+        });
+      }, 200);
     });
   }
 

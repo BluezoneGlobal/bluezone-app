@@ -101,10 +101,9 @@ export default function App() {
           text: obj.data.text,
         },
       });
+    } else if (obj && obj.data.group === 'MOBILE') {
+      navigate('Register', remoteMessage);
     }
-    // else {
-    //   navigate('Register', remoteMessage);
-    // }
     // firebase.notifications().cancelNotification(remoteMessage.notification._notificationId);
     firebase
       .notifications()
@@ -181,10 +180,17 @@ export default function App() {
               </>
             ) : (
               <>
-                <Stack.Screen name="Home" component={decorateMainAppStart(Home)}/>
+                <Stack.Screen
+                  name="Home"
+                  component={decorateMainAppStart(Home)}
+                />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen path="NotifyDetail" name="NotifyDetail" component={NotifyDetail}/>
+                <Stack.Screen
+                  path="NotifyDetail"
+                  name="NotifyDetail"
+                  component={NotifyDetail}
+                />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />
