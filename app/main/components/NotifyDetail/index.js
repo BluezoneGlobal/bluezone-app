@@ -50,12 +50,6 @@ class NotifyScreen extends React.Component {
     this.onBack = this.onBack.bind(this);
   }
 
-  componentDidMount() {
-    const {route} = this.props;
-    const item = route && route.params.item;
-    debugger;
-  }
-
   onBack() {
     this.props.navigation.goBack();
     return true;

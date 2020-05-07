@@ -93,6 +93,10 @@ class WatchScanScreen extends React.Component {
     const mapDevice = {};
 
     logsNavigation.forEach(log => {
+      if (!log.userId) {
+        return;
+      }
+
       const keyMap =
         log.userId && log.userId.length > 0
           ? log.userId
@@ -152,6 +156,10 @@ class WatchScanScreen extends React.Component {
   };
 
   onScan = ({id, name = '', address = '', rssi, platform, typeScan}) => {
+    if (!id) {
+      return;
+    }
+
     const {TimeShowLog} = configuration;
     const {logs} = this.state;
 
