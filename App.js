@@ -72,8 +72,8 @@ export default function App() {
     }
   };
 
-    open();
-    createNotify();
+  open();
+  createNotify();
 
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
@@ -181,10 +181,7 @@ export default function App() {
               </>
             ) : (
               <>
-                <Stack.Screen
-                  name="Home"
-                  component={decorateMainAppStart(Home)}
-                />
+                <Stack.Screen name="Home" component={decorateMainAppStart(Home)}/>
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
                 <Stack.Screen path="NotifyDetail" name="NotifyDetail" component={NotifyDetail} />

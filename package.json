@@ -14,6 +14,7 @@
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.7",
+    "@react-native-community/netinfo": "^5.8.0",
     "@react-native-community/push-notification-ios": "^1.1.1",
     "@react-navigation/bottom-tabs": "^5.2.7",
     "@react-navigation/compat": "^5.1.14",

@@ -54,17 +54,16 @@ async function requestTokenFirebase() {
     // Create the channel
     firebase.notifications().android.createChannel(channel);
   }
+
   // Get the device token
-  firebase
-    .messaging()
-    .getToken()
-    .then(token => {
+  firebase.messaging().getToken().then(token => {
       return setTokenFirebase(token);
-    });
+  });
+
   // // Listen to whether the token changes
-  // messaging().onTokenRefresh(token => {
-  //   return setTokenFirebase(token);
-  // });
+  firebase.messaging().onTokenRefresh(token => {
+    return setTokenFirebase(token);
+  });
 }
 
 async function registerBackgroundMessageHandler(message: RemoteMessage) {
@@ -99,7 +98,7 @@ function pushNotify(notifyObj, language = 'vi') {
     })
     .android.setBigText(
       language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
-    )
+    );
   if (Platform.OS === 'android') {
     notification.android
       .setChannelId('bluezone-channel')

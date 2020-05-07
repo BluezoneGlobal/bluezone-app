@@ -35,7 +35,7 @@ import {
 import {DOMAIN} from './apis/server';
 
 // CONST
-const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
+const TIME_RETRY = [0, 0, 0, 0, 0];
 let CURRENT_RETRY = 0;
 let timerRegister;
 let CURRENT_RETRY_UPDATE_TOKEN_FCM = 0;
@@ -183,10 +183,10 @@ const configuration = {
   Language: null,
   ScheduleNotifyDay: 1,
   ScheduleNotifyHour: [8, 13, 20],
+  TimeCountDownOTP: 180,
 
   // Lưu gửi AsyncStorage
   UserCode: '',
-  Token: '',
   TokenFirebase: '',
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
@@ -196,7 +196,6 @@ const configuration = {
 
 const getConfigurationAsync = async () => {
   AsyncStorage.multiGet([
-    'Token',
     'Configuration',
     'TokenFirebase',
     'Language',
@@ -210,7 +209,6 @@ const getConfigurationAsync = async () => {
     });
 
     const {
-      Token,
       Configuration,
       TokenFirebase,
       Language,
@@ -222,7 +220,6 @@ const getConfigurationAsync = async () => {
 
     mergeConfiguration(
       configObject,
-      Token,
       TokenFirebase,
       Language,
       FirstOTP,
@@ -234,7 +231,6 @@ const getConfigurationAsync = async () => {
 
 const mergeConfiguration = (
   configObject,
-  Token,
   TokenFirebase,
   Language,
   FirstOTP,
@@ -242,7 +238,6 @@ const mergeConfiguration = (
   PhoneNumber,
 ) => {
   Object.assign(configuration, configObject, {
-    Token: Token || '',
     TokenFirebase: TokenFirebase || '',
     Language: Language || 'vi',
     FirstOTP: FirstOTP || null,
@@ -456,14 +451,6 @@ const getConfigurationAPI = async (successCb, errorCb) => {
   );
 };
 
-// Lưu thông tin Token
-const setToken = Token => {
-  Object.assign(configuration, {Token});
-  if (Token) {
-    AsyncStorage.setItem('Token', Token); // TODO by NhatPA: Đang xảy ra trường hợp null
-  }
-};
-
 // Lưu số điện thoại
 const setPhoneNumber = PhoneNumber => {
   Object.assign(configuration, {PhoneNumber});
@@ -480,15 +467,15 @@ const setTokenFirebase = TokenFirebase => {
   ) {
     return;
   }
-  if (configuration.Token === '') {
+  if (configuration.TokenFirebase === '') {
     registerUser(TokenFirebase);
   } else {
     updateTokenFirebase(TokenFirebase);
   }
 };
 
-const registerUser = async TokenFirebase => {
-  if (REGISTER_USER_RUNNING || configuration.Token) {
+const registerUser = async (TokenFirebase, successCb, errorCb, TIME_RETRY = TIME_RETRY) => {
+  if (REGISTER_USER_RUNNING || configuration.TokenFirebase) {
     return;
   }
   REGISTER_USER_RUNNING = true;
@@ -498,10 +485,6 @@ const registerUser = async TokenFirebase => {
     clearTimeout(timerRegister);
   }
 
-  // const {UserCode} = configuration;
-  // Tạo gói data
-  // const MacBluetooth = await DeviceInfo.getMacAddress(); // Android, ios: 00: 22, ios 7 , android , ios => sinh GUUI khác nhau
-  // const MacBluetooth = '00:00:00:00:00'; // Android, ios: 00: 22, ios 7 , android , ios => sinh GUUI khác nhau
   const options = {
     method: 'post',
     data: {
@@ -514,6 +497,7 @@ const registerUser = async TokenFirebase => {
     response => {
       REGISTER_USER_RUNNING = false;
       if (response && response.status === 200 && response.data.isOk === true) {
+        successCb && successCb(response.data);
         timerRegister && clearTimeout(timerRegister);
         Object.assign(configuration, {TokenFirebase});
         AsyncStorage.setItem('TokenFirebase', TokenFirebase);
@@ -527,6 +511,7 @@ const registerUser = async TokenFirebase => {
         timerRegister = setTimeout(registerUser, TIME_RETRY[CURRENT_RETRY]);
         CURRENT_RETRY++;
       } else {
+        errorCb && errorCb(error);
         CURRENT_RETRY = 0;
       }
     },
@@ -538,16 +523,12 @@ const updateTokenFirebase = TokenFirebase => {
     return;
   }
   UPDATE_TOKEN_FIREBASE_RUNNING = true;
-  // const {UserCode, Token} = configuration;
 
   // Option gửi server.
   const options = {
     method: 'post',
     data: {
-      // UserCode: UserCode,
-      // Token: Token,
       TokenFirebase: TokenFirebase,
-      // TypeOS: TypeOS,
     },
     url: `${DOMAIN}/api/App/UpdateTokenFirebase`,
   };
@@ -599,14 +580,13 @@ const checkNotifyOfDay = () => {
     ScheduleNotifyHour, // Khung giờ nhắc trong ngày VD: [8, 13, 20].
     StatusNotifyRegister, // Thời gian cuối cùng hiển thị thông báo.
     PhoneNumber,
+      TokenFirebase,
   } = configuration;
 
   // Trường hợp người dùng khai báo OTP lần đầu vào app;
-  debugger;
-  if(PhoneNumber) return false;
+  if(PhoneNumber || !TokenFirebase) return false;
 
   // Trường hợp người dùng "bỏ qua" lần đầu vào app thì sẽ cho hiển thị notify cho app.
-  debugger;
   if(!StatusNotifyRegister) return true;
 
   const date = new Date();
@@ -649,7 +629,6 @@ const checkNotifyOfDay = () => {
 export default configuration;
 export {
   setTokenFirebase,
-  setToken,
   getConfigurationAPI,
   getConfigurationAsync,
   getUserCodeAsync,

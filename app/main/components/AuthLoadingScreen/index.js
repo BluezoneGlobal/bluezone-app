@@ -24,12 +24,13 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
+import NetInfo from "@react-native-community/netinfo";
 
 // Components
-import {View, SafeAreaView, StatusBar} from 'react-native';
+import {View, SafeAreaView, StatusBar, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
-import {MediumText} from '../../../base/components/Text';
+import Text, {MediumText} from '../../../base/components/Text';
 
 // Language
 import message from '../../../msg/auth';
@@ -37,48 +38,81 @@ import message from '../../../msg/auth';
 // Apis
 import configuration, {
   getConfigurationAPI,
-  getConfigurationAsync,
+  getConfigurationAsync, registerUser,
 } from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
+import {getTokenFirebase} from "../../../CloudMessaging";
+
+const TIMEOUT = 3000;
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isStatusF: false,
+      isFirstLoading: false,
+    };
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
-    this.setNavigate = this.setNavigate.bind(this);
+    this.checkAuth = this.checkAuth.bind(this);
+    this.registerFirebase = this.registerFirebase.bind(this);
+    this.registerUserSuccess = this.registerUserSuccess.bind(this);
+    this.registerUserError = this.registerUserError.bind(this);
+
   }
 
   async componentDidMount() {
+    // Check trạng thái lần đầu tiên vào app.
+    this.checkAuth();
+
+    // Get thông tin Config.
     await getConfigurationAsync();
+
+    // Gọi Api get config lên server.
     await getConfigurationAPI(this.success, this.error);
   }
 
+  async checkAuth() {
+    const isFirstLoading = await AsyncStorage.getItem('isFirstLoading');
+    if(isFirstLoading === null) {
+      this.setState({isFirstLoading: true});
+      AsyncStorage.setItem('isFirstLoading', 'true');
+    } else {
+      this.setState({isStatusF: true});
+    }
+  }
+
   success() {
-    setTimeout(() => {
-      this.props.setLoading(this.setNavigate());
-    }, 2000);
+    this.registerFirebase()
   }
 
   error() {
-    setTimeout(() => {
-      this.props.setLoading(this.setNavigate());
-    }, 2000);
+    this.registerFirebase()
   }
 
-  setNavigate() {
-    const {Register_Phone, FirstOTP} = configuration;
-    if (Register_Phone === 'FirstOTP' && FirstOTP === null) {
-      AsyncStorage.setItem('FirstOTP', 'true');
-      return 'RegisterAuth';
+  registerFirebase() {
+    const {TokenFirebase} = configuration;
+    if (TokenFirebase === '') {
+      getTokenFirebase((TokenFirebase) => registerUser(TokenFirebase, this.registerUserSuccess, this.registerUserError));
+    } else {
+      setTimeout(() => {
+        this.props.setLoading('Home');
+      }, TIMEOUT)
     }
+  }
 
-    return 'Home';
+  registerUserSuccess(data) {
+    this.props.setLoading('RegisterAuth');
+  }
+
+  registerUserError() {
+    this.props.setLoading('Home');
   }
 
   render() {
+    const {isStatusF, isFirstLoading} = this.state;
     const {intl} = this.props;
     const {formatMessage} = intl;
     return (
@@ -89,18 +123,34 @@ class AuthLoadingScreen extends React.Component {
           style={styles.logo}
         />
         <View style={styles.body}>
-          <FastImage
-            source={require('./styles/images/success.png')}
-            style={styles.icon_success}
-          />
-          <MediumText
-            text={formatMessage(message.label1)}
-            style={styles.text}
-          />
-          <MediumText
-            text={formatMessage(message.label2)}
-            style={styles.text}
-          />
+          {
+            (!isStatusF && !isFirstLoading) ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : isStatusF ? (
+                <>
+                  <FastImage
+                      source={require('./styles/images/success.png')}
+                      style={styles.icon_success}
+                  />
+                  <MediumText
+                      text={formatMessage(message.label1)}
+                      style={styles.text}
+                  />
+                  <MediumText
+                      text={formatMessage(message.label2)}
+                      style={styles.text}
+                  />
+                </>
+            ) :  (
+                <>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                  <Text
+                      text={'Đang khởi tạo cho lần sử dụng đầu tiên'}
+                      style={styles.text}
+                  />
+                </>
+            )
+          }
         </View>
       </SafeAreaView>
     );
