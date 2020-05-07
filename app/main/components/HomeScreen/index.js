@@ -181,7 +181,7 @@ class HomeTab extends React.Component {
   }
 
   render() {
-    const {intl} = this.props;
+    const {intl, navigation} = this.props;
     const {
       showModalInvite,
       titleModal,
@@ -247,17 +247,7 @@ class HomeTab extends React.Component {
             </View>
           </View>
           <View style={style.watchScan}>
-            <TouchableOpacity
-              onPress={this.watchScan}
-              style={[style.numberBluezone]}>
-              <CountBluezoner blueTooth={blueTooth} />
-              <Text style={style.textBlue}>
-                {formatMessage(message.bluezoner)}
-              </Text>
-              <Text style={style.textBlue}>
-                {formatMessage(message.around)}
-              </Text>
-            </TouchableOpacity>
+            <CountBluezoner blueTooth={blueTooth} navigation={navigation} />
           </View>
           <View style={[style.button]}>
             <ButtonIconText
