@@ -31,7 +31,8 @@ import type {RemoteMessage} from 'react-native-firebase';
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
-  await firebase.messaging().registerDeviceForRemoteMessages();
+  Platform.OS === 'ios' &&
+    (await firebase.messaging().registerDeviceForRemoteMessages());
 }
 
 async function requestUserPermission(callback) {
@@ -56,9 +57,12 @@ async function requestTokenFirebase() {
   }
 
   // Get the device token
-  firebase.messaging().getToken().then(token => {
+  firebase
+    .messaging()
+    .getToken()
+    .then(token => {
       return setTokenFirebase(token);
-  });
+    });
 
   // // Listen to whether the token changes
   firebase.messaging().onTokenRefresh(token => {

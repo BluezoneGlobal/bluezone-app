@@ -36,6 +36,7 @@ import {DOMAIN} from './apis/server';
 
 // CONST
 const TIME_RETRY = [0, 0, 0, 0, 0];
+const TIME_RETRY_UPDATE_TOKEN_FIREBASE = [1000, 2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
 let CURRENT_RETRY = 0;
 let timerRegister;
 let CURRENT_RETRY_UPDATE_TOKEN_FCM = 0;
@@ -445,7 +446,7 @@ const getConfigurationAPI = async (successCb, errorCb) => {
         }
       }
     },
-    async error => {
+    error => {
       errorCb(error);
     },
   );
@@ -470,7 +471,7 @@ const setTokenFirebase = TokenFirebase => {
   if (configuration.TokenFirebase === '') {
     registerUser(TokenFirebase);
   } else {
-    updateTokenFirebase(TokenFirebase);
+    updateTokenFirebase(TokenFirebase, configuration.TokenFirebase);
   }
 };
 
@@ -485,10 +486,10 @@ const registerUser = async (
   }
   REGISTER_USER_RUNNING = true;
   // Check nếu đang setTimeOut mà vào app ở trạng thái forground thì clearTimeout.
-  if (timerRegister) {
-    CURRENT_RETRY = 0;
-    clearTimeout(timerRegister);
-  }
+  // if (timerRegister) {
+  //   CURRENT_RETRY = 0;
+  //   clearTimeout(timerRegister);
+  // }
 
   const options = {
     method: 'post',
@@ -513,9 +514,14 @@ const registerUser = async (
       // Start kich ban thu lai lien tuc toi khi duoc
       timerRegister && clearTimeout(timerRegister);
       if (CURRENT_RETRY < TIME_RETRY.length) {
-        timerRegister = setTimeout(registerUser, TIME_RETRY[CURRENT_RETRY]);
+        console.log('CURRENT_RETRY', CURRENT_RETRY);
+        timerRegister = setTimeout(
+          () => registerUser(TokenFirebase, successCb, errorCb),
+          TIME_RETRY[CURRENT_RETRY],
+        );
         CURRENT_RETRY++;
       } else {
+        console.log('errorCb', errorCb);
         errorCb && errorCb(error);
         CURRENT_RETRY = 0;
       }
@@ -523,7 +529,7 @@ const registerUser = async (
   );
 };
 
-const updateTokenFirebase = TokenFirebase => {
+const updateTokenFirebase = (TokenFirebase, TokenFirebaseOld)  => {
   if (UPDATE_TOKEN_FIREBASE_RUNNING) {
     return;
   }
@@ -534,6 +540,7 @@ const updateTokenFirebase = TokenFirebase => {
     method: 'post',
     data: {
       TokenFirebase: TokenFirebase,
+      TokenFirebaseOld: TokenFirebaseOld,
     },
     url: `${DOMAIN}/api/App/UpdateTokenFirebase`,
   };
@@ -541,17 +548,19 @@ const updateTokenFirebase = TokenFirebase => {
   axios(options).then(
     response => {
       UPDATE_TOKEN_FIREBASE_RUNNING = false;
-      if (response && response.status === 200) {
+      if (response && response.status === 200 && response.data.isOk === true) {
         timerUpdateToken && clearTimeout(timerUpdateToken);
+        Object.assign(configuration, {TokenFirebase: TokenFirebase});
+        AsyncStorage.setItem('TokenFirebase', TokenFirebase);
       }
     },
     error => {
       UPDATE_TOKEN_FIREBASE_RUNNING = false;
       timerUpdateToken && clearTimeout(timerUpdateToken);
-      if (CURRENT_RETRY_UPDATE_TOKEN_FCM < TIME_RETRY.length) {
+      if (CURRENT_RETRY_UPDATE_TOKEN_FCM < TIME_RETRY_UPDATE_TOKEN_FIREBASE.length) {
         timerUpdateToken = setTimeout(
           updateTokenFirebase,
-          TIME_RETRY[CURRENT_RETRY_UPDATE_TOKEN_FCM],
+            TIME_RETRY_UPDATE_TOKEN_FIREBASE[CURRENT_RETRY_UPDATE_TOKEN_FCM],
         );
         CURRENT_RETRY_UPDATE_TOKEN_FCM++;
       } else {

@@ -130,7 +130,6 @@ export default function App() {
     });
 
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
-
     firebase.notifications().onNotificationOpened(onNotificationOpened);
 
     // Check whether an initial notification is available
@@ -182,17 +181,10 @@ export default function App() {
               </>
             ) : (
               <>
-                <Stack.Screen
-                  name="Home"
-                  component={decorateMainAppStart(Home)}
-                />
+                <Stack.Screen name="Home" component={decorateMainAppStart(Home)}/>
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen
-                  path="NotifyDetail"
-                  name="NotifyDetail"
-                  component={NotifyDetail}
-                />
+                <Stack.Screen path="NotifyDetail" name="NotifyDetail" component={NotifyDetail}/>
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />

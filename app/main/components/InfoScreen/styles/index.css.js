@@ -24,6 +24,12 @@
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
 import {blue_bluezone} from '../../../../utils/color';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((216 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((110.6 / 720) * 100);
+const TITLE_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
+const DATE_PADDINGBOTTOM = heightPercentageToDP((30 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
@@ -31,37 +37,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
 
-  title: {
-    marginTop: 39,
-    fontSize: fontSize.huge,
-    color: blue_bluezone,
-    textAlign: 'center',
-    marginBottom: 32,
-  },
-
-  description: {
-    // textAlign: 'center',
-    fontSize: fontSize.large,
-    lineHeight: 25
-  },
-
-  date: {
-    fontSize: fontSize.large,
-  },
-
-  error: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#ffffff',
+  containerLogo: {
+    height: HEADER_BẠCKGROUND_LOGO,
+    backgroundColor: blue_bluezone,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
+  iconLogo: {
+    height: LOGO_HEIGHT,
+    width: LOGO_HEIGHT,
+  },
+
+  body: {
+    paddingTop: TITLE_PADDINGTOP,
+    paddingHorizontal: 20
+  },
+
+  title: {
+    fontSize: fontSize.huge,
+    color: '#000000',
+  },
+
+  description: {
+    fontSize: fontSize.large,
+    lineHeight: 25,
+  },
+
+  date: {
+    lineHeight: 28,
+    fontSize: fontSize.large,
+  },
+
   textContact: {
     fontSize: fontSize.large,
+    lineHeight: 25,
   },
 
   textTitle: {
@@ -71,10 +81,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  btnError: {
-    borderRadius: 5,
-    borderWidth: 0.65,
-    borderColor: '#0166de',
+  textBottom: {
+    paddingBottom: DATE_PADDINGBOTTOM
   },
 
   textBtnReload: {

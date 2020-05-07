@@ -30,7 +30,8 @@ import {
   ScrollView,
   ActivityIndicator,
   TextInput,
-  Keyboard, Animated,
+  Keyboard,
+  Animated,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {injectIntl, intlShape} from 'react-intl';
@@ -81,6 +82,7 @@ class VerifyOTPScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.ref.focus();
     this.keyboardWillShowSub = Keyboard.addListener(
       'keyboardDidShow',
       this.keyboardDidShow,
@@ -124,7 +126,7 @@ class VerifyOTPScreen extends React.Component {
   onHandleConfirmSuccess(response) {
     const {PhoneNumber} = response.data.Object;
     setPhoneNumber(PhoneNumber);
-    this.setState({visibleVerifiSuccess: true, showLoading: false});
+    this.setState({ showLoading: false}, () => this.setState({visibleVerifiSuccess: true}))
   }
 
   onChangeNavigateApp() {
@@ -220,8 +222,14 @@ class VerifyOTPScreen extends React.Component {
             lineHeight: 47,
           }}
         />
-        <ScrollView contentContainerStyle={{flex: 1}} keyboardShouldPersistTaps={'handled'}>
-          <Animated.View style={[styles.content, {marginTop: this.marginTop, marginBottom: this.marginTop}]}>
+        <ScrollView
+          contentContainerStyle={{flex: 1}}
+          keyboardShouldPersistTaps={'handled'}>
+          <Animated.View
+            style={[
+              styles.content,
+              {marginTop: this.marginTop, marginBottom: this.marginTop},
+            ]}>
             <Text style={styles.text1}>{formatMessage(message.enterPin)}</Text>
             <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
             <Text style={styles.textNumber} onPress={this.onBack}>
@@ -229,6 +237,7 @@ class VerifyOTPScreen extends React.Component {
             </Text>
           </Animated.View>
           <TextInput
+            ref={ref => (this.ref = ref)}
             autoFocus={true}
             style={styles.inputOTPMax}
             maxLength={6}
