@@ -24,9 +24,14 @@
 import React from 'react';
 import {AppState} from 'react-native';
 
-import configuration, {registerUser} from '../Configuration';
+import configuration, {registerUser, setStatusNotifyRegister} from '../Configuration';
 import Service from '../apis/service';
 import {requestTokenFirebase, getTokenFirebase} from '../CloudMessaging';
+import {replaceNotify} from "../db/SqliteDb";
+import {messageNotifyOTP} from "./components/ModalNotify/data";
+import * as PropTypes from "prop-types";
+
+const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 550000];
 
 /**
  * Thực hiện toàn bộ các kịch bản cần thực thi ngay khi app start lên
@@ -38,19 +43,19 @@ function decorateMainAppStart(AppStack) {
     // static router = AppStack.router;
     constructor(props) {
       super(props);
+      this.registerUserSuccess = this.registerUserSuccess.bind(this);
+      this.registerUserError = this.registerUserError.bind(this);
     }
 
     componentDidMount() {
-      // Xin luon quyen notification
-      // requestUserPermission();
+
+      const {TokenFirebase} = configuration;
+      if (TokenFirebase === '') {
+        getTokenFirebase((TokenFB) => registerUser(TokenFB, this.registerUserSuccess, this.registerUserError));
+      }
 
       // Xu ly lay FirebaseToken ngay khi appstart
       requestTokenFirebase();
-
-      const {Token} = configuration;
-      if (Token === '') {
-        getTokenFirebase(registerUser);
-      }
 
       // Start service
       this.onStartService(true);
@@ -69,8 +74,8 @@ function decorateMainAppStart(AppStack) {
 
     handleAppStateChange = appState => {
       if (appState === 'active') {
-        if (configuration.Token === '') {
-          registerUser(getTokenFirebase());
+        if (configuration.TokenFirebase === '') {
+          getTokenFirebase((TokenFB) => registerUser(TokenFB, this.registerUserSuccess, this.registerUserError, TIME_RETRY));
         }
         // Start service
         this.onStartService(true);
@@ -79,12 +84,24 @@ function decorateMainAppStart(AppStack) {
       }
     };
 
+    registerUserSuccess(data) {
+      const {language} = this.context;
+      setStatusNotifyRegister(new Date().getTime().toString());
+      replaceNotify(messageNotifyOTP, language);
+    }
+
+    registerUserError() {}
+
     render() {
       return <AppStack />;
     }
   }
 
   MainApp.propTypes = {};
+
+  MainApp.contextTypes = {
+    language: PropTypes.object,
+  };
 
   return MainApp;
 }

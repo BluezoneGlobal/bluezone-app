@@ -272,11 +272,11 @@ PODS:
     - React
   - react-native-get-random-values (1.4.0):
     - React
+  - react-native-netinfo (5.8.0):
+    - React
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-settings (0.2.3):
-    - React
-  - react-native-spinkit (1.4.1):
     - React
   - react-native-sqlite-storage (5.0.0):
     - React
@@ -341,13 +341,13 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
-  - RNCAsyncStorage (1.9.0):
+  - RNCAsyncStorage (1.10.0):
     - React
   - RNCMaskedView (0.1.10):
     - React
   - RNCPushNotificationIOS (1.2.0):
     - React
-  - RNDeviceInfo (5.5.6):
+  - RNDeviceInfo (5.5.7):
     - React
   - RNFastImage (8.1.5):
     - React
@@ -372,7 +372,7 @@ PODS:
     - React
   - RNScreens (2.7.0):
     - React
-  - RNShare (3.3.0):
+  - RNShare (3.3.1):
     - React
   - RNSVG (12.1.0):
     - React
@@ -411,9 +411,9 @@ DEPENDENCIES:
   - react-native-bluetooth-status (from `../node_modules/react-native-bluetooth-status`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-settings (from `../node_modules/react-native-settings`)
-  - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -504,12 +504,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-settings:
     :path: "../node_modules/react-native-settings"
-  react-native-spinkit:
-    :path: "../node_modules/react-native-spinkit"
   react-native-sqlite-storage:
     :path: "../node_modules/react-native-sqlite-storage"
   react-native-webview:
@@ -601,9 +601,9 @@ SPEC CHECKSUMS:
   react-native-bluetooth-status: fbe6c12cec22e683bc7658a0248191040d841812
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-get-random-values: 2b7500cdb68066aba87cdccd97067c29e16ffe95
+  react-native-netinfo: 6458a467af4b3b7b0b87a179776ba6ba469e4f22
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-settings: 6fc0f38956f8e46460e01c97db7ec3d018f2fdc1
-  react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-sqlite-storage: ce71689c5a73b79390a1ab213555ae80979a5dc7
   react-native-webview: 0e2881d2e3e72ad52a82445c1a116c43205fd471
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
@@ -616,10 +616,10 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNCAsyncStorage: b16697280b08bab4b5f2f67f752d93d13a52e9ed
+  RNCAsyncStorage: b34d2399d3e25db01d5b881949b503bd3c224d57
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
-  RNDeviceInfo: c3ea4a4d4547740c548cdd1e5a78f9b04e524688
+  RNDeviceInfo: 498ccbf8b1361fe858581e3c1193ecee1a031e62
   RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
@@ -627,13 +627,13 @@ SPEC CHECKSUMS:
   RNPermissions: 8ca17fd6c822eea589fe84709d9426e05cc39c39
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
-  RNShare: fea1801315aa8875d6db73a4010b14afcd568765
+  RNShare: d4c9789a93ffa286389ff7b73f44118c8aab412f
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   SDWebImage: 97351f6582ceca541ea294ba66a1fcb342a331c2
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
-PODFILE CHECKSUM: 14174d19f27c4193bc730f99d6a60ab9c2adf952
+PODFILE CHECKSUM: fbd095518bf7eb202ae613b6491b71056d9c0153
 
 COCOAPODS: 1.8.4

@@ -47,6 +47,7 @@
   "TimeEnableBluetooth": 300000,
   "BatteryEnableBluetooth": 15,
   "Notifications": [],
+  "TimeCountDownOTP": 180,
   "PermissonNotificationsAndroid": [
     {
       "id": "000001",

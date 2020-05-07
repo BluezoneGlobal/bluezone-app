@@ -22,19 +22,9 @@
 'use strict';
 
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  StatusBar,
-  ImageBackground,
-  Dimensions,
-  AppState,
-} from 'react-native';
+import {View, TouchableOpacity, StatusBar, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import PushNotification from 'react-native-push-notification';
 import FastImage from 'react-native-fast-image';
-import Spinner from 'react-native-spinkit';
 
 // Language
 import message from '../../../msg/home';
@@ -48,9 +38,6 @@ import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountBluezoner from './CountBluezoner';
 import SwitchLanguage from './SwitchLanguage';
-
-// Apis
-import {getBluezonerAmount} from '../../../apis/bluezone';
 
 // Config
 import configuration from '../../../Configuration';
@@ -71,9 +58,6 @@ import * as PropTypes from 'prop-types';
 // import {checkNotify} from '../../../db/SqliteDb';
 // import {warn, verifyInfected, verifySafe} from '../ModalNotify/data';
 
-const setHeight = 3.445;
-const oldAmountKey = 'oldAmount';
-
 class HomeTab extends React.Component {
   constructor(props) {
     super(props);
@@ -91,25 +75,17 @@ class HomeTab extends React.Component {
     };
 
     this.mapDevice = {};
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.handleDimensionsChange = this.handleDimensionsChange.bind(this);
-    this.onGetAmountSuccess = this.onGetAmountSuccess.bind(this);
     this.watchScan = this.watchScan.bind(this);
     this.watchHistory = this.watchHistory.bind(this);
     this.considerNotify = this.considerNotify.bind(this);
     this.onCalcuTimesOpenApp = this.onCalcuTimesOpenApp.bind(this);
     this.onNotifyOpen = this.onNotifyOpen.bind(this);
+    this.onInvite = this.onInvite.bind(this);
   }
 
   async componentDidMount() {
     Dimensions.addEventListener('change', this.handleDimensionsChange);
-    AppState.addEventListener('change', this.handleAppStateChange);
-
-    const oldAmount = await AsyncStorage.getItem(oldAmountKey);
-    this.setNewAmount(oldAmount);
-
-    getBluezonerAmount(this.onGetAmountSuccess);
-
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
@@ -132,18 +108,7 @@ class HomeTab extends React.Component {
     // );
   }
 
-  setNewAmount(oldAmount) {
-    if (oldAmount) {
-      this.setState(prev => {
-        return {
-          newAmount: oldAmount,
-        };
-      });
-    }
-  }
-
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
     this.scanBLEListener && this.scanBLEListener.remove();
     this.scanBlueToothListener && this.scanBlueToothListener.remove();
     const keys = Object.keys(this.mapDevice);
@@ -156,9 +121,7 @@ class HomeTab extends React.Component {
   async onCalcuTimesOpenApp() {
     const timesOpenAsync = await AsyncStorage.getItem('timesOpenApp');
     let timesOpenApp = timesOpenAsync ? Number.parseInt(timesOpenAsync, 10) : 0;
-
     AsyncStorage.setItem('timesOpenApp', (timesOpenApp + 1).toString());
-
     return timesOpenApp + 1;
   }
 
@@ -168,23 +131,9 @@ class HomeTab extends React.Component {
     }
   }
 
-  handleAppStateChange(appState) {
-    if (appState === 'active') {
-      getBluezonerAmount(this.onGetAmountSuccess);
-    }
-  }
-
   handleDimensionsChange(e) {
     const {width, height} = e.window;
     this.setState({width, height});
-  }
-
-  async onGetAmountSuccess(amount) {
-    const {newAmount} = this.state;
-    if (newAmount !== amount.toString() && !isNaN(parseInt(amount, 10))) {
-      this.setState({newAmount: amount});
-      AsyncStorage.setItem(oldAmountKey, amount.toString());
-    }
   }
 
   watchScan() {
@@ -226,10 +175,10 @@ class HomeTab extends React.Component {
     }
   }
 
-  onInvite = () => {
+  onInvite() {
     this.props.navigation.jumpTo('Invite');
     this.setState({showModalInvite: false});
-  };
+  }
 
   render() {
     const {intl} = this.props;

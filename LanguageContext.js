@@ -30,7 +30,6 @@ export const LanguageContext = React.createContext();
 class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
-
     let language = configuration.Language;
     this.state = {
       language: language,

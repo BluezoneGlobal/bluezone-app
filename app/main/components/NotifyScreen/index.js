@@ -175,7 +175,6 @@ class NotifyScreen extends React.Component {
   render() {
     const {route, intl} = this.props;
     const {notifications, height} = this.state;
-    console.log('Notify - ', notifications);
     const {formatMessage} = intl;
     const header =
       route.params && route.params.header ? route.params.header : false;

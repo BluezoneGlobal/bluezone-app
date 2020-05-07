@@ -22,19 +22,19 @@
 'use strict';
 
 import React from 'react';
-
-// Components.
 import {Text} from 'react-native';
+
+import configuration from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
 
-const TIME = 180;
+const {TimeCountDownOTP} = configuration;
 
 class CountDown extends React.Component {
   constructor() {
     super();
-    this.state = {time: {}, seconds: TIME};
+    this.state = {time: {}, seconds: TimeCountDownOTP};
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -58,8 +58,8 @@ class CountDown extends React.Component {
   startCountDown = () => {
     clearInterval(this.timer);
     this.timer = 0;
-    let timeLeftVar = this.secondsToTime(TIME);
-    this.setState({time: timeLeftVar, seconds: TIME});
+    let timeLeftVar = this.secondsToTime(TimeCountDownOTP);
+    this.setState({time: timeLeftVar, seconds: TimeCountDownOTP});
     this.startTimer();
   };
 
@@ -84,17 +84,8 @@ class CountDown extends React.Component {
     }
   }
 
-  formatTime = time => {
-    const minute = parseInt(time / 60);
-    const seconds = time % 60;
-    const secondsConvert = seconds > 10 ? seconds : `0${seconds}`;
-    return `0${minute}:${secondsConvert}`;
-  };
-
   render() {
-    return (
-      <Text style={styles.textTimer}>{this.formatTime(this.state.time.s)}</Text>
-    );
+    return <Text style={styles.textTimer}>{this.state.time.s}s</Text>;
   }
 }
 
