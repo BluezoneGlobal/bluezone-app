@@ -21,14 +21,7 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
-<<<<<<< HEAD
-import {
-  NavigationContainer,
-  useNavigationState,
-} from '@react-navigation/native';
-=======
 import {NavigationContainer} from '@react-navigation/native';
->>>>>>> e021cb8a4c6bdf4c4fdc7f6a358772ccf6aedaca
 import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
@@ -83,7 +76,7 @@ export default function App() {
       setInitialRoute('Home');
     }
   };
-  
+
   const onNotificationOpened = remoteMessage => {
     if (!remoteMessage) {
       return;
@@ -189,7 +182,10 @@ export default function App() {
               </>
             ) : (
               <>
-                <Stack.Screen name="Home" component={decorateMainAppStart(Home)}/>
+                <Stack.Screen
+                  name="Home"
+                  component={decorateMainAppStart(Home)}
+                />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
                 <Stack.Screen
