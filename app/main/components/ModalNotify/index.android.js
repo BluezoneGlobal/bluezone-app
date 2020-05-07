@@ -62,7 +62,6 @@ import configuration, {
   setStatusNotifyRegister,
 } from '../../../Configuration';
 import AuthLoadingScreen from '../AuthLoadingScreen';
-import firebase from 'react-native-firebase';
 import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
 import {navigationRef} from '../../../../RootNavigation';
 
@@ -198,6 +197,7 @@ class ModalNotify extends React.Component {
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home'
       ) {
+        this.onCheckUpdate();
         this.setState({isVisibleFlash: true});
       }
     }
@@ -512,42 +512,42 @@ class ModalNotify extends React.Component {
           content={_NOTIFI_BLUETOOTH_ANDROID_TEXT}
           onPress={this.onStartBluetooth}
         />
-        {/*<Modal*/}
-        {/*  isVisible={isModalUpdate}*/}
-        {/*  style={styles.modal}*/}
-        {/*  animationIn="zoomInDown"*/}
-        {/*  animationOut="zoomOutUp"*/}
-        {/*  animationInTiming={400}*/}
-        {/*  animationOutTiming={400}*/}
-        {/*  backdropTransitionInTiming={400}*/}
-        {/*  backdropTransitionOutTiming={400}>*/}
-        {/*  <View style={styles.container}>*/}
-        {/*    <View style={styles.textDiv}>*/}
-        {/*      <MediumText style={styles.textTitle}>*/}
-        {/*        {formatMessage(message.hasNewVersion)}*/}
-        {/*      </MediumText>*/}
-        {/*      <Text style={styles.textCenter}>*/}
-        {/*        {formatMessage(message.updateVersion)}*/}
-        {/*      </Text>*/}
-        {/*    </View>*/}
-        {/*    <View style={styles.flexRow}>*/}
-        {/*      {!forceUpdate && (*/}
-        {/*        <ButtonText*/}
-        {/*          text={formatMessage(message.Cancel)}*/}
-        {/*          onPress={this.onCancelUpdate}*/}
-        {/*          styleText={styles.colorText}*/}
-        {/*          styleBtn={styles.buttonCancel}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*      <ButtonText*/}
-        {/*        text={formatMessage(message.Ok)}*/}
-        {/*        onPress={this.onUpdate}*/}
-        {/*        styleText={styles.colorText}*/}
-        {/*        styleBtn={styles.flex}*/}
-        {/*      />*/}
-        {/*    </View>*/}
-        {/*  </View>*/}
-        {/*</Modal>*/}
+        <Modal
+          isVisible={isModalUpdate}
+          style={styles.modal}
+          animationIn="zoomInDown"
+          animationOut="zoomOutUp"
+          animationInTiming={400}
+          animationOutTiming={400}
+          backdropTransitionInTiming={400}
+          backdropTransitionOutTiming={400}>
+          <View style={styles.container}>
+            <View style={styles.textDiv}>
+              <MediumText style={styles.textTitle}>
+                {formatMessage(message.hasNewVersion)}
+              </MediumText>
+              <Text style={styles.textCenter}>
+                {formatMessage(message.updateVersion)}
+              </Text>
+            </View>
+            <View style={styles.flexRow}>
+              {!forceUpdate && (
+                <ButtonText
+                  text={formatMessage(message.Cancel)}
+                  onPress={this.onCancelUpdate}
+                  styleText={styles.colorText}
+                  styleBtn={styles.buttonCancel}
+                />
+              )}
+              <ButtonText
+                text={formatMessage(message.Ok)}
+                onPress={this.onUpdate}
+                styleText={styles.colorText}
+                styleBtn={styles.flex}
+              />
+            </View>
+          </View>
+        </Modal>
         <ModalBase
           isVisible={isVisiblePermissionWriteDenied}
           content={_NOTIFI_PERMISSION_WRITE_FILE_TEXT}
