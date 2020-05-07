@@ -164,7 +164,7 @@ class CountBluezoner extends React.Component {
 CountBluezoner.defaultProps = {};
 
 CountBluezoner.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default CountBluezoner;

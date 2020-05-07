@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(11,147,35)',
   },
   pickerAndroid: {
-    height: 50,
+    height: 46,
     width: 150,
     color: '#015cd0',
   },
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 11,
     width: '100%',
-    height: 44,
+    height: 46,
     position: 'relative',
   },
   datePickerL: {
@@ -147,11 +147,8 @@ const styles = StyleSheet.create({
   },
   datePicker1: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingTop: 10,
-    marginBottom: 41,
+    marginBottom: 40,
   },
   datePicker: {
     flexDirection: 'row',
@@ -161,7 +158,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     borderWidth: 1,
     borderColor: '#015cd0',
-    width: '100%',
+    // width: '100%',
     height: 44,
     position: 'relative',
   },
@@ -177,6 +174,18 @@ const styles = StyleSheet.create({
     borderColor: '#FFFFFF',
     borderWidth: 1,
     backgroundColor: '#1C74C4',
+  },
+
+  buttonSend: {
+    height: 46,
+    // width: '100%',
+    backgroundColor: '#119a01',
+    marginTop: 25,
+  },
+  buttonIcon: {
+    width: 15,
+    height: 15,
+    marginRight: 7,
   },
 });
 

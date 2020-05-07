@@ -80,5 +80,28 @@
   "bluezone.verifyOTP.optNotValid": "Mã OTP không hợp lệ, hoặc đã hết hạn",
   "bluezone.verifyOTP.retry": "Thử lại",
   "bluezone.verifyOTP.saveOTP": "Vui lòng nhập lại mã OTP",
-  "bluezone.verifyOTP.otpsuccess": "Xác thực OTP thành công"
+  "bluezone.verifyOTP.otpsuccess": "Xác thực OTP thành công",
+
+  "bluezone.warning.doubtContent1": "Bạn CÓ THỂ đã tiếp xúc với F0",
+  "bluezone.warning.doubtContent2": "Trong lịch sử tiếp xúc của bạn có F0",
+  "bluezone.warning.doubtTutorial": "Đừng lo lắng, có thể có sự trùng lặp ngẫu nhiên bạn hãy gửi lịch sử tiếp xúc của bạn để hệ thống xác minh",
+  "bluezone.warning.uploadMsg": "Bạn chưa gửi lịch sử tiếp xúc",
+  "bluezone.warning.uploadSuccessMsg": "Đã gửi lịch sử tiếp xúc. Chờ xác minh",
+  "bluezone.warning.uploadText": "Gửi lịch sử tiếp xúc",
+
+  "bluezone.warning.safeContent": "Chúc mừng bạn! Bluezone đã kiểm tra xác nhận bạn không tiếp xúc với F0",
+  "bluezone.warning.safeTutorial": "Đăng ký số điện thoại để được hỗ trợ tốt hơn",
+  "bluezone.warning.phoneNumber": "Điện thoại",
+  "bluezone.warning.fullName": "Họ tên",
+  "bluezone.warning.address": "Địa chỉ",
+  "bluezone.warning.continue": "Tiếp tục",
+
+  "bluezone.warning.dangerContent": "Bạn có tiếp xúc với F0",
+  "bluezone.warning.dangerTutorial": "Bạn hãy khai thông tin để được hỗ trợ nhanh nhất",
+  "bluezone.warning.send": "Gửi",
+  "bluezone.warning.contact": "Hoặc liên lạc trực tiếp với chúng tôi",
+  "bluezone.warning.declaration": "Khai báo y tế",
+  "bluezone.warning.call": "Gọi điện",
+  "bluezone.warning.message": "Nhắn tin",
+  "bluezone.warning.information": "Tìm hiểu thêm: những việc cần làm ngay"
 }

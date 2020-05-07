@@ -671,7 +671,6 @@ export {
   registerUser,
   removeNotifyPermisson,
   createNotifyPermission,
-  DOMAIN,
   setLanguage,
   setStatusNotifyRegister,
   checkNotifyOfDay,

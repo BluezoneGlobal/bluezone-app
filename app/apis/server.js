@@ -21,4 +21,11 @@
 
 'use strict';
 
-export const DOMAIN = 'https://apibz.bkav.com';
+import DeviceInfo from 'react-native-device-info';
+
+const currentVersion = DeviceInfo.getVersion();
+const dev = __DEV__ || currentVersion.endsWith('dev');
+
+export const DOMAIN = dev
+  ? 'https://apiwebbz.bkav.com'
+  : 'https://apibz.bkav.com';

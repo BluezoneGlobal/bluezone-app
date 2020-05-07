@@ -25,6 +25,7 @@ import {Platform} from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import moment from 'moment';
 import {pushNotify} from '../CloudMessaging';
+import Service from '../apis/service';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -88,10 +89,10 @@ const createNotify = () => {
 };
 
 const replaceNotify = (notifyObj, language = 'vi', notify = true) => {
-    // Hiển thị notify.
-    notify  && pushNotify(notifyObj, language);
+  // Hiển thị notify.
+  notify && pushNotify(notifyObj, language);
 
-    // Lưu data xuống db.
+  // Lưu data xuống db.
   db.transaction(function(txn) {
     txn.executeSql(
       'REPLACE INTO notify(notifyId, smallIcon, largeIcon, title, text, bigText, titleEn, textEn, bigTextEn, _group, timestamp, unRead, data) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -177,4 +178,49 @@ const getDays = async (days, callback) => {
   });
 };
 
-export {open, close, getDays, replaceNotify, createNotify, getNotifications};
+const checkNotify = async (notifyObj, language) => {
+  switch (notifyObj.data.group) {
+    case 'INFO':
+    case 'VERIFY':
+    case 'PERMISSION':
+    case 'SERVICE':
+    case 'MOBILE':
+      replaceNotify(notifyObj, language);
+      break;
+    case 'CONFIG':
+      // Xử lý config ...
+      break;
+    case 'WARN':
+      // Check bluezoneId
+      try {
+        const result = await Service.checkContact(
+          notifyObj.data &&
+            notifyObj.data.data &&
+            notifyObj.data.data.bluezoneIds,
+        );
+        if (result) {
+          // Call Notify
+          replaceNotify(notifyObj, language);
+        }
+      } catch (error) {
+        // Exception
+        throw new Error(400);
+      }
+
+      break;
+  }
+};
+
+export {
+  open,
+  close,
+  getDays,
+  replaceNotify,
+  createNotify,
+  getNotifications,
+  checkNotify,
+};
+
+// const uriFile = await Service.writeHistoryContact(
+//     notifyObj.bluezoneIds,
+// );

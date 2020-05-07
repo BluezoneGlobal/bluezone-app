@@ -37,19 +37,23 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Language
 import message from '../../../msg/history';
+import warning from '../../../msg/warning';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Config
 import configuration from '../../../Configuration';
 
 // Sqlite db
-import {open, close} from '../../../db/SqliteDb';
+import {open} from '../../../db/SqliteDb';
+import {uploadHistoryF0} from '../../../apis/bluezone';
 
 // Style
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 const ONE_DAY = 86400000;
 
@@ -245,6 +249,16 @@ class HistoryScanScreen extends React.Component {
     this.onGetDataFromDB(this.state.daySelected, endOfDaySelected);
   };
 
+  onSendHistory = () => {
+    // Send history...
+    // uploadHistoryF0(
+    //   filePath,
+    //   3,
+    //   this.handleUpdateSuccess,
+    //   this.handleUpdateError,
+    // );
+  };
+
   render() {
     const {intl} = this.props;
     const {
@@ -279,34 +293,50 @@ class HistoryScanScreen extends React.Component {
         <View style={styles.flex}>
           <View style={styles.flex}>
             <View style={styles.content}>
-              <MediumText style={styles.title}>{formatMessage(message.totalContact)}</MediumText>
+              <MediumText style={styles.title}>
+                {formatMessage(message.totalContact)}
+              </MediumText>
               <View style={styles.contentChild}>
                 <View style={styles.human}>
                   <MediumText style={[styles.textValue, styles.colorText]}>
                     {total}
                   </MediumText>
-                  <Text style={[styles.text, styles.colorText]}>{formatMessage(message.people)}</Text>
+                  <Text style={[styles.text, styles.colorText]}>
+                    {formatMessage(message.people)}
+                  </Text>
                 </View>
                 <View style={styles.bluezone}>
                   <MediumText style={styles.textValue}>
                     {totalBluezoner}
                   </MediumText>
-                  <Text style={styles.text}>{totalBluezoner > 1 ? formatMessage(message.bluezoners) : formatMessage(message.bluezoner)}</Text>
+                  <Text style={styles.text}>
+                    {totalBluezoner > 1
+                      ? formatMessage(message.bluezoners)
+                      : formatMessage(message.bluezoner)}
+                  </Text>
                 </View>
               </View>
             </View>
             <View style={styles.content}>
-              <MediumText style={styles.title}>{formatMessage(message.closeContact)}</MediumText>
+              <MediumText style={styles.title}>
+                {formatMessage(message.closeContact)}
+              </MediumText>
               <View style={styles.contentChild}>
                 <View style={[styles.human, styles.backgroundPeople]}>
                   <Text style={[styles.textValue, styles.colorNumber]}>
                     {nearTotal}
                   </Text>
-                  <Text style={[styles.text, styles.colorNumber]}>{formatMessage(message.people)}</Text>
+                  <Text style={[styles.text, styles.colorNumber]}>
+                    {formatMessage(message.people)}
+                  </Text>
                 </View>
                 <View style={[styles.bluezone, styles.backgroundBlue]}>
                   <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
-                  <Text style={styles.text}>{nearTotalBluezoner > 1 ? formatMessage(message.bluezoners) : formatMessage(message.bluezoner)}</Text>
+                  <Text style={styles.text}>
+                    {nearTotalBluezoner > 1
+                      ? formatMessage(message.bluezoners)
+                      : formatMessage(message.bluezoner)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -331,6 +361,14 @@ class HistoryScanScreen extends React.Component {
                   </Picker>
                 </View>
               )}
+              <ButtonIconText
+                onPress={this.onSendHistory}
+                text={formatMessage(warning.uploadText)}
+                source={require('../NotifyWarning/styles/images/send.png')}
+                styleBtn={styles.buttonSend}
+                styleText={{fontSize: fontSize.normal}}
+                styleIcon={styles.buttonIcon}
+              />
             </View>
           </View>
         </View>

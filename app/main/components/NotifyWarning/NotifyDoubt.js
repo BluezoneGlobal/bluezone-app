@@ -22,11 +22,16 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {View} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
+
+// Language
+import message from '../../../msg/warning';
 
 // Styles
 import styles from './styles/index.css';
@@ -38,7 +43,13 @@ class NotifyDoubt extends React.Component {
     super(props);
   }
 
+  onPress = () => {
+    this.props.onPress && this.props.onPress();
+  };
+
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <View
         style={{
@@ -46,7 +57,6 @@ class NotifyDoubt extends React.Component {
           flexDirection: 'column',
           justifyContent: 'space-around',
         }}>
-        {/* Khối thông tin */}
         <View style={{alignItems: 'center'}}>
           <FastImage
             style={{
@@ -67,7 +77,16 @@ class NotifyDoubt extends React.Component {
                 textAlign: 'center',
                 paddingHorizontal: 21,
               }}>
-              Bạn CÓ THỂ đã tiếp xúc với F0 Trong lịch sử tiếp xúc của bạn có F0
+              {formatMessage(message.doubtContent1)}
+            </MediumText>
+            <MediumText
+              style={{
+                fontSize: fontSize.large,
+                lineHeight: 29,
+                textAlign: 'center',
+                paddingHorizontal: 21,
+              }}>
+              {formatMessage(message.doubtContent2)}
             </MediumText>
           </View>
         </View>
@@ -86,18 +105,17 @@ class NotifyDoubt extends React.Component {
               textAlign: 'center',
               paddingHorizontal: 21,
             }}>
-            Đừng lo lắng, có thể có sự trùng lặp ngẫu nhiên bạn hãy gửi lịch sử
-            tiếp xúc của bạn để hệ thống xác minh
+            {formatMessage(message.doubtTutorial)}
           </Text>
           <View />
         </View>
         <View style={{alignItems: 'center'}}>
           <Text style={{fontSize: fontSize.small, color: '#ff0000'}}>
-            Bạn chưa gửi lịch sử tiếp xúc
+            {formatMessage(message.uploadMsg)}
           </Text>
           <ButtonIconText
-            onPress={this.watchSend}
-            text={'Gửi lịch sử tiếp xúc '}
+            onPress={this.onPress}
+            text={formatMessage(message.uploadText)}
             source={require('./styles/images/send.png')}
             styleBtn={styles.buttonSend}
             styleText={{fontSize: fontSize.normal}}
@@ -109,4 +127,14 @@ class NotifyDoubt extends React.Component {
   }
 }
 
-export default NotifyDoubt;
+NotifyDoubt.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+NotifyDoubt.defaultProps = {};
+
+NotifyDoubt.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(NotifyDoubt);

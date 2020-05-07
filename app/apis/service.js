@@ -76,6 +76,14 @@ const changeLanguageNotifi = language => {
   Platform.OS !== 'ios' && TraceCovid.setLanguage(language);
 };
 
+const checkContact = ids => {
+  return Platform.OS !== 'ios' && TraceCovid.checkContact(ids);
+};
+
+const writeHistoryContact = ids => {
+  return Platform.OS !== 'ios' && TraceCovid.writeHistoryContact(ids);
+};
+
 const service = {
   startService,
   setUserId,
@@ -86,6 +94,8 @@ const service = {
   generatorId,
   restoreDb,
   changeLanguageNotifi,
+  checkContact,
+  writeHistoryContact,
 };
 
 export default service;

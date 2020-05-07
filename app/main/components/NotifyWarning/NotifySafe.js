@@ -22,23 +22,34 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import {View, TextInput} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 
+// Language
+import message from '../../../msg/warning';
+
 // Styles
 import styles from './styles/index.css';
 import FastImage from 'react-native-fast-image';
 import * as fontSize from '../../../utils/fontSize';
 
-class NotifyDoubt extends React.Component {
+class NotifySafe extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  onPress = () => {
+    this.props.onPress && this.props.onPress();
+  };
+
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <View
         style={{
@@ -46,7 +57,6 @@ class NotifyDoubt extends React.Component {
           flexDirection: 'column',
           justifyContent: 'space-around',
         }}>
-        {/* Khối thông tin */}
         <View style={{alignItems: 'center'}}>
           <FastImage
             style={{
@@ -67,8 +77,7 @@ class NotifyDoubt extends React.Component {
                 textAlign: 'center',
                 paddingHorizontal: 21,
               }}>
-              Chúc mừng bạn! Bluezone đã kiểm tra xác nhận bạn không tiếp xúc
-              với F0
+              {formatMessage(message.safeContent)}
             </MediumText>
           </View>
         </View>
@@ -77,7 +86,7 @@ class NotifyDoubt extends React.Component {
             alignItems: 'center',
           }}>
           <Text style={{fontSize: fontSize.small, lineHeight: 25}}>
-            Đăng ký số điện thoại để được hỗ trợ tốt hơn
+            {formatMessage(message.safeTutorial)}
           </Text>
           <TextInput
             style={{
@@ -92,32 +101,32 @@ class NotifyDoubt extends React.Component {
               fontSize: fontSize.small,
             }}
             // onChangeText={}
-            placeholder={'Điện thoại'}
+            placeholder={formatMessage(message.phoneNumber)}
             placeholderTextColor={''}
             value={''}
           />
-          <TextInput
-            style={{
-              height: 40,
-              borderColor: '#dddddd',
-              borderWidth: 1,
-              marginTop: 13,
-              width: '100%',
-              borderRadius: 3,
-              paddingHorizontal: 12,
-              fontFamily: 'OpenSans-Regular',
-              fontSize: fontSize.small,
-            }}
-            // onChangeText={}
-            placeholder={'Họ tên'}
-            placeholderTextColor={''}
-            value={''}
-          />
+          {/*<TextInput*/}
+          {/*  style={{*/}
+          {/*    height: 40,*/}
+          {/*    borderColor: '#dddddd',*/}
+          {/*    borderWidth: 1,*/}
+          {/*    marginTop: 13,*/}
+          {/*    width: '100%',*/}
+          {/*    borderRadius: 3,*/}
+          {/*    paddingHorizontal: 12,*/}
+          {/*    fontFamily: 'OpenSans-Regular',*/}
+          {/*    fontSize: fontSize.small,*/}
+          {/*  }}*/}
+          {/*  // onChangeText={}*/}
+          {/*  placeholder={formatMessage(message.fullName)}*/}
+          {/*  placeholderTextColor={''}*/}
+          {/*  value={''}*/}
+          {/*/>*/}
         </View>
         <View style={{alignItems: 'center'}}>
           <ButtonIconText
-            onPress={this.watchSend}
-            text={'Tiếp tục'}
+            onPress={this.onPress}
+            text={formatMessage(message.continue)}
             styleBtn={styles.buttonSend}
             styleText={{fontSize: fontSize.normal}}
             styleIcon={styles.buttonIcon}
@@ -128,4 +137,14 @@ class NotifyDoubt extends React.Component {
   }
 }
 
-export default NotifyDoubt;
+NotifySafe.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+NotifySafe.defaultProps = {};
+
+NotifySafe.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(NotifySafe);

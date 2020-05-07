@@ -111,7 +111,7 @@ class InfoScreen extends React.Component {
 }
 
 InfoScreen.contextTypes = {
-  language: PropTypes.object,
+  language: PropTypes.string,
 };
 
 export default InfoScreen;

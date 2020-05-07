@@ -21,7 +21,10 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer, useNavigationState} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationState,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
@@ -39,7 +42,12 @@ import Register from './app/main/components/RegisterScreen';
 import VerifyOTP from './app/main/components/VerifyOTPScreen';
 import {navigationRef, navigate} from './RootNavigation';
 import {registerAppWithFCM, registerMessageHandler} from './app/CloudMessaging';
-import {createNotify, replaceNotify, open} from './app/db/SqliteDb';
+import {
+  createNotify,
+  replaceNotify,
+  checkNotify,
+  open,
+} from './app/db/SqliteDb';
 import ContextProvider from './LanguageContext';
 import LanguageProvider from './app/utils/LanguageProvider';
 import {translationMessages} from './app/i18n';
@@ -65,16 +73,54 @@ export default function App() {
   const [initialRoute, setInitialRoute] = useState('AuthLoading');
 
   const setAuthLoading = navi => {
-    if(navi === 'RegisterAuth') {
-      navigate('RegisterAuth')
+    if (navi === 'RegisterAuth') {
+      navigate('RegisterAuth');
     } else {
       setLoading(true);
       setInitialRoute('Home');
     }
   };
 
-    open();
-    createNotify();
+  const onNotificationOpened = remoteMessage => {
+    if (!remoteMessage) {
+      return;
+    }
+    const obj = remoteMessage.notification;
+    if (obj && obj.data.group === 'WARN') {
+      navigate('NotifyWarning', {
+        data: obj.data,
+        state: 'doubt',
+      });
+    } else if (obj && obj.data.group === 'VERIFY') {
+      navigate('NotifyWarning', {
+        data: obj.data,
+        state: obj.data.result,
+      });
+    } else if (obj && obj.data.group === 'INFO') {
+      navigate('NotifyDetail', {
+        item: {
+          title: obj.title,
+          bigText: obj.body,
+          timestamp: obj.data.timestamp,
+          text: obj.data.text,
+        },
+      });
+    }
+    // else {
+    //   navigate('Register', remoteMessage);
+    // }
+    // firebase.notifications().cancelNotification(remoteMessage.notification._notificationId);
+    firebase
+      .notifications()
+      .removeDeliveredNotification(remoteMessage.notification._notificationId);
+    console.log(
+      'Notification caused app to open from background state:',
+      remoteMessage.notification._notificationId,
+    );
+  };
+
+  open();
+  createNotify();
 
   useEffect(() => {
     // const state = navigationRef.current.getRootState();
@@ -82,68 +128,20 @@ export default function App() {
 
     // Save the initial route name
     // routeNameRef.current = getActiveRouteName(state);
-    registerMessageHandler(async onRemotemessage => {
-        const {Language} = configuration;
-        replaceNotify(onRemotemessage, Language);
+    registerMessageHandler(async notifyObj => {
+      const {Language} = configuration;
+      checkNotify(notifyObj, Language);
     });
 
-    open();
-    createNotify();
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
-    firebase.notifications().onNotificationOpened(remoteMessage => {
-      const obj = remoteMessage.notification;
-      if (
-        obj && obj.data.group === 'WARN'
-      ) {
-        navigate('NotifyWarning', {item: obj});
-      } else if (
-          obj && obj.data.group === 'INFO'
-      ) {
-        navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
-      } else {
-        navigate('Register', remoteMessage);
-      }
-      // firebase.notifications().cancelNotification(remoteMessage.notification._notificationId);
-      firebase
-        .notifications()
-        .removeDeliveredNotification(
-          remoteMessage.notification._notificationId,
-        );
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification._notificationId,
-      );
-    });
+    firebase.notifications().onNotificationOpened(onNotificationOpened);
 
     // Check whether an initial notification is available
     firebase
       .notifications()
       .getInitialNotification()
-      .then(remoteMessage => {
-        const obj = remoteMessage.notification;
-        if (remoteMessage) {
-          if (
-              obj && obj.data.group === 'WARN'
-          ) {
-            navigate('NotifyWarning', {item: obj});
-          }
-          if (
-              obj && obj.data.group === 'INFO'
-          ) {
-            navigate('NotifyDetail', {item: {title: obj.title, bigText: obj.body, timestamp: obj.data.timestamp, text: obj.data.text}});
-          }
-          firebase
-            .notifications()
-            .removeDeliveredNotification(
-              remoteMessage.notification._notificationId,
-            );
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification._notificationId,
-          );
-        }
-      });
+      .then(onNotificationOpened);
   }, []);
 
   return (
@@ -169,15 +167,21 @@ export default function App() {
               <>
                 <Stack.Screen
                   name="AuthLoading"
-                  component={(props) => <AuthLoading setLoading={setAuthLoading} {...props} />}
+                  component={props => (
+                    <AuthLoading setLoading={setAuthLoading} {...props} />
+                  )}
                 />
                 <Stack.Screen
                   name="RegisterAuth"
-                  component={(props) => <Register setLoading={setAuthLoading} {...props}  />}
+                  component={props => (
+                    <Register setLoading={setAuthLoading} {...props} />
+                  )}
                 />
                 <Stack.Screen
                   name="VerifyOTPAuth"
-                  component={(props) => <VerifyOTP setLoading={setAuthLoading} {...props}  />}
+                  component={props => (
+                    <VerifyOTP setLoading={setAuthLoading} {...props} />
+                  )}
                 />
               </>
             ) : (
@@ -188,7 +192,11 @@ export default function App() {
                 />
                 <Stack.Screen name="WatchScan" component={WatchScan} />
                 <Stack.Screen name="HistoryScan" component={HistoryScan} />
-                <Stack.Screen path="NotifyDetail" name="NotifyDetail" component={NotifyDetail} />
+                <Stack.Screen
+                  path="NotifyDetail"
+                  name="NotifyDetail"
+                  component={NotifyDetail}
+                />
                 <Stack.Screen name="NotifyWarning" component={NotifyWarning} />
                 <Stack.Screen name="Invite" component={Invite} />
                 <Stack.Screen name="Register" component={Register} />

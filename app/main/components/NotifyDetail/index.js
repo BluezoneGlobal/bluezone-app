@@ -115,7 +115,7 @@ class NotifyScreen extends React.Component {
           <Text style={styles.textContent}>
             {Language === 'vi' ? item.bigText : item.bigTextEn}
           </Text>
-          {item._group === 'mobile' ? (
+          {item._group === 'MOBILE' ? (
             PhoneNumber ? (
               <Text style={styles.textPhoneNumber}>
                 {formatMessage(msg.registeredPhone)}:{' '}
