@@ -41,14 +41,11 @@ function decorateMainAppStart(AppStack) {
     }
 
     componentDidMount() {
-      // Xin luon quyen notification
-      // requestUserPermission();
-
       // Xu ly lay FirebaseToken ngay khi appstart
       requestTokenFirebase();
 
-      const {Token} = configuration;
-      if (Token === '') {
+      const {TokenFirebase} = configuration;
+      if (TokenFirebase === '') {
         getTokenFirebase(registerUser);
       }
 

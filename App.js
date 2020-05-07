@@ -21,12 +21,12 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer, useNavigationState} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import firebase from 'react-native-firebase';
 // import analytics from '@react-native-firebase/analytics';
 
-//
+// Components
 import AuthLoading from './app/main/components/AuthLoadingScreen';
 import Home from './app/main/components/MainScreen';
 import decorateMainAppStart from './app/main/decorateMainAppStart';
@@ -46,7 +46,6 @@ import {translationMessages} from './app/i18n';
 import configuration from './app/Configuration';
 
 const Stack = createStackNavigator();
-// const prefix = 'mic.bluezone://';
 
 // Gets the current screen from navigation state
 const getActiveRouteName = state => {

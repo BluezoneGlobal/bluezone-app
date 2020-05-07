@@ -24,7 +24,7 @@
  export const messageNotifyOTP = {
     data: {
         notifyId: '1995',
-        smallIcon: 'icon_bluezone',
+        smallIcon: 'icon_bluezone_service',
         largeIcon: '',
         title: 'Bluezone',
         text:
@@ -45,7 +45,7 @@
 export const messageNotifyOTPSuccess = {
     data: {
         notifyId: '1995',
-        smallIcon: 'icon_bluezone',
+        smallIcon: 'icon_bluezone_service',
         largeIcon: '',
         title: 'Bluezone',
         text:

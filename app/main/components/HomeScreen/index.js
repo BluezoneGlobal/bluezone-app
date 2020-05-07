@@ -22,6 +22,7 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import {
   ScrollView,
   View,
@@ -32,9 +33,7 @@ import {
   AppState,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import PushNotification from 'react-native-push-notification';
 import FastImage from 'react-native-fast-image';
-import Spinner from 'react-native-spinkit';
 
 // Language
 import message from '../../../msg/home';
@@ -46,7 +45,6 @@ import ButtonText from '../../../base/components/ButtonText';
 import ModalNotify from '../ModalNotify';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
-import NumberAnimate from '../../../base/components/NumberAnimate';
 import CountBluezoner from './CountBluezoner';
 import SwitchLanguage from './SwitchLanguage';
 
@@ -66,7 +64,6 @@ import style from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
-import * as PropTypes from 'prop-types';
 
 const setHeight = 3.445;
 const oldAmountKey = 'oldAmount';
@@ -97,6 +94,7 @@ class HomeTab extends React.Component {
     this.considerNotify = this.considerNotify.bind(this);
     this.onCalcuTimesOpenApp = this.onCalcuTimesOpenApp.bind(this);
     this.onNotifyOpen = this.onNotifyOpen.bind(this);
+    this.onInvite = this.onInvite.bind(this);
   }
 
   async componentDidMount() {
@@ -105,7 +103,6 @@ class HomeTab extends React.Component {
 
     const oldAmount = await AsyncStorage.getItem(oldAmountKey);
     this.setNewAmount(oldAmount);
-
     getBluezonerAmount(this.onGetAmountSuccess);
 
     const timesOpenApp = await this.onCalcuTimesOpenApp();
@@ -127,7 +124,6 @@ class HomeTab extends React.Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
     this.scanBLEListener && this.scanBLEListener.remove();
     this.scanBlueToothListener && this.scanBlueToothListener.remove();
-    // this.demensions.remove();
     const keys = Object.keys(this.mapDevice);
     for (var i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
@@ -138,9 +134,7 @@ class HomeTab extends React.Component {
   async onCalcuTimesOpenApp() {
     const timesOpenAsync = await AsyncStorage.getItem('timesOpenApp');
     let timesOpenApp = timesOpenAsync ? Number.parseInt(timesOpenAsync, 10) : 0;
-
     AsyncStorage.setItem('timesOpenApp', (timesOpenApp + 1).toString());
-
     return timesOpenApp + 1;
   }
 
@@ -208,7 +202,7 @@ class HomeTab extends React.Component {
     }
   }
 
-  onInvite = () => {
+  onInvite () {
     this.props.navigation.jumpTo('Invite');
     this.setState({showModalInvite: false});
   };

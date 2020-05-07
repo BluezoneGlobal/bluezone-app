@@ -23,8 +23,7 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
-import {View} from 'react-native';
-import {Badge} from '@ant-design/react-native';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import HomeScreen from '../HomeScreen';
@@ -37,7 +36,6 @@ import styles from './style/index.css';
 
 // Language
 import message from '../../../msg/tab';
-import {injectIntl, intlShape} from 'react-intl';
 
 // Consts
 const Tab = createBottomTabNavigator();
@@ -94,13 +92,10 @@ class HomeTabScreen extends React.Component {
           options={{
             tabBarLabel: formatMessage(message.report),
             tabBarIcon: ({focused, color, size}) => (
-              <View>
-                {/*{!focused && <Badge text="8" style={styles.badge} dot={true} />}*/}
                 <FastImage
                   source={focused ? iconActive.Notify : icon.Notify}
                   style={styles.iconSquare}
                 />
-              </View>
             ),
           }}
         />

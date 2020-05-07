@@ -474,7 +474,6 @@ const setPhoneNumber = PhoneNumber => {
 
 // Lưu thông tin TokenFirebase
 const setTokenFirebase = TokenFirebase => {
-  console.log('TokenFirebase', TokenFirebase);
   if (
     configuration.TokenFirebase !== '' &&
     TokenFirebase === configuration.TokenFirebase
@@ -506,10 +505,7 @@ const registerUser = async TokenFirebase => {
   const options = {
     method: 'post',
     data: {
-      // UserCode: UserCode,
       TokenFirebase: TokenFirebase,
-      // TypeOS: TypeOS,
-      // MacBluetooth: MacBluetooth,
     },
     url: `${DOMAIN}/api/App/RegisterUser`,
   };
@@ -517,13 +513,8 @@ const registerUser = async TokenFirebase => {
   axios(options).then(
     response => {
       REGISTER_USER_RUNNING = false;
-      if (response && response.status === 200) {
-        const {Token} = response.data.Object;
-
+      if (response && response.status === 200 && response.data.isOk === true) {
         timerRegister && clearTimeout(timerRegister);
-        // Luu lai token
-        setToken(Token);
-
         Object.assign(configuration, {TokenFirebase});
         AsyncStorage.setItem('TokenFirebase', TokenFirebase);
       }

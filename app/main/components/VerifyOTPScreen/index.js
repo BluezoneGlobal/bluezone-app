@@ -32,7 +32,6 @@ import {
   TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {Toast} from '@ant-design/react-native';
 import {injectIntl, intlShape} from 'react-intl';
 
 import Header from '../../../base/components/Header';

@@ -39,6 +39,7 @@
 		7D10C3682455EC6800C0E0ED /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */; };
 		7D10C3692455EC6800C0E0ED /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */; };
 		7D10C36B2455EEF700C0E0ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */; };
+		7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D207AC02462B5A500347196 /* BackupUtils.swift */; };
 		AC1DCC9876A5B4B339A4C039 /* libPods-Bluezone-BluezoneTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C62520F427F31A3AB8386F /* libPods-Bluezone-BluezoneTests.a */; };
 		F3882418FCBD0138ADB13777 /* libPods-Bluezone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */; };
 /* End PBXBuildFile section */
@@ -82,8 +83,8 @@
 		7D10C33F2455E9B500C0E0ED /* Bluezone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bluezone.entitlements; path = Bluezone/Bluezone.entitlements; sourceTree = "<group>"; };
 		7D10C3412455EB2900C0E0ED /* Bluezone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bluezone-Bridging-Header.h"; sourceTree = "<group>"; };
 		7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheralManager.swift; sourceTree = "<group>"; };
-		7D10C3432455EB2A00C0E0ED /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
-		7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CovidLogs.swift; sourceTree = "<group>"; };
+		7D10C3432455EB2A00C0E0ED /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CovidLogs.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3452455EB2A00C0E0ED /* Contants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contants.h; sourceTree = "<group>"; };
 		7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezonerIdGenerator.swift; sourceTree = "<group>"; };
 		7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleCentralManager.swift; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7D207AC02462B5A500347196 /* BackupUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupUtils.swift; sourceTree = "<group>"; };
 		874FE28FD0209D058AF442AE /* Pods-Bluezone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone.debug.xcconfig"; path = "Target Support Files/Pods-Bluezone/Pods-Bluezone.debug.xcconfig"; sourceTree = "<group>"; };
 		9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7D8A71E3680D7779A85C36B /* Pods-Bluezone-BluezoneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-BluezoneTests.release.xcconfig"; path = "Target Support Files/Pods-Bluezone-BluezoneTests/Pods-Bluezone-BluezoneTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */,
 				7D10C3452455EB2A00C0E0ED /* Contants.h */,
 				7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */,
+				7D207AC02462B5A500347196 /* BackupUtils.swift */,
 				7D10C3432455EB2A00C0E0ED /* DBHelper.swift */,
 				7D10C34B2455EB2A00C0E0ED /* ScannerManager.m */,
 				7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */,
@@ -677,6 +680,7 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7D10C34E2455EB2A00C0E0ED /* CovidLogs.swift in Sources */,
 				7D10C34C2455EB2A00C0E0ED /* BlePeripheralManager.swift in Sources */,
+				7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */,
 				7D10C3542455EB2A00C0E0ED /* ScannerManager.m in Sources */,
 				7D10C34D2455EB2A00C0E0ED /* DBHelper.swift in Sources */,
 				7D10C3532455EB2A00C0E0ED /* ScannerManager.swift in Sources */,

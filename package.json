@@ -44,7 +44,6 @@
     "react-native-send-intent": "^1.2.2",
     "react-native-settings": "^0.2.3",
     "react-native-share": "^3.2.0",
-    "react-native-spinkit": "^1.5.0",
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-svg": "^12.1.0",
     "react-native-system-setting": "^1.7.4",

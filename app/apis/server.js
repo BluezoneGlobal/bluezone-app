@@ -21,4 +21,6 @@
 
 'use strict';
 
-export const DOMAIN = 'https://apibz.bkav.com';
+export const DOMAIN = __DEV__
+  ? 'https://apiwebbz.bkav.com'
+  : 'https://apibz.bkav.com';
