@@ -126,6 +126,7 @@ class ModalNotify extends React.Component {
       if (
         this.statusPermissionNotify !== '' &&
         this.state.isVisiblePermissionNotify === false &&
+          this.state.isVisibleBLE === false &&
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home' &&
         navigations.routes[0].state.index === 0
@@ -226,7 +227,7 @@ class ModalNotify extends React.Component {
   }
 
   onTurnOnBLE() {
-    this.setState({isVisibleBLE: false});
+    // this.setState({isVisibleBLE: false});
     Linking.canOpenURL('App-prefs:root=Bluetooth')
       .then(supported => {
         if (!supported) {

@@ -126,7 +126,7 @@ class VerifyOTPScreen extends React.Component {
   onHandleConfirmSuccess(response) {
     const {PhoneNumber} = response.data.Object;
     setPhoneNumber(PhoneNumber);
-    this.setState({visibleVerifiSuccess: true, showLoading: false});
+    this.setState({ showLoading: false}, () => this.setState({visibleVerifiSuccess: true}))
   }
 
   onChangeNavigateApp() {
