@@ -52,6 +52,7 @@
 
     "bluezone.auth.label1": "Not detected",
     "bluezone.auth.label2": "any F0 that is in close contact with you",
+    "bluezone.auth.titleLodding": "Initializing Bluezone for the first time",
 
     "bluezone.modal.hasNewVersion": "New version available",
     "bluezone.modal.updateVersion": "Update to use the latest features",

@@ -32,4 +32,8 @@ export default defineMessages({
     id: 'bluezone.auth.label2',
     defaultMessage: 'bluezone.history.label2',
   },
+  titleLodding: {
+    id: 'bluezone.auth.titleLodding',
+    defaultMessage: 'Đang khởi tạo Bluezone',
+  },
 });

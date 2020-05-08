@@ -52,6 +52,7 @@
 
   "bluezone.auth.label1": "Chưa phát hiện",
   "bluezone.auth.label2": "F0 nào tiếp xúc gần với bạn",
+  "bluezone.auth.titleLodding": "Đang khởi tạo Bluezone",
 
   "bluezone.modal.hasNewVersion": "Đã có phiên bản mới",
   "bluezone.modal.updateVersion": "Bạn hãy cập nhật để sử dụng các tính năng mới nhất",

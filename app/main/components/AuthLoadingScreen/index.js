@@ -154,7 +154,7 @@ class AuthLoadingScreen extends React.Component {
             <>
               <ActivityIndicator size="large" color={blue_bluezone} />
               <Text
-                text={'Đang khởi tạo cho lần sử dụng đầu tiên'}
+                text={formatMessage(message.titleLodding)}
                 style={styles.text}
               />
             </>
