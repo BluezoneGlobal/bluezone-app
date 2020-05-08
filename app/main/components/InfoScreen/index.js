@@ -77,7 +77,7 @@ class InfoScreen extends React.Component {
               </Text>
               <Text
                 style={styles.linkweb}
-                onPress={() => Linking.openURL('www.bluezone.gov.vn')}>
+                onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
                 {formatMessage(message.linkDetail)}
               </Text>
               <Text />
