@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     paddingBottom: FOOTER_PADDING_BOTTOM,
   },
   btnShare: {
-    marginBottom: SCAN_PADDING_BOTTOM,
     backgroundColor: '#015cd0',
   },
   textBtnShare: {

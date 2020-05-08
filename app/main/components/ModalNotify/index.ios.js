@@ -126,7 +126,7 @@ class ModalNotify extends React.Component {
       if (
         this.statusPermissionNotify !== '' &&
         this.state.isVisiblePermissionNotify === false &&
-          this.state.isVisibleBLE === false &&
+        this.state.isVisibleBLE === false &&
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home' &&
         navigations.routes[0].state.index === 0

@@ -35,8 +35,18 @@ import {
 import {DOMAIN} from './apis/server';
 
 // CONST
-const TIME_RETRY = [0, 0, 0, 0, 0];
-const TIME_RETRY_UPDATE_TOKEN_FIREBASE = [1000, 2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000];
+let TIME_RETRY = [0, 0, 0, 0, 0];
+const TIME_RETRY_UPDATE_TOKEN_FIREBASE = [
+  1000,
+  2000,
+  3000,
+  5000,
+  8000,
+  13000,
+  21000,
+  34000,
+  55000,
+];
 let CURRENT_RETRY = 0;
 let timerRegister;
 let CURRENT_RETRY_UPDATE_TOKEN_FCM = 0;
@@ -475,12 +485,8 @@ const setTokenFirebase = TokenFirebase => {
   }
 };
 
-const registerUser = async (
-  TokenFirebase,
-  successCb,
-  errorCb,
-  TIME_RETRY = TIME_RETRY,
-) => {
+const registerUser = async (TokenFirebase, successCb, errorCb, timeRetry) => {
+  TIME_RETRY = timeRetry ? timeRetry : TIME_RETRY;
   if (REGISTER_USER_RUNNING || configuration.TokenFirebase) {
     return;
   }
@@ -514,14 +520,12 @@ const registerUser = async (
       // Start kich ban thu lai lien tuc toi khi duoc
       timerRegister && clearTimeout(timerRegister);
       if (CURRENT_RETRY < TIME_RETRY.length) {
-        console.log('CURRENT_RETRY', CURRENT_RETRY);
         timerRegister = setTimeout(
-          () => registerUser(TokenFirebase, successCb, errorCb, TIME_RETRY),
+          () => registerUser(TokenFirebase, successCb, errorCb, timeRetry),
           TIME_RETRY[CURRENT_RETRY],
         );
         CURRENT_RETRY++;
       } else {
-        console.log('errorCb', errorCb);
         errorCb && errorCb(error);
         CURRENT_RETRY = 0;
       }
@@ -529,7 +533,7 @@ const registerUser = async (
   );
 };
 
-const updateTokenFirebase = (TokenFirebase, TokenFirebaseOld)  => {
+const updateTokenFirebase = (TokenFirebase, TokenFirebaseOld) => {
   if (UPDATE_TOKEN_FIREBASE_RUNNING) {
     return;
   }
@@ -557,10 +561,12 @@ const updateTokenFirebase = (TokenFirebase, TokenFirebaseOld)  => {
     error => {
       UPDATE_TOKEN_FIREBASE_RUNNING = false;
       timerUpdateToken && clearTimeout(timerUpdateToken);
-      if (CURRENT_RETRY_UPDATE_TOKEN_FCM < TIME_RETRY_UPDATE_TOKEN_FIREBASE.length) {
+      if (
+        CURRENT_RETRY_UPDATE_TOKEN_FCM < TIME_RETRY_UPDATE_TOKEN_FIREBASE.length
+      ) {
         timerUpdateToken = setTimeout(
           updateTokenFirebase,
-            TIME_RETRY_UPDATE_TOKEN_FIREBASE[CURRENT_RETRY_UPDATE_TOKEN_FCM],
+          TIME_RETRY_UPDATE_TOKEN_FIREBASE[CURRENT_RETRY_UPDATE_TOKEN_FCM],
         );
         CURRENT_RETRY_UPDATE_TOKEN_FCM++;
       } else {
@@ -635,8 +641,20 @@ const checkNotifyOfDay = () => {
   // Check trường hợp hiển thị ở các khung giờ khác nhau.
   const hoursOld = new Date(StatusNotifyRegister).getHours();
   for (let i = 0; i < ScheduleNotifyHour.length; i++) {
-    if (i === ScheduleNotifyHour.length - 1 && ScheduleNotifyHour[ScheduleNotifyHour.length - 1] <= hoursOld) return false;
-    if (ScheduleNotifyHour[i] <= hoursOld && ScheduleNotifyHour[i + 1] >= hoursOld && ScheduleNotifyHour[i] <= currentTimeOfHours && ScheduleNotifyHour[i + 1] >= currentTimeOfHours) return false;
+    if (
+      i === ScheduleNotifyHour.length - 1 &&
+      ScheduleNotifyHour[ScheduleNotifyHour.length - 1] <= hoursOld
+    ) {
+      return false;
+    }
+    if (
+      ScheduleNotifyHour[i] <= hoursOld &&
+      ScheduleNotifyHour[i + 1] >= hoursOld &&
+      ScheduleNotifyHour[i] <= currentTimeOfHours &&
+      ScheduleNotifyHour[i + 1] >= currentTimeOfHours
+    ) {
+      return false;
+    }
   }
   return true;
 };

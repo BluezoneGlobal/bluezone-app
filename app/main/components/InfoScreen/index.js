@@ -64,7 +64,7 @@ class InfoScreen extends React.Component {
               {formatMessage(message.title)} {version}
             </MediumText>
             <Text style={styles.date}>
-              {formatMessage(message.dateRelease)} 05/5/2020.
+              {formatMessage(message.dateRelease)} 10/05/2020.
             </Text>
             <View style={styles.viewDep}>
               <Text style={styles.description}>

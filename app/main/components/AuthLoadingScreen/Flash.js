@@ -41,7 +41,7 @@ class Flash extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.props.setLoadingModalFlash();
-    }, 3000);
+    }, 2500);
   }
 
   render() {
