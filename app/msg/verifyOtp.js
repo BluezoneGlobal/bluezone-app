@@ -72,8 +72,8 @@ export default defineMessages({
     id: 'bluezone.verifyOTP.otpsuccess',
     defaultMessage: 'Xác thực OTP thành công',
   },
-  textNumber: {
-    id: 'bluezone.verifyOTP.textNumber',
+  changePhoneNumber: {
+    id: 'bluezone.verifyOTP.changePhoneNumber',
     defaultMessage: 'Số điện thoại không đúng?',
   },
   pleaseEnterYourPhone: {

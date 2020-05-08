@@ -74,7 +74,7 @@ class HomeTabScreen extends React.Component {
             marginBottom: 5,
             fontSize: smallest,
           },
-            allowFontScaling: false
+          allowFontScaling: false,
         }}>
         <Tab.Screen
           name="Home"
@@ -95,10 +95,10 @@ class HomeTabScreen extends React.Component {
           options={{
             tabBarLabel: formatMessage(message.report),
             tabBarIcon: ({focused, color, size}) => (
-                <FastImage
-                  source={focused ? iconActive.Notify : icon.Notify}
-                  style={styles.iconSquare}
-                />
+              <FastImage
+                source={focused ? iconActive.Notify : icon.Notify}
+                style={styles.iconSquare}
+              />
             ),
           }}
         />

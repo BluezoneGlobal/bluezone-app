@@ -18,6 +18,8 @@
     "bluezone.home.updatePhoneNumber": "Update phone number",
     "bluezone.home.warn": "Warning",
     "bluezone.home.scanning": "Scanning...",
+    "bluezone.home.inviteContent": "Protect relatives and friends before the pandemic. Invite them to join the Bluezoner community",
+    "bluezone.home.inviteButton": "Ok",
 
     "bluezone.invite.title": "Invite",
     "bluezone.invite.productLabel1": "Protect your relatives and friends",
@@ -75,7 +77,7 @@
 
     "bluezone.verifyOTP.title": "Authentication",
     "bluezone.verifyOTP.enterPin": "We are sending the verification code to your phone number",
-    "bluezone.verifyOTP.textNumber": "The phone number is not correct?",
+    "bluezone.verifyOTP.changePhoneNumber": "The phone number is not correct?",
     "bluezone.verifyOTP.pleaseEnterPin": "Please enter the OTP code",
     "bluezone.verifyOTP.validPin": "Resend the message",
     "bluezone.verifyOTP.confirm": "Authentication",

@@ -1,6 +1,6 @@
-const NOTYFY_BY_TIMES_OPEN = 'timesOpen';
-const NOTYFY_BY_NUMBER_DAY = 'numberDay';
-const NOTYFY_BY_DATETIME = 'datetime';
+const NOTYFY_BY_TIMES_OPEN = 'timesOpen'; // Create after times the application is opened
+const NOTYFY_BY_NUMBER_DAY = 'numberDay'; // Create sau số ngày, tại thời điểm nào trong ngày
+const NOTYFY_BY_DATETIME = 'datetime';  // Create timestamp
 
 const typeDisplaySystem = 'notify';
 const typeDisplayModal = 'modal';
@@ -12,12 +12,6 @@ const CONFIG_NOTIFY_TYPES = {
 };
 
 const NOTIFY_INVITE_NUMBER = 112;
-
-const textDefault = {
-  buttonText: 'Đồng ý',
-  message:
-    'Bảo vệ người thân, bạn bè trước đại dịch. Hãy mời họ tham gia cộng đồng Bluezoner',
-};
 
 const hasModalNotify = (notify, timesOpenApp, firstTimeOpen) => {
   if (notify.typeDisplay !== typeDisplayModal) {
@@ -89,5 +83,4 @@ export {
   NOTIFY_INVITE_NUMBER,
   hasModalNotify,
   hasNotifySystem,
-  textDefault,
 };

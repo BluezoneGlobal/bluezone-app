@@ -80,6 +80,14 @@ export default defineMessages({
     id: 'bluezone.home.scanning',
     defaultMessage: 'bluezone.home.scanning',
   },
+  inviteContent: {
+    id: 'bluezone.home.inviteContent',
+    defaultMessage: 'bluezone.home.inviteContent',
+  },
+  inviteButton: {
+    id: 'bluezone.home.inviteButton',
+    defaultMessage: 'bluezone.home.inviteButton',
+  },
   Cancel: {
     id: 'bluezone.modal.Cancel',
     defaultMessage: 'bluezone.modal.Cancel',

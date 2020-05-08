@@ -17,6 +17,7 @@
   "BroadcastBleSleep": 15000,
   "ScanDevicesRun": 35000,
   "ScanDevicesSleep": 85000,
+  "IntervalRequestPermisson": 120000,
   "Beta": false,
   "ShareAppText": "Chia sẻ ứng dụng",
   "ShareAppText_en": "Share the app",
