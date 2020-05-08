@@ -44,7 +44,7 @@ export const messageNotifyOTP = {
 
 export const warn = {
   data: {
-    smallIcon: 'icon_bluezone',
+    smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
     text: 'Bạn có nguy cơ đã tiếp xúc với người nghi nhiễm bệnh',
@@ -67,7 +67,7 @@ export const warn = {
 
 export const verifyInfected = {
   data: {
-    smallIcon: 'icon_bluezone',
+    smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
     text: 'Bạn đã tiếp xúc với F0',
@@ -91,7 +91,7 @@ export const verifyInfected = {
 
 export const verifySafe = {
   data: {
-    smallIcon: 'icon_bluezone',
+    smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
     text: 'Chúc mừng bạn an toàn',

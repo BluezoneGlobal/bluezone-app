@@ -194,7 +194,7 @@ const checkNotify = async (notifyObj, language) => {
     return;
   }
 
-  switch (notifyObj.data.group) {
+  switch (notifyObj.data.group.toUpperCase()) {
     case 'INFO':
     case 'SERVICE':
     case 'PERMISSION':

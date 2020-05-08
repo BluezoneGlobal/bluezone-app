@@ -74,7 +74,6 @@ class CountDown extends React.Component {
   countDown() {
     const milisecond = new Date().getTime() - this.timeStart;
     const timeValue = TimeCountDownOTP - Math.round(milisecond / 1000);
-    console.log(timeValue);
 
     if (timeValue >= 0) {
       this.setState({

@@ -347,12 +347,12 @@ class HistoryScanScreen extends React.Component {
                 </View>
               )}
               {/*<ButtonIconText*/}
-              {/*  onPress={this.onSendHistory}*/}
-              {/*  text={formatMessage(warning.uploadText)}*/}
-              {/*  source={require('../NotifyWarning/styles/images/send.png')}*/}
-              {/*  styleBtn={styles.buttonSend}*/}
-              {/*  styleText={{fontSize: fontSize.normal}}*/}
-              {/*  styleIcon={styles.buttonIcon}*/}
+              {/*    onPress={this.onSendHistory}*/}
+              {/*    text={formatMessage(warning.uploadText)}*/}
+              {/*    source={require('../NotifyWarning/styles/images/send.png')}*/}
+              {/*    styleBtn={styles.buttonSend}*/}
+              {/*    styleText={{fontSize: fontSize.normal}}*/}
+              {/*    styleIcon={styles.buttonIcon}*/}
               {/*/>*/}
             </View>
           </View>
