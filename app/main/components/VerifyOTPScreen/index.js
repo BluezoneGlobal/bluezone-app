@@ -232,9 +232,6 @@ class VerifyOTPScreen extends React.Component {
             ]}>
             <Text style={styles.text1}>{formatMessage(message.enterPin)}</Text>
             <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
-            <Text style={styles.textNumber} onPress={this.onBack}>
-              {formatMessage(message.changePhoneNumber)}
-            </Text>
           </Animated.View>
           <TextInput
             ref={ref => (this.ref = ref)}
