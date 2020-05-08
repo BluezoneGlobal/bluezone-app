@@ -46,6 +46,7 @@ import styles from './styles/index.css';
 import {getTokenFirebase} from '../../../CloudMessaging';
 import IconBluezone from './styles/images/IconBluezone';
 import {LOGO_HEIGHT} from './styles/index.css';
+import {blue_bluezone} from '../../../utils/color';
 
 const TIMEOUT = 3000;
 
@@ -133,7 +134,7 @@ class AuthLoadingScreen extends React.Component {
         <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
         <View style={styles.body}>
           {!isStatusF && !isFirstLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color={blue_bluezone} />
           ) : isStatusF ? (
             <>
               <FastImage
@@ -151,7 +152,7 @@ class AuthLoadingScreen extends React.Component {
             </>
           ) : (
             <>
-              <ActivityIndicator size="large" color="#0000ff" />
+              <ActivityIndicator size="large" color={blue_bluezone} />
               <Text
                 text={'Đang khởi tạo cho lần sử dụng đầu tiên'}
                 style={styles.text}

@@ -31,6 +31,9 @@ const HEADER_BACKGROUND_HEIGHT = heightPercentageToDP((152.4 / 720) * 100);
 const FOOTER_PADDING_BOTTOM = heightPercentageToDP((38 / 720) * 100);
 const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
 const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
+const LOGO_BLUEZONE_HEIGHT = heightPercentageToDP((34.6 / 720) * 100);
+const LOGO_BLUEZONE_WIDTH = heightPercentageToDP((28.8 / 720) * 100);
+
 
 const styles = StyleSheet.create({
   background: {
@@ -348,6 +351,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT};
+export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH};
 
 export default styles;

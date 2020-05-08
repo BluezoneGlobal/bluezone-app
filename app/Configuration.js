@@ -35,7 +35,7 @@ import {
 import {DOMAIN} from './apis/server';
 
 // CONST
-const TIME_RETRY = [0, 0, 0, 0, 0];
+let TIME_RETRY = [0, 0, 0, 0, 0];
 const TIME_RETRY_UPDATE_TOKEN_FIREBASE = [
   1000,
   2000,
@@ -485,12 +485,8 @@ const setTokenFirebase = TokenFirebase => {
   }
 };
 
-const registerUser = async (
-  TokenFirebase,
-  successCb,
-  errorCb,
-  TIME_RETRY = TIME_RETRY,
-) => {
+const registerUser = async (TokenFirebase, successCb, errorCb, timeRetry) => {
+  TIME_RETRY = timeRetry ? timeRetry : TIME_RETRY;
   if (REGISTER_USER_RUNNING || configuration.TokenFirebase) {
     return;
   }
@@ -524,14 +520,12 @@ const registerUser = async (
       // Start kich ban thu lai lien tuc toi khi duoc
       timerRegister && clearTimeout(timerRegister);
       if (CURRENT_RETRY < TIME_RETRY.length) {
-        console.log('CURRENT_RETRY', CURRENT_RETRY);
         timerRegister = setTimeout(
-          () => registerUser(TokenFirebase, successCb, errorCb),
+          () => registerUser(TokenFirebase, successCb, errorCb, timeRetry),
           TIME_RETRY[CURRENT_RETRY],
         );
         CURRENT_RETRY++;
       } else {
-        console.log('errorCb', errorCb);
         errorCb && errorCb(error);
         CURRENT_RETRY = 0;
       }

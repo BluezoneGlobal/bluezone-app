@@ -61,9 +61,9 @@ import configuration, {
   checkNotifyOfDay,
   setStatusNotifyRegister,
 } from '../../../Configuration';
-import AuthLoadingScreen from '../AuthLoadingScreen';
-import {open, replaceNotify, writeNotifyDb} from '../../../db/SqliteDb';
+import {replaceNotify} from '../../../db/SqliteDb';
 import {navigationRef} from '../../../../RootNavigation';
+import Flash from '../AuthLoadingScreen/Flash';
 
 class ModalNotify extends React.Component {
   constructor(props) {
@@ -194,6 +194,8 @@ class ModalNotify extends React.Component {
       if (
         this.statusWrite !== '' &&
         this.state.isVisibleLocation === false &&
+        this.state.isVisibleBLE === false &&
+        this.state.isVisibleBLE === false &&
         navigations.routes.length === 1 &&
         navigations.routes[0].name === 'Home' &&
         navigations.routes[0].state.index === 0
@@ -503,7 +505,7 @@ class ModalNotify extends React.Component {
           backdropTransitionOutTiming={600}
           swipeDirection={['up', 'left', 'right', 'down']}>
           <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+            <Flash setLoadingModalFlash={this.setLoadingModalFlash} />
           </View>
         </Modal>
 

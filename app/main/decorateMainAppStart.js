@@ -58,6 +58,7 @@ function decorateMainAppStart(AppStack) {
             TokenFB,
             this.registerUserSuccess,
             this.registerUserError,
+            TIME_RETRY,
           ),
         );
       }

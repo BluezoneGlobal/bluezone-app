@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: large,
     color: '#000000',
-    marginBottom: 10,
   },
 });
 
