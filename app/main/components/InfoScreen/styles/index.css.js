@@ -29,7 +29,7 @@ import {heightPercentageToDP} from '../../../../utils/dimension';
 const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((216 / 720) * 100);
 const LOGO_HEIGHT = heightPercentageToDP((110.6 / 720) * 100);
 const TITLE_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
-const DATE_PADDINGBOTTOM = heightPercentageToDP((30 / 720) * 100);
+const DATE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
@@ -44,12 +44,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  iconLogo: {
-    height: LOGO_HEIGHT,
-    width: LOGO_HEIGHT,
-  },
-
   body: {
+    flex: 1,
     paddingTop: TITLE_PADDINGTOP,
     paddingHorizontal: 20
   },
@@ -57,6 +53,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: fontSize.huge,
     color: '#000000',
+  },
+
+  viewDep: {
+    flex: 1,
+    justifyContent: 'center',
+    // alignItems: 'center',
   },
 
   description: {
@@ -96,5 +98,9 @@ const styles = StyleSheet.create({
     color: '#0166de',
   },
 });
+
+export {
+  LOGO_HEIGHT
+}
 
 export default styles;

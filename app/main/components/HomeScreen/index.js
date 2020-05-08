@@ -22,7 +22,7 @@
 'use strict';
 
 import React from 'react';
-import {View, TouchableOpacity, StatusBar, Dimensions} from 'react-native';
+import {View, StatusBar, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
 
@@ -48,15 +48,14 @@ import {
 } from '../../../utils/notifyConfiguration';
 
 // Styles
-import style, {HEADER_BACKGROUND_HEIGHT} from './styles/index.css';
+import style, {HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH} from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
 import * as PropTypes from 'prop-types';
 
-// Test notify
-// import {checkNotify} from '../../../db/SqliteDb';
-// import {warn, verifyInfected, verifySafe} from '../ModalNotify/data';
+// Logo
+import LogoBluezone from '../../../utils/logo/logo_bluezone';
 
 class HomeTab extends React.Component {
   constructor(props) {
@@ -198,10 +197,7 @@ class HomeTab extends React.Component {
           <View style={{backgroundColor: '#015cd0'}}>
             <View style={style.switchLanguage}>
               <View style={style.logo}>
-                <FastImage
-                  source={require('./styles/images/icon_bluezone.png')}
-                  style={style.iconLogoBluezone}
-                />
+                <LogoBluezone width={28.8} height={34.6}/>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                   <Text
                     style={{

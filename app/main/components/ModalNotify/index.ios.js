@@ -33,7 +33,7 @@ import Modal from 'react-native-modal';
 import {View, AppState, Linking, Platform} from 'react-native';
 import ModalBase from './ModalBase';
 import Text, {MediumText} from '../../../base/components/Text';
-import AuthLoadingScreen from '../AuthLoadingScreen';
+import Flash from '../AuthLoadingScreen/Flash';
 import ButtonText from '../../../base/components/ButtonText';
 import {getCheckVersions} from '../../../apis/bluezone';
 import getStatusUpdate from '../../../utils/getStatusUpdate';
@@ -339,7 +339,7 @@ class ModalNotify extends React.Component {
           backdropTransitionOutTiming={600}
           swipeDirection={['up', 'left', 'right', 'down']}>
           <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-            <AuthLoadingScreen setLoading={this.setLoadingModalFlash} />
+            <Flash setLoadingModalFlash={this.setLoadingModalFlash} />
           </View>
         </Modal>
         <Modal

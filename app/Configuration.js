@@ -516,7 +516,7 @@ const registerUser = async (
       if (CURRENT_RETRY < TIME_RETRY.length) {
         console.log('CURRENT_RETRY', CURRENT_RETRY);
         timerRegister = setTimeout(
-          () => registerUser(TokenFirebase, successCb, errorCb),
+          () => registerUser(TokenFirebase, successCb, errorCb, TIME_RETRY),
           TIME_RETRY[CURRENT_RETRY],
         );
         CURRENT_RETRY++;

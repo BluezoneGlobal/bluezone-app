@@ -32,9 +32,12 @@ import FastImage from 'react-native-fast-image';
 import Text, {MediumText} from '../../../base/components/Text';
 
 // Styles
-import styles from './styles/index.css';
+import styles, {LOGO_HEIGHT} from './styles/index.css';
 import {injectIntl, intlShape} from 'react-intl';
 import message from '../../../msg/info';
+
+// Logo
+import LogoBluezone from '../../../utils/logo/logo_bluezone';
 
 class InfoScreen extends React.Component {
   constructor(props) {
@@ -54,10 +57,7 @@ class InfoScreen extends React.Component {
         <StatusBar hidden={true} />
         <View style={{flex: 1}}>
           <View style={styles.containerLogo}>
-            <FastImage
-              source={require('./styles/images/icon_bluezone.png')}
-              style={styles.iconLogo}
-            />
+            <LogoBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
           </View>
           <View style={styles.body}>
             <MediumText style={styles.title}>
@@ -66,11 +66,11 @@ class InfoScreen extends React.Component {
             <Text style={styles.date}>
               {formatMessage(message.dateRelease)} 05/5/2020.
             </Text>
-            <Text />
-            <Text style={styles.description}>
-              {formatMessage(message.description)}
-            </Text>
-            <Text />
+            <View style={styles.viewDep}>
+              <Text style={styles.description}>
+                {formatMessage(message.description)}
+              </Text>
+            </View>
             <View style={styles.textBottom}>
               <Text style={styles.textContact}>
                 {formatMessage(message.detail)}
