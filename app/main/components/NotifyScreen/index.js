@@ -174,7 +174,7 @@ class NotifyScreen extends React.Component {
     );
 
     const {_group} = item;
-    switch (_group.toLowerCase()) {
+    switch (_group.toUpperCase()) {
       case 'INFO':
       case 'SERVICE':
       case 'PERMISSION':
