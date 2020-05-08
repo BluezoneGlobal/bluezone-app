@@ -57,7 +57,6 @@ import {messageNotifyOTP} from './data';
 
 // Styles
 import styles from './styles/index.css';
-import PushNotification from 'react-native-push-notification';
 import {replaceNotify} from '../../../db/SqliteDb';
 
 class ModalNotify extends React.Component {

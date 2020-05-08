@@ -60,8 +60,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(11,147,35)',
   },
   pickerAndroid: {
-    height: 46,
-    width: 150,
+    // height: 46,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     color: '#015cd0',
   },
   pickerIOS: {
@@ -157,8 +159,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     borderWidth: 1,
     borderColor: '#015cd0',
-    // width: '100%',
-    height: 44,
     position: 'relative',
   },
   textDes: {

@@ -133,8 +133,8 @@ android {
         applicationId "com.mic.bluezone"
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.6" // 1.0.6-deploygate  1.0.6-deploygate.dev
+        versionCode 19
+        versionName "1.1.0" // 1.0.6-deploygate  1.0.6-deploygate.dev
         multiDexEnabled true
     }
     splits {

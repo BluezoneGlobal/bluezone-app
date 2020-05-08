@@ -18,6 +18,8 @@
   "bluezone.home.updatePhoneNumber": "Cập nhật số điên thoại",
   "bluezone.home.warn": "Cảnh báo",
   "bluezone.home.scanning": "Đang quét...",
+  "bluezone.home.inviteContent": "Bảo vệ người thân, bạn bè trước đại dịch. Hãy mời họ tham gia cộng đồng Bluezoner",
+  "bluezone.home.inviteButton": "Đồng ý",
 
   "bluezone.invite.title": "Mời",
   "bluezone.invite.productLabel1": "Bảo vệ người thân, bạn bè trước",
@@ -28,7 +30,7 @@
   "bluezone.trace.header": "Quét xung quanh",
   "bluezone.trace.aroundYou": "Xung quanh bạn",
   "bluezone.trace.bluezoner": "Bluezoner",
-  "bluezone.trace.bluezoners": "Bluezoners",
+  "bluezone.trace.bluezoners": "Bluezoner",
   "bluezone.trace.nearYou": "Ở gần bạn",
   "bluezone.trace.around": "Ở xa",
   "bluezone.trace.invite": "Mời",
@@ -48,7 +50,7 @@
   "bluezone.history.closeContact": "Tiếp xúc gần",
   "bluezone.history.people": "Người",
   "bluezone.history.bluezoner": "Bluezoner",
-  "bluezone.history.bluezoners": "Bluezoners",
+  "bluezone.history.bluezoners": "Bluezoner",
 
   "bluezone.auth.label1": "Chưa phát hiện",
   "bluezone.auth.label2": "F0 nào tiếp xúc gần với bạn",
@@ -74,7 +76,7 @@
 
   "bluezone.verifyOTP.title": "Xác thực",
   "bluezone.verifyOTP.enterPin": "Chúng tôi đang gửi Mã xác thực đến số điện thoại của bạn",
-  "bluezone.verifyOTP.textNumber": "Số điện thoại không đúng?",
+  "bluezone.verifyOTP.changePhoneNumber": "Thay đổi số điện thoại ?",
   "bluezone.verifyOTP.pleaseEnterPin": "Vui lòng nhập mã OTP",
   "bluezone.verifyOTP.validPin": "Gửi lại tin nhắn",
   "bluezone.verifyOTP.confirm": "Xác thực",

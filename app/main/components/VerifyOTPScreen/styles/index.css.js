@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
   layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
   text3: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.normal,
     lineHeight: 25,
     color: blue_bluezone,
   },
@@ -92,13 +92,8 @@ const styles = StyleSheet.create({
     borderRadius: 28,
   },
 
-  textSendOTPActive: {
-    color: blue_bluezone,
-    paddingHorizontal: 36,
-  },
-
   textSendOTP: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.normal,
     lineHeight: 25,
     color: blue_bluezone,
     paddingBottom: 20,
@@ -140,7 +135,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   textTimer: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.normal,
     lineHeight: 25,
     color: blue_bluezone,
   },
@@ -222,7 +217,7 @@ const styles = StyleSheet.create({
 
   textNumber: {
     textAlign: 'center',
-    color: '#f18b25'
+    color: '#f18b25',
   },
 
   buttonInvite: {
@@ -235,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.normal,
     color: blue_bluezone,
     paddingHorizontal: 20,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
 
   textBtnSkip: {

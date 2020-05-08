@@ -43,7 +43,6 @@ import SwitchLanguage from './SwitchLanguage';
 import configuration from '../../../Configuration';
 import {
   hasModalNotify,
-  textDefault,
   NOTIFY_INVITE_NUMBER,
 } from '../../../utils/notifyConfiguration';
 
@@ -149,6 +148,8 @@ class HomeTab extends React.Component {
   };
 
   considerNotify(timesOpenApp, firstTimeOpen) {
+    const {intl, navigation} = this.props;
+    const {formatMessage} = intl;
     const notifys = configuration.Notifications;
     if (notifys.length === 0) {
       return;
@@ -165,10 +166,10 @@ class HomeTab extends React.Component {
           titleModal: en ? notifys[i].title_en : notifys[i].title,
           messageModal:
             (en ? notifys[i].message_en : notifys[i].message) ||
-            textDefault.message,
+            formatMessage(message.inviteContent),
           buttonText:
             (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
-            textDefault.buttonText,
+            formatMessage(message.inviteButton),
         });
         return;
       }
