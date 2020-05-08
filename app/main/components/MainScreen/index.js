@@ -74,6 +74,7 @@ class HomeTabScreen extends React.Component {
             marginBottom: 5,
             fontSize: smallest,
           },
+            allowFontScaling: false
         }}>
         <Tab.Screen
           name="Home"

@@ -23,7 +23,7 @@
 
 export const messageNotifyOTP = {
   data: {
-    notifyId: '1234',
+    notifyId: 'notifyOTP',
     smallIcon: 'icon_bluezone_service',
     largeIcon: '',
     title: 'Bluezone',
@@ -111,7 +111,7 @@ export const verifySafe = {
 
 export const messageNotifyOTPSuccess = {
   data: {
-    notifyId: '4444',
+    notifyId: 'notifyOTP',
     smallIcon: 'icon_bluezone_service',
     timestamp: new Date().getTime(),
     unRead: 0,

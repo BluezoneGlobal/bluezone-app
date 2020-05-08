@@ -635,14 +635,8 @@ const checkNotifyOfDay = () => {
   // Check trường hợp hiển thị ở các khung giờ khác nhau.
   const hoursOld = new Date(StatusNotifyRegister).getHours();
   for (let i = 0; i < ScheduleNotifyHour.length; i++) {
-    if (
-      (i === ScheduleNotifyHour.length - 1 &&
-        ScheduleNotifyHour[ScheduleNotifyHour.length - 1] < hoursOld) ||
-      (ScheduleNotifyHour[i] <= hoursOld &&
-        ScheduleNotifyHour[i + 1] >= hoursOld)
-    ) {
-      return false;
-    }
+    if (i === ScheduleNotifyHour.length - 1 && ScheduleNotifyHour[ScheduleNotifyHour.length - 1] <= hoursOld) return false;
+    if (ScheduleNotifyHour[i] <= hoursOld && ScheduleNotifyHour[i + 1] >= hoursOld && ScheduleNotifyHour[i] <= currentTimeOfHours && ScheduleNotifyHour[i + 1] >= currentTimeOfHours) return false;
   }
   return true;
 };
