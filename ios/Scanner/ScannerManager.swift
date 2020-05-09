@@ -11,12 +11,11 @@ import CoreBluetooth
 
 @objc(ScannerManager)
 public class ScannerManager: RCTViewManager {
-
-  // Bluetooth
-  // Phát
+    // Bluetooth
+    // Phát
   var peripheralManager: CBPeripheralManager!
-
-  var  db: DBHelper = DBHelper()
+    
+    var db = ContactLogDBHelper()
   var timer = Timer()
   
   // Delay ban vao su kien
@@ -30,7 +29,7 @@ public class ScannerManager: RCTViewManager {
   var mBlePeripheral: BlePeripheralManager!
 
   // Bien luu thong tin scan duoc
-  private var mScannedUserId = [(userId : String, time: Int64)]()
+  private var mScannedUserId = [(contactBlId : Data, time: Int64)]()
 
   @objc func setOnGetUUId(callback:RCTDirectEventBlock) {
     //       super.init()
@@ -102,40 +101,43 @@ public class ScannerManager: RCTViewManager {
       mBlePeripheral.startAdvertising(onSuccess: {(isSucces) -> Void in}, onError: {(error) -> Void in})
   }
   
-  /*
-   * Scan Peripheral
-   */
-  private func scanPeripheral() {
-//    if #available(iOS 10.0, *) {
-//      AppUtils.createAndRequest(content: AppUtils.createNotificationContent(title: "HumanShield", body: "Bộ Y Tế khuyến cáo moị người giữ gìn sức khỏe và chỉ ra ngoài nếu cần thiết"))
-//    } else {
-//      // Fallback on earlier versions
-//    }
-      // Khởi tao
-      mBleCentral = BleCentralManager()
-      
-      // Scan
-      mBleCentral.scanPeripheral(onDataScan: {(nameScan, identifier, rssi) -> Void in
-          // Check tên gửi sang
-            if !nameScan.isEmpty && self.checkUserIdInsert(userId: nameScan) {
+    /*
+     * Scan Peripheral
+     */
+    private func scanPeripheral() {
+        // Khởi tao
+        mBleCentral = BleCentralManager()
+        
+        // Scan
+        mBleCentral.scanPeripheral(onDataScan: {(contactBlId, identifier, rssi, txPower) -> Void in
+            // Check check insert blid
+            if self.checkUserIdInsert(contactBlID: contactBlId) {
                 
-                 if (self.bridge != nil) {
-                   // Check xem app da ton tai trong thoi gian truoc do
-                   let result : AnyHashable = [
-                       "id":nameScan,
-                       "address": "",
-                       "rssi": String(rssi)
-                   ]
-                   
-                   let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
-                   module.onGetUUId(result)
-                 }
+                if (self.bridge != nil) {
+                    let result : AnyHashable = [
+                        "id": contactBlId.hexEncodedString(options: .upperCase),
+                        "address": "",
+                        "rssi": String(rssi)]
+                    
+                    let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
+                    module.onGetUUId(result)
+                }
+                
+            let timestamp = Date().currentTimeMillis()
+                let builder = LogBuilder()
 
-                let timestamp = Date().currentTimeMillis()
-              let scan: CovidLog = CovidLog(userId: nameScan, macId: "", timestamp: timestamp, rssi: Int32(rssi))
-              
+                let scan = builder.setRssi(rssi: Int32(rssi))
+                    .setTxPower(tx: Int32(txPower))
+                    .setMacId(macId: identifier)
+                    .setOwerBlId(blId: BluezoneIdGenerator.init().getBluezoneId())
+                    .setState(state: 0)
+                    .setContactBlId(contactBlId: contactBlId)
+                    .setTimestamp(time: timestamp)
+                    .build()
+            
                 self.db.insert(scan:scan)
             }
+        
         }, onError: {(error) -> Void in
             // Check co loi ko
             if !error.isEmpty {
@@ -147,27 +149,22 @@ public class ScannerManager: RCTViewManager {
     /*
      * Check user id insert
      */
-  func checkUserIdInsert(userId: String) -> Bool {
-    
-      var ret: Bool = true;
-
-      let time = Date().currentTimeMillis()
-
-      if (userId == "and111") {
-            print("and111")
-        }
-
+    func checkUserIdInsert(contactBlID: Data) -> Bool {
+        var ret: Bool = true;
+        
+        let time = Date().currentTimeMillis()
+        
         print(self.mScannedUserId)
     
         // Check scan
         if self.mScannedUserId.count > 0 {
             // Check da luu
             for item in self.mScannedUserId {
-                let userSave: String = item.userId
+                let dataSave: Data = item.contactBlId
                 let timeSave: Int64 = item.time
               
                 // Check insert
-               if userSave.elementsEqual(userId) && (time - timeSave < TIME_DELAY) {
+                if dataSave == contactBlID && (time - timeSave < TIME_DELAY) {
                    // Dung
                    ret = false;
                 }
@@ -176,11 +173,11 @@ public class ScannerManager: RCTViewManager {
             // Check
             if (ret) {
                  // Remove va insert vao
-                 self.mScannedUserId.removeAll{$0.userId == userId}
-                 self.mScannedUserId.append((userId, time))
+                 self.mScannedUserId.removeAll{$0.contactBlId == contactBlID}
+                 self.mScannedUserId.append((contactBlID, time))
             }
         } else {
-            self.mScannedUserId.append((userId, time))
+            self.mScannedUserId.append((contactBlID, time))
             ret = true;
         }
 
@@ -218,3 +215,4 @@ extension Date {
         return Int64(self.timeIntervalSince1970 * 1000)
     }
 }
+

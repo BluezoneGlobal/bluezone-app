@@ -66,7 +66,7 @@ export default defineMessages({
   },
   historyButton: {
     id: 'bluezone.home.historyButton',
-    defaultMessage: ' Lịch sử tiếp xúc ',
+    defaultMessage: 'Lượt tiếp xúc',
   },
   scheduleNotifyOTP: {
     id: 'bluezone.home.scheduleNotifyOTP',

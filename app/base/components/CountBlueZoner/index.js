@@ -21,31 +21,30 @@
 
 'use strict';
 
-import {defineMessages} from 'react-intl';
+import React from 'react';
+import {View} from 'react-native';
 
-export default defineMessages({
-  header: {
-    id: 'bluezone.history.header',
-    defaultMessage: 'Lịch sử tiếp xúc',
-  },
-  totalContact: {
-    id: 'bluezone.history.totalContact',
-    defaultMessage: 'Tổng tiếp xúc',
-  },
-  closeContact: {
-    id: 'bluezone.history.closeContact',
-    defaultMessage: 'Lượt tiếp xúc gần',
-  },
-  people: {
-    id: 'bluezone.history.people',
-    defaultMessage: 'Người',
-  },
-  bluezoner: {
-    id: 'bluezone.history.bluezoner',
-    defaultMessage: 'Bluezoner',
-  },
-  bluezoners: {
-    id: 'bluezone.history.bluezoners',
-    defaultMessage: 'Bluezoners',
-  },
-});
+// Components
+import Text from '../Text';
+
+// Style
+import styles from './styles/index.css';
+import {blue_bluezone} from '../../../utils/color';
+
+function CountBlueZoner(props) {
+    const {backgroundColor, countBlueZone} = props;
+    return (
+        <View style={styles.infoBluezone}>
+            <View style={[styles.infoBluezone1, {backgroundColor: backgroundColor}]}>
+                <Text style={styles.infoItemValue}>{countBlueZone}</Text>
+            </View>
+        </View>
+    );
+}
+
+CountBlueZoner.defaultProps = {
+    backgroundColor: blue_bluezone,
+    countBlueZone: 0,
+};
+
+export default CountBlueZoner;

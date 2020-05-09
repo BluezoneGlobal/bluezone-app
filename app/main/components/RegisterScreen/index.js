@@ -33,9 +33,7 @@ import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  KeyboardAvoidingView,
   Animated,
-  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -48,12 +46,14 @@ import ButtonText from '../../../base/components/ButtonText';
 import {CreateAndSendOTPCode} from '../../../apis/bluezone';
 
 // Styles
-import styles from './styles/index.css';
+import styles, {LOGO_HEIGHT} from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 
 import message from '../../../msg/register';
 import {injectIntl, intlShape} from 'react-intl';
 import FastImage from 'react-native-fast-image';
+
+import LogoBluezone from '../../components/AuthLoadingScreen/styles/images/IconBluezone';
 
 class RegisterScreen extends React.Component {
   // Render any loading content that you like here
@@ -167,13 +167,7 @@ class RegisterScreen extends React.Component {
           contentContainerStyle={{flex: 1}}
           keyboardShouldPersistTaps={'handled'}>
           <View style={styles.logoView}>
-            <Animated.Image
-              source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
-              style={[
-                styles.logo,
-                {height: this.imageHeight, width: this.imageHeight},
-              ]}
-            />
+            <LogoBluezone height={LOGO_HEIGHT} width={LOGO_HEIGHT} />
           </View>
           <View style={styles.layout1}>
             <Text style={styles.text2}>{formatMessage(message.title)}</Text>
@@ -184,6 +178,7 @@ class RegisterScreen extends React.Component {
               autoFocus={true}
               keyboardType={'number-pad'}
               style={styles.textInput}
+              allowFontScaling={false}
               placeholder={formatMessage(message.pleaseEnterYourPhone)}
               onChangeText={this.onChangeText}
             />

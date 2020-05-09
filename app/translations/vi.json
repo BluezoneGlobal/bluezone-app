@@ -13,7 +13,7 @@
   "bluezone.home.bluezoner": "Bluezoner",
   "bluezone.home.bluezoners": "Bluezoner",
   "bluezone.home.traceButton": "Quét xung quanh",
-  "bluezone.home.historyButton": " Lịch sử tiếp xúc ",
+  "bluezone.home.historyButton": " Lượt tiếp xúc ",
   "bluezone.home.scheduleNotifyOTP": "Bạn cần cập nhật số điện thoại để nhận được hỗ trợ trực tiếp trong trường hợp bạn tiếp xúc gần với người nhiễm Covid 19.",
   "bluezone.home.updatePhoneNumber": "Cập nhật số điên thoại",
   "bluezone.home.warn": "Cảnh báo",
@@ -45,9 +45,9 @@
   "bluezone.notify.registeredPhone": "Số điện thoại đã đăng ký",
   "bluezone.notify.noList": "Danh sách trống",
 
-  "bluezone.history.header": "Lịch sử tiếp xúc",
-  "bluezone.history.totalContact": "Tổng tiếp xúc",
-  "bluezone.history.closeContact": "Tiếp xúc gần",
+  "bluezone.history.header": "Lượt tiếp xúc",
+  "bluezone.history.totalContact": "Tổng lượt tiếp xúc",
+  "bluezone.history.closeContact": "Lượt tiếp xúc gần",
   "bluezone.history.people": "Người",
   "bluezone.history.bluezoner": "Bluezoner",
   "bluezone.history.bluezoners": "Bluezoner",
@@ -55,6 +55,7 @@
   "bluezone.auth.label1": "Chưa phát hiện",
   "bluezone.auth.label2": "F0 nào tiếp xúc gần với bạn",
   "bluezone.auth.titleLodding": "Đang khởi tạo Bluezone",
+  "bluezone.auth.close": "Đóng",
 
   "bluezone.modal.hasNewVersion": "Đã có phiên bản mới",
   "bluezone.modal.updateVersion": "Bạn hãy cập nhật để sử dụng các tính năng mới nhất",
@@ -91,7 +92,7 @@
 
   "bluezone.info.title": "Bluezone phiên bản",
   "bluezone.info.dateRelease": "Ngày phát hành:",
-  "bluezone.info.description": "Ứng dụng do Bộ Thông tin và Truyền thông, Bộ Y tế chủ trì, với sự tham gia phát triển của BKAV và cộng đồng CNTT, giúp người dân tự theo dõi các tiếp xúc gần, giúp bảo vệ bản thân, bảo vệ cộng đồng, góp phần phòng, chống dịch bệnh.",
+  "bluezone.info.description": "Ứng dụng do Bộ Thông tin và Truyền thông, Bộ Y tế chủ trì, với sự tham gia phát triển của Bkav và cộng đồng CNTT, giúp người dân tự theo dõi các tiếp xúc gần, giúp bảo vệ bản thân, bảo vệ cộng đồng, góp phần phòng, chống dịch bệnh.",
   "bluezone.info.detail": "Chi tiết xem tại:",
   "bluezone.info.linkDetail": "www.bluezone.gov.vn",
   "bluezone.info.infoDetail": "Thông tin liên hệ:",

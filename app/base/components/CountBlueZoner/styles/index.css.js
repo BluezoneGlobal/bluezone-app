@@ -22,54 +22,33 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {large} from '../../../../utils/fontSize';
-import {blue_bluezone} from '../../../../utils/color';
+import {biggested} from '../../../../utils/fontSize';
 import {heightPercentageToDP} from '../../../../utils/dimension';
 
-export const LOGO_HEIGHT = heightPercentageToDP((124 / 720) * 100);
-export const CONTAINER_MARGINVERTICAL = heightPercentageToDP((137 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((124 / 720) * 100);
+const SCANNING_STRONG_HEIGHT = heightPercentageToDP((100 / 720) * 100);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  logo: {
-    width: 124,
-    height: 124,
-  },
-
-  modalFlash: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: CONTAINER_MARGINVERTICAL,
-  },
-
-  body: {
-    alignItems: 'center',
-  },
-
-  icon_success: {
-    width: 58,
-    height: 59,
-    marginBottom: 32,
-  },
-
-  text: {
-    fontSize: large,
-    color: '#000000',
-  },
-
-  buttonInvite: {
-    position: 'absolute',
-    right: 20,
-    bottom: 20,
-  },
-
-  textInvite: {
-    color: blue_bluezone,
-  },
+    infoBluezone: {
+        backgroundColor: '#E5EEF9',
+        width: SCANNING_HEIGHT,
+        height: SCANNING_HEIGHT,
+        borderRadius: SCANNING_HEIGHT / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    infoBluezone1: {
+        width: SCANNING_STRONG_HEIGHT,
+        height: SCANNING_STRONG_HEIGHT,
+        borderRadius: SCANNING_STRONG_HEIGHT / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    infoItemValue: {
+        fontSize: biggested,
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
 });
 
 export default styles;

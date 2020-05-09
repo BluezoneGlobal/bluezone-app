@@ -31,7 +31,7 @@ import validateNotify from '../utils/validateNotification';
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
 
-const database_name = 'app_db.db';
+const database_name = 'app_db_2.db';
 const database_version = '1.0';
 const database_displayname = 'Bluezone database';
 const database_size = 20000000;

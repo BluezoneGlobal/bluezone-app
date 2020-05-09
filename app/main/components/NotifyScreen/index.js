@@ -35,18 +35,14 @@ import {injectIntl, intlShape} from 'react-intl';
 // Components
 import FastImage from 'react-native-fast-image';
 import Text, {MediumText} from '../../../base/components/Text';
-// import Header from '../../../base/components/Header';
 import NotifySession from './NotifySession';
-// import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Styles
 import styles from './styles/index.css';
-// import InviteScreen from "../InviteScreen";
 
 // Utils
 import {getNotifications, replaceNotify} from '../../../../app/db/SqliteDb';
 import message from '../../../msg/notify';
-import {messageNotifyOTP} from '../ModalNotify/data';
 
 class NotifyScreen extends React.Component {
   constructor(props) {

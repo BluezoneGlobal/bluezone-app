@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: fontSize.larger,
-    color: '#707070',
+    color: '#000000',
   },
 
   titleTextUnread: {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.smaller,
   },
   timer: {
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
   },
   textTimerUnread: {
     alignItems: 'flex-end',

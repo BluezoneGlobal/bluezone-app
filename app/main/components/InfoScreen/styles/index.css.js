@@ -27,27 +27,31 @@ import {blue_bluezone} from '../../../../utils/color';
 import {heightPercentageToDP} from '../../../../utils/dimension';
 
 const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((216 / 720) * 100);
-const LOGO_HEIGHT = heightPercentageToDP((110.6 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((73 / 720) * 100);
 const TITLE_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
 const DATE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: blue_bluezone,
   },
 
   containerLogo: {
     height: HEADER_BẠCKGROUND_LOGO,
     backgroundColor: blue_bluezone,
-    justifyContent: 'center',
+    paddingHorizontal: 69.2,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignItems: 'center',
   },
 
   body: {
     flex: 1,
-    paddingTop: TITLE_PADDINGTOP,
-    paddingHorizontal: 20
+    // paddingVertical: TITLE_PADDINGTOP,
+    paddingHorizontal: 20,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
   },
 
   title: {
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   viewDep: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     // alignItems: 'center',
   },
@@ -64,6 +68,12 @@ const styles = StyleSheet.create({
   description: {
     fontSize: fontSize.large,
     lineHeight: 25,
+  },
+
+  borderLogo: {
+    borderWidth: 0.4,
+    borderColor: '#ffffff',
+    height: LOGO_HEIGHT,
   },
 
   date: {
@@ -96,6 +106,9 @@ const styles = StyleSheet.create({
 
   linkweb: {
     color: '#0166de',
+    fontSize: fontSize.normal,
+    flexWrap: 'wrap',
+    flexDirection:'row',
   },
 });
 

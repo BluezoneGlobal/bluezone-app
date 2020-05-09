@@ -131,34 +131,36 @@ class AuthLoadingScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
-        <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
-        <View style={styles.body}>
-          {!isStatusF && !isFirstLoading ? (
-            <ActivityIndicator size="large" color={blue_bluezone} />
-          ) : isStatusF ? (
-            <>
-              <FastImage
-                source={require('./styles/images/success.png')}
-                style={styles.icon_success}
-              />
-              <MediumText
-                text={formatMessage(message.label1)}
-                style={styles.text}
-              />
-              <MediumText
-                text={formatMessage(message.label2)}
-                style={styles.text}
-              />
-            </>
-          ) : (
-            <>
-              <ActivityIndicator size="large" color={blue_bluezone} />
-              <Text
-                text={formatMessage(message.titleLodding)}
-                style={styles.text}
-              />
-            </>
-          )}
+        <View style={styles.modalFlash}>
+          <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
+          <View style={styles.body}>
+            {!isStatusF && !isFirstLoading ? (
+                <ActivityIndicator size="large" color={blue_bluezone} />
+            ) : isStatusF ? (
+                <>
+                  <FastImage
+                      source={require('./styles/images/success.png')}
+                      style={styles.icon_success}
+                  />
+                  <MediumText
+                      text={formatMessage(message.label1)}
+                      style={styles.text}
+                  />
+                  <MediumText
+                      text={formatMessage(message.label2)}
+                      style={styles.text}
+                  />
+                </>
+            ) : (
+                <>
+                  <ActivityIndicator size="large" color={blue_bluezone} />
+                  <Text
+                      text={formatMessage(message.titleLodding)}
+                      style={styles.text}
+                  />
+                </>
+            )}
+          </View>
         </View>
       </SafeAreaView>
     );

@@ -25,20 +25,22 @@ import {/* RFPercentage,*/ RFValue} from 'react-native-responsive-fontsize';
 
 const STANDARD_SCREEN_HEIGHT = 720; // Kích thước phông chữ được tính bằng tỷ lệ phần trăm của chiều cao (chiều rộng ở chế độ ngang) của thiết bị.
 
-export const smallest = RFValue(10, STANDARD_SCREEN_HEIGHT); // 12sp
+export const smallest = RFValue(10, STANDARD_SCREEN_HEIGHT);
 
-export const small = RFValue(12, STANDARD_SCREEN_HEIGHT); // 12sp
+export const small = RFValue(12, STANDARD_SCREEN_HEIGHT);
 
-export const smaller = RFValue(13, STANDARD_SCREEN_HEIGHT); // 12sp
+export const smaller = RFValue(13, STANDARD_SCREEN_HEIGHT);
 
-export const normal = RFValue(15, STANDARD_SCREEN_HEIGHT); // 15sp
+export const normal = RFValue(15, STANDARD_SCREEN_HEIGHT);
 
-export const large = RFValue(17, STANDARD_SCREEN_HEIGHT); // 16sp
+export const large = RFValue(17, STANDARD_SCREEN_HEIGHT);
 
-export const larger = RFValue(18, STANDARD_SCREEN_HEIGHT); // 17sp
+export const larger = RFValue(18, STANDARD_SCREEN_HEIGHT);
 
-export const huge = RFValue(21, STANDARD_SCREEN_HEIGHT); // 20sp
+export const huge = RFValue(21, STANDARD_SCREEN_HEIGHT);
 
-export const bigger = RFValue(24, STANDARD_SCREEN_HEIGHT); // 25sp
+export const bigger = RFValue(24, STANDARD_SCREEN_HEIGHT);
 
-export const biggest = RFValue(30, STANDARD_SCREEN_HEIGHT); // 25sp
+export const biggest = RFValue(30, STANDARD_SCREEN_HEIGHT);
+
+export const biggested = RFValue(35, STANDARD_SCREEN_HEIGHT);

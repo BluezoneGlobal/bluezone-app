@@ -26,16 +26,21 @@ import * as PropTypes from 'prop-types';
 import {SafeAreaView, StatusBar, View} from 'react-native';
 
 // Components
-import styles, {LOGO_HEIGHT} from './styles/index.css';
+import styles, {
+  CONTAINER_MARGINVERTICAL,
+  LOGO_HEIGHT,
+} from './styles/index.css';
 import IconBluezone from './styles/images/IconBluezone';
 import FastImage from 'react-native-fast-image';
 import {MediumText} from '../../../base/components/Text';
 import message from '../../../msg/auth';
 import {injectIntl, intlShape} from 'react-intl';
+import ButtonText from '../../../base/components/ButtonText';
 
 class Flash extends React.Component {
   constructor(props) {
     super(props);
+    this.onBack = this.onBack.bind(this);
   }
 
   componentDidMount() {
@@ -44,27 +49,39 @@ class Flash extends React.Component {
     }, 2500);
   }
 
+  onBack() {
+    this.props.setLoadingModalFlash();
+  }
+
   render() {
     const {intl} = this.props;
     const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
-        <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
-        <View style={styles.body}>
-          <FastImage
-            source={require('./styles/images/success.png')}
-            style={styles.icon_success}
-          />
-          <MediumText
-            text={formatMessage(message.label1)}
-            style={styles.text}
-          />
-          <MediumText
-            text={formatMessage(message.label2)}
-            style={styles.text}
-          />
+        <View style={styles.modalFlash}>
+          <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
+          <View style={styles.body}>
+            <FastImage
+              source={require('./styles/images/success.png')}
+              style={styles.icon_success}
+            />
+            <MediumText
+              text={formatMessage(message.label1)}
+              style={styles.text}
+            />
+            <MediumText
+              text={formatMessage(message.label2)}
+              style={styles.text}
+            />
+          </View>
         </View>
+        <ButtonText
+          text={`${formatMessage(message.close)}`}
+          onPress={this.onBack}
+          styleBtn={styles.buttonInvite}
+          styleText={styles.textInvite}
+        />
       </SafeAreaView>
     );
   }

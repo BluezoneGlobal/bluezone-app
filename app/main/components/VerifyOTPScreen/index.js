@@ -25,7 +25,6 @@ import React from 'react';
 import {
   SafeAreaView,
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
@@ -39,7 +38,7 @@ import {injectIntl, intlShape} from 'react-intl';
 import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountDown from './CountDown';
-import {MediumText} from '../../../base/components/Text';
+import Text, {MediumText} from '../../../base/components/Text';
 
 // Utils
 import {setToken, setPhoneNumber} from '../../../Configuration';
@@ -232,6 +231,9 @@ class VerifyOTPScreen extends React.Component {
             ]}>
             <Text style={styles.text1}>{formatMessage(message.enterPin)}</Text>
             <Text style={styles.textPhoneNumber}>{phoneNumber}</Text>
+            <Text style={styles.textNumber} onPress={this.onBack}>
+              {formatMessage(message.changePhoneNumber)}
+            </Text>
           </Animated.View>
           <TextInput
             ref={ref => (this.ref = ref)}

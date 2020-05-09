@@ -38,7 +38,7 @@ class DBHelper {
   
     // db
     var DATABASE_VERSION: Int = 1
-    let dbPath: String = "app_db.db"  //.sqlite"
+    let dbPath: String = "app_db_2.db"  //.sqlite"
     var db:OpaquePointer?
 
     // Ham khoi tao
@@ -267,12 +267,4 @@ class DBHelper {
         return false
     }
     
-}
-
-enum DataType: String {
-    case NULL
-    case INTEGER
-    case TEXT
-    case REAL
-    case BLOB
 }

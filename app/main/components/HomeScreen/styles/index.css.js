@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
   iconLogoMic: {
     width: 30,
     height: 30,
-    marginHorizontal: 10.6,
+    marginHorizontal: 14.6,
   },
 
   borderLogo: {
-    borderWidth: 0.2,
+    borderWidth: 0.4,
     borderColor: '#b5b5b5',
     height: 24,
   },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   iconLogoBoyte: {
     width: 30,
     height: 30,
-    marginLeft: 10.6,
+    marginLeft: 14.6,
   },
 
   center: {
@@ -294,12 +294,14 @@ const styles = StyleSheet.create({
     fontSize: fontSize.normal,
   },
 
+
+
   switchLanguage: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingTop: isIPhoneX ? 32 : 12,
+    paddingHorizontal: 16,
+    paddingTop: isIPhoneX ? 36 : 12,
     zIndex: 99,
   },
 
@@ -307,8 +309,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 15,
     alignItems: 'center',
-    height: 30,
-    backgroundColor: '#4f9cfa',
+    borderColor: '#ffffff',
+    borderWidth: 0.3,
   },
 
   btnLanguageActive: {
@@ -316,21 +318,22 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 26,
-    height: 26,
+    paddingVertical: 1,
+    paddingHorizontal: 8,
   },
 
   textBtnLanguageActive: {
     fontSize: fontSize.smallest,
     color: '#0166de',
     alignItems: 'center',
-    paddingVertical: 2,
-    fontWeight: '600',
+    paddingVertical: 1,
+    paddingHorizontal: 2,
+    // fontWeight: '600',
   },
 
   textBtnLanguage: {
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     fontSize: fontSize.smallest,
     color: '#ffffff',
   },

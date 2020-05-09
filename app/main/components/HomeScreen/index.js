@@ -55,6 +55,8 @@ import * as PropTypes from 'prop-types';
 
 // Logo
 import LogoBluezone from '../../../utils/logo/logo_bluezone';
+import IconBTT from './styles/images/IconBTT';
+import IconBYT from './styles/images/IconBYT';
 
 class HomeTab extends React.Component {
   constructor(props) {
@@ -199,27 +201,25 @@ class HomeTab extends React.Component {
             <View style={style.switchLanguage}>
               <View style={style.logo}>
                 <LogoBluezone width={28.8} height={34.6}/>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text
+                <View style={{flexDirection: 'column', paddingLeft: 8.8, paddingRight: 14.6}}>
+                  <MediumText
                     style={{
                       color: '#ffffff',
-                      fontSize: fontSize.huge,
-                      paddingHorizontal: 8.8,
+                      fontSize: fontSize.smaller,
+                      lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone
-                    <Text style={{fontSize: fontSize.smallest}}>.gov.vn</Text>
-                  </Text>
+                    Bluezone{'\n'}<Text style={{fontSize: fontSize.smallest, color: '#ffffff',}}>.gov.vn</Text>
+                  </MediumText>
                 </View>
                 <View style={style.borderLogo} />
-                <FastImage
-                  source={require('./styles/images/icon_mic.png')}
-                  style={style.iconLogoMic}
-                />
+                <View style={{marginHorizontal: 14.6,}}>
+                  <IconBTT width={30} height={30} />
+                </View>
                 <View style={style.borderLogo} />
-                <FastImage
-                  source={require('./styles/images/icon_boyte.png')}
-                  style={style.iconLogoBoyte}
-                />
+                <View style={{marginLeft: 14.6}}>
+                  <IconBYT width={30} height={30} />
+                </View>
               </View>
               <SwitchLanguage />
             </View>
