@@ -25,8 +25,8 @@ import {StyleSheet} from 'react-native';
 import {small, normal, larger, large, bigger, biggest} from '../../../../utils/fontSize';
 import {heightPercentageToDP} from '../../../../utils/dimension';
 
-const SCANNING_HEIGHT = heightPercentageToDP((100 / 720) * 100);
-const SCANNING_STRONG_HEIGHT = heightPercentageToDP((80 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((124 / 720) * 100);
+const SCANNING_STRONG_HEIGHT = heightPercentageToDP((100 / 720) * 100);
 const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((210 / 720) * 100);
 
 const styles = StyleSheet.create({
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   },
   infoItemDesc: {
     color: '#484848',
-    fontSize: normal,
-    paddingTop: 15,
+    fontSize: large,
+    paddingTop: 9,
     paddingBottom: 25,
     textAlign: 'center',
   },
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 
   listEmptyText: {
     color: '#484848',
-    fontSize: large,
+    fontSize: normal,
   },
 
   buttonInvite: {

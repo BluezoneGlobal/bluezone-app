@@ -25,9 +25,8 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 
 // Components
-import {SafeAreaView, StatusBar, View, Linking} from 'react-native';
+import {SafeAreaView, StatusBar, View, Linking, TouchableOpacity} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import FastImage from 'react-native-fast-image';
 
 import Text, {MediumText} from '../../../base/components/Text';
 
@@ -38,6 +37,9 @@ import message from '../../../msg/info';
 
 // Logo
 import LogoBluezone from '../../../utils/logo/logo_bluezone';
+import IconBYT from '../HomeScreen/styles/images/IconBYT';
+import IconBTT from '../HomeScreen/styles/images/IconBTT';
+import style from '../HomeScreen/styles/index.css';
 
 class InfoScreen extends React.Component {
   constructor(props) {
@@ -57,30 +59,36 @@ class InfoScreen extends React.Component {
         <StatusBar hidden={true} />
         <View style={{flex: 1}}>
           <View style={styles.containerLogo}>
-            <LogoBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
+            <IconBTT height={LOGO_HEIGHT} width={LOGO_HEIGHT} />
+            <View style={styles.borderLogo} />
+            <IconBYT height={LOGO_HEIGHT} width={LOGO_HEIGHT} />
           </View>
           <View style={styles.body}>
-            <MediumText style={styles.title}>
-              {formatMessage(message.title)} {version}
-            </MediumText>
-            <Text style={styles.date}>
-              {formatMessage(message.dateRelease)} 10/05/2020.
-            </Text>
+            <View />
+            <View>
+              <MediumText style={styles.title}>
+                {formatMessage(message.title)} {version}
+              </MediumText>
+              <Text style={styles.date}>
+                {formatMessage(message.dateRelease)} 10/05/2020.
+              </Text>
+            </View>
             <View style={styles.viewDep}>
               <Text style={styles.description}>
                 {formatMessage(message.description)}
               </Text>
             </View>
-            <View style={styles.textBottom}>
+            <View>
               <Text style={styles.textContact}>
                 {formatMessage(message.detail)}
               </Text>
-              <Text
-                style={styles.linkweb}
-                onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
-                {formatMessage(message.linkDetail)}
-              </Text>
-              <Text />
+              <TouchableOpacity style={{flexDirection: 'column'}} onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
+                <Text style={styles.linkweb}>
+                  {formatMessage(message.linkDetail)}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View>
               <Text style={styles.textContact}>
                 {formatMessage(message.infoDetail)}
               </Text>
@@ -92,6 +100,7 @@ class InfoScreen extends React.Component {
                 {formatMessage(message.email)}
               </Text>
             </View>
+            <View />
           </View>
         </View>
       </SafeAreaView>

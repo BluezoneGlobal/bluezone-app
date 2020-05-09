@@ -38,11 +38,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
-import ButtonIconText from '../../../base/components/ButtonIconText';
+import CountBlueZoner from '../../../base/components/CountBlueZoner';
 
 // Language
 import message from '../../../msg/history';
-import warning from '../../../msg/warning';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Config
@@ -50,11 +49,9 @@ import configuration from '../../../Configuration';
 
 // Sqlite db
 import {open} from '../../../db/SqliteDb';
-import {uploadHistoryF0} from '../../../apis/bluezone';
 
 // Style
 import styles from './styles/index.css';
-import * as fontSize from '../../../utils/fontSize';
 
 const ONE_DAY = 86400000;
 
@@ -298,16 +295,7 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.totalContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={styles.bluezone}>
-                  <MediumText style={styles.textValue}>
-                    {totalBluezoner}
-                  </MediumText>
-                  <Text style={styles.text}>
-                    {totalBluezoner > 1
-                      ? formatMessage(message.bluezoners)
-                      : formatMessage(message.bluezoner)}
-                  </Text>
-                </View>
+                <CountBlueZoner countBlueZone={totalBluezoner} />
               </View>
             </View>
             <View style={styles.content}>
@@ -315,14 +303,7 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.closeContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={[styles.bluezone, styles.backgroundBlue]}>
-                  <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
-                  <Text style={styles.text}>
-                    {nearTotalBluezoner > 1
-                      ? formatMessage(message.bluezoners)
-                      : formatMessage(message.bluezoner)}
-                  </Text>
-                </View>
+                <CountBlueZoner countBlueZone={nearTotalBluezoner} backgroundColor={'rgb(11,147,35)'}  />
               </View>
             </View>
           </View>

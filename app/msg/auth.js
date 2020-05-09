@@ -36,4 +36,8 @@ export default defineMessages({
     id: 'bluezone.auth.titleLodding',
     defaultMessage: 'Đang khởi tạo Bluezone',
   },
+  close: {
+    id: 'bluezone.auth.close',
+    defaultMessage: 'Đóng',
+  }
 });

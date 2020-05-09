@@ -14,7 +14,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
     private var mBleManager: CBCentralManager!
     
     // Trai lai cho ham call
-    private var onDataScan: ((_ nameScan: String,_ identifier: String,_ rssi: Int) -> Void)?
+    private var onDataScan: ((_ contactBlId: Data,_ identifier: String,_ rssi: Int, _ txPower: Int) -> Void)?
     
         // bien de luu cac pheripheral da scan duoc
     private var mScannedPeripherals = [UUID : CBPeripheral]()
@@ -31,7 +31,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
     /*
      * Ham scan
      */
-    func scanPeripheral(onDataScan: ((_ nameScan: String,_ identifier: String,_ rssi: Int) -> Void)? , onError: ((_ error: String) -> Void)?) {
+    func scanPeripheral(onDataScan: ((_ contactBlId: Data,_ identifier: String,_ rssi: Int, _ txPower: Int) -> Void)? , onError: ((_ error: String) -> Void)?) {
         
         // Khởi tạo
         mBleManager = CBCentralManager.init(delegate: self, queue: nil)
@@ -135,7 +135,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
         print(peripheral)
         
         // Data user
-        var idUser : String = ""
+        var idUser : Data = Data()
         var identifier : String = ""
       
         // gan lai
@@ -146,22 +146,11 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             
             // var listUuid : NSArray?
             var manuData : Data?
-            var keyHash: Bool = false
                  
             // Duyệt mảng
             for keyData in advertist.allKeys {
                 // Lay key
                 let key = keyData as! String
-            
-                // Lấy tên
-                if key.elementsEqual("kCBAdvDataLocalName") {
-                    idUser = advertisementData[key] as! String
-                }
-              
-                // Lấy tên
-                if key.elementsEqual("kCBAdvDataHashedServiceUUIDs") {
-                    keyHash = true
-                }
                 
                 // Lấy manu
                 if key.elementsEqual("kCBAdvDataManufacturerData") {
@@ -172,49 +161,34 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             // check
             if manuData != nil {
                 // Cat 2 gia tri dau
-                let dataSub = manuData?.subdata(in: 2..<manuData!.count)
-  
-                // convert data sang string
-                idUser = String(decoding: dataSub!, as: UTF8.self)
-            } else if !idUser.isEmpty {
-                // Dich lai
-                idUser = AppUtils.getNameDevices(input: idUser)
+                if let data = manuData?.subdata(in: 2..<manuData!.count), data.count > 0 {
+                    idUser = data
+                }
             } else {
               
                 // Lấy identifiter
                 identifier = peripheral.identifier.uuidString
               
-                // Lấy trên trong peripheral
-                if peripheral.name != nil {
-                    idUser = peripheral.name! // ??? Có TH nil
-
-                    // check
-                    if !idUser.isEmpty {
-                        // Dich lai
-                        idUser = AppUtils.getNameDevices(input: idUser)
-                    }
-                }
-              
                 // peripheral name không thoả mãn thì kết nối để đọc data
                 if idUser.isEmpty {
                     
-                    // giờ mảng scanned không có value nữa, check mảng founded
-                    self.mFoundedPeripherals.forEach { (foundedPeri) in
-                        // check indentifier
-                        if peripheral.identifier == foundedPeri.peripheral.identifier {
-                            idUser = foundedPeri.name
-                        }
-                    }
+//                    // giờ mảng scanned không có value nữa, check mảng founded
+//                    self.mFoundedPeripherals.forEach { (foundedPeri) in
+//                        // check indentifier
+//                        if peripheral.identifier == foundedPeri.peripheral.identifier {
+//                            idUser = foundedPeri.name
+//                        }
+//                    }
                     
                     // Check xem đã connect chưa nếu chưa thì connect
-                    if idUser.isEmpty && keyHash && mScannedPeripherals[peripheral.identifier] == nil {
+                    if idUser.isEmpty && mScannedPeripherals[peripheral.identifier] == nil {
                         // Log
                         print("connect")
 
                         // append luon vao mang da scan duoc
                         self.mScannedPeripherals.updateValue(peripheral, forKey: peripheral.identifier)
                         // Thu hien ket noi
-                      mBleManager.connect(peripheral/*, options: [CBConnectPeripheralOptionNotifyOnNotificationKey: true]*/)
+                        mBleManager.connect(peripheral)
                     }
                 }
             }
@@ -222,13 +196,13 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             // Check nil
             if !idUser.isEmpty {
                 // Lưu tên
-                onDataScan!("\(idUser)", identifier, RSSI.intValue);
+                onDataScan!(idUser, identifier, RSSI.intValue, -12);
 
                 // Print
                 print("Bắt được: \(idUser) - RSSI=\(RSSI.intValue)")
             } else if !isConecting {
                 // Rỗng
-                onDataScan!("", "", 0);
+                onDataScan!(Data(), "", 0, 0);
 
                 // Print
                 print("Không lấy được thông tin")
@@ -260,9 +234,6 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
         print(peripheral)
         //
         print(error.debugDescription)
-        
-        // Bat lai co
-        //isConecting = false;
     }
 
     /*
@@ -309,30 +280,17 @@ extension BleCentralManager: CBPeripheralDelegate {
            // if let scannedPeri = scannedPeripherals[peripheral.identifier],
              if let receivedCharacteristicValue = characteristic.value {
             
-                // doc du lieu trong data
-                var data = String(data: receivedCharacteristicValue, encoding: .utf8) ?? ""
+                // in
+                print("data doc duoc \(receivedCharacteristicValue)")
                 
-                // Check rong
-                if !data.isEmpty {
-                    
-                    // in
-                    print("data doc duoc \(data)")
-                    
-                    // Convert
-                    data = AppUtils.getNameDevices(input: data)
-                    
-                    // check
-                    if !data.isEmpty {
-                        // Lưu tên
-                        onDataScan!("\(data)", peripheral.identifier.uuidString, -99);
-                        
-                        // update peripheral de connect
-                        peripheral.delegate = self
-                        
-                        // bây giờ thêm vào mảng founde
-                      self.mFoundedPeripherals.append((peripheral, data, Date().currentTimeMillis()))
-                    }
-                }
+                // Lưu tên
+                onDataScan!(receivedCharacteristicValue, peripheral.identifier.uuidString, -99, 7);
+                  
+                // update peripheral de connect
+                peripheral.delegate = self
+                  
+                // bây giờ thêm vào mảng founde
+                self.mFoundedPeripherals.append((peripheral, String(data: receivedCharacteristicValue, encoding: .utf8)!, Date().currentTimeMillis()))
             }
         } else {
             print("Error: \(error!)")

@@ -37,6 +37,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+import CountBlueZoner from '../../../base/components/CountBlueZoner';
 
 // Language
 import message from '../../../msg/trace';
@@ -50,6 +51,7 @@ import styles from './styles/index.css';
 
 // Api
 import Service from '../../../apis/service';
+import * as Progress from "react-native-progress";
 
 class WatchScanScreen extends React.Component {
   constructor(props) {
@@ -325,11 +327,7 @@ class WatchScanScreen extends React.Component {
         <ScrollView>
           <View style={styles.infoContainer}>
             <View style={styles.infoItem}>
-              <View style={styles.infoBluezone}>
-                <View style={styles.infoBluezone1}>
-                  <Text style={styles.infoItemValue}>{countBlueZone}</Text>
-                </View>
-              </View>
+              <CountBlueZoner countBlueZone={countBlueZone} />
             </View>
           </View>
 
@@ -355,7 +353,13 @@ class WatchScanScreen extends React.Component {
               </View>
             ) : statusLoadding ? (
               <View style={styles.listEmptyContainer}>
-                <ActivityIndicator size="large" color="#015CD0" />
+                <Progress.CircleSnail
+                    size={64}
+                    color={'#015cd0'}
+                    duration={800}
+                    progress={0.9}
+                    thickness={4}
+                />
               </View>
             ) : (
               <View style={styles.listEmptyContainer}>
@@ -385,7 +389,13 @@ class WatchScanScreen extends React.Component {
               </View>
             ) : statusLoadding ? (
               <View style={styles.listEmptyContainer}>
-                <ActivityIndicator size="large" color="#015CD0" />
+                <Progress.CircleSnail
+                    size={64}
+                    color={'#015cd0'}
+                    duration={800}
+                    progress={0.9}
+                    thickness={4}
+                />
               </View>
             ) : (
               <View style={styles.listEmptyContainer}>

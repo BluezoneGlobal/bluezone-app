@@ -13,7 +13,7 @@
     "bluezone.home.bluezoner": "Bluezoner",
     "bluezone.home.bluezoners": "Bluezoners",
     "bluezone.home.traceButton": "Scan around",
-    "bluezone.home.historyButton": "View history",
+    "bluezone.home.historyButton": "View Tangent",
     "bluezone.home.scheduleNotifyOTP": "You need to update your phone number to receive direct support if you have been close contact with people who have tested positive for Covid 19.",
     "bluezone.home.updatePhoneNumber": "Update phone number",
     "bluezone.home.warn": "Warning",
@@ -55,6 +55,7 @@
     "bluezone.auth.label1": "Not detected",
     "bluezone.auth.label2": "any F0 that is in close contact with you",
     "bluezone.auth.titleLodding": "Initializing Bluezone for the first time",
+    "bluezone.auth.close": "Close",
 
     "bluezone.modal.hasNewVersion": "New version available",
     "bluezone.modal.updateVersion": "Update to use the latest features",

@@ -76,21 +76,21 @@ class NotifySession extends React.Component {
           <FastImage source={uri} style={styles.avatar} />
           <View style={styles.content}>
             {!item.unRead ? (
-              <MediumText numberOfLines={1} style={styles.titleTextUnread}>
+              <MediumText numberOfLines={2} style={styles.titleTextUnread}>
                 {Language === 'vi' ? item.title : item.titleEn}
               </MediumText>
             ) : (
-              <Text numberOfLines={1} style={styles.titleText}>
+              <Text numberOfLines={2} style={styles.titleText}>
                 {Language === 'vi' ? item.title : item.titleEn}
               </Text>
             )}
 
             {!item.unRead ? (
-              <MediumText numberOfLines={1} style={styles.desTextUnread}>
+              <MediumText numberOfLines={2} style={styles.desTextUnread}>
                 {Language === 'vi' ? item.text : item.textEn}
               </MediumText>
             ) : (
-              <Text numberOfLines={1} style={styles.desText}>
+              <Text numberOfLines={2} style={styles.desText}>
                 {Language === 'vi' ? item.text : item.textEn}
               </Text>
             )}

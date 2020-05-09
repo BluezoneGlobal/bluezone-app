@@ -41,11 +41,13 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 40,
-    paddingTop: 25,
+    paddingVertical: 30,
   },
   contentChild: {
+    paddingTop: 16,
     flexDirection: 'row',
-    paddingVertical: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   colorText: {
     color: '#015cd0',

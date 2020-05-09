@@ -47,7 +47,7 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
         
         // Khởi tạo CBMutableCharacteristic.
         let transferCharacteristic = CBMutableCharacteristic(type: AppConstant.BLE_CHAR_UUID, properties: [.read],
-                                                             value: Data(phoneNumber.utf8), permissions: [.readable])
+                                                             value: nil, permissions: [.readable])
       
         // Tạo service -> characteristic.
         let transferService = CBMutableService(type: AppConstant.BLE_UUID_IOS, primary: true)
@@ -60,7 +60,7 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
         
         // start
         //mPeripheralManager.removeAllServices()
-        mPeripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : phoneNumber, CBAdvertisementDataServiceUUIDsKey : [AppConstant.BLE_UUID_IOS]])
+        mPeripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : "Bluezone", CBAdvertisementDataServiceUUIDsKey : [AppConstant.BLE_UUID_IOS]])
     }
     
     /*
@@ -117,6 +117,12 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
     */
     public func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         print("\(["request": request] as AnyObject)")
+        
+        // data la mang byte
+        let dataToRespond = BluezoneIdGenerator.init().getBluezoneId()
+    
+        // them data vao va respond
+        request.value = Data(dataToRespond)
         
         peripheral.respond(to: request, withResult: .success)
 

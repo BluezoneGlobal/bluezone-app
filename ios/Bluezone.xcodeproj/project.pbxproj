@@ -39,6 +39,16 @@
 		7D10C3682455EC6800C0E0ED /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */; };
 		7D10C3692455EC6800C0E0ED /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */; };
 		7D10C36B2455EEF700C0E0ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */; };
+		7D1C6F4C246734BD00B5EBE6 /* ContactLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */; };
+		7D1C6F4E2467350600B5EBE6 /* ContactLogDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */; };
+		7D1C6F58246742D400B5EBE6 /* BluezoneIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */; };
+		7D1C6F59246742D400B5EBE6 /* BluezoneDailyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */; };
+		7D1C6F5A246742D400B5EBE6 /* BluezoneDailyId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */; };
+		7D1C6F5B246742D400B5EBE6 /* BluezoneDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */; };
+		7D1C6F5C246742D400B5EBE6 /* BluezoneId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */; };
+		7D1C6F5D246742D400B5EBE6 /* BluezoneDateSubKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */; };
+		7D1C6F5E246742D400B5EBE6 /* BluezoneIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */; };
+		7D1C6F5F246742D400B5EBE6 /* BluezoneIdUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */; };
 		7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D207AC02462B5A500347196 /* BackupUtils.swift */; };
 		AC1DCC9876A5B4B339A4C039 /* libPods-Bluezone-BluezoneTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C62520F427F31A3AB8386F /* libPods-Bluezone-BluezoneTests.a */; };
 		F3882418FCBD0138ADB13777 /* libPods-Bluezone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */; };
@@ -82,15 +92,15 @@
 		7D10C33D2455E98E00C0E0ED /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		7D10C33F2455E9B500C0E0ED /* Bluezone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bluezone.entitlements; path = Bluezone/Bluezone.entitlements; sourceTree = "<group>"; };
 		7D10C3412455EB2900C0E0ED /* Bluezone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bluezone-Bridging-Header.h"; sourceTree = "<group>"; };
-		7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheralManager.swift; sourceTree = "<group>"; };
+		7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheralManager.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3432455EB2A00C0E0ED /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CovidLogs.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3452455EB2A00C0E0ED /* Contants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contants.h; sourceTree = "<group>"; };
-		7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezonerIdGenerator.swift; sourceTree = "<group>"; };
-		7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleCentralManager.swift; sourceTree = "<group>"; };
-		7D10C3482455EB2A00C0E0ED /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
-		7D10C3492455EB2A00C0E0ED /* AppUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
-		7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerManager.swift; sourceTree = "<group>"; };
+		7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BluezonerIdGenerator.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BleCentralManager.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3482455EB2A00C0E0ED /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3492455EB2A00C0E0ED /* AppUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ScannerManager.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C34B2455EB2A00C0E0ED /* ScannerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerManager.m; sourceTree = "<group>"; };
 		7D10C3562455EC6700C0E0ED /* OpenSans_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans_Bold.ttf; sourceTree = "<group>"; };
 		7D10C3572455EC6700C0E0ED /* OpenSans_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans_Light.ttf; sourceTree = "<group>"; };
@@ -103,7 +113,17 @@
 		7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7D207AC02462B5A500347196 /* BackupUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupUtils.swift; sourceTree = "<group>"; };
+		7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactLog.swift; sourceTree = "<group>"; };
+		7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ContactLogDBHelper.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdConstants.swift; sourceTree = "<group>"; };
+		7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDailyKey.swift; sourceTree = "<group>"; };
+		7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDailyId.swift; sourceTree = "<group>"; };
+		7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDate.swift; sourceTree = "<group>"; };
+		7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneId.swift; sourceTree = "<group>"; };
+		7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDateSubKey.swift; sourceTree = "<group>"; };
+		7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdGenerator.swift; sourceTree = "<group>"; };
+		7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdUtils.swift; sourceTree = "<group>"; };
+		7D207AC02462B5A500347196 /* BackupUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BackupUtils.swift; sourceTree = "<group>"; tabWidth = 4; };
 		874FE28FD0209D058AF442AE /* Pods-Bluezone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone.debug.xcconfig"; path = "Target Support Files/Pods-Bluezone/Pods-Bluezone.debug.xcconfig"; sourceTree = "<group>"; };
 		9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7D8A71E3680D7779A85C36B /* Pods-Bluezone-BluezoneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-BluezoneTests.release.xcconfig"; path = "Target Support Files/Pods-Bluezone-BluezoneTests/Pods-Bluezone-BluezoneTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -198,7 +218,10 @@
 			isa = PBXGroup;
 			children = (
 				7D10C3482455EB2A00C0E0ED /* AppConstant.swift */,
+				7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */,
+				7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */,
 				7D10C3492455EB2A00C0E0ED /* AppUtils.swift */,
+				7D1C6F4F246742A000B5EBE6 /* BluezoneId */,
 				7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */,
 				7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */,
 				7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */,
@@ -228,6 +251,21 @@
 				7D10C35D2455EC6800C0E0ED /* Roboto-Thin.ttf */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		7D1C6F4F246742A000B5EBE6 /* BluezoneId */ = {
+			isa = PBXGroup;
+			children = (
+				7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */,
+				7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */,
+				7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */,
+				7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */,
+				7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */,
+				7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */,
+				7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */,
+				7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */,
+			);
+			path = BluezoneId;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -674,14 +712,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D10C3522455EB2A00C0E0ED /* AppUtils.swift in Sources */,
+				7D1C6F59246742D400B5EBE6 /* BluezoneDailyKey.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				7D1C6F5A246742D400B5EBE6 /* BluezoneDailyId.swift in Sources */,
 				7D10C3502455EB2A00C0E0ED /* BleCentralManager.swift in Sources */,
+				7D1C6F5C246742D400B5EBE6 /* BluezoneId.swift in Sources */,
+				7D1C6F4E2467350600B5EBE6 /* ContactLogDBHelper.swift in Sources */,
+				7D1C6F58246742D400B5EBE6 /* BluezoneIdConstants.swift in Sources */,
 				7D10C34F2455EB2A00C0E0ED /* BluezonerIdGenerator.swift in Sources */,
+				7D1C6F5E246742D400B5EBE6 /* BluezoneIdGenerator.swift in Sources */,
+				7D1C6F5F246742D400B5EBE6 /* BluezoneIdUtils.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7D10C34E2455EB2A00C0E0ED /* CovidLogs.swift in Sources */,
 				7D10C34C2455EB2A00C0E0ED /* BlePeripheralManager.swift in Sources */,
+				7D1C6F5B246742D400B5EBE6 /* BluezoneDate.swift in Sources */,
+				7D1C6F4C246734BD00B5EBE6 /* ContactLog.swift in Sources */,
 				7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */,
 				7D10C3542455EB2A00C0E0ED /* ScannerManager.m in Sources */,
+				7D1C6F5D246742D400B5EBE6 /* BluezoneDateSubKey.swift in Sources */,
 				7D10C34D2455EB2A00C0E0ED /* DBHelper.swift in Sources */,
 				7D10C3532455EB2A00C0E0ED /* ScannerManager.swift in Sources */,
 				7D10C3512455EB2A00C0E0ED /* AppConstant.swift in Sources */,
@@ -796,7 +844,7 @@
 				);
 				INFOPLIST_FILE = Bluezone/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -825,7 +873,7 @@
 				DEVELOPMENT_TEAM = L42JWQ62HJ;
 				INFOPLIST_FILE = Bluezone/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
