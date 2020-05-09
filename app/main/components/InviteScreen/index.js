@@ -22,8 +22,9 @@
 'use strict';
 
 import React from 'react';
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, Linking} from 'react-native';
 import Share from 'react-native-share';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {MediumText} from '../../../base/components/Text';
@@ -31,20 +32,22 @@ import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import IconBluezone from './styles/images/IconBluezone';
 
+// Language
+import message from '../../../msg/invite';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Configs
 import configuration from '../../../Configuration';
 
-// Utils
-import * as fontSize from '../../../utils/fontSize';
-
 // Styles
-import styles from './styles/index.css';
+import styles, {LOGO_HEIGHT} from './styles/index.css';
 
 class InviteScreen extends React.Component {
   constructor(props) {
     super(props);
     this.onBack = this.onBack.bind(this);
     this.onShareApp = this.onShareApp.bind(this);
+    this.onAddGroupFace = this.onAddGroupFace.bind(this);
   }
 
   onBack() {
@@ -53,13 +56,18 @@ class InviteScreen extends React.Component {
   }
 
   async onShareApp() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const {language} = this.context;
     const {LinkShareAndroid, LinkShareIOS, ShareMessageText} = configuration;
     // const messText = `Bluezone:\n\nPhiên bản IOS: ${LinkShareIOS}\n\nPhiên bản Android:${LinkShareAndroid}`;
-    const messText = ShareMessageText.replace(
-      '{LinkShareIOS}',
-      LinkShareIOS,
-    ).replace('{LinkShareAndroid}', LinkShareAndroid);
-    const title = 'Chia sẻ ứng dụng';
+    const messText = (language && language !== 'vi'
+      ? configuration.ShareMessageText_en
+      : configuration.ShareMessageText
+    )
+      .replace('{LinkShareIOS}', LinkShareIOS)
+      .replace('{LinkShareAndroid}', LinkShareAndroid);
+    const title = formatMessage(message.share);
     const options = {
       title,
       subject: title,
@@ -68,15 +76,39 @@ class InviteScreen extends React.Component {
     try {
       await Share.open(options);
     } catch (error) {
-      console.log('Huỷ chia sẻ');
+      // console.log('Huỷ chia sẻ');
     }
   }
 
+  onAddGroupFace() {
+    const {language} = this.context;
+    const {LinkGroupFace_en, LinkGroupFace} = configuration;
+    const link = language === 'vi' ? LinkGroupFace : LinkGroupFace_en;
+    Linking.canOpenURL(link).then(supported => {
+      if (supported) {
+        return Linking.openURL(link);
+      } else {
+        return Linking.openURL(link);
+      }
+    });
+  }
+
   render() {
-    const {route} = this.props;
+    const {route, intl} = this.props;
+    const {language} = this.context;
     const header =
       route.params && route.params.header ? route.params.header : false;
-    const {ShareAppText} = configuration;
+    const {formatMessage} = intl;
+
+    const shareAppText =
+      language && language !== 'vi'
+        ? configuration.ShareAppText_en
+        : configuration.ShareAppText;
+    const joinGroupText =
+      language && language !== 'vi'
+        ? configuration.JoinGroupFaceText_en
+        : configuration.JoinGroupFaceText;
+
     return (
       <SafeAreaView style={styles.container}>
         {header ? (
@@ -85,34 +117,36 @@ class InviteScreen extends React.Component {
             colorIcon={'#015cd0'}
             styleTitle={styles.textHeader}
             showBack
-            title={'Mời'}
+            title={formatMessage(message.title)}
           />
         ) : (
           <View style={styles.header}>
-            <MediumText style={styles.textHeader}>Mời</MediumText>
+            <MediumText style={styles.textHeader}>
+              {formatMessage(message.title)}
+            </MediumText>
           </View>
         )}
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <View>
             <View style={styles.banner}>
               <MediumText style={styles.textBanner}>
-                Bảo vệ người thân, bạn bè trước
+                {formatMessage(message.productLabel1)}
               </MediumText>
               <MediumText style={styles.textBanner}>
-                đại dịch. Hãy mời họ tham gia cộng đồng
+                {formatMessage(message.productLabel2)}
               </MediumText>
-              <MediumText style={styles.textBanner}>Bluezoner</MediumText>
+              <MediumText style={styles.textBanner}>
+                {formatMessage(message.productLabel3)}
+              </MediumText>
             </View>
-            <View style={styles.imageQR}>
-              <View style={styles.containerQR}>
-                <IconBluezone />
-              </View>
-            </View>
+          </View>
+          <View style={styles.imageQR}>
+            <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
           </View>
           <View style={styles.share}>
             <ButtonIconText
               onPress={this.onShareApp}
-              text={ShareAppText}
+              text={shareAppText}
               source={require('./styles/images/icon_share.png')}
               styleBtn={styles.btnShare}
               styleText={styles.textBtnShare}
@@ -124,4 +158,15 @@ class InviteScreen extends React.Component {
   }
 }
 
-export default InviteScreen;
+InviteScreen.propTypes = {
+  intl: intlShape.isRequired,
+  router: PropTypes.object,
+};
+
+InviteScreen.defaultProps = {};
+
+InviteScreen.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(InviteScreen);

@@ -23,15 +23,20 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import HomeScreen from '../HomeScreen';
-// import NotifyScreen from './NotifyScreen';
+import NotifyScreen from '../NotifyScreen';
 import InfoScreen from '../InfoScreen';
 import InviteScreen from '../InviteScreen';
 
 // Styles
 import styles from './style/index.css';
+
+// Language
+import message from '../../../msg/tab';
+import {smallest} from '../../../utils/fontSize';
 
 // Consts
 const Tab = createBottomTabNavigator();
@@ -40,6 +45,7 @@ const icon = {
   Home: require('./style/images/home.png'),
   warning: require('./style/images/ic_warning_normal.png'),
   Invite: require('./style/images/invite.png'),
+  Notify: require('./style/images/notify.png'),
   Info: require('./style/images/info.png'),
 };
 
@@ -47,6 +53,7 @@ const iconActive = {
   Home: require('./style/images/home_active.png'),
   warning: require('./style/images/ic_warning_active.png'),
   Invite: require('./style/images/invite_active.png'),
+  Notify: require('./style/images/notify_active.png'),
   Info: require('./style/images/info_active.png'),
 };
 
@@ -54,7 +61,10 @@ class HomeTabScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <Tab.Navigator
         initialRouteName="Home"
@@ -62,13 +72,15 @@ class HomeTabScreen extends React.Component {
           activeTintColor: '#015cd0',
           labelStyle: {
             marginBottom: 5,
+            fontSize: smallest,
           },
+          allowFontScaling: false,
         }}>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: 'Trang chủ',
+            tabBarLabel: formatMessage(message.home),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Home : icon.Home}
@@ -78,10 +90,23 @@ class HomeTabScreen extends React.Component {
           }}
         />
         <Tab.Screen
+          name="Notify"
+          component={NotifyScreen}
+          options={{
+            tabBarLabel: formatMessage(message.report),
+            tabBarIcon: ({focused, color, size}) => (
+              <FastImage
+                source={focused ? iconActive.Notify : icon.Notify}
+                style={styles.iconSquare}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
           name="Invite"
           component={InviteScreen}
           options={{
-            tabBarLabel: 'Mời',
+            tabBarLabel: formatMessage(message.invite),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Invite : icon.Invite}
@@ -94,7 +119,7 @@ class HomeTabScreen extends React.Component {
           name="Info"
           component={InfoScreen}
           options={{
-            tabBarLabel: 'Thông tin',
+            tabBarLabel: formatMessage(message.about),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Info : icon.Info}
@@ -107,4 +132,9 @@ class HomeTabScreen extends React.Component {
     );
   }
 }
-export default HomeTabScreen;
+
+HomeTabScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(HomeTabScreen);

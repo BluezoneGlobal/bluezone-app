@@ -22,84 +22,89 @@
 'use strict';
 
 import React from 'react';
-import 'react-native-get-random-values';
+import * as PropTypes from 'prop-types';
 
 // Components
-import {SafeAreaView, StatusBar, BackHandler} from 'react-native';
-import WebView from 'react-native-webview';
-import Error from './Error';
+import {SafeAreaView, StatusBar, View, Linking} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import FastImage from 'react-native-fast-image';
 
-// Utils
-import configuration from '../../../Configuration';
+import Text, {MediumText} from '../../../base/components/Text';
 
 // Styles
-import styles from './styles/index.css';
+import styles, {LOGO_HEIGHT} from './styles/index.css';
+import {injectIntl, intlShape} from 'react-intl';
+import message from '../../../msg/info';
+
+// Logo
+import LogoBluezone from '../../../utils/logo/logo_bluezone';
 
 class InfoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      backButtonEnabled: null,
+      version: DeviceInfo.getVersion(),
     };
-    this.onGoBack = this.onGoBack.bind(this);
-    this.reload = this.reload.bind(this);
-  }
-
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onGoBack);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onGoBack);
-  }
-
-  setRef = ref => {
-    this._bridge = ref;
-  };
-
-  onGoBack() {
-    if (this.state.backButtonEnabled) {
-      this._bridge.goBack();
-      return true;
-    }
-  }
-
-  onNavigationStateChange = navState => {
-    if (navState.canGoBack !== this.state.backButtonEnabled) {
-      this.setState({
-        backButtonEnabled: navState.canGoBack,
-      });
-    }
-  };
-
-  renderError = () => <Error onPress={this.reload} />;
-
-  reload() {
-    if (this._bridge) {
-      this._bridge.reload();
-    }
   }
 
   render() {
+    const {version} = this.state;
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
-        <WebView
-          // style={styles.flex}
-          ref={this.setRef}
-          source={{uri: configuration.Introduce}}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          startInLoadingState={true}
-          scalesPageToFit={false}
-          thirdPartyCookiesEnabled={true}
-          javaScriptEnabledAndroid={true}
-          onNavigationStateChange={this.onNavigationStateChange}
-          renderError={this.renderError}
-        />
+        <View style={{flex: 1}}>
+          <View style={styles.containerLogo}>
+            <LogoBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
+          </View>
+          <View style={styles.body}>
+            <MediumText style={styles.title}>
+              {formatMessage(message.title)} {version}
+            </MediumText>
+            <Text style={styles.date}>
+              {formatMessage(message.dateRelease)} 10/05/2020.
+            </Text>
+            <View style={styles.viewDep}>
+              <Text style={styles.description}>
+                {formatMessage(message.description)}
+              </Text>
+            </View>
+            <View style={styles.textBottom}>
+              <Text style={styles.textContact}>
+                {formatMessage(message.detail)}
+              </Text>
+              <Text
+                style={styles.linkweb}
+                onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
+                {formatMessage(message.linkDetail)}
+              </Text>
+              <Text />
+              <Text style={styles.textContact}>
+                {formatMessage(message.infoDetail)}
+              </Text>
+              <Text
+                style={styles.linkweb}
+                onPress={() =>
+                  Linking.openURL('mailto:lienhe@bluezone.gov.vn')
+                }>
+                {formatMessage(message.email)}
+              </Text>
+            </View>
+          </View>
+        </View>
       </SafeAreaView>
     );
   }
 }
 
-export default InfoScreen;
+InfoScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+InfoScreen.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(InfoScreen);

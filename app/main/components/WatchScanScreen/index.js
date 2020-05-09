@@ -23,6 +23,7 @@
 
 import React from 'react';
 import 'moment/locale/vi';
+import * as PropTypes from 'prop-types';
 
 // Components
 import {
@@ -31,10 +32,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/trace';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Config
 import configuration from '../../../Configuration';
@@ -51,6 +57,7 @@ class WatchScanScreen extends React.Component {
     const {logs, mapDevice} = this.creatLog();
     this.state = {
       logs: logs || [],
+      statusLoadding: true,
     };
     this.mapDevice = mapDevice || {};
   }
@@ -62,6 +69,9 @@ class WatchScanScreen extends React.Component {
         this.onScan,
       );
     }
+    this.timeountLoading = setTimeout(() => {
+      this.setState({statusLoadding: false});
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -72,6 +82,7 @@ class WatchScanScreen extends React.Component {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
+    clearTimeout(this.timeountLoading);
   }
 
   creatLog = () => {
@@ -82,6 +93,10 @@ class WatchScanScreen extends React.Component {
     const mapDevice = {};
 
     logsNavigation.forEach(log => {
+      if (!log.userId) {
+        return;
+      }
+
       const keyMap =
         log.userId && log.userId.length > 0
           ? log.userId
@@ -97,11 +112,9 @@ class WatchScanScreen extends React.Component {
         rssi: log.rssi,
       });
 
-      // Tạo timmer
+      // Create timmer
       const timmer = setTimeout(() => {
-        // console.log('delele ' + new Date().getTime() + ' ' + keyMap);
         delete this.mapDevice[keyMap];
-        // Xóa khỏi danh sách thiết bị
         this.setState(prevState => {
           const logsTemp = prevState.logs;
           for (let i = 0; i < logsTemp.length; i++) {
@@ -143,6 +156,10 @@ class WatchScanScreen extends React.Component {
   };
 
   onScan = ({id, name = '', address = '', rssi, platform, typeScan}) => {
+    if (!id) {
+      return;
+    }
+
     const {TimeShowLog} = configuration;
     const {logs} = this.state;
 
@@ -195,7 +212,7 @@ class WatchScanScreen extends React.Component {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      console.log('changeType' + new Date().getTime() + ' ' + keyMap);
+      // console.log('changeType' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [...logs],
@@ -236,6 +253,8 @@ class WatchScanScreen extends React.Component {
   };
 
   buttonInvite = userId => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     if (userId) {
       return (
         <View style={styles.inviteButtonContainer}>
@@ -251,16 +270,14 @@ class WatchScanScreen extends React.Component {
         style={styles.inviteButtonContainer}
         onPress={this.onInvite}>
         <View style={styles.inviteButton}>
-          <Text style={styles.inviteText}>Mời</Text>
+          <Text style={styles.inviteText}>{formatMessage(message.invite)}</Text>
         </View>
       </TouchableOpacity>
     );
   };
 
   renderItemLog = item => {
-    const content = item.userId
-      ? `${item.userId}`
-      : `${item.name} (${item.address})`;
+    const content = item.userId ? `${item.userId}` : `${item.name}`; // (${item.address})
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -272,8 +289,10 @@ class WatchScanScreen extends React.Component {
   };
 
   render() {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     const {UserCode} = configuration;
-    const {logs} = this.state;
+    const {logs, statusLoadding} = this.state;
 
     const itemsLogNear = [];
     const itemsLogDiff = [];
@@ -301,88 +320,89 @@ class WatchScanScreen extends React.Component {
           styleHeader={styles.header}
           colorIcon="#015CD0"
           showBack
-          title={'Quét xung quanh'}
+          title={formatMessage(message.header)}
         />
         <ScrollView>
           <View style={styles.infoContainer}>
-            <View style={styles.infoItem}>
-              <View style={styles.infoAround}>
-                <View style={styles.infoAround1}>
-                  <Text style={styles.infoItemValue}>{logs.length}</Text>
-                </View>
-              </View>
-              <Text style={styles.infoItemDesc}>Xung quanh bạn</Text>
-            </View>
-
             <View style={styles.infoItem}>
               <View style={styles.infoBluezone}>
                 <View style={styles.infoBluezone1}>
                   <Text style={styles.infoItemValue}>{countBlueZone}</Text>
                 </View>
               </View>
-              <Text style={styles.infoItemDesc}>Bluezoner</Text>
             </View>
           </View>
 
-          <View>
-            <View style={styles.listContainer}>
-              <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>Ở gần bạn</MediumText>
-                <MediumText style={styles.textListHeaderValue}>
-                  {itemsLogNear.length}
-                </MediumText>
-              </View>
-              {itemsLogNear.length > 0 ? (
-                <View style={styles.listBodyContainer}>
-                  {itemsLogNear.map(item => {
-                    return this.renderItemLog(item);
-                  })}
-                </View>
-              ) : (
-                <View style={styles.listEmptyContainer}>
-                  <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
-                  </View>
-                  <Text style={styles.listEmptyText}>Danh sách trống</Text>
-                </View>
-              )}
-            </View>
-            <View style={styles.listContainer}>
-              <View style={styles.listHeaderContainer}>
-                <MediumText style={styles.textListHeader}>
-                  Ở xung quanh
-                </MediumText>
-                <MediumText style={styles.textListHeaderValue}>
-                  {itemsLogDiff.length}
-                </MediumText>
-              </View>
-              {itemsLogDiff.length > 0 ? (
-                <View style={styles.listBodyContainer}>
-                  {itemsLogDiff.map(item => {
-                    return this.renderItemLog(item);
-                  })}
-                </View>
-              ) : (
-                <View style={styles.listEmptyContainer}>
-                  <View style={styles.listEmptyCircle}>
-                    <FastImage
-                      source={require('./styles/images/ic_list.png')}
-                      style={styles.iconEmpty}
-                    />
-                  </View>
-                  <Text style={styles.listEmptyText}>Danh sách trống</Text>
-                </View>
-              )}
-            </View>
+          <Text style={styles.infoItemDesc}>
+            {countBlueZone > 1
+              ? formatMessage(message.bluezoners)
+              : formatMessage(message.bluezoner)}
+          </Text>
+          <View style={styles.listContainer}>
             <View style={styles.listHeaderContainer}>
               <MediumText style={styles.textListHeader}>
-                Mã Bluezone ID của bạn
+                {formatMessage(message.nearYou)}
               </MediumText>
-              <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
+              <MediumText style={styles.textListHeaderValue}>
+                {itemsLogNear.length}
+              </MediumText>
             </View>
+            {itemsLogNear.length > 0 ? (
+              <View style={styles.listBodyContainer}>
+                {itemsLogNear.map(item => {
+                  return this.renderItemLog(item);
+                })}
+              </View>
+            ) : statusLoadding ? (
+              <View style={styles.listEmptyContainer}>
+                <ActivityIndicator size="large" color="#015CD0" />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.listContainer}>
+            <View style={styles.listHeaderContainer}>
+              <MediumText style={styles.textListHeader}>
+                {formatMessage(message.around)}
+              </MediumText>
+              <MediumText style={styles.textListHeaderValue}>
+                {itemsLogDiff.length}
+              </MediumText>
+            </View>
+            {itemsLogDiff.length > 0 ? (
+              <View style={styles.listBodyContainer}>
+                {itemsLogDiff.map(item => {
+                  return this.renderItemLog(item);
+                })}
+              </View>
+            ) : statusLoadding ? (
+              <View style={styles.listEmptyContainer}>
+                <ActivityIndicator size="large" color="#015CD0" />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.listHeaderContainer}>
+            <MediumText style={styles.textListHeader}>
+              {formatMessage(message.myBluezoneId)}
+            </MediumText>
+            <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -390,4 +410,11 @@ class WatchScanScreen extends React.Component {
   }
 }
 
-export default WatchScanScreen;
+WatchScanScreen.propTypes = {
+  intl: intlShape.isRequired,
+  router: PropTypes.object,
+};
+
+WatchScanScreen.defaultProps = {};
+
+export default injectIntl(WatchScanScreen);

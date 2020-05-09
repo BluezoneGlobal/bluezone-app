@@ -34,7 +34,7 @@ const startService = scanFull => {
   if (Platform.OS !== 'ios') {
     TraceCovid.startService(!!scanFull);
   } else {
-    scanFull && TraceCovid.startService();
+    TraceCovid.startService();
   }
 };
 
@@ -63,13 +63,25 @@ const addListenerScanBlueTooth = onScan => {
 };
 
 const generatorId = () => {
-  TraceCovid.generatorBluezoneId();
+  return TraceCovid.generatorBluezoneId();
 };
 
 const restoreDb = () => {
   if (Platform.OS !== 'ios') {
     TraceCovid && TraceCovid.restoreDb();
   }
+};
+
+const changeLanguageNotifi = language => {
+  Platform.OS !== 'ios' && TraceCovid.setLanguage(language);
+};
+
+const checkContact = ids => {
+  return Platform.OS !== 'ios' && TraceCovid.checkContact(ids);
+};
+
+const writeHistoryContact = ids => {
+  return Platform.OS !== 'ios' && TraceCovid.writeHistoryContact(ids);
 };
 
 const service = {
@@ -81,6 +93,9 @@ const service = {
   addListenerScanBlueTooth,
   generatorId,
   restoreDb,
+  changeLanguageNotifi,
+  checkContact,
+  writeHistoryContact,
 };
 
 export default service;

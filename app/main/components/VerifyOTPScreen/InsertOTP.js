@@ -24,7 +24,7 @@
 import React from 'react';
 
 // Components
-import {View} from 'react-native';
+import {View, TextInput} from 'react-native';
 
 // Styles
 import styles from './styles/index.css';
@@ -39,16 +39,16 @@ class InsertOTP extends React.Component {
 
   focusPrevious(key, index) {
     if (key === 'Backspace' && index !== 0) {
-      this.otpTextInput[index - 1]._root.focus();
+      this.otpTextInput[index - 1].focus();
     }
   }
 
   focusNext(index, value) {
     if (index < this.otpTextInput.length - 1 && value) {
-      this.otpTextInput[index + 1]._root.focus();
+      this.otpTextInput[index + 1].focus();
     }
     if (index === this.otpTextInput.length - 1) {
-      this.otpTextInput[index]._root.blur();
+      this.otpTextInput[index].blur();
     }
     const otp = this.state.otp;
     otp[index] = value;
@@ -56,15 +56,15 @@ class InsertOTP extends React.Component {
     this.props.getOtp(otp.join(''));
   }
 
-  renderInputs() {
-    const inputs = Array(6).fill(0);
-    return inputs.map((i, j) => {
-      return null;
-    });
-  }
-
   render() {
-    return <View style={styles.inputContainer}>{this.renderInputs()}</View>;
+    return (
+        <TextInput
+          style={styles.inputOTPMax}
+          maxLength={1}
+          keyboardType="numeric"
+          onChangeText={v => this.focusNext(j, v)}
+        />
+    );
   }
 }
 

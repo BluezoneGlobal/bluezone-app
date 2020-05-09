@@ -28,6 +28,7 @@ import {
   TouchableOpacity,
   Platform,
   Picker,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
@@ -37,19 +38,27 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+import ButtonIconText from '../../../base/components/ButtonIconText';
+
+// Language
+import message from '../../../msg/history';
+import warning from '../../../msg/warning';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Config
 import configuration from '../../../Configuration';
 
 // Sqlite db
-import {open, close} from '../../../db/SqliteDb';
+import {open} from '../../../db/SqliteDb';
+import {uploadHistoryF0} from '../../../apis/bluezone';
 
 // Style
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 const ONE_DAY = 86400000;
 
-class WatchScanScreen extends React.Component {
+class HistoryScanScreen extends React.Component {
   constructor(props) {
     super(props);
     const startOfToday = moment()
@@ -86,7 +95,6 @@ class WatchScanScreen extends React.Component {
 
   componentWillUnmount() {
     AsyncStorage.setItem('historyDays', JSON.stringify(this.days));
-    close();
     this.db = null;
   }
 
@@ -242,7 +250,18 @@ class WatchScanScreen extends React.Component {
     this.onGetDataFromDB(this.state.daySelected, endOfDaySelected);
   };
 
+  onSendHistory = () => {
+    // Send history...
+    // uploadHistoryF0(
+    //   filePath,
+    //   3,
+    //   this.handleUpdateSuccess,
+    //   this.handleUpdateError,
+    // );
+  };
+
   render() {
+    const {intl} = this.props;
     const {
       day,
       nearTotalBluezoner,
@@ -260,6 +279,8 @@ class WatchScanScreen extends React.Component {
       />
     ));
 
+    const {formatMessage} = intl;
+
     return (
       <SafeAreaView style={styles.warper}>
         <Header
@@ -267,40 +288,40 @@ class WatchScanScreen extends React.Component {
           onBack={this.onBack}
           colorIcon={'#015cd0'}
           showBack
-          title={'Lịch sử tiếp xúc'}
+          title={formatMessage(message.header)}
           styleHeader={styles.header}
         />
         <View style={styles.flex}>
           <View style={styles.flex}>
             <View style={styles.content}>
-              <MediumText style={styles.title}>Tổng tiếp xúc</MediumText>
+              <MediumText style={styles.title}>
+                {formatMessage(message.totalContact)}
+              </MediumText>
               <View style={styles.contentChild}>
-                <View style={styles.human}>
-                  <MediumText style={[styles.textValue, styles.colorText]}>
-                    {total}
-                  </MediumText>
-                  <Text style={[styles.text, styles.colorText]}>Người</Text>
-                </View>
                 <View style={styles.bluezone}>
                   <MediumText style={styles.textValue}>
                     {totalBluezoner}
                   </MediumText>
-                  <Text style={styles.text}>Bluezoner</Text>
+                  <Text style={styles.text}>
+                    {totalBluezoner > 1
+                      ? formatMessage(message.bluezoners)
+                      : formatMessage(message.bluezoner)}
+                  </Text>
                 </View>
               </View>
             </View>
             <View style={styles.content}>
-              <MediumText style={styles.title}>Tiếp xúc gần</MediumText>
+              <MediumText style={styles.title}>
+                {formatMessage(message.closeContact)}
+              </MediumText>
               <View style={styles.contentChild}>
-                <View style={[styles.human, styles.backgroundPeople]}>
-                  <Text style={[styles.textValue, styles.colorNumber]}>
-                    {nearTotal}
-                  </Text>
-                  <Text style={[styles.text, styles.colorNumber]}>Người</Text>
-                </View>
                 <View style={[styles.bluezone, styles.backgroundBlue]}>
                   <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
-                  <Text style={styles.text}>Bluezoner</Text>
+                  <Text style={styles.text}>
+                    {nearTotalBluezoner > 1
+                      ? formatMessage(message.bluezoners)
+                      : formatMessage(message.bluezoner)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -325,6 +346,14 @@ class WatchScanScreen extends React.Component {
                   </Picker>
                 </View>
               )}
+              {/*<ButtonIconText*/}
+              {/*    onPress={this.onSendHistory}*/}
+              {/*    text={formatMessage(warning.uploadText)}*/}
+              {/*    source={require('../NotifyWarning/styles/images/send.png')}*/}
+              {/*    styleBtn={styles.buttonSend}*/}
+              {/*    styleText={{fontSize: fontSize.normal}}*/}
+              {/*    styleIcon={styles.buttonIcon}*/}
+              {/*/>*/}
             </View>
           </View>
         </View>
@@ -351,4 +380,10 @@ class WatchScanScreen extends React.Component {
   }
 }
 
-export default WatchScanScreen;
+HistoryScanScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+HistoryScanScreen.defaultProps = {};
+
+export default injectIntl(HistoryScanScreen);

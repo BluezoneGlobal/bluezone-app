@@ -26,24 +26,34 @@ import React from 'react';
 // Components
 import {
   SafeAreaView,
-  Text,
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  StatusBar,
+  ScrollView,
   ActivityIndicator,
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Animated,
+  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import ButtonIconText from '../../../base/components/ButtonIconText';
 
-// Utils
+// Components
+import ButtonIconText from '../../../base/components/ButtonIconText';
+import Text from '../../../base/components/Text';
+import ButtonText from '../../../base/components/ButtonText';
+
+// Apis
 import {CreateAndSendOTPCode} from '../../../apis/bluezone';
 
 // Styles
 import styles from './styles/index.css';
-
 import * as fontSize from '../../../utils/fontSize';
+
+import message from '../../../msg/register';
+import {injectIntl, intlShape} from 'react-intl';
+import FastImage from 'react-native-fast-image';
 
 class RegisterScreen extends React.Component {
   // Render any loading content that you like here
@@ -55,53 +65,82 @@ class RegisterScreen extends React.Component {
       showErrorModal: false,
     };
 
+    this.imageHeight = new Animated.Value(124);
+
     this.onChangeText = this.onChangeText.bind(this);
-    this.checkStatus = this.checkStatus.bind(this);
     this.onPress = this.onPress.bind(this);
-    this.callApi = this.callApi.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
-    // eslint-disable-next-line prettier/prettier
-		this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(this);
+    this.createAndSendOTPCodeSuccess = this.createAndSendOTPCodeSuccess.bind(
+      this,
+    );
     this.createAndSendOTPCodeFail = this.createAndSendOTPCodeFail.bind(this);
+    this.onChangeNavigate = this.onChangeNavigate.bind(this);
   }
+
+  componentDidMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      'keyboardDidShow',
+      this.keyboardDidShow,
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      'keyboardDidHide',
+      this.keyboardDidHide,
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardDidShow = event => {
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: 70,
+    }).start();
+  };
+
+  keyboardDidHide = event => {
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: 124,
+    }).start();
+  };
 
   onChangeText(value) {
     this.setState({numberPhone: value});
   }
 
-  checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return Promise.resolve(response);
-    }
-    const error = new Error(response.statusText);
-    error.response = response;
-    return Promise.reject(error);
-  }
-
   onPress() {
     const {numberPhone} = this.state;
-    // const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-    // if (vnf_regex.test(numberPhone) === false) {
-    //   Alert.alert('Số điện thoại bạn nhập không hợp lệ');
-    // } else {
-    //   this.callApi(numberPhone);
-    // }
-    CreateAndSendOTPCode(
-      numberPhone,
-      this.createAndSendOTPCodeSuccess,
-      this.createAndSendOTPCodeFail,
-    );
-    this.callApi(numberPhone);
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    if (vnf_regex.test(numberPhone) === false) {
+      Alert.alert(formatMessage(message.phoneEnterNotValid));
+    } else {
+      this.setState({showLoading: true, showErrorModal: false}, () => {
+        CreateAndSendOTPCode(
+          numberPhone,
+          this.createAndSendOTPCodeSuccess,
+          this.createAndSendOTPCodeFail,
+        );
+      });
+    }
   }
 
   createAndSendOTPCodeSuccess(response) {
     const {numberPhone} = this.state;
-    if (response && response.status === 200 && response.data.isOk) {
-      this.props.navigation.navigate('VerifyOTP', {
-        phoneNumber: numberPhone,
-      });
-      this.setState({showLoading: false});
-    }
+    const {setLoading} = this.props;
+    const router = setLoading ? 'VerifyOTPAuth' : 'VerifyOTP';
+
+    this.setState({showLoading: false}, () => {
+      setTimeout(() => {
+        this.props.navigation.replace(router, {
+          phoneNumber: numberPhone,
+        });
+      }, 200);
+    });
   }
 
   createAndSendOTPCodeFail(error) {
@@ -112,83 +151,115 @@ class RegisterScreen extends React.Component {
     this.setState({showErrorModal: false});
   }
 
+  onChangeNavigate() {
+    const {setLoading, navigation} = this.props;
+    setLoading ? setLoading('Home') : navigation.goBack();
+  }
+
   render() {
+    const {intl} = this.props;
     const {numberPhone, showLoading, showErrorModal} = this.state;
+    const {formatMessage} = intl;
     const disabled = numberPhone.length === 0;
     return (
       <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView
-          style={styles.keyBoardContainer}
-          behavior={'position'}>
-          <StatusBar backgroundColor="#ffffff" />
+        <ScrollView
+          contentContainerStyle={{flex: 1}}
+          keyboardShouldPersistTaps={'handled'}>
+          <View style={styles.logoView}>
+            <Animated.Image
+              source={require('../AuthLoadingScreen/styles/images/bluezone.png')}
+              style={[
+                styles.logo,
+                {height: this.imageHeight, width: this.imageHeight},
+              ]}
+            />
+          </View>
           <View style={styles.layout1}>
-            <Text style={styles.text1}>Human Shield</Text>
-            <Text style={styles.text2}>
-              Ứng dụng Human Shield là ứng dụng cho phép người dùng theo dõi
-              tình hình dịch bệnh COVID-19, phát hiện sớm nhất những người tiếp
-              xúc với người bị nhiễm bệnh. Để sử dụng ứng dụng, vui lòng đăng kí
-              dịch vụ.
-            </Text>
+            <Text style={styles.text2}>{formatMessage(message.title)}</Text>
           </View>
           <View style={styles.phone}>
-            <Text style={styles.text3}>
-              Nhập số điện thoại<Text style={styles.textColorActive}> *</Text>
-            </Text>
+            <Text style={styles.text4}>{formatMessage(message.title1)}</Text>
             <TextInput
-              keyboardType={'phone-pad'}
+              autoFocus={true}
+              keyboardType={'number-pad'}
               style={styles.textInput}
-              placeholder={'Vui lòng nhập số điện thoại'}
+              placeholder={formatMessage(message.pleaseEnterYourPhone)}
               onChangeText={this.onChangeText}
             />
             <ButtonIconText
               disabled={disabled}
-              onPress={this.watchHistory}
-              text={'Tiếp tục'}
-              styleBtn={disabled ? styles.buttonDisable : styles.buttonActive}
+              onPress={this.onPress}
+              text={formatMessage(message.next)}
+              styleBtn={[
+                styles.btnNext,
+                disabled ? styles.buttonDisable : styles.buttonActive,
+              ]}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={styles.buttonIcon}
             />
           </View>
-          {showLoading && (
-            <Modal isVisible={showLoading} style={styles.center}>
-              <ActivityIndicator size="large" color={'#fff'} />
-            </Modal>
-          )}
-          {showErrorModal && (
-            <Modal
-              isVisible={showErrorModal}
-              style={styles.center}
-              animationIn="zoomInDown"
-              animationOut="zoomOutUp"
-              animationInTiming={600}
-              animationOutTiming={600}
-              backdropTransitionInTiming={600}
-              backdropTransitionOutTiming={600}
-              onBackButtonPress={this.onCloseModal}
-              onBackdropPress={this.onCloseModal}>
-              <View style={styles.modalContent}>
-                <View>
-                  <Text style={styles.modalContentText01}>Đã xảy ra sự cố</Text>
-                </View>
-                <View>
-                  <Text style={styles.modalContentText02}>
-                    Vui lòng thao tác lại để sử dụng dịch vụ
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ButtonText
+              text={`${formatMessage(message.skip)}`}
+              onPress={this.onChangeNavigate}
+              styleBtn={styles.buttonInvite}
+              styleText={styles.textInvite}
+            />
+          </View>
+        </ScrollView>
+        {showLoading && (
+          <Modal isVisible={showLoading} style={styles.center}>
+            <ActivityIndicator size="large" color={'#fff'} />
+          </Modal>
+        )}
+        {showErrorModal && (
+          <Modal
+            isVisible={showErrorModal}
+            style={styles.center}
+            animationIn="zoomInDown"
+            animationOut="zoomOutUp"
+            animationInTiming={600}
+            animationOutTiming={600}
+            backdropTransitionInTiming={600}
+            backdropTransitionOutTiming={600}
+            onBackButtonPress={this.onCloseModal}
+            onBackdropPress={this.onCloseModal}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalContentText01}>
+                {formatMessage(message.error)}
+              </Text>
+              <Text style={styles.modalContentText02}>
+                {formatMessage(message.redo)}
+              </Text>
+              <View style={styles.modalFooter}>
+                <TouchableOpacity
+                  style={styles.buttonContinued}
+                  onPress={this.onCloseModal}>
+                  <Text style={styles.textButtonSkip}>
+                    {formatMessage(message.skip)}
                   </Text>
-                </View>
-                <View style={styles.modalFooter}>
-                  <TouchableOpacity
-                    style={styles.buttonContinued}
-                    onPress={this.onCloseModal}>
-                    <Text style={styles.textButtonContinued}>Tiếp tục</Text>
-                  </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
+                <View style={styles.borderBtn} />
+                <TouchableOpacity
+                  style={styles.buttonContinued}
+                  onPress={this.onPress}>
+                  <Text style={styles.textButtonContinued}>
+                    {formatMessage(message.try)}
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </Modal>
-          )}
-        </KeyboardAvoidingView>
+            </View>
+          </Modal>
+        )}
       </SafeAreaView>
     );
   }
 }
 
-export default RegisterScreen;
+RegisterScreen.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(RegisterScreen);
