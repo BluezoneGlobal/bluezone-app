@@ -65,12 +65,7 @@ class WatchScanScreen extends React.Component {
   }
 
   async componentDidMount() {
-    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
-    if (Platform.OS !== 'ios') {
-      this.scanBlueToothListener = Service.addListenerScanBlueTooth(
-        this.onScan,
-      );
-    }
+    this.createListener();
     this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
@@ -79,8 +74,7 @@ class WatchScanScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    this.scanBLEListener && this.scanBLEListener.remove();
-    this.scanBlueToothListener && this.scanBlueToothListener.remove();
+    this.removeListener();
     const keys = Object.keys(this.mapDevice);
     for (var i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
@@ -88,6 +82,24 @@ class WatchScanScreen extends React.Component {
     }
     clearTimeout(this.timeountLoading);
   }
+
+  createListener = () => {
+    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
+    if (Platform.OS !== 'ios') {
+      this.scanBlueToothListener = Service.addListenerScanBlueTooth(
+        this.onScan,
+      );
+    }
+    this.bluezoneIdChange = Service.addListenerBluezoneIdChange(
+      this.onBluezoneIdChange,
+    );
+  };
+
+  removeListener = () => {
+    this.scanBLEListener && this.scanBLEListener.remove();
+    this.scanBlueToothListener && this.scanBlueToothListener.remove();
+    this.bluezoneIdChange && this.bluezoneIdChange.remove();
+  };
 
   creatLog = () => {
     const {TimeShowLog} = configuration;
@@ -157,6 +169,12 @@ class WatchScanScreen extends React.Component {
   getTypeRSSI = rssi => {
     const {RssiThreshold} = configuration;
     return rssi && rssi >= RssiThreshold ? 1 : 0;
+  };
+
+  onBluezoneIdChange = bzId => {
+    if (bzId !== this.state.bzId) {
+      this.setState({bzId: bzId});
+    }
   };
 
   onScan = ({id, name = '', address = '', rssi, platform, typeScan}) => {
