@@ -129,7 +129,7 @@ public class ScannerManager: RCTViewManager {
                         "rssi": String(rssi)]
 
                     let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
-                    module.onGetUUId(result)
+                    module.onScanResult(result)
                 }
 
             let timestamp = Date().currentTimeMillis()
@@ -198,15 +198,18 @@ public class ScannerManager: RCTViewManager {
 public class TraceCovid: RCTEventEmitter {
 
     // MARK: Event emitting to JS
-  @objc func onGetUUId(_ value:AnyHashable) {
+  @objc func onScanResult(_ value:AnyHashable) {
     sendEvent(withName: "onScanResult", body: value)
     }
-
+    
+    @objc func onBluezoneIdChange(_ blzId:String) {
+    sendEvent(withName: "onBluezoneIdChange", body: ["blzId": blzId])
+    }
 
     // MARK: Overrides
 
     override public func supportedEvents() -> [String]! {
-        return ["onScanResult"]
+        return ["onScanResult", "onBluezoneIdChange"]
     }
 
     @objc override public static func requiresMainQueueSetup() -> Bool {
