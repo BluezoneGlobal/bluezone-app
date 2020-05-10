@@ -32,7 +32,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
@@ -60,11 +59,12 @@ class WatchScanScreen extends React.Component {
     this.state = {
       logs: logs || [],
       statusLoadding: true,
+      bzId: '',
     };
     this.mapDevice = mapDevice || {};
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
     if (Platform.OS !== 'ios') {
       this.scanBlueToothListener = Service.addListenerScanBlueTooth(
@@ -74,8 +74,8 @@ class WatchScanScreen extends React.Component {
     this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
-    const a = Service.getBluezoneId();
-    console.log('aaaaaaaaa', a);
+    const bzId = await Service.getBluezoneIdFirst6Char();
+    this.setState({bzId: bzId});
   }
 
   componentWillUnmount() {
@@ -168,7 +168,6 @@ class WatchScanScreen extends React.Component {
     const {logs} = this.state;
 
     const keyMap = id && id.length > 0 ? id : name + '@' + address;
-    // console.log(new Date().getTime() + ': ' + keyMap);
     const typeRSSI = this.getTypeRSSI(rssi);
 
     if (this.mapDevice[keyMap]) {
@@ -194,7 +193,6 @@ class WatchScanScreen extends React.Component {
 
     if (!hasDevice) {
       // Thêm vào danh sách
-      // console.log('add ' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [
@@ -216,7 +214,6 @@ class WatchScanScreen extends React.Component {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      // console.log('changeType' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [...logs],
@@ -281,7 +278,9 @@ class WatchScanScreen extends React.Component {
   };
 
   renderItemLog = item => {
-    const content = item.userId ? `${item.userId}` : `${item.name}`; // (${item.address})
+    const content = item.userId
+      ? `${Service.getFirst6Char(item.userId)}`
+      : `${item.name}`;
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -295,8 +294,7 @@ class WatchScanScreen extends React.Component {
   render() {
     const {intl} = this.props;
     const {formatMessage} = intl;
-    const {UserCode} = configuration;
-    const {logs, statusLoadding} = this.state;
+    const {logs, statusLoadding, bzId} = this.state;
 
     const itemsLogNear = [];
     const itemsLogDiff = [];
@@ -414,7 +412,7 @@ class WatchScanScreen extends React.Component {
             <MediumText style={styles.textListHeader}>
               {formatMessage(message.myBluezoneId)}
             </MediumText>
-            <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
+            <MediumText style={styles.textUserCode}>{bzId}</MediumText>
           </View>
         </ScrollView>
       </SafeAreaView>
