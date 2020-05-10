@@ -565,7 +565,8 @@ const checkNotifyOfDay = () => {
   for (let i = 0; i < ScheduleNotifyHour.length; i++) {
     if (
       i === ScheduleNotifyHour.length - 1 &&
-      ScheduleNotifyHour[ScheduleNotifyHour.length - 1] <= hoursOld
+      ScheduleNotifyHour[i] <= hoursOld &&
+        ScheduleNotifyHour[i] <= currentTimeOfHours
     ) {
       return false;
     }

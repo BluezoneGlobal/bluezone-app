@@ -23,5 +23,6 @@ RCT_EXTERN_METHOD(setMaxNumberSubKey:(NSInteger *) maxSubKey)
 @end
 
 @interface RCT_EXTERN_MODULE(TraceCovid, RCTEventEmitter)
-RCT_EXTERN_METHOD(onGetUUId: (String)value)
+RCT_EXTERN_METHOD(onScanResult: (String)value)
+RCT_EXTERN_METHOD(onBluezoneIdChange: (String)blzId)
 @end
