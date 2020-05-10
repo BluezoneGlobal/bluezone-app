@@ -24,6 +24,7 @@
 import {StyleSheet} from 'react-native';
 import {small, normal, larger, large, bigger, biggest} from '../../../../utils/fontSize';
 import {heightPercentageToDP} from '../../../../utils/dimension';
+import {isIPhoneX} from '../../../../utils/checkIphoneX';
 
 const SCANNING_HEIGHT = heightPercentageToDP((124 / 720) * 100);
 const SCANNING_STRONG_HEIGHT = heightPercentageToDP((100 / 720) * 100);
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    marginTop: heightPercentageToDP((20 / 720) * 100),
+    marginTop: isIPhoneX ? 0 : heightPercentageToDP((20 / 720) * 100),
     height: heightPercentageToDP((50 / 720) * 100),
   },
 

@@ -23,6 +23,7 @@
 
 import {StyleSheet} from 'react-native';
 import {bigger, small, smaller, normal, larger, large} from '../../../../utils/fontSize';
+import {isIPhoneX} from '../../../../utils/checkIphoneX';
 
 const styles = StyleSheet.create({
   flex: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   header: {
-    marginTop: 20,
+    marginTop: isIPhoneX ? 0 : 20,
   },
   titleHeader: {
     color: '#015cd0',
