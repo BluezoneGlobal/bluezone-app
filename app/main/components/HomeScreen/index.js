@@ -202,15 +202,19 @@ class HomeTab extends React.Component {
               <View style={style.logo}>
                 <LogoBluezone width={28.8} height={34.6}/>
                 <View style={{flexDirection: 'column', paddingLeft: 8.8, paddingRight: 14.6}}>
-                  <Text
+                  <MediumText
                     style={{
+                      textAlign: 'right',
                       color: '#ffffff',
-                      fontSize: fontSize.smaller,
-                      lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
-                      paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      // fontSize: fontSize.smaller,
+                      // lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      // paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      fontSize: fontSize.normal,
+                      lineHeight: fontSize.normal * 0.5, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      paddingTop: fontSize.normal * 0.6, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.smallest, color: '#ffffff', textAlign: 'right'}}>.gov.vn</ThinText>
-                  </Text>
+                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.smallest, color: '#ffffff', fontWeight: '100'}}>.gov.vn</ThinText>
+                  </MediumText>
                 </View>
                 <View style={style.borderLogo} />
                 <View style={{marginHorizontal: 14.6,}}>

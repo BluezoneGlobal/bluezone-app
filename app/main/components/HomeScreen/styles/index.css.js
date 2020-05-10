@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
   },
 
   borderLogo: {
-    borderWidth: 0.4,
-    borderColor: '#b5b5b5',
+    borderRightWidth: 1,
+    borderRightColor: '#b5b5b5',
     height: 24,
   },
 

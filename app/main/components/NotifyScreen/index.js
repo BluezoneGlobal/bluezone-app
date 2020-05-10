@@ -43,6 +43,8 @@ import styles from './styles/index.css';
 // Utils
 import {getNotifications, replaceNotify} from '../../../../app/db/SqliteDb';
 import message from '../../../msg/notify';
+import configuration, {setStatusNotifyRegister} from "../../../Configuration";
+import {messageNotifyOTP, messageNotifyOTPSuccess} from "../ModalNotify/data";
 
 class NotifyScreen extends React.Component {
   constructor(props) {
@@ -76,7 +78,16 @@ class NotifyScreen extends React.Component {
 
   initData = async () => {
     getNotifications(this.index, items => {
-      this.setState({notifications: items});
+      if(items.length > 0) {
+        this.setState({notifications: items});
+      } else {
+        const {PhoneNumber} = configuration;
+        const {language} = this.context;
+        setStatusNotifyRegister(new Date().getTime().toString());
+        const data = PhoneNumber ? messageNotifyOTPSuccess : messageNotifyOTP;
+        replaceNotify(data, language, false);
+        this.initData();
+      }
     });
   };
 

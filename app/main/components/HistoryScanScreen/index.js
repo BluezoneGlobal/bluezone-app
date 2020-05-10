@@ -164,13 +164,13 @@ class HistoryScanScreen extends React.Component {
     const {RssiThreshold} = configuration;
     const result = {};
     // Tong tiep xuc
-    const SQL_QUERY1 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid, '')) as userCount FROM trace_info WHERE timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY1 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid_contact, '')) as userCount FROM trace_info WHERE timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong tiep xuc gan
-    const SQL_QUERY2 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid, '')) as userCount FROM trace_info WHERE rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY2 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid_contact, '')) as userCount FROM trace_info WHERE rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong bluezoner
-    const SQL_QUERY3 = `SELECT COUNT(DISTINCT blid) as userCount FROM trace_info WHERE blid NOT NULL AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY3 = `SELECT COUNT(DISTINCT blid_contact) as userCount FROM trace_info WHERE blid_contact NOT NULL AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong bluzoner gan
-    const SQL_QUERY4 = `SELECT COUNT(DISTINCT blid) as userCount FROM trace_info WHERE blid NOT NULL AND rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY4 = `SELECT COUNT(DISTINCT blid_contact) as userCount FROM trace_info WHERE blid_contact NOT NULL AND rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     this.db = open();
     this.db.transaction(tx => {
       tx.executeSql(
