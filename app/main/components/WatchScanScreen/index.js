@@ -74,8 +74,6 @@ class WatchScanScreen extends React.Component {
     this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
-    const a = Service.getBluezoneId();
-    console.log('aaaaaaaaa', a);
   }
 
   componentWillUnmount() {
@@ -410,12 +408,12 @@ class WatchScanScreen extends React.Component {
               </View>
             )}
           </View>
-          <View style={styles.listHeaderContainer}>
-            <MediumText style={styles.textListHeader}>
-              {formatMessage(message.myBluezoneId)}
-            </MediumText>
-            <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
-          </View>
+          {/*<View style={styles.listHeaderContainer}>*/}
+          {/*  <MediumText style={styles.textListHeader}>*/}
+          {/*    {formatMessage(message.myBluezoneId)}*/}
+          {/*  </MediumText>*/}
+          {/*  <MediumText style={styles.textUserCode}>{UserCode}</MediumText>*/}
+          {/*</View>*/}
         </ScrollView>
       </SafeAreaView>
     );

@@ -78,7 +78,7 @@
 
   "bluezone.verifyOTP.title": "Xác thực",
   "bluezone.verifyOTP.enterPin": "Chúng tôi đang gửi Mã xác thực đến số điện thoại của bạn",
-  "bluezone.verifyOTP.changePhoneNumber": "Thay đổi số điện thoại ?",
+  "bluezone.verifyOTP.changePhoneNumber": "Số điện thoại không đúng?",
   "bluezone.verifyOTP.pleaseEnterPin": "Vui lòng nhập mã OTP",
   "bluezone.verifyOTP.validPin": "Gửi lại tin nhắn",
   "bluezone.verifyOTP.confirm": "Xác thực",
