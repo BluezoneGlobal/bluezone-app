@@ -51,57 +51,9 @@ let CURRENT_RETRY = 0;
 let timerRegister;
 let CURRENT_RETRY_UPDATE_TOKEN_FCM = 0;
 let timerUpdateToken;
-// const TypeOS = Platform.OS === 'android' ? 1 : 2;
 let UPDATE_TOKEN_FIREBASE_RUNNING = false;
 let REGISTER_USER_RUNNING = false;
 const filePath = RNFS.ExternalStorageDirectoryPath + '/Bluezone/.id';
-const validDateRegx = /^[0-9A-Za-z]{6}$/;
-
-// Create UserCode in JS
-// const generateRandom = () => {
-//   var szCharSet =
-//     '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-//   var nSizeCharSet = szCharSet.length;
-//   var UserCode = '';
-//
-//   global.Math.seedrandom(new Date().getTime());
-//
-//   for (var i = 0; i < 6; i++) {
-//     UserCode += szCharSet.charAt(
-//       global.Math.floor(global.Math.random() * nSizeCharSet),
-//     );
-//   }
-//
-//   return UserCode;
-// };
-
-const validateUserCode = id => validDateRegx.test(id);
-
-const getUserIdFromFile = async onResult => {
-  RNFS.exists(filePath)
-    .then(result => {
-      if (result) {
-        RNFS.readFile(filePath, 'utf8')
-          .then(value => {
-            onResult(value);
-          })
-          .catch(() => onResult());
-      } else {
-        onResult();
-      }
-    })
-    .catch(() => onResult());
-};
-
-const saveUserToFile = UserCode => {
-  RNFS.writeFile(filePath, UserCode, 'utf8')
-    .then(success => {
-      console.log('WRITEN ID TO FILE SUCCES!');
-    })
-    .catch(err => {
-      console.log('WRITEN ID TO FILE ERROR:' + err.message);
-    });
-};
 
 const removeFileSaveUser = () => {
   return RNFS.unlink(filePath)
@@ -111,11 +63,6 @@ const removeFileSaveUser = () => {
     .catch(err => {
       console.log(err.message);
     });
-};
-
-const createUserCode = async () => {
-  const UserCode = await Service.generatorId();
-  return UserCode;
 };
 
 const configuration = {
@@ -197,7 +144,6 @@ const configuration = {
   TimeCountDownOTP: 180,
 
   // Lưu gửi AsyncStorage
-  UserCode: '',
   TokenFirebase: '',
   Register_Phone: 'FirstOTP',
   FirstOTP: null,
@@ -258,31 +204,7 @@ const mergeConfiguration = (
 };
 
 const getUserCodeAsync = async () => {
-  const UserCode = await AsyncStorage.getItem('UserCode');
-  if (validateUserCode(UserCode)) {
-    Service.setUserId(UserCode);
-    Object.assign(configuration, {
-      UserCode: UserCode,
-    });
-    // Platform.OS !== 'ios' && saveUserToFile(UserCode);
-    Platform.OS !== 'ios' && removeFileSaveUser();
-  } else {
-    // Service.restoreDb();
-    // getUserIdFromFile(getUserIdFromFileCallback);
-    getUserIdFromFileCallback();
-  }
-};
-
-const getUserIdFromFileCallback = async userCodeFromFile => {
-  const userCode = validateUserCode(userCodeFromFile)
-    ? userCodeFromFile
-    : await createUserCode();
-  AsyncStorage.setItem('UserCode', userCode);
-  Service.setUserId(userCode);
-  Object.assign(configuration, {
-    UserCode: userCode,
-  });
-  // Platform.OS !== 'ios' && saveUserToFile(userCode);
+  Platform.OS !== 'ios' && removeFileSaveUser();
 };
 
 function notifySchedule(notify, timestamp) {

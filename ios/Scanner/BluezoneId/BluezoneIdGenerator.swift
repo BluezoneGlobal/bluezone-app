@@ -283,7 +283,7 @@ public class BluezoneIdGenerator {
     /*
      * Set Number sub key per day
      */
-    public static func setMaxNumberSubKey(maxSubKey: Int) {
+    public static func setMaxNumberSubKey(maxSubKey: Int64) {
       UserDefaults.standard.set(maxSubKey, forKey: BluezoneIdConstants.UserDefaults.MAX_NUMBER_SUB_KEY_PER_DAY)
     }
 }

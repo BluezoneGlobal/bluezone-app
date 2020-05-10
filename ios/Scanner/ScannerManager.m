@@ -17,6 +17,9 @@ RCT_EXTERN_METHOD(setId:(NSString *) userId)
 RCT_EXTERN_METHOD(onSetTimeDelay:(NSInteger *) userId)
 RCT_EXTERN_METHOD(generatorBluezoneId: (RCTPromiseResolveBlock)resolve
   rejecter: (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(getBluezoneId: (RCTPromiseResolveBlock)resolve
+rejecter: (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(setMaxNumberSubKey:(NSInteger *) maxSubKey)
 @end
 
 @interface RCT_EXTERN_MODULE(TraceCovid, RCTEventEmitter)

@@ -24,7 +24,6 @@
   "NOTIFI_PERMISSION_LOCATION_ANDROID_TEXT": "Bluezone không sử dụng vị trí của thiết bị. Bluezone chỉ bật Bluetooth năng lượng thấp BLE để ghi nhận các \"tiếp xúc gần\".\n\nMặc dù vậy, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền để có thể ghi nhận các \"tiếp xúc gần",
   "NOTIFI_LOCATION_ANDROID_TEXT": "Bluezone không thể ghi nhận các \"tiếp xúc gần\" vì thiết bị chưa Bật vị trí.\n\nBluezone chỉ sử dụng Bluetooth năng lượng thấp BLE để ghi nhận các \"tiếp xúc gần\". Tuy nhiên, theo chính sách của Google, khi bật Bluetooth BLE thiết bị sẽ tự động đề nghị truy cập vị trí thiết bị, ngay cả khi Bluezone không sử dụng tới quyền đó.\n\nBạn cần cấp quyền Bật vị trí để có thể ghi nhận các \"tiếp xúc gần\".",
   "NOTIFI_PERMISSION_WRITE_FILE_TEXT": "Bluezone chỉ sử dụng quyền \"truy cập tệp\" để ghi lịch sử \"tiếp xúc gần\" lên bộ nhớ thiết bị.\n\nMặc dù vậy, theo chính sách của Google, thiết bị vẫn tự động đề nghị \"cho phép truy cập vào ảnh, phương tiện và tệp\" ngay cả khi Bluezone không sử dụng các quyền còn lại.\n\nBạn cần cấp quyền để có thể ghi nhận các \"tiếp xúc gần\".",
-  "UserCode": "",
   "TokenFirebase": "",
   "TimeEnableBluetooth": 300000,
   "BatteryEnableBluetooth": 15,

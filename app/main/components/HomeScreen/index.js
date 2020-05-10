@@ -209,7 +209,7 @@ class HomeTab extends React.Component {
                       lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                       paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone{'\n'}<Text style={{fontSize: fontSize.smallest, color: '#ffffff',}}>.gov.vn</Text>
+                    Bluezone{'\n'}<Text style={{fontSize: fontSize.smallest, color: '#ffffff', textAlign: 'left'}}>.gov.vn</Text>
                   </MediumText>
                 </View>
                 <View style={style.borderLogo} />

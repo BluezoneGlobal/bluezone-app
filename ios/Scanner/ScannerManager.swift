@@ -14,13 +14,13 @@ public class ScannerManager: RCTViewManager {
     // Bluetooth
     // Phát
   var peripheralManager: CBPeripheralManager!
-    
+
     var db = ContactLogDBHelper()
   var timer = Timer()
-  
+
   // Delay ban vao su kien
   let TIME_DELAY = 5 * 1000;
-  
+
   // Delay luu vao DB
   var TIME_DELAY_SAVE_DB = 60 * 1000;
 
@@ -56,12 +56,21 @@ public class ScannerManager: RCTViewManager {
         UserDefaults.standard.set(userId, forKey: AppConstant.USER_DATA_PHONE_NUMBER)
     }
   }
-  
+
+  @objc func getBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+    let _id = BluezoneIdUtils.getBluezoneIdHex();
+    resolve(_id)
+  }
+
+  @objc func setMaxNumberSubKey(_ maxSubKey: Int64) {
+    BluezoneIdGenerator.setMaxNumberSubKey(maxSubKey: maxSubKey);
+  }
+
   @objc func generatorBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
     let _id = BluezonerIdGenerator.createBluezonerId(numberChar: 6)
     resolve(_id)
   }
-  
+
   @objc func onSetTimeDelay(_ time: Int64) {
     print("onSetTimeDelay");
     TIME_DELAY_SAVE_DB = Int(truncatingIfNeeded: time)
@@ -70,10 +79,10 @@ public class ScannerManager: RCTViewManager {
   public func onStartService() {
       // Tạo thiết bị mới, check nếu gọi thành công thì sẽ start việc tìm kiếm
       print("start scanning")
-      
+
       // Tạo thiết bị mới, check nếu gọi thành công thì sẽ start việc tìm kiếm
       startAdvertising()
-      
+
       // Scan thiết bị
       scanPeripheral()
   }
@@ -83,7 +92,7 @@ public class ScannerManager: RCTViewManager {
       if mBleCentral != nil {
           mBleCentral.stopScanPeripheral()
       }
-      
+
       // check
       if mBlePeripheral != nil {
           mBlePeripheral.stopAdvertising()
@@ -96,33 +105,33 @@ public class ScannerManager: RCTViewManager {
   func startAdvertising() {
       // Khởi tạo
       mBlePeripheral = BlePeripheralManager()
-      
+
       // Start
       mBlePeripheral.startAdvertising(onSuccess: {(isSucces) -> Void in}, onError: {(error) -> Void in})
   }
-  
+
     /*
      * Scan Peripheral
      */
     private func scanPeripheral() {
         // Khởi tao
         mBleCentral = BleCentralManager()
-        
+
         // Scan
         mBleCentral.scanPeripheral(onDataScan: {(contactBlId, identifier, rssi, txPower) -> Void in
             // Check check insert blid
             if self.checkUserIdInsert(contactBlID: contactBlId) {
-                
+
                 if (self.bridge != nil) {
                     let result : AnyHashable = [
                         "id": contactBlId.hexEncodedString(options: .upperCase),
                         "address": "",
                         "rssi": String(rssi)]
-                    
+
                     let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
                     module.onGetUUId(result)
                 }
-                
+
             let timestamp = Date().currentTimeMillis()
                 let builder = LogBuilder()
 
@@ -134,10 +143,10 @@ public class ScannerManager: RCTViewManager {
                     .setContactBlId(contactBlId: contactBlId)
                     .setTimestamp(time: timestamp)
                     .build()
-            
+
                 self.db.insert(scan:scan)
             }
-        
+
         }, onError: {(error) -> Void in
             // Check co loi ko
             if !error.isEmpty {
@@ -145,31 +154,31 @@ public class ScannerManager: RCTViewManager {
             }
         })
     }
-  
+
     /*
      * Check user id insert
      */
     func checkUserIdInsert(contactBlID: Data) -> Bool {
         var ret: Bool = true;
-        
+
         let time = Date().currentTimeMillis()
-        
+
         print(self.mScannedUserId)
-    
+
         // Check scan
         if self.mScannedUserId.count > 0 {
             // Check da luu
             for item in self.mScannedUserId {
                 let dataSave: Data = item.contactBlId
                 let timeSave: Int64 = item.time
-              
+
                 // Check insert
                 if dataSave == contactBlID && (time - timeSave < TIME_DELAY) {
                    // Dung
                    ret = false;
                 }
             }
-          
+
             // Check
             if (ret) {
                  // Remove va insert vao

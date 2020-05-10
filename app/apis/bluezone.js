@@ -25,6 +25,7 @@ import axios from 'axios';
 import configuration from '../Configuration';
 import {DOMAIN} from './server';
 import RNFS from 'react-native-fs';
+import Service from './service';
 
 // 1. Trả về trạng phái phiên bản app mới nhất trên server
 export const getCheckVersions = async (success, fail) => {
@@ -110,8 +111,9 @@ export function VerifyOTPCode(PhoneNumber, OTPCode, successCb, errorCb) {
   );
 }
 
-export function uploadHistoryF12(filePath, FindFID, successCb, errorCb) {
-  const {TokenFirebase, UserCode} = configuration;
+export async function uploadHistoryF12(filePath, FindFID, successCb, errorCb) {
+  const {TokenFirebase} = configuration;
+  const UserCode = await Service.getBluezoneIdFirst6Char();
 
   // RNFS.readFile(filePath, 'utf8')
   //   .then(success => {
@@ -152,17 +154,17 @@ export function uploadHistoryF12(filePath, FindFID, successCb, errorCb) {
   };
 
   axios(options).then(
-    response => {
-      alert(JSON.stringify(response));
-      if (response && response.status === 200 && response.data.isOk === true) {
-        successCb(response);
-      } else {
-        errorCb(response.Object);
-      }
-    },
-    error => {
-      errorCb(error);
-    },
+      response => {
+        alert(JSON.stringify(response));
+        if (response && response.status === 200 && response.data.isOk === true) {
+          successCb(response);
+        } else {
+          errorCb(response.Object);
+        }
+      },
+      error => {
+        errorCb(error);
+      },
   );
 }
 

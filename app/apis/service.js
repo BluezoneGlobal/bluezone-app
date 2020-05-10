@@ -46,7 +46,12 @@ const setConfig = config => {
   if (Platform.OS !== 'ios') {
     TraceCovid.setConfig(config);
   } else if (config.TimeSaveLog) {
-    TraceCovid.onSetTimeDelay(config.TimeSaveLog);
+    config.TimeSaveLog &&
+      config.TimeSaveLog > 0 &&
+      TraceCovid.onSetTimeDelay(config.TimeSaveLog);
+    config.MaxNumberSubKey &&
+      config.MaxNumberSubKey > 0 &&
+      TraceCovid.setMaxNumberSubKey(config.MaxNumberSubKey);
   }
 };
 
@@ -60,16 +65,6 @@ const addListenerScanBLE = onScan => {
 
 const addListenerScanBlueTooth = onScan => {
   return eventEmitter.addListener('onScanBlueToothResult', onScan);
-};
-
-const generatorId = () => {
-  return TraceCovid.generatorBluezoneId();
-};
-
-const restoreDb = () => {
-  if (Platform.OS !== 'ios') {
-    TraceCovid && TraceCovid.restoreDb();
-  }
 };
 
 const changeLanguageNotifi = language => {
@@ -99,13 +94,10 @@ const getBluezoneIdFirst6Char = async () => {
 
 const service = {
   startService,
-  setUserId,
   setConfig,
   addListener,
   addListenerScanBLE,
   addListenerScanBlueTooth,
-  generatorId,
-  restoreDb,
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,
