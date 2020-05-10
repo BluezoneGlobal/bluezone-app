@@ -46,8 +46,8 @@
     "bluezone.notify.noList": "Empty list",
 
     "bluezone.history.header": "View history",
-    "bluezone.history.totalContact": "Total of contacts",
-    "bluezone.history.closeContact": "Close contacts",
+    "bluezone.history.totalContact": "Total contact times",
+    "bluezone.history.closeContact": "Close contact times",
     "bluezone.history.people": "People",
     "bluezone.history.bluezoner": "Bluezoner",
     "bluezone.history.bluezoners": "Bluezoners",
