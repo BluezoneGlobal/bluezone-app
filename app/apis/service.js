@@ -67,6 +67,14 @@ const addListenerScanBlueTooth = onScan => {
   return eventEmitter.addListener('onScanBlueToothResult', onScan);
 };
 
+const addListenerBluezoneIdChange = onChange => {
+  return eventEmitter.addListener('onBluezoneIdChange', bzId => {
+    onChange(
+      bzId && bzId.length >= 6 ? bzId.substring(0, 6).concat('***') : bzId,
+    );
+  });
+};
+
 const changeLanguageNotifi = language => {
   Platform.OS !== 'ios' && TraceCovid.setLanguage(language);
 };
@@ -98,6 +106,7 @@ const service = {
   addListener,
   addListenerScanBLE,
   addListenerScanBlueTooth,
+  addListenerBluezoneIdChange,
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,
