@@ -34,7 +34,7 @@ import {injectIntl, intlShape} from 'react-intl';
 import Modal from 'react-native-modal';
 import ButtonText from '../../../base/components/ButtonText';
 import ModalNotify from '../ModalNotify';
-import Text, {MediumText} from '../../../base/components/Text';
+import Text, {MediumText, ThinText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountBluezoner from './CountBluezoner';
 import SwitchLanguage from './SwitchLanguage';
@@ -202,15 +202,15 @@ class HomeTab extends React.Component {
               <View style={style.logo}>
                 <LogoBluezone width={28.8} height={34.6}/>
                 <View style={{flexDirection: 'column', paddingLeft: 8.8, paddingRight: 14.6}}>
-                  <MediumText
+                  <Text
                     style={{
                       color: '#ffffff',
                       fontSize: fontSize.smaller,
                       lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                       paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone{'\n'}<Text style={{fontSize: fontSize.smallest, color: '#ffffff', textAlign: 'left'}}>.gov.vn</Text>
-                  </MediumText>
+                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.smallest, color: '#ffffff', textAlign: 'left'}}>.gov.vn</ThinText>
+                  </Text>
                 </View>
                 <View style={style.borderLogo} />
                 <View style={{marginHorizontal: 14.6,}}>
