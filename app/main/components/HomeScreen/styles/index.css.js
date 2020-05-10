@@ -33,7 +33,8 @@ const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
 const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
 const LOGO_BLUEZONE_HEIGHT = heightPercentageToDP((34.6 / 720) * 100);
 const LOGO_BLUEZONE_WIDTH = heightPercentageToDP((28.8 / 720) * 100);
-
+const LOGO_PADDING_BOTTOM = heightPercentageToDP((8 / 720) * 100);
+const HEADER_PADDING_TOP = heightPercentageToDP((8 / 720) * 100);
 
 const styles = StyleSheet.create({
   background: {
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: HEADER_PADDING_TOP,
     paddingBottom: HEADER_PADDING_BOTTOM,
   },
 
@@ -294,15 +296,14 @@ const styles = StyleSheet.create({
     fontSize: fontSize.normal,
   },
 
-
-
   switchLanguage: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: isIPhoneX ? 36 : 8,
+    paddingTop: isIPhoneX ? 32 : 8,
     zIndex: 99,
+    paddingBottom: LOGO_PADDING_BOTTOM,
   },
 
   btnLanguage: {
