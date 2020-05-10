@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: isIPhoneX ? 36 : 12,
+    paddingTop: isIPhoneX ? 36 : 8,
     zIndex: 99,
   },
 
