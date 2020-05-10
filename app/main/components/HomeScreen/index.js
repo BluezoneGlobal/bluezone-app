@@ -206,14 +206,11 @@ class HomeTab extends React.Component {
                     style={{
                       textAlign: 'right',
                       color: '#ffffff',
-                      // fontSize: fontSize.smaller,
-                      // lineHeight: fontSize.smaller * 0.75, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
-                      // paddingTop: fontSize.smaller * 0.25 // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                       fontSize: fontSize.normal,
-                      lineHeight: fontSize.normal * 0.5, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
+                      lineHeight: fontSize.normal * 0.4, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                       paddingTop: fontSize.normal * 0.6, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.smallest, color: '#ffffff', fontWeight: '100'}}>.gov.vn</ThinText>
+                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.tiny, color: '#ffffff', fontWeight: '100'}}>.gov.vn</ThinText>
                   </MediumText>
                 </View>
                 <View style={style.borderLogo} />
