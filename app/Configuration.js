@@ -129,7 +129,7 @@ const configuration = {
   Introduce_en: 'https://bluezone.ai',
   TimeSaveLog: 10000,
   TimeShowLog: 30000,
-  RssiThreshold: -69,
+  RssiThreshold: -100, //  -69,
   PeriodDay: 14,
   DbMaxRow: 100000,
   DbMaxDay: 180,

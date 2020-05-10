@@ -84,7 +84,18 @@ const writeHistoryContact = ids => {
   return Platform.OS !== 'ios' && TraceCovid.writeHistoryContact(ids);
 };
 
-const getBluezoneId = () => TraceCovid.getBluezoneId();
+const getBluezoneId = async () => {
+  const bzId = await TraceCovid.getBluezoneId();
+  return bzId;
+};
+
+const getFirst6Char = bzId =>
+  bzId && bzId.length >= 6 ? bzId.substring(0, 6).concat('***') : bzId;
+
+const getBluezoneIdFirst6Char = async () => {
+  const bzId = await getBluezoneId();
+  return getFirst6Char(bzId);
+};
 
 const service = {
   startService,
@@ -98,7 +109,9 @@ const service = {
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,
+  getFirst6Char,
   getBluezoneId,
+  getBluezoneIdFirst6Char,
 };
 
 export default service;
