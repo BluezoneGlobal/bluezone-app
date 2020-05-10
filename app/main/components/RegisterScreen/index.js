@@ -65,7 +65,7 @@ class RegisterScreen extends React.Component {
       showErrorModal: false,
     };
 
-    this.imageHeight = new Animated.Value(124);
+    this.marginBottom = new Animated.Value(51);
 
     this.onChangeText = this.onChangeText.bind(this);
     this.onPress = this.onPress.bind(this);
@@ -94,16 +94,16 @@ class RegisterScreen extends React.Component {
   }
 
   keyboardDidShow = event => {
-    Animated.timing(this.imageHeight, {
+    Animated.timing(this.marginBottom, {
       duration: event.duration,
-      toValue: 70,
+      toValue: 20,
     }).start();
   };
 
   keyboardDidHide = event => {
-    Animated.timing(this.imageHeight, {
+    Animated.timing(this.marginBottom, {
       duration: event.duration,
-      toValue: 124,
+      toValue: 51,
     }).start();
   };
 
@@ -172,28 +172,29 @@ class RegisterScreen extends React.Component {
           <View style={styles.layout1}>
             <Text style={styles.text2}>{formatMessage(message.title)}</Text>
           </View>
-          <View style={styles.phone}>
+          <Animated.View
+            style={[styles.phone, {marginBottom: this.marginBottom}]}>
             <Text style={styles.text4}>{formatMessage(message.title1)}</Text>
             <TextInput
               autoFocus={true}
               keyboardType={'number-pad'}
-              style={styles.textInput}
+              style={[styles.textInput]}
               allowFontScaling={false}
               placeholder={formatMessage(message.pleaseEnterYourPhone)}
               onChangeText={this.onChangeText}
             />
-            <ButtonIconText
-              disabled={disabled}
-              onPress={this.onPress}
-              text={formatMessage(message.next)}
-              styleBtn={[
-                styles.btnNext,
-                disabled ? styles.buttonDisable : styles.buttonActive,
-              ]}
-              styleText={{fontSize: fontSize.normal}}
-              styleIcon={styles.buttonIcon}
-            />
-          </View>
+          </Animated.View>
+          <ButtonIconText
+            disabled={disabled}
+            onPress={this.onPress}
+            text={formatMessage(message.next)}
+            styleBtn={[
+              styles.btnNext,
+              disabled ? styles.buttonDisable : styles.buttonActive,
+            ]}
+            styleText={{fontSize: fontSize.normal}}
+            styleIcon={styles.buttonIcon}
+          />
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ButtonText

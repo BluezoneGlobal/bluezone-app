@@ -26,7 +26,7 @@ import {huge, large, normal} from '../../../../utils/fontSize';
 import {blue_bluezone} from '../../../../utils/color';
 import {heightPercentageToDP} from '../../../../utils/dimension';
 
-const LOGO_HEIGHT = heightPercentageToDP((164 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((124 / 720) * 100);
 
 const styles = StyleSheet.create({
   layout1: {
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     borderColor: '#e8e8e8',
     paddingLeft: 16,
     fontSize: 15,
-    marginBottom: 51,
   },
 
   container: {
@@ -101,6 +100,7 @@ const styles = StyleSheet.create({
   phone: {
     marginTop: 28,
     marginHorizontal: 30,
+    marginBottom: 51,
   },
 
   textColorActive: {
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
   },
 
   btnNext: {
+    marginHorizontal: 30,
     height: 46,
   },
 });

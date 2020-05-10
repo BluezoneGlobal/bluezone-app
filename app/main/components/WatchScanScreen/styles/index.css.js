@@ -27,14 +27,17 @@ import {heightPercentageToDP} from '../../../../utils/dimension';
 
 const SCANNING_HEIGHT = heightPercentageToDP((124 / 720) * 100);
 const SCANNING_STRONG_HEIGHT = heightPercentageToDP((100 / 720) * 100);
-const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((210 / 720) * 100);
+const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((200 / 720) * 100);
+const TEXT_BLUEZONE_PADDINGTOP = heightPercentageToDP((9 / 720) * 100);
+const TEXT_BLUEZONE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
+const COUNT_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
-    paddingTop: 25,
+    paddingTop: COUNT_PADDINGTOP,
     paddingHorizontal: 25,
   },
   infoItem: {
@@ -82,8 +85,8 @@ const styles = StyleSheet.create({
   infoItemDesc: {
     color: '#484848',
     fontSize: large,
-    paddingTop: 9,
-    paddingBottom: 25,
+    paddingTop: TEXT_BLUEZONE_PADDINGTOP,
+    paddingBottom: TEXT_BLUEZONE_PADDINGBOTTOM,
     textAlign: 'center',
   },
 
@@ -205,7 +208,8 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    marginTop: 20,
+    marginTop: heightPercentageToDP((20 / 720) * 100),
+    height: heightPercentageToDP((50 / 720) * 100),
   },
 
   iconEmpty: {

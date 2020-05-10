@@ -51,7 +51,7 @@ import styles from './styles/index.css';
 
 // Api
 import Service from '../../../apis/service';
-import * as Progress from "react-native-progress";
+import * as Progress from 'react-native-progress';
 
 class WatchScanScreen extends React.Component {
   constructor(props) {
@@ -74,6 +74,8 @@ class WatchScanScreen extends React.Component {
     this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
+    const a = Service.getBluezoneId();
+    console.log('aaaaaaaaa', a);
   }
 
   componentWillUnmount() {
@@ -354,11 +356,11 @@ class WatchScanScreen extends React.Component {
             ) : statusLoadding ? (
               <View style={styles.listEmptyContainer}>
                 <Progress.CircleSnail
-                    size={64}
-                    color={'#015cd0'}
-                    duration={800}
-                    progress={0.9}
-                    thickness={4}
+                  size={64}
+                  color={'#015cd0'}
+                  duration={800}
+                  progress={0.9}
+                  thickness={4}
                 />
               </View>
             ) : (
@@ -390,11 +392,11 @@ class WatchScanScreen extends React.Component {
             ) : statusLoadding ? (
               <View style={styles.listEmptyContainer}>
                 <Progress.CircleSnail
-                    size={64}
-                    color={'#015cd0'}
-                    duration={800}
-                    progress={0.9}
-                    thickness={4}
+                  size={64}
+                  color={'#015cd0'}
+                  duration={800}
+                  progress={0.9}
+                  thickness={4}
                 />
               </View>
             ) : (

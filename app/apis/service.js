@@ -84,6 +84,8 @@ const writeHistoryContact = ids => {
   return Platform.OS !== 'ios' && TraceCovid.writeHistoryContact(ids);
 };
 
+const getBluezoneId = () => TraceCovid.getBluezoneId();
+
 const service = {
   startService,
   setUserId,
@@ -96,6 +98,7 @@ const service = {
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,
+  getBluezoneId,
 };
 
 export default service;
