@@ -68,6 +68,9 @@ const addListenerScanBlueTooth = onScan => {
 };
 
 const addListenerBluezoneIdChange = onChange => {
+  if(Platform.OS === 'ios') {
+    return null;
+  }
   return eventEmitter.addListener('onBluezoneIdChange', bzId => {
     onChange(
       bzId && bzId.length >= 6 ? bzId.substring(0, 6).concat('***') : bzId,
