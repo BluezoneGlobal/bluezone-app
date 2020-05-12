@@ -23,73 +23,133 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {isIPhoneX} from '../../../../utils/checkIphoneX';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const HEADER_PADDING_BOTTOM = heightPercentageToDP((20 / 720) * 100);
+const HEADER_BACKGROUND_HEIGHT = heightPercentageToDP((152.4 / 720) * 100);
+const FOOTER_PADDING_BOTTOM = heightPercentageToDP((38 / 720) * 100);
+const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
+const LOGO_BLUEZONE_HEIGHT = heightPercentageToDP((34.6 / 720) * 100);
+const LOGO_BLUEZONE_WIDTH = heightPercentageToDP((28.8 / 720) * 100);
+
 
 const styles = StyleSheet.create({
   background: {
+    flex: 1,
     backgroundColor: '#ffffff',
   },
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
+
   colorText: {
     color: '#73e530',
   },
+
   watchScan: {
+    flex: 1,
     flexDirection: 'row',
-    paddingHorizontal: 42,
-    paddingTop: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+
   marginRight23: {
     marginRight: 23,
   },
+
   header: {
-    paddingHorizontal: 26,
+    paddingHorizontal: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: HEADER_PADDING_BOTTOM,
   },
+
   buttonScan: {
     backgroundColor: '#015cd0',
-    marginBottom: 18,
+    marginBottom: SCAN_PADDING_BOTTOM,
   },
+
   buttonHistory: {
     backgroundColor: '#119a01',
-    marginBottom: 18,
   },
+
   buttonIcon: {
     width: 18,
     height: 18,
   },
+
+  logo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  iconLogoMic: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 10.6,
+  },
+
+  borderLogo: {
+    borderWidth: 0.2,
+    borderColor: '#b5b5b5',
+    height: 24,
+  },
+
+  iconLogoBluezone: {
+    width: 28.8,
+    height: 34.6,
+  },
+
+  iconLogoBoyte: {
+    width: 30,
+    height: 30,
+    marginLeft: 10.6,
+  },
+
   center: {
     textAlign: 'center',
   },
+
   buttonInvite: {
     borderTopWidth: 0.65,
     borderTopColor: '#c6c6c8',
   },
+
   textInvite: {
     color: '#1C74C4',
     fontWeight: '700',
   },
+
   modal: {
     margin: 40,
     justifyContent: 'center',
   },
+
   textHeader: {
+    textAlign: 'center',
     // fontFamily: 'OpenSans',
     fontSize: fontSize.huge,
     fontWeight: 'bold',
     color: '#ffffff',
     paddingBottom: 3,
   },
+
   texthea: {
     // fontFamily: 'OpenSans',
     color: '#ffffff',
     fontSize: fontSize.small,
   },
+
   button: {
     paddingHorizontal: 43,
+    paddingBottom: FOOTER_PADDING_BOTTOM,
     justifyContent: 'center',
   },
+
   safe: {
     marginTop: 16,
     marginHorizontal: 16,
@@ -137,13 +197,14 @@ const styles = StyleSheet.create({
   },
 
   numberBluezone: {
-    flex: 1,
-    borderRadius: 16,
-    paddingTop: 21,
-    paddingBottom: 19,
+    // flex: 1,
+    borderRadius: SCANNING_HEIGHT / 2,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 0.65,
-    borderColor: '#f2f2f2',
+    borderWidth: 4,
+    borderColor: '#e5e5e5',
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
   },
 
   scanButton: {
@@ -175,7 +236,7 @@ const styles = StyleSheet.create({
   textProtectCommunity: {
     textAlign: 'center',
     paddingVertical: 12,
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
 
   bluezone: {
@@ -208,9 +269,8 @@ const styles = StyleSheet.create({
   textBlueNumber: {
     // fontFamily: 'OpenSans',
     fontWeight: 'bold',
-    fontSize: fontSize.bigger,
+    fontSize: fontSize.biggest,
     color: '#0166de',
-    marginBottom: 7,
   },
 
   textSmallBlueNumber: {
@@ -230,10 +290,67 @@ const styles = StyleSheet.create({
   },
 
   textBlue: {
-    // fontFamily: 'OpenSans',
     color: '#484848',
     fontSize: fontSize.normal,
   },
+
+  switchLanguage: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingTop: isIPhoneX ? 32 : 12,
+    zIndex: 99,
+  },
+
+  btnLanguage: {
+    flexDirection: 'row',
+    borderRadius: 15,
+    alignItems: 'center',
+    height: 30,
+    backgroundColor: '#4f9cfa',
+  },
+
+  btnLanguageActive: {
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 26,
+    height: 26,
+  },
+
+  textBtnLanguageActive: {
+    fontSize: fontSize.smallest,
+    color: '#0166de',
+    alignItems: 'center',
+    paddingVertical: 2,
+    fontWeight: '600',
+  },
+
+  textBtnLanguage: {
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    fontSize: fontSize.smallest,
+    color: '#ffffff',
+  },
+
+  circleScan: {
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  circleSnail: {
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
 });
+
+export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH};
 
 export default styles;

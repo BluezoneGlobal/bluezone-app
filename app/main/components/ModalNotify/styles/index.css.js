@@ -28,10 +28,12 @@ const styles = StyleSheet.create({
   textDiv: {
     padding: 20,
   },
+
   container: {
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
   },
+
   textTitle: {
     fontSize: fontSize.huge,
     textAlign: 'center',
@@ -39,47 +41,58 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     color: '#1C74C4',
   },
+
   buttonCancel: {
     flex: 1,
     borderRightWidth: 1,
     borderRightColor: '#c6c6c8',
     borderRadius: 0,
   },
+
   modal: {
     margin: 40,
     justifyContent: 'center',
   },
+
   textCenter: {
     textAlign: 'center',
   },
+
   textCenterIOS: {
     textAlign: 'center',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
   },
+
   flex: {
     flex: 1,
   },
+
   flexRow: {
     flexDirection: 'row',
   },
+
   colorText: {
     color: '#1C74C4',
   },
+
   modalBase: {
     margin: 20,
     justifyContent: 'center',
   },
+
   buttonConfirm: {
     borderTopWidth: 0.65,
     borderTopColor: '#c6c6c8',
   },
+
   textButtonConfirm: {
     color: '#1C74C4',
     fontSize: fontSize.huge,
     fontWeight: '600',
   },
+
   textContent: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     lineHeight: 20,
   },
 });

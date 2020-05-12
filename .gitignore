@@ -37,6 +37,8 @@ android/gradle/*
 
 android/local.properties
 
+android/app/google-services.json
+
 android/java*
 
 # node.js
@@ -67,3 +69,11 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# vim swap
+*.swp
+*.swo
+
+# google key
+*.keystore
+android/gradle.properties

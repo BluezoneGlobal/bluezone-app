@@ -21,16 +21,22 @@
 
 'use strict';
 
-import messaging from '@react-native-firebase/messaging';
+import firebase from 'react-native-firebase';
+import {Platform} from 'react-native';
 import {setTokenFirebase} from './Configuration';
+// Optional flow type
+import {replaceNotify} from './db/SqliteDb';
+import AsyncStorage from '@react-native-community/async-storage';
+import type {RemoteMessage} from 'react-native-firebase';
 
 // https://rnfirebase.io/messaging/usage
 async function registerAppWithFCM() {
-  await messaging().registerDeviceForRemoteMessages();
+  Platform.OS === 'ios' &&
+    (await firebase.messaging().registerDeviceForRemoteMessages());
 }
 
 async function requestUserPermission(callback) {
-  const settings = await messaging().requestPermission();
+  const settings = await firebase.messaging().requestPermission();
 
   callback(settings);
   if (settings) {
@@ -39,32 +45,70 @@ async function requestUserPermission(callback) {
 }
 
 async function requestTokenFirebase() {
+  if (Platform.OS === 'android') {
+    const channel = new firebase.notifications.Android.Channel(
+      'bluezone-channel',
+      'Test Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('My apps test channel');
+
+    // Create the channel
+    firebase.notifications().android.createChannel(channel);
+  }
+
   // Get the device token
-  messaging()
+  firebase
+    .messaging()
     .getToken()
     .then(token => {
       return setTokenFirebase(token);
     });
 
-  // Listen to whether the token changes
-  messaging().onTokenRefresh(token => {
-    setTokenFirebase(token);
+  // // Listen to whether the token changes
+  firebase.messaging().onTokenRefresh(token => {
+    return setTokenFirebase(token);
   });
 }
 
-function registerBackgroundMessageHandler(callback) {
+async function registerBackgroundMessageHandler(message: RemoteMessage) {
+  const language = await AsyncStorage.getItem('Language');
+  replaceNotify(message, language);
   // Register background handler
-  messaging().setBackgroundMessageHandler(callback);
+  return Promise.resolve();
 }
 
 async function registerMessageHandler(callback) {
-  return messaging().onMessage(callback);
+  return firebase.messaging().onMessage(callback);
 }
 
-function getTokenFirebase(callback) {
-  messaging()
+function getTokenFirebase(success, failure) {
+  firebase
+    .messaging()
     .getToken()
-    .then(callback);
+    .then(success)
+    .catch(failure);
+}
+
+function pushNotify(notifyObj, language = 'vi') {
+  const notification = new firebase.notifications.Notification()
+    .setNotificationId(notifyObj.data.notifyId)
+    .setTitle(language !== 'vi' ? notifyObj.data.titleEn : notifyObj.data.title)
+    .setBody(
+      language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
+    )
+    .setData({
+      ...notifyObj.data,
+    })
+    .android.setBigText(
+      language !== 'vi' ? notifyObj.data.bigTextEn : notifyObj.data.bigText,
+    );
+  if (Platform.OS === 'android') {
+    notification.android
+      .setChannelId('bluezone-channel')
+      .android.setSmallIcon('icon_bluezone_service');
+  }
+
+  firebase.notifications().displayNotification(notification);
 }
 
 export {
@@ -74,4 +118,5 @@ export {
   registerBackgroundMessageHandler,
   registerMessageHandler,
   getTokenFirebase,
+  pushNotify,
 };

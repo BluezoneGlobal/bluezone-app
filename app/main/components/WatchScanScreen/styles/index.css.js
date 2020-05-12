@@ -22,12 +22,18 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {small, normal, larger, large, bigger} from '../../../../utils/fontSize';
+import {small, normal, larger, large, bigger, biggest} from '../../../../utils/fontSize';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const SCANNING_HEIGHT = heightPercentageToDP((100 / 720) * 100);
+const SCANNING_STRONG_HEIGHT = heightPercentageToDP((80 / 720) * 100);
+const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((210 / 720) * 100);
 
 const styles = StyleSheet.create({
   infoContainer: {
+    flex: 1,
     backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
+    justifyContent: 'center',
     paddingTop: 25,
     paddingHorizontal: 25,
   },
@@ -41,7 +47,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    // opacity: 0.1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -55,23 +60,22 @@ const styles = StyleSheet.create({
   },
   infoBluezone: {
     backgroundColor: '#E5EEF9',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: SCANNING_HEIGHT,
+    height: SCANNING_HEIGHT,
+    borderRadius: SCANNING_HEIGHT / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    // opacity: 0.1,
   },
   infoBluezone1: {
     backgroundColor: '#015CD0',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: SCANNING_STRONG_HEIGHT,
+    height: SCANNING_STRONG_HEIGHT,
+    borderRadius: SCANNING_STRONG_HEIGHT / 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
   infoItemValue: {
-    fontSize: bigger,
+    fontSize: biggest,
     color: '#FFF',
     fontWeight: 'bold',
   },
@@ -80,14 +84,11 @@ const styles = StyleSheet.create({
     fontSize: normal,
     paddingTop: 15,
     paddingBottom: 25,
+    textAlign: 'center',
   },
 
   listContainer: {
-    minHeight: 220,
-    // flex: 1,
-    // borderTopLeftRadius: 25,
-    // borderTopRightRadius: 25,
-    // backgroundColor: '#FFF',
+    minHeight: LIST_BLUEZONEER_MIN_HEIGHT,
   },
 
   listHeaderContainer: {
@@ -173,6 +174,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  circle: {
+    height: 64,
+    width: 64,
+    borderRadius: 32,
+    borderWidth: 2,
+    borderColor: '#dedede',
   },
 
   listEmptyText: {

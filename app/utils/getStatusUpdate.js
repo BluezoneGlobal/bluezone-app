@@ -104,8 +104,24 @@ const checkUpdate = (currentVersion, latestVersion, rangeVersion = []) => {
   return false;
 };
 
+const getVersionValue = version => {
+  let hasSuffixes;
+  let suffixes;
+  if (version.endsWith('-deploygate')) {
+    hasSuffixes = true;
+    suffixes = '-deploygate';
+  } else if (version.endsWith('-deploygate.dev')) {
+    hasSuffixes = true;
+    suffixes = '-deploygate.dev';
+  }
+  if (hasSuffixes) {
+    return version.slice(0, version.length - suffixes.length);
+  }
+  return version;
+};
+
 const getStatusUpdate = (latestVersion, rangeForce, rangeRecommended) => {
-  const currentVersion = DeviceInfo.getVersion();
+  const currentVersion = getVersionValue(DeviceInfo.getVersion());
   if (checkUpdate(currentVersion, latestVersion, rangeForce)) {
     if (rangeForce.length !== 0) {
       return 1;
