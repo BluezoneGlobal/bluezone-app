@@ -28,11 +28,11 @@ import {
   TouchableOpacity,
   Platform,
   Picker,
-  Alert,
 } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
 import AsyncStorage from '@react-native-community/async-storage';
+import DeviceInfo from 'react-native-device-info';
 
 // Components
 import Modal from 'react-native-modal';
@@ -71,6 +71,7 @@ class HistoryScanScreen extends React.Component {
       daySelected: startOfToday,
       showDay: false,
       showHour: false,
+      fontScale: null,
     };
     this.isGetting = 0;
     this.days = [];
@@ -86,8 +87,21 @@ class HistoryScanScreen extends React.Component {
     return listDays;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.initData();
+    // Picker
+    let fontScale;
+    try {
+      fontScale = await DeviceInfo.getFontScale();
+      this.setState({
+        fontScale,
+      });
+    } catch (e) {
+      fontScale = 1;
+    }
+    this.setState({
+      fontScale,
+    });
   }
 
   componentWillUnmount() {
@@ -266,6 +280,7 @@ class HistoryScanScreen extends React.Component {
       daySelected,
       total,
       nearTotal,
+      fontScale,
       showDay,
     } = this.state;
     const listDay = day.map(item => (
@@ -303,7 +318,10 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.closeContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <CountBlueZoner countBlueZone={nearTotalBluezoner} backgroundColor={'rgb(11,147,35)'}  />
+                <CountBlueZoner
+                  countBlueZone={nearTotalBluezoner}
+                  backgroundColor={'rgb(11,147,35)'}
+                />
               </View>
             </View>
           </View>
@@ -319,14 +337,22 @@ class HistoryScanScreen extends React.Component {
                 </TouchableOpacity>
               ) : (
                 <View style={styles.datePicker}>
-                  <Picker
-                    selectedValue={daySelected}
-                    style={styles.pickerAndroid}
-                    onValueChange={this.onSetDay}>
-                    {listDay}
-                  </Picker>
+                  {fontScale && (
+                    <Picker
+                      selectedValue={daySelected}
+                      style={[
+                        styles.pickerAndroid,
+                        {
+                          width: this.state.fontScale * 83.33 + 66.67,
+                        },
+                      ]}
+                      onValueChange={this.onSetDay}>
+                      {listDay}
+                    </Picker>
+                  )}
                 </View>
               )}
+
               {/*<ButtonIconText*/}
               {/*    onPress={this.onSendHistory}*/}
               {/*    text={formatMessage(warning.uploadText)}*/}

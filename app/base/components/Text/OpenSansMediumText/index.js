@@ -28,7 +28,10 @@ import styles from './styles/index.css';
 
 const OpenSansText = ({text, style, children, ...otherProps}) => {
   return (
-    <Text style={[styles.fontSkin, style]} allowFontScaling={false} {...otherProps}>
+    <Text
+      style={[styles.fontSkin, style]}
+      allowFontScaling={false}
+      {...otherProps}>
       {text ? text : children}
     </Text>
   );

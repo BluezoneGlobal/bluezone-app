@@ -62,10 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(11,147,35)',
   },
   pickerAndroid: {
-    // height: 46,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    height: 50,
     color: '#015cd0',
   },
   pickerIOS: {
