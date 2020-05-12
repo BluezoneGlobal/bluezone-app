@@ -24,18 +24,20 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {SafeAreaView, StatusBar, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import styles, {
-  CONTAINER_MARGINVERTICAL,
-  LOGO_HEIGHT,
-} from './styles/index.css';
-import IconBluezone from './styles/images/IconBluezone';
-import FastImage from 'react-native-fast-image';
 import {MediumText} from '../../../base/components/Text';
-import message from '../../../msg/auth';
-import {injectIntl, intlShape} from 'react-intl';
 import ButtonText from '../../../base/components/ButtonText';
+
+// Language
+import message from '../../../msg/auth';
+
+// styles
+import styles, {LOGO_HEIGHT,} from './styles/index.css';
+// Logo
+import IconBluezone from './styles/images/IconBluezone';
 
 class Flash extends React.Component {
   constructor(props) {

@@ -37,6 +37,8 @@ export const getCheckVersions = async (success, fail) => {
     response => {
       if (response && response.status === 200 && response.data.isOk) {
         success(response.data.Object);
+      } else {
+          errorCb(response.isError);
       }
     },
     error => {
@@ -76,8 +78,10 @@ export function CreateAndSendOTPCode(PhoneNumber, successCb, errorCb) {
   };
   axios(options).then(
     response => {
-      if (response && response.status === 200) {
+      if (response && response.status === 200 && response.data.isOk === true) {
         successCb(response);
+      } else {
+          errorCb(response.isError);
       }
     },
     error => {

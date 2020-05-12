@@ -22,17 +22,16 @@
 'use strict';
 
 import React from 'react';
-import {AppState, Text} from 'react-native';
 
-import configuration, {registerUser} from '../../../Configuration';
+// Components
+import Text from '../../../base/components/Text';
+
+import configuration from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
-import {getTokenFirebase} from "../../../CloudMessaging";
 
 const {TimeCountDownOTP} = configuration;
-
-// const TimeCountDownOTP = 10;
 
 class CountDown extends React.Component {
   constructor() {

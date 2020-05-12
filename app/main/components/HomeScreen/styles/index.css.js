@@ -199,7 +199,6 @@ const styles = StyleSheet.create({
   },
 
   numberBluezone: {
-    // flex: 1,
     borderRadius: SCANNING_HEIGHT / 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -219,7 +218,6 @@ const styles = StyleSheet.create({
   },
 
   textScan: {
-    // fontFamily: 'OpenSans',
     fontSize: fontSize.normal,
     color: '#fff',
   },

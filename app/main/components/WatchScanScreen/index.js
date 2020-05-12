@@ -24,8 +24,6 @@
 import React from 'react';
 import 'moment/locale/vi';
 import * as PropTypes from 'prop-types';
-
-// Components
 import {
   SafeAreaView,
   View,
@@ -34,13 +32,16 @@ import {
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
+import * as Progress from 'react-native-progress';
+
+// Components
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
 import CountBlueZoner from '../../../base/components/CountBlueZoner';
 
 // Language
 import message from '../../../msg/trace';
-import {injectIntl, intlShape} from 'react-intl';
 
 // Config
 import configuration from '../../../Configuration';
@@ -50,7 +51,6 @@ import styles from './styles/index.css';
 
 // Api
 import Service from '../../../apis/service';
-import * as Progress from 'react-native-progress';
 
 class WatchScanScreen extends React.Component {
   constructor(props) {

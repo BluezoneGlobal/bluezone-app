@@ -22,24 +22,21 @@
 'use strict';
 
 import React from 'react';
-
-// Components
+import * as PropTypes from 'prop-types';
 import {View, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
+
+// Components
 import {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
 import FormInput from './Form';
-
-// Language
-import message from '../../../msg/warning';
 
 // Util
 import * as fontSize from '../../../utils/fontSize';
 
 // Styles
 import styles from './styles/index.css';
-import {injectIntl, intlShape} from 'react-intl';
-import * as PropTypes from 'prop-types';
 
 class Declaration extends React.Component {
   constructor(props) {

@@ -240,6 +240,7 @@ class VerifyOTPScreen extends React.Component {
             autoFocus={true}
             style={styles.inputOTPMax}
             maxLength={6}
+            allowFontScaling={false}
             placeholder={formatMessage(message.pleaseEnterYourPhone)}
             keyboardType={'number-pad'}
             onChangeText={this.onChangeText}
@@ -269,9 +270,9 @@ class VerifyOTPScreen extends React.Component {
                 />
               </>
             ) : (
-              <MediumText onPress={this.onReGetOTP} style={styles.textSendOTP}>
+              <Text onPress={this.onReGetOTP} style={styles.textSendOTP}>
                 {formatMessage(message.resetOTP)}
-              </MediumText>
+              </Text>
             )}
           </View>
         </ScrollView>

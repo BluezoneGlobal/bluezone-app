@@ -83,8 +83,6 @@ const styles = StyleSheet.create({
     height: 52,
     flex: 1,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 20,
   },
   avatar: {
@@ -112,15 +110,17 @@ const styles = StyleSheet.create({
     fontSize: fontSize.smaller,
   },
   timer: {
-    // alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   textTimerUnread: {
-    alignItems: 'flex-end',
     fontSize: fontSize.smaller,
+    lineHeight: 13,
   },
   textTimer: {
     color: '#707070',
     fontSize: fontSize.smaller,
+    lineHeight: 13,
+    marginTop: 3
   },
   wrapper: {
     justifyContent: 'space-between',

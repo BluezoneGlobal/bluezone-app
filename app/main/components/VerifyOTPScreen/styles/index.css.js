@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     fontSize: fontSize.normal,
     lineHeight: 25,
     color: blue_bluezone,
-    paddingBottom: 20,
   },
 
   modalCont: {
@@ -109,13 +108,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
     paddingVertical: 15,
+    paddingHorizontal: 20,
   },
   detailModal: {
     fontSize: 13,
     lineHeight: 16,
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   lBtnModal: {
     borderTopWidth: 0.5,
@@ -234,8 +233,9 @@ const styles = StyleSheet.create({
   },
 
   textBtnSkip: {
-    fontSize: fontSize.normal,
     color: blue_bluezone,
+    fontSize: fontSize.huge,
+    fontWeight: '600',
   },
 });
 

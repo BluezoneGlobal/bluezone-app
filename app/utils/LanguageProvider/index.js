@@ -32,7 +32,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {IntlProvider} from 'react-intl';
-import {Text} from 'react-native';
+import Text from '../../base/components/Text';
 
 export class LanguageProvider extends React.Component {
   constructor(props) {

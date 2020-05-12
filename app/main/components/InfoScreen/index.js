@@ -70,7 +70,7 @@ class InfoScreen extends React.Component {
                 {formatMessage(message.title)} {version}
               </MediumText>
               <Text style={styles.date}>
-                {formatMessage(message.dateRelease)} 10/05/2020.
+                {formatMessage(message.dateRelease)} 12/05/2020.
               </Text>
             </View>
             <View style={styles.viewDep}>
