@@ -24,6 +24,7 @@
 import React from 'react';
 import 'moment/locale/vi';
 import * as PropTypes from 'prop-types';
+import DeviceInfo from 'react-native-device-info';
 
 // Components
 import {
@@ -51,6 +52,9 @@ import styles from './styles/index.css';
 // Api
 import Service from '../../../apis/service';
 import * as Progress from 'react-native-progress';
+
+const currentVersion = DeviceInfo.getVersion();
+const isDeploygateVersion = currentVersion.includes('deploygate');
 
 class WatchScanScreen extends React.Component {
   constructor(props) {
@@ -195,7 +199,6 @@ class WatchScanScreen extends React.Component {
     }
 
     let hasDevice = false;
-    let typeList;
     let indexDevice;
     for (let i = 0; i < logs.length; i++) {
       if (
@@ -205,7 +208,6 @@ class WatchScanScreen extends React.Component {
       ) {
         hasDevice = true;
         indexDevice = i;
-        typeList = logs[i].type;
       }
     }
 
@@ -228,14 +230,15 @@ class WatchScanScreen extends React.Component {
           ],
         };
       });
-    } else if (hasDevice && typeList !== typeRSSI) {
+    } else if (
+      logs[indexDevice].type !== typeRSSI ||
+      (isDeploygateVersion && logs[indexDevice].rssi !== rssi)
+    ) {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      this.setState(prevState => {
-        return {
-          logs: [...logs],
-        };
+      this.setState({
+        logs: [...logs],
       });
     }
 
@@ -297,8 +300,8 @@ class WatchScanScreen extends React.Component {
 
   renderItemLog = item => {
     const content = item.userId
-      ? `${Service.getFirst6Char(item.userId)}`
-      : `${item.name}`;
+      ? `${Service.getFirst6Char(item.userId)} (${item.rssi})`
+      : `${item.name} (${item.rssi})`;
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>

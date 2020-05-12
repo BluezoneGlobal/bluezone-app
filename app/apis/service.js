@@ -38,10 +38,6 @@ const startService = scanFull => {
   }
 };
 
-const setUserId = userId => {
-  TraceCovid.setId(userId);
-};
-
 const setConfig = config => {
   if (Platform.OS !== 'ios') {
     TraceCovid.setConfig(config);
@@ -67,8 +63,8 @@ const addListenerScanBlueTooth = onScan => {
   return eventEmitter.addListener('onScanBlueToothResult', onScan);
 };
 
-const addListenerBluezoneIdChange = onChange => {
-  if(Platform.OS === 'ios') {
+const addListenerBluezoneIdAndroidChange = onChange => {
+  if (Platform.OS === 'ios') {
     return null;
   }
   return eventEmitter.addListener('onBluezoneIdChange', bzId => {
@@ -103,13 +99,15 @@ const getBluezoneIdFirst6Char = async () => {
   return getFirst6Char(bzId);
 };
 
+// getBluezoneIdDataIOS = () => {};
+
 const service = {
   startService,
   setConfig,
   addListener,
   addListenerScanBLE,
   addListenerScanBlueTooth,
-  addListenerBluezoneIdChange,
+  addListenerBluezoneIdChange: addListenerBluezoneIdAndroidChange,
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,

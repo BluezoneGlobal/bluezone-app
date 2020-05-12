@@ -7,7 +7,7 @@
   "Introduce_en": "https://bluezone.vn",
   "TimeSaveLog": 10000,
   "TimeShowLog": 30000,
-  "RssiThreshold": -69,
+  "RssiThreshold": -100,
   "PeriodDay": 14,
   "DbMaxRow": 100000,
   "DbMaxDay": 180,
