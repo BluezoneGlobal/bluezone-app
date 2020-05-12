@@ -22,17 +22,38 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import {large} from '../../../../utils/fontSize';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+export const LOGO_HEIGHT = heightPercentageToDP((124 / 720) * 100);
+export const CONTAINER_MARGINVERTICAL = heightPercentageToDP((137 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: CONTAINER_MARGINVERTICAL,
+  },
+
+  logo: {
+    width: 124,
+    height: 124,
+  },
+
+  body: {
     alignItems: 'center',
   },
 
-  image: {
-    width: 100,
-    height: 100,
+  icon_success: {
+    width: 58,
+    height: 59,
+    marginBottom: 32,
+  },
+
+  text: {
+    fontSize: large,
+    color: '#000000',
   },
 });
 

@@ -213,7 +213,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
 
                         // append luon vao mang da scan duoc
                         self.mScannedPeripherals.updateValue(peripheral, forKey: peripheral.identifier)
-                        // Thu hien ket noi TaiPV
+                        // Thu hien ket noi
                       mBleManager.connect(peripheral/*, options: [CBConnectPeripheralOptionNotifyOnNotificationKey: true]*/)
                     }
                 }
@@ -225,7 +225,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 onDataScan!("\(idUser)", identifier, RSSI.intValue);
 
                 // Print
-                print("khanhvd Bắt được: \(idUser) - RSSI=\(RSSI.intValue)")
+                print("Bắt được: \(idUser) - RSSI=\(RSSI.intValue)")
             } else if !isConecting {
                 // Rỗng
                 onDataScan!("", "", 0);
@@ -294,7 +294,7 @@ extension BleCentralManager: CBPeripheralDelegate {
 
         guard let characteristic = service.characteristics?.first(where: { $0.uuid == AppConstant.BLE_CHAR_UUID}) else { return }
         
-        print("TaiPV characteristic \(characteristic)")
+        print("Characteristic \(characteristic)")
 
         peripheral.readValue(for: characteristic)
 
@@ -325,9 +325,6 @@ extension BleCentralManager: CBPeripheralDelegate {
                     if !data.isEmpty {
                         // Lưu tên
                         onDataScan!("\(data)", peripheral.identifier.uuidString, -99);
-                        
-                        // Print
-                        print("khanhvd Bắt được: \(data)")
                         
                         // update peripheral de connect
                         peripheral.delegate = self

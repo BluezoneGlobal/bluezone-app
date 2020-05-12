@@ -133,8 +133,8 @@ android {
         applicationId "com.mic.bluezone"
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.1"
+        versionCode 19
+        versionName "1.1.0" // 1.0.6-deploygate  1.0.6-deploygate.dev
         multiDexEnabled true
     }
     splits {
@@ -203,12 +203,10 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
    implementation project(':react-native-push-notification')
     implementation 'com.android.support:multidex:1.0.3'
 
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
 
@@ -239,6 +237,17 @@ dependencies {
 
     implementation project(':react-native-bluetooth-scan')
     implementation project(':react-native-fs')
+    implementation project(':RNSendIntentModule')
+
+    // This should be here already
+    implementation project(':react-native-firebase')
+
+    // Firebase dependencies
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
 }
 
 // Run this once to be able to run the application with BUCK

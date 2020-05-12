@@ -30,6 +30,7 @@ import Text from '../Text';
 
 // Styles
 import style from '../../../main/components/HomeScreen/styles/index.css';
+import * as PropTypes from "prop-types";
 
 class InviteScreen extends React.Component {
   constructor(props) {
@@ -38,16 +39,17 @@ class InviteScreen extends React.Component {
   }
 
   setRoundNumber(number) {
+    const {language} = this.context;
     let round, text;
     if (number > 100000 && number < 1000000) {
       round = 1000;
-      text = 'N+';
+      text = language === 'vi' ? 'N+' : 'K+';
     } else if (number > 1000000 && number < 1000000000) {
       round = 1000000;
-      text = 'Tr+';
+      text = language === 'vi' ? 'Tr+' : 'M+';
     } else if (number > 1000000000) {
       round = 1000000000;
-      text = 'T+';
+      text = language === 'vi' ? 'T+' : 'B+';
     } else {
       round = 1;
       text = '';
@@ -77,5 +79,9 @@ class InviteScreen extends React.Component {
     );
   }
 }
+
+InviteScreen.contextTypes = {
+  language: PropTypes.string,
+};
 
 export default InviteScreen;

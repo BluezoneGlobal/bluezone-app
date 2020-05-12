@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
     textAlign: 'center',
     color: '#FFFFFF',
   },

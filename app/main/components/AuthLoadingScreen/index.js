@@ -22,56 +22,152 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import {View} from 'react-native';
+import {View, SafeAreaView, StatusBar, ActivityIndicator} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
+import Text, {MediumText} from '../../../base/components/Text';
+
+// Language
+import message from '../../../msg/auth';
 
 // Apis
-import {
+import configuration, {
   getConfigurationAPI,
   getConfigurationAsync,
+  registerUser,
 } from '../../../Configuration';
 
 // Styles
 import styles from './styles/index.css';
+import {getTokenFirebase} from '../../../CloudMessaging';
+import IconBluezone from './styles/images/IconBluezone';
+import {LOGO_HEIGHT} from './styles/index.css';
+import {blue_bluezone} from '../../../utils/color';
+
+const TIMEOUT = 3000;
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isStatusF: false,
+      isFirstLoading: false,
+    };
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
+    this.checkAuth = this.checkAuth.bind(this);
+    this.registerFirebase = this.registerFirebase.bind(this);
+    this.registerUserSuccess = this.registerUserSuccess.bind(this);
+    this.registerUserError = this.registerUserError.bind(this);
   }
 
   async componentDidMount() {
+    // Check trạng thái lần đầu tiên vào app.
+    this.checkAuth();
+
+    // Get thông tin Config.
     await getConfigurationAsync();
+
+    // Gọi Api get config lên server.
     await getConfigurationAPI(this.success, this.error);
   }
 
+  async checkAuth() {
+    const isFirstLoading = await AsyncStorage.getItem('isFirstLoading');
+    if (isFirstLoading === null) {
+      this.setState({isFirstLoading: true});
+      AsyncStorage.setItem('isFirstLoading', 'true');
+    } else {
+      this.setState({isStatusF: true});
+    }
+  }
+
   success() {
-    this.props.setLoading();
+    this.registerFirebase();
   }
 
   error() {
-    this.props.setLoading();
+    this.registerFirebase();
+  }
+
+  registerFirebase() {
+    const {TokenFirebase} = configuration;
+    if (TokenFirebase === '') {
+      getTokenFirebase(
+        TokenFirebase => {
+          registerUser(
+            TokenFirebase,
+            this.registerUserSuccess,
+            this.registerUserError,
+          );
+        },
+        () => {
+          this.props.setLoading('Home');
+        },
+      );
+    } else {
+      setTimeout(() => {
+        this.props.setLoading('Home');
+      }, TIMEOUT);
+    }
+  }
+
+  registerUserSuccess(data) {
+    this.props.setLoading('RegisterAuth');
+  }
+
+  registerUserError() {
+    this.props.setLoading('Home');
   }
 
   render() {
+    const {isStatusF, isFirstLoading} = this.state;
+    const {intl} = this.props;
+    const {formatMessage} = intl;
     return (
-      <View style={styles.container}>
-        <FastImage
-          source={require('./styles/images/icon_bluezone.png')}
-          style={styles.image}
-        />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <StatusBar hidden={true} />
+        <IconBluezone width={LOGO_HEIGHT} height={LOGO_HEIGHT} />
+        <View style={styles.body}>
+          {!isStatusF && !isFirstLoading ? (
+            <ActivityIndicator size="large" color={blue_bluezone} />
+          ) : isStatusF ? (
+            <>
+              <FastImage
+                source={require('./styles/images/success.png')}
+                style={styles.icon_success}
+              />
+              <MediumText
+                text={formatMessage(message.label1)}
+                style={styles.text}
+              />
+              <MediumText
+                text={formatMessage(message.label2)}
+                style={styles.text}
+              />
+            </>
+          ) : (
+            <>
+              <ActivityIndicator size="large" color={blue_bluezone} />
+              <Text
+                text={formatMessage(message.titleLodding)}
+                style={styles.text}
+              />
+            </>
+          )}
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 AuthLoadingScreen.propTypes = {
+  intl: intlShape.isRequired,
   setLoading: PropTypes.func,
 };
 
-export default AuthLoadingScreen;
+export default injectIntl(AuthLoadingScreen);

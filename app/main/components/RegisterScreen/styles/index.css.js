@@ -22,76 +22,110 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import {huge, large, normal} from '../../../../utils/fontSize';
+import {blue_bluezone} from '../../../../utils/color';
 
 const styles = StyleSheet.create({
   layout1: {
-    marginTop: 50,
-    backgroundColor: 'rgba(241, 90, 34, 0.07)',
+    marginTop: 20,
     borderRadius: 8,
-    marginHorizontal: 15,
+    marginHorizontal: 30,
   },
+
+  logoView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+
   text1: {
     textAlign: 'center',
-    fontSize: 19,
+    fontSize: huge,
     fontStyle: 'normal',
     fontWeight: 'bold',
-    color: '#F15A22',
+    color: blue_bluezone,
     marginTop: 15,
   },
+
   text2: {
-    padding: 15,
-    fontSize: 17,
+    fontSize: normal,
     fontStyle: 'normal',
-    lineHeight: 20,
+    lineHeight: 25,
+    textAlign: 'center',
   },
-  layout2: {flexDirection: 'row', alignSelf: 'center', marginTop: 10},
-  text3: {
-    fontSize: 17,
+
+  text4: {
+    fontSize: normal,
     fontStyle: 'normal',
-    lineHeight: 20,
+    lineHeight: 38,
   },
-  textInput: {
-    height: 44,
-    borderRadius: 8,
+
+  layout2: {
+    flexDirection: 'row',
+    alignSelf: 'center',
     marginTop: 10,
-    backgroundColor: '#e8e8e8',
-    paddingLeft: 10,
-    fontSize: 15,
   },
+
+  text3: {
+    fontSize: large,
+    lineHeight: 20,
+  },
+
+  textInput: {
+    height: 40,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e8e8e8',
+    paddingLeft: 16,
+    fontSize: 15,
+    marginBottom: 51,
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
   },
+
   keyBoardContainer: {
     height: 500,
   },
+
+  logo: {
+    width: 124,
+    height: 124,
+  },
+
   phone: {
-    marginVertical: 40,
-    marginHorizontal: 48,
+    marginTop: 28,
+    marginHorizontal: 30,
   },
+
   textColorActive: {
-    color: '#F15A22',
+    color: blue_bluezone,
   },
+
   buttonIcon: {
     width: 18,
     height: 18,
   },
+
   center: {
     margin: 40,
     justifyContent: 'center',
   },
+
   modalContent: {
-    height: 150,
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     paddingTop: 19,
   },
+
   modalContentText01: {
-    fontSize: 17,
+    fontSize: large,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontStyle: 'normal',
   },
+
   modalContentText02: {
     fontStyle: 'normal',
     fontWeight: 'normal',
@@ -101,27 +135,61 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
   },
+
   modalFooter: {
     borderTopWidth: 0.5,
     borderTopColor: 'rgba(60, 60, 67, 0.29)',
     width: '100%',
+    flexDirection: 'row',
   },
+
   buttonContinued: {
     alignItems: 'center',
-    marginTop: 10,
+    flex: 1,
+    justifyContent: 'center',
+    height: 45,
   },
+
   textButtonContinued: {
     fontWeight: 'bold',
-    fontSize: 17,
-    color: '#F15A22',
+    fontSize: large,
+    color: blue_bluezone,
   },
+
+  textButtonSkip: {
+    fontWeight: 'bold',
+    fontSize: large,
+    color: '#bfbfbf',
+  },
+
+  borderBtn: {
+    borderRightWidth: 1,
+    borderRightColor: '#bfbfbf',
+  },
+
   buttonActive: {
-    backgroundColor: '#F15A22',
-    marginBottom: 30,
+    backgroundColor: blue_bluezone,
   },
+
   buttonDisable: {
     backgroundColor: '#ccc',
-    marginBottom: 30,
+  },
+
+  buttonInvite: {
+    position: 'absolute',
+    right: 10,
+    bottom: 16,
+  },
+
+  textInvite: {
+    fontSize: normal,
+    color: blue_bluezone,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+
+  btnNext: {
+    height: 46,
   },
 });
 

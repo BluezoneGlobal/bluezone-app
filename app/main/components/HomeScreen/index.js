@@ -22,20 +22,13 @@
 'use strict';
 
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  StatusBar,
-  Platform,
-  ImageBackground,
-  Dimensions,
-  AppState,
-} from 'react-native';
+import {View, StatusBar, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import PushNotification from 'react-native-push-notification';
-// import DeviceInfo from 'react-native-device-info';
-// import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
+import FastImage from 'react-native-fast-image';
+
+// Language
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
 
 // Components
 import Modal from 'react-native-modal';
@@ -43,30 +36,25 @@ import ButtonText from '../../../base/components/ButtonText';
 import ModalNotify from '../ModalNotify';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
-import NumberAnimate from '../../../base/components/NumberAnimate';
-
-// Apis
-import {getBluezonerAmount} from '../../../apis/bluezone';
-import Service from '../../../apis/service';
+import CountBluezoner from './CountBluezoner';
+import SwitchLanguage from './SwitchLanguage';
 
 // Config
-import configuration /*, {getUserCodeAsync}*/ from '../../../Configuration';
+import configuration from '../../../Configuration';
 import {
   hasModalNotify,
-  textDefault,
   NOTIFY_INVITE_NUMBER,
 } from '../../../utils/notifyConfiguration';
 
 // Styles
-import style from './styles/index.css';
+import style, {HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH} from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
+import {logBluezone} from './CountBluezoner';
+import * as PropTypes from 'prop-types';
 
-const TIMEOUT = 30000;
-
-const setHeight = 3.445;
-const oldAmountKey = 'oldAmount';
-const setHeight1 = 2.4;
+// Logo
+import LogoBluezone from '../../../utils/logo/logo_bluezone';
 
 class HomeTab extends React.Component {
   constructor(props) {
@@ -81,70 +69,46 @@ class HomeTab extends React.Component {
       newAmount: 0,
       showModalInvite: false,
       showModalWrite: false,
+      Language: configuration.Language,
     };
 
     this.mapDevice = {};
-    this.logs = [];
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.handleDimensionsChange = this.handleDimensionsChange.bind(this);
-    this.onGetAmountSuccess = this.onGetAmountSuccess.bind(this);
-    this.onScan = this.onScan.bind(this);
     this.watchScan = this.watchScan.bind(this);
     this.watchHistory = this.watchHistory.bind(this);
     this.considerNotify = this.considerNotify.bind(this);
     this.onCalcuTimesOpenApp = this.onCalcuTimesOpenApp.bind(this);
     this.onNotifyOpen = this.onNotifyOpen.bind(this);
-
-    // this.isPermissionWriteBlock = 0;
+    this.onInvite = this.onInvite.bind(this);
   }
 
   async componentDidMount() {
     Dimensions.addEventListener('change', this.handleDimensionsChange);
-    AppState.addEventListener('change', this.handleAppStateChange);
-
-    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
-    if (Platform.OS !== 'ios') {
-      this.scanBlueToothListener = Service.addListenerScanBlueTooth(
-        this.onScan,
-      );
-    }
-
-    const oldAmount = await AsyncStorage.getItem(oldAmountKey);
-    this.setNewAmount(oldAmount);
-
-    getBluezonerAmount(this.onGetAmountSuccess);
-
     const timesOpenApp = await this.onCalcuTimesOpenApp();
     const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
     this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
 
-    PushNotification.configure({
-      onNotification: this.onNotifyOpen,
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-      popInitialNotification: true,
-      requestPermissions: true,
-    });
-  }
+    // const {Language} = configuration;
 
-  setNewAmount(oldAmount) {
-    if (oldAmount) {
-      this.setState(prev => {
-        return {
-          newAmount: oldAmount,
-        };
-      });
-    }
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, warn.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifyInfected.data)}),
+    //   Language,
+    // );
+
+    // checkNotify(
+    //   Object.assign({}, {data: Object.assign({}, verifySafe.data)}),
+    //   Language,
+    // );
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
     this.scanBLEListener && this.scanBLEListener.remove();
     this.scanBlueToothListener && this.scanBlueToothListener.remove();
-    // this.demensions.remove();
     const keys = Object.keys(this.mapDevice);
     for (var i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
@@ -155,9 +119,7 @@ class HomeTab extends React.Component {
   async onCalcuTimesOpenApp() {
     const timesOpenAsync = await AsyncStorage.getItem('timesOpenApp');
     let timesOpenApp = timesOpenAsync ? Number.parseInt(timesOpenAsync, 10) : 0;
-
     AsyncStorage.setItem('timesOpenApp', (timesOpenApp + 1).toString());
-
     return timesOpenApp + 1;
   }
 
@@ -167,106 +129,13 @@ class HomeTab extends React.Component {
     }
   }
 
-  handleAppStateChange(appState) {
-    if (appState === 'active') {
-      getBluezonerAmount(this.onGetAmountSuccess);
-    }
-  }
-
   handleDimensionsChange(e) {
     const {width, height} = e.window;
     this.setState({width, height});
   }
 
-  async onGetAmountSuccess(amount) {
-    const {newAmount} = this.state;
-    if (newAmount !== amount.toString() && !isNaN(parseInt(amount, 10))) {
-      this.setState({newAmount: amount});
-      AsyncStorage.setItem(oldAmountKey, amount.toString());
-    }
-  }
-
-  onScan({id, name = '', address = '', rssi, platform, typeScan}) {
-    const logs = this.logs;
-    const keyMap = id && id.length > 0 ? id : name + '@' + address;
-
-    if (this.mapDevice[keyMap]) {
-      // Xóa timmer cũ
-      clearTimeout(this.mapDevice[keyMap].timmer);
-      delete this.mapDevice[keyMap];
-    } else {
-      if (keyMap === id) {
-        this.setState(prevState => {
-          return {
-            countShield: prevState.countShield + 1,
-          };
-        });
-      }
-    }
-
-    let hasDevice = false;
-    // TODO Admin: không rõ mục đích của biến này "typeList",
-    // let typeList;
-    let indexDevice;
-    for (let i = 0; i < logs.length; i++) {
-      if (
-        logs[i].userId === id &&
-        logs[i].name === name &&
-        logs[i].address === address
-      ) {
-        hasDevice = true;
-        indexDevice = i;
-        // typeList = logs[i].type;
-      }
-    }
-
-    if (!hasDevice) {
-      // Thêm vào danh sách
-      logs.push({
-        id: keyMap,
-        userId: id,
-        name,
-        address,
-        rssi,
-        platform,
-        typeScan,
-      });
-    } else {
-      // Sửa lại danh sách
-      logs[indexDevice].rssi = rssi;
-    }
-
-    // Thêm timmer
-    const timmer = setTimeout(() => {
-      delete this.mapDevice[keyMap];
-      // Xóa khỏi danh sách thiết bị
-      for (let i = 0; i < logs.length; i++) {
-        if (
-          logs[i].userId === id &&
-          logs[i].name === name &&
-          logs[i].address === address
-        ) {
-          logs.splice(i, 1);
-        }
-      }
-
-      if (keyMap === id) {
-        this.setState(prevState => {
-          return {
-            countShield: prevState.countShield - 1,
-          };
-        });
-      }
-    }, TIMEOUT);
-
-    this.mapDevice[keyMap] = {
-      timmer,
-      time: new Date().getTime(),
-    };
-  }
-
   watchScan() {
-    this.props.navigation.navigate('WatchScan', {logs: [...this.logs]});
+    this.props.navigation.navigate('WatchScan', {logs: [...logBluezone]});
   }
 
   watchHistory() {
@@ -278,89 +147,109 @@ class HomeTab extends React.Component {
   };
 
   considerNotify(timesOpenApp, firstTimeOpen) {
+    const {intl, navigation} = this.props;
+    const {formatMessage} = intl;
     const notifys = configuration.Notifications;
     if (notifys.length === 0) {
       return;
     }
+
+    const {language} = this.context;
+    const en = language && language !== 'vi';
 
     for (let i = 0; i < notifys.length; i++) {
       const openModal = hasModalNotify(notifys[i], timesOpenApp, firstTimeOpen);
       if (openModal) {
         this.setState({
           showModalInvite: true,
-          titleModal: notifys[i].title,
-          messageModal: notifys[i].message || textDefault.message,
-          buttonText: notifys[i].buttonText || textDefault.buttonText,
+          titleModal: en ? notifys[i].title_en : notifys[i].title,
+          messageModal:
+            (en ? notifys[i].message_en : notifys[i].message) ||
+            formatMessage(message.inviteContent),
+          buttonText:
+            (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
+            formatMessage(message.inviteButton),
         });
         return;
       }
     }
   }
 
-  onInvite = () => {
+  onInvite() {
     this.props.navigation.jumpTo('Invite');
     this.setState({showModalInvite: false});
-  };
+  }
 
   render() {
+    const {intl, navigation} = this.props;
     const {
-      countShield,
-      width,
-      blueTooth,
-      height,
-      newAmount,
       showModalInvite,
       titleModal,
       messageModal,
       buttonText,
-      // showModalWrite,
+      blueTooth,
     } = this.state;
-    console.log(showModalInvite);
-    // const currentVersion = DeviceInfo.getVersion();
+    const {formatMessage} = intl;
+
     return (
       <View style={style.container}>
         <StatusBar hidden={true} />
-        <ScrollView
-          style={style.background}
-          contentContainerStyle={style.scrollView}
-          showsVerticalScrollIndicator={false}>
-          <ImageBackground
-            source={require('./styles/images/Banner.png')}
-            style={{width: width, height: height / setHeight1}}>
-            {/*<Text style={style.textBeta}>{currentVersion}</Text>*/}
-            <View style={[style.header, {paddingTop: height / setHeight}]}>
-              <Text style={style.textHeader}>
-                Bảo vệ mình, bảo vệ cộng đồng
-              </Text>
-              <Text style={style.texthea}>
-                Ứng dụng cảnh báo nếu bạn đã tiếp xúc gần
-              </Text>
-              <Text style={style.texthea}>
-                <Text>người nhiễm </Text>
-                <MediumText style={style.colorText}>COVID-19</MediumText>
-              </Text>
+        <View style={style.background}>
+          <View style={{backgroundColor: '#015cd0'}}>
+            <View style={style.switchLanguage}>
+              <View style={style.logo}>
+                <LogoBluezone width={28.8} height={34.6}/>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                  <Text
+                    style={{
+                      color: '#ffffff',
+                      fontSize: fontSize.huge,
+                      paddingHorizontal: 8.8,
+                    }}>
+                    Bluezone
+                    <Text style={{fontSize: fontSize.smallest}}>.gov.vn</Text>
+                  </Text>
+                </View>
+                <View style={style.borderLogo} />
+                <FastImage
+                  source={require('./styles/images/icon_mic.png')}
+                  style={style.iconLogoMic}
+                />
+                <View style={style.borderLogo} />
+                <FastImage
+                  source={require('./styles/images/icon_boyte.png')}
+                  style={style.iconLogoBoyte}
+                />
+              </View>
+              <SwitchLanguage />
             </View>
-          </ImageBackground>
-          <View style={style.watchScan}>
-            <TouchableOpacity
-              onPress={this.watchScan}
-              style={[style.numberBluezone, style.marginRight23]}>
-              <Text style={style.textBlueNumber}>
-                {blueTooth ? countShield : '_'}
+            <FastImage
+              source={require('./styles/images/Banner.png')}
+              style={{height: HEADER_BACKGROUND_HEIGHT}}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <View style={[style.header]}>
+              <Text style={style.textHeader}>
+                {formatMessage(message.header)}
               </Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
-              <Text style={style.textBlue}>quanh bạn</Text>
-            </TouchableOpacity>
-            <View style={style.numberBluezone}>
-              <NumberAnimate amount={newAmount} />
-              <Text style={style.textBlue}>Cộng đồng</Text>
-              <Text style={style.textBlue}>Bluezoner</Text>
+              <Text style={style.texthea}>
+                {formatMessage(message.productLabel1)}
+              </Text>
+              <Text style={style.texthea}>
+                <Text>{formatMessage(message.productLabel2)}</Text>
+                <MediumText style={style.colorText}>
+                  {formatMessage(message.productLabel3)}
+                </MediumText>
+              </Text>
             </View>
           </View>
-          <View style={[style.button, {height: height / setHeight}]}>
+          <View style={style.watchScan}>
+            <CountBluezoner blueTooth={blueTooth} navigation={navigation} />
+          </View>
+          <View style={[style.button]}>
             <ButtonIconText
               onPress={this.watchScan}
-              text={'Quét xung quanh'}
+              text={formatMessage(message.traceButton)}
               source={require('./styles/images/icon_scan.png')}
               styleBtn={style.buttonScan}
               styleText={{fontSize: fontSize.normal}}
@@ -368,14 +257,14 @@ class HomeTab extends React.Component {
             />
             <ButtonIconText
               onPress={this.watchHistory}
-              text={' Lịch sử tiếp xúc '}
+              text={formatMessage(message.historyButton)}
               source={require('./styles/images/icon_history.png')}
               styleBtn={style.buttonHistory}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={style.buttonIcon}
             />
           </View>
-        </ScrollView>
+        </View>
         <ModalNotify onChangeBlue={this.onChangeBlue} />
         <Modal
           isVisible={showModalInvite}
@@ -406,6 +295,14 @@ class HomeTab extends React.Component {
   }
 }
 
+HomeTab.propTypes = {
+  intl: intlShape.isRequired,
+};
+
 HomeTab.defaultProps = {};
 
-export default HomeTab;
+HomeTab.contextTypes = {
+  language: PropTypes.string,
+};
+
+export default injectIntl(HomeTab);

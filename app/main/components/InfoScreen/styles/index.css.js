@@ -23,22 +23,57 @@
 
 import {StyleSheet} from 'react-native';
 import * as fontSize from '../../../../utils/fontSize';
+import {blue_bluezone} from '../../../../utils/color';
+import {heightPercentageToDP} from '../../../../utils/dimension';
+
+const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((216 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((110.6 / 720) * 100);
+const TITLE_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
+const DATE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#265bd0',
+    backgroundColor: '#ffffff',
   },
 
-  error: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#ffffff',
+  containerLogo: {
+    height: HEADER_BẠCKGROUND_LOGO,
+    backgroundColor: blue_bluezone,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  body: {
+    flex: 1,
+    paddingTop: TITLE_PADDINGTOP,
+    paddingHorizontal: 20
+  },
+
+  title: {
+    fontSize: fontSize.huge,
+    color: '#000000',
+  },
+
+  viewDep: {
+    flex: 1,
+    justifyContent: 'center',
+    // alignItems: 'center',
+  },
+
+  description: {
+    fontSize: fontSize.large,
+    lineHeight: 25,
+  },
+
+  date: {
+    lineHeight: 28,
+    fontSize: fontSize.large,
+  },
+
+  textContact: {
+    fontSize: fontSize.large,
+    lineHeight: 25,
   },
 
   textTitle: {
@@ -46,21 +81,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: fontSize.huge,
     paddingHorizontal: 20,
-    textAlign: 'center',
   },
 
-  btnError: {
-    borderRadius: 5,
-    borderWidth: 0.65,
-    borderColor: '#0166de',
+  textBottom: {
+    paddingBottom: DATE_PADDINGBOTTOM
   },
 
   textBtnReload: {
     paddingVertical: 6,
     paddingHorizontal: 20,
     color: '#0166de',
-    fontSize: fontSize.large,
+    fontSize: fontSize.larger,
+  },
+
+  linkweb: {
+    color: '#0166de',
   },
 });
+
+export {
+  LOGO_HEIGHT
+}
 
 export default styles;

@@ -30,6 +30,9 @@ import {View} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonText from '../../../base/components/ButtonText';
 
+import message from '../../../msg/home';
+import {injectIntl, intlShape} from 'react-intl';
+
 // Styles
 import styles from './styles/index.css';
 
@@ -38,7 +41,8 @@ class ModalBase extends React.Component {
     super(props);
   }
   render() {
-    const {isVisible, content, onPress, btnText} = this.props;
+    const {isVisible, content, onPress, btnText, intl} = this.props;
+    const {formatMessage} = intl;
     return (
       <Modal
         isVisible={isVisible}
@@ -51,7 +55,9 @@ class ModalBase extends React.Component {
         backdropTransitionOutTiming={400}>
         <View style={styles.container}>
           <View style={styles.textDiv}>
-            <MediumText style={styles.textTitle}>Thông báo</MediumText>
+            <MediumText style={styles.textTitle}>
+              {formatMessage(message.report)}
+            </MediumText>
             <Text style={styles.textContent}>{content}</Text>
           </View>
           <ButtonText
@@ -68,6 +74,7 @@ class ModalBase extends React.Component {
 
 ModalBase.propTypes = {
   btnText: PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 ModalBase.defaultProps = {
@@ -75,4 +82,4 @@ ModalBase.defaultProps = {
   onPress: () => {},
 };
 
-export default ModalBase;
+export default injectIntl(ModalBase);

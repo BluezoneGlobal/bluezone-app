@@ -22,7 +22,10 @@
 'use strict';
 
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+
+// Component
+import Text from '../../../base/components/Text';
+import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 // Styles
