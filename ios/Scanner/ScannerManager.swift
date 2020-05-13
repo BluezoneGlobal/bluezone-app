@@ -36,6 +36,7 @@ public class ScannerManager: RCTViewManager {
       //    self.onClickStart()
   }
 
+
   @objc func startService() {
     print("onStartViaManager");
       DispatchQueue.main.async {
@@ -104,8 +105,9 @@ public class ScannerManager: RCTViewManager {
    */
   func startAdvertising() {
       // Khởi tạo
-      mBlePeripheral = BlePeripheralManager()
-
+    if mBlePeripheral == nil {
+        mBlePeripheral = BlePeripheralManager()
+    }
       // Start
       mBlePeripheral.startAdvertising(onSuccess: {(isSucces) -> Void in}, onError: {(error) -> Void in})
   }
@@ -115,18 +117,21 @@ public class ScannerManager: RCTViewManager {
      */
     private func scanPeripheral() {
         // Khởi tao
-        mBleCentral = BleCentralManager()
+        if mBleCentral == nil {
+            mBleCentral = BleCentralManager()
+        }
 
         // Scan
         mBleCentral.scanPeripheral(onDataScan: {(contactBlId, identifier, rssi, txPower) -> Void in
             // Check check insert blid
             if self.checkUserIdInsert(contactBlID: contactBlId) {
-
+                //
                 if (self.bridge != nil) {
                     let result : AnyHashable = [
                         "id": contactBlId.hexEncodedString(options: .upperCase),
                         "address": "",
-                        "rssi": String(rssi)]
+                        "rssi": String(rssi),
+                        "platform": identifier]
 
                     let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
                     module.onScanResult(result)

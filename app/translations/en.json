@@ -32,7 +32,7 @@
     "bluezone.trace.bluezoner": "Bluezoner",
     "bluezone.trace.bluezoners": "Bluezoners",
     "bluezone.trace.nearYou": "Near you",
-    "bluezone.trace.around": "Afar",
+    "bluezone.trace.around": "Around you",
     "bluezone.trace.invite": "Invite",
     "bluezone.trace.noList": "Empty list",
     "bluezone.trace.notification": "Notification",
@@ -92,7 +92,7 @@
 
     "bluezone.info.title": "Bluezone version",
     "bluezone.info.dateRelease": "Release date:",
-    "bluezone.info.description": "The application is chaired by Vietnam's Ministry of Information and Communications and Ministry of Health, with the participation in development of Bkav and the IT community. It helps the people follow their close contacts, protect themselves, and protect our community, contributing to the disease prevention.",
+    "bluezone.info.description": "The application is administered by Viet Nam's Ministry of Information and Communications and Ministry of Health, powered by Bkav and the IT community. It helps the people follow their close contacts, protect themselves, and protect our community, contributing to the disease prevention.",
     "bluezone.info.detail": "See details at:",
     "bluezone.info.linkDetail": "www.bluezone.gov.vn",
     "bluezone.info.infoDetail": "Contact information:",

@@ -39,9 +39,9 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
     func scanPeripheral(onDataScan: ((_ contactBlId: Data,_ identifier: String,_ rssi: Int, _ txPower: Int) -> Void)? , onError: ((_ error: String) -> Void)?) {
         
         if mBleManager != nil {
-            mBleManager?.stopScan()
-            mBleManager?.scanForPeripherals(withServices: [AppConstant.BLE_UUID_IOS, AppConstant.BLE_UUID_ANDROID], options: [
-                CBCentralManagerOptionShowPowerAlertKey: NSNumber(booleanLiteral: true), CBCentralManagerScanOptionAllowDuplicatesKey: true])
+//            mBleManager?.stopScan()
+//            mBleManager?.scanForPeripherals(withServices: [AppConstant.BLE_UUID_IOS, AppConstant.BLE_UUID_ANDROID], options: [
+//                CBCentralManagerOptionShowPowerAlertKey: NSNumber(booleanLiteral: true), CBCentralManagerScanOptionAllowDuplicatesKey: true])
         } else {
             mBleManager = CBCentralManager(delegate: self, queue: nil, options: [
                 CBCentralManagerOptionShowPowerAlertKey: NSNumber(booleanLiteral: true),
@@ -141,6 +141,8 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             print(Array(value))
             // neu dung do dai thi ok
             if value.count == 12 {
+                //
+                macId = "Android"
                 // luu data
                 onDataScan!(value, macId, RSSI.intValue, power)
             }
@@ -359,7 +361,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
         }
 
         // luu data
-        onDataScan!(value, peripheral.identifier.uuidString, details.rssiValue ?? 0, details.txPowerLever ?? 0)
+        onDataScan!(value, "iOS", details.rssiValue ?? 0, details.txPowerLever ?? 0)
 
         // cancel connection, reset values
         pendingPeripherals[peripheral]?.rssiValue = 0

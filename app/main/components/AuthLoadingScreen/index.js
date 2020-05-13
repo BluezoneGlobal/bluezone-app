@@ -24,7 +24,12 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
-import {View, SafeAreaView, StatusBar, ActivityIndicator} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FastImage from 'react-native-fast-image';
 

@@ -23,7 +23,9 @@ class BlePeripheralManager: NSObject, CBPeripheralManagerDelegate, CBPeripheralD
      */
     func startAdvertising(onSuccess: ((_ isSuccess: Bool) -> Void)?, onError: ((_ error: String) -> Void)?) {
         // Tạo thiết bị mới, check nếu gọi thành công thì sẽ start việc tìm kiếm
-        mPeripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        if mPeripheralManager == nil {
+            mPeripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        }
         //options: [CBPeripheralManagerOptionRestoreIdentifierKey: AppConstant.RESTORE_KEY_IDENTIFIER_CENTRAL]
         
         // Call back

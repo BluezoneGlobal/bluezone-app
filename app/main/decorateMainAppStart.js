@@ -95,7 +95,7 @@ function decorateMainAppStart(AppStack) {
         }
         // Start service
         this.onStartService(true);
-      } else {
+      } else if(appState === 'background') {
         this.onStartService(false);
       }
     };
