@@ -67,7 +67,6 @@ class WatchScanScreen extends React.Component {
       bzId: '',
     };
     this.mapDevice = mapDevice || {};
-    this.listTimeoutGetBluezoneId = [];
   }
 
   async componentDidMount() {
@@ -91,9 +90,7 @@ class WatchScanScreen extends React.Component {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
-    for (let i = 0; i < this.listTimeoutGetBluezoneId.length; i++) {
-      clearTimeout(this.listTimeoutGetBluezoneId[i]);
-    }
+    clearTimeout(this.timeoutGetBluezoneId);
     clearTimeout(this.timeountLoading);
   }
 
@@ -125,6 +122,9 @@ class WatchScanScreen extends React.Component {
 
   createTimeoutGetBluezoneId = () => {
     const numberSubKeyPerDay = configuration.MaxNumberSubKeyPerDay;
+    if(!numberSubKeyPerDay) {
+      return;
+    }
     const timeInterval = 86400000 / numberSubKeyPerDay;
     const dateNow = new Date();
     const now = dateNow.getTime();
@@ -132,16 +132,11 @@ class WatchScanScreen extends React.Component {
     const n = Math.floor(time / timeInterval);
     const x = time - n * timeInterval;
 
-    // const loop =
-    //   numberSubKeyPerDay - 1 - n > 10 ? numberSubKeyPerDay - 1 - n : 10;
-
-    for (let i = 1; i <= 5; i++) {
-      const timeout = setTimeout(async () => {
-        const bzId = await Service.getBluezoneIdFirst6Char();
-        this.onBluezoneIdChange(bzId);
-      }, i * timeInterval - x);
-      this.listTimeoutGetBluezoneId.push(timeout);
-    }
+    this.timeoutGetBluezoneId = setTimeout(async () => {
+      const bzId = await Service.getBluezoneIdFirst6Char();
+      this.onBluezoneIdChange(bzId);
+      this.createTimeoutGetBluezoneId();
+    }, timeInterval - x);
   };
 
   creatLog = () => {
