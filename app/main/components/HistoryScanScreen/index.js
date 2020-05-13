@@ -39,9 +39,11 @@ import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
 import CountBlueZoner from '../../../base/components/CountBlueZoner';
+import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Language
 import message from '../../../msg/history';
+import warning from '../../../msg/warning';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Config
@@ -50,8 +52,12 @@ import configuration from '../../../Configuration';
 // Sqlite db
 import {open} from '../../../db/SqliteDb';
 
+// Api
+import {uploadHistoryF0} from '../../../apis/bluezone';
+
 // Style
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 const ONE_DAY = 86400000;
 
@@ -262,7 +268,6 @@ class HistoryScanScreen extends React.Component {
   };
 
   onSendHistory = () => {
-    // Send history...
     // uploadHistoryF0(
     //   filePath,
     //   3,
@@ -354,12 +359,12 @@ class HistoryScanScreen extends React.Component {
               )}
 
               {/*<ButtonIconText*/}
-              {/*    onPress={this.onSendHistory}*/}
-              {/*    text={formatMessage(warning.uploadText)}*/}
-              {/*    source={require('../NotifyWarning/styles/images/send.png')}*/}
-              {/*    styleBtn={styles.buttonSend}*/}
-              {/*    styleText={{fontSize: fontSize.normal}}*/}
-              {/*    styleIcon={styles.buttonIcon}*/}
+              {/*  onPress={this.onSendHistory}*/}
+              {/*  text={formatMessage(warning.uploadText)}*/}
+              {/*  source={require('../NotifyWarning/styles/images/send.png')}*/}
+              {/*  styleBtn={styles.buttonSend}*/}
+              {/*  styleText={{fontSize: fontSize.normal}}*/}
+              {/*  styleIcon={styles.buttonIcon}*/}
               {/*/>*/}
             </View>
           </View>

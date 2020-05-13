@@ -39,19 +39,21 @@ import Header from '../../../base/components/Header';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 import CountDown from './CountDown';
 import Text, {MediumText} from '../../../base/components/Text';
+import ButtonText from '../../../base/components/ButtonText';
 
 // Utils
 import {setToken, setPhoneNumber} from '../../../Configuration';
-import * as fontSize from '../../../utils/fontSize';
 import {blue_bluezone} from '../../../utils/color';
+import {replaceNotify} from '../../../db/SqliteDb';
+import {messageNotifyOTPSuccess} from '../ModalNotify/data';
+import message from '../../../msg/verifyOtp';
+
+// Api
+import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
 
 // Styles
 import styles from './styles/index.css';
-import ButtonText from '../../../base/components/ButtonText';
-import {CreateAndSendOTPCode, VerifyOTPCode} from '../../../apis/bluezone';
-import message from '../../../msg/verifyOtp';
-import {replaceNotify} from '../../../db/SqliteDb';
-import {messageNotifyOTPSuccess} from '../ModalNotify/data';
+import * as fontSize from '../../../utils/fontSize';
 
 class VerifyOTPScreen extends React.Component {
   // Render any loading content that you like here

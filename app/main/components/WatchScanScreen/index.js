@@ -122,7 +122,7 @@ class WatchScanScreen extends React.Component {
 
   createTimeoutGetBluezoneId = () => {
     const numberSubKeyPerDay = configuration.MaxNumberSubKeyPerDay;
-    if(!numberSubKeyPerDay) {
+    if (!numberSubKeyPerDay) {
       return;
     }
     const timeInterval = 86400000 / numberSubKeyPerDay;
@@ -205,27 +205,29 @@ class WatchScanScreen extends React.Component {
   };
 
   getTypeRSSI = (rssi, platform = 'Android') => {
-    // const {RssiThreshold} = configuration;
+    const {
+      RssiThreshold_Android_Android,
+      RssiThreshold_Android_iOS,
+      RssiThreshold_iOS_Android,
+      RssiThreshold_iOS_iOS,
+    } = configuration;
     if (!rssi || !platform) {
       return true;
     }
 
     if (isAndroid) {
       if (platform === 'Android') {
-        return rssi >= -86;
+        return rssi >= RssiThreshold_Android_Android;
       } else {
-        return rssi >= -69;
+        return rssi >= RssiThreshold_Android_iOS;
       }
     } else {
       if (platform === 'Android') {
-        return rssi >= -88;
+        return rssi >= RssiThreshold_iOS_Android;
       } else {
-        return rssi >= -74;
+        return rssi >= RssiThreshold_iOS_iOS;
       }
     }
-
-    // eslint-disable-next-line no-unreachable
-    return true;
   };
 
   onBluezoneIdChange = bzId => {
