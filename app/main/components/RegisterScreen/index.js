@@ -51,7 +51,6 @@ import * as fontSize from '../../../utils/fontSize';
 
 import message from '../../../msg/register';
 import {injectIntl, intlShape} from 'react-intl';
-import FastImage from 'react-native-fast-image';
 
 import LogoBluezone from '../../components/AuthLoadingScreen/styles/images/IconBluezone';
 

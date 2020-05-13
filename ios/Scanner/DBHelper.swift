@@ -35,7 +35,6 @@ class DBHelper {
     static let COLUMN_INDEX_TX_POWER : Int32 = 6
     static let COLUMN_INDEX_STATE : Int32 = 7
     static let COLUMN_INDEX_BLID : Int32 = 8
-
     // db
     var DATABASE_VERSION: Int = 1
     let dbPath: String = "app_db.db"  //.sqlite"
@@ -186,8 +185,6 @@ class DBHelper {
                 let timestamp = sqlite3_column_int(queryStatement, DBHelper.COLUMN_INDEX_TIME)
                 let RSSI = sqlite3_column_int(queryStatement, DBHelper.COLUMN_INDEX_RSSI)
 
-
-
                 psns.append(CovidLog(id: Int(id), userId:userId , macId:macId, timestamp: Int64(timestamp), rssi: Int32(RSSI)))
                 print("Query Result:")
                 print("\(id) | \(userId) | \(macId)")
@@ -220,7 +217,6 @@ class DBHelper {
         }
         sqlite3_finalize(deleteStatement)
     }
-
 
     // get current version of database
     func getUserVersion() -> Int {

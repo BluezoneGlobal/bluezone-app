@@ -46,3 +46,4 @@ export const bigger = RFValue(24, STANDARD_SCREEN_HEIGHT);
 export const biggest = RFValue(30, STANDARD_SCREEN_HEIGHT);
 
 export const biggested = RFValue(35, STANDARD_SCREEN_HEIGHT);
+

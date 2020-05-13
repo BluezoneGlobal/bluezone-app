@@ -327,12 +327,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 1,
     paddingHorizontal: 2,
-    // fontWeight: '600',
   },
 
   textBtnLanguage: {
     paddingHorizontal: 8,
     paddingVertical: 4,
+
     fontSize: fontSize.smallest,
     color: '#ffffff',
   },

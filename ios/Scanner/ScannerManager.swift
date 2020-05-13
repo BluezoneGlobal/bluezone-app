@@ -148,7 +148,6 @@ public class ScannerManager: RCTViewManager {
                     .setContactBlId(contactBlId: contactBlId)
                     .setTimestamp(time: timestamp)
                     .build()
-
                 self.db.insert(scan:scan)
             }
 
@@ -206,7 +205,7 @@ public class TraceCovid: RCTEventEmitter {
   @objc func onScanResult(_ value:AnyHashable) {
     sendEvent(withName: "onScanResult", body: value)
     }
-    
+
     @objc func onBluezoneIdChange(_ blzId:String) {
     sendEvent(withName: "onBluezoneIdChange", body: ["blzId": blzId])
     }

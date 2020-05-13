@@ -22,6 +22,7 @@
 'use strict';
 
 import React from 'react';
+import {AppState, Text} from 'react-native';
 
 // Components
 import Text from '../../../base/components/Text';

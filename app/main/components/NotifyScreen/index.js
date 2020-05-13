@@ -46,6 +46,7 @@ import message from '../../../msg/notify';
 import configuration, {setStatusNotifyRegister} from "../../../Configuration";
 import {messageNotifyOTP, messageNotifyOTPSuccess} from "../ModalNotify/data";
 
+
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);

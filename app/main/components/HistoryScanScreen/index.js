@@ -42,6 +42,7 @@ import CountBlueZoner from '../../../base/components/CountBlueZoner';
 
 // Language
 import message from '../../../msg/history';
+
 import {injectIntl, intlShape} from 'react-intl';
 
 // Config
@@ -52,6 +53,7 @@ import {open} from '../../../db/SqliteDb';
 
 // Style
 import styles from './styles/index.css';
+import * as fontSize from '../../../utils/fontSize';
 
 const ONE_DAY = 86400000;
 

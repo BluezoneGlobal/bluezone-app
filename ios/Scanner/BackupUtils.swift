@@ -12,7 +12,7 @@ import SQLite3
 public class BackupUtils {
     // Path documents
     public static let PATH_COMPONENTS: String = "Documents"
-    
+
     /*
      * write file contact log to file text (new thread)
      */
@@ -20,16 +20,16 @@ public class BackupUtils {
         var database: String
         var output: String
         let pathDocuments = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        
+
         // path of database
         database = pathDocuments[0].appendingPathComponent("app_db_2.db").path
-        
+
         if fileName.elementsEqual("") {
             output = pathDocuments[0].appendingPathComponent("ContactLog.txt").path
         } else {
             output = pathDocuments[0].appendingPathComponent(fileName).path
         }
-        
+
         // neu co file roi thi xoa
         if FileManager.default.fileExists(atPath: output) {
             do {
@@ -39,60 +39,60 @@ public class BackupUtils {
                 return nil
             }
         }
-        
+
         var db: OpaquePointer?
-        
+
         // query db va ghi
         if FileManager.default.fileExists(atPath: database) {
             // tao file
             FileManager.default.createFile(atPath: output, contents: nil, attributes: nil)
-            
+
             // ghi ra output file
             if let fileUpdater = try? FileHandle(forUpdating: URL(string: output)!) {
                 fileUpdater.seekToEndOfFile()
-                
+
                 // check connect den db
                 if sqlite3_open(database, &db) == SQLITE_OK {
-                    
+
                     // query tat ca trong bang CovidLogs trace_info
                     let queryString = "SELECT * FROM trace_info;"
                     var queryStatement: OpaquePointer? = nil
 
                     if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
-                        
+
                         while sqlite3_step(queryStatement) == SQLITE_ROW {
-                            
+
                             // get blid owner
                             var blIdData: Data = Data()
                             let blIdCount = sqlite3_column_bytes(queryStatement, ContactLogDBHelper.COLUMN_INDEX_OWNER_BLID)
-                            
+
                             if let blId = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_OWNER_BLID), blIdCount > 0 {
                                 blIdData = Data(bytes: blId, count: Int(blIdCount))
                             }
-                            
+
                             // get blid owner
                             var contactBlIdData: Data = Data()
                             let contactBlIdCount = sqlite3_column_bytes(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID)
-                            
+
                             if let blId = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID), blIdCount > 0 {
                                 contactBlIdData = Data(bytes: blId, count: Int(contactBlIdCount))
                             }
-                            
+
                             // get mac id
                             let macId = String(describing: String(cString: sqlite3_column_text(queryStatement, ContactLogDBHelper.COLUMN_INDEX_MAC_ID)))
-                            
+
                             // timestamp
                             let timestamp = sqlite3_column_int(queryStatement, ContactLogDBHelper.COLUMN_INDEX_TIME)
-                            
+
                             // rssi
                             let RSSI = sqlite3_column_int(queryStatement, ContactLogDBHelper.COLUMN_INDEX_RSSI)
-                            
+
                             // tx
                             let txPower = sqlite3_column_int(queryStatement, ContactLogDBHelper.COLUMN_INDEX_TX_POWER)
-                            
+
                             // state
                             let state = sqlite3_column_int(queryStatement, ContactLogDBHelper.COLUMN_INDEX_STATE)
-                            
+
                             let rowString = "\(Array(blIdData))\t\(Array(contactBlIdData))\t\(macId)\t\(RSSI)\t\(txPower)\t\(state)\t\(timestamp)\n"
 
                             fileUpdater.write(rowString.data(using: .utf8)!)
@@ -102,16 +102,16 @@ public class BackupUtils {
                     }
                     sqlite3_finalize(queryStatement)
                 }
-                
+
                 fileUpdater.closeFile()
-                
+
                 return URL(fileURLWithPath: output)
             }
         }
-        
+
         return nil
     }
-    
+
 //    /*
 //     * write file db to file text (new thread)
 //     */

@@ -20,16 +20,16 @@ struct PeripheralDetails {
 class BleCentralManager: NSObject, CBCentralManagerDelegate {
     // Ble Trung tâm
     private var mBleManager: CBCentralManager?
-    
+
     // Trai lai cho ham call
     private var onDataScan: ((_ contactBlId: Data,_ identifier: String,_ rssi: Int, _ txPower: Int) -> Void)?
-    
+
     // Error
     private var onError: ((_ error: String) -> Void)?
-    
+
     // list peripheral to connect
     private var pendingPeripherals: [CBPeripheral: PeripheralDetails] = [:]
-        
+
     // list peripheral is going to be remove from pending
     private var removingPeripherals: [CBPeripheral]?
 
@@ -37,7 +37,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
      * Ham scan
      */
     func scanPeripheral(onDataScan: ((_ contactBlId: Data,_ identifier: String,_ rssi: Int, _ txPower: Int) -> Void)? , onError: ((_ error: String) -> Void)?) {
-        
+
         if mBleManager != nil {
 //            mBleManager?.stopScan()
 //            mBleManager?.scanForPeripherals(withServices: [AppConstant.BLE_UUID_IOS, AppConstant.BLE_UUID_ANDROID], options: [
@@ -47,14 +47,14 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 CBCentralManagerOptionShowPowerAlertKey: NSNumber(booleanLiteral: true),
                 CBCentralManagerOptionRestoreIdentifierKey: AppConstant.RESTORE_KEY_IDENTIFIER_CENTRAL])
         }
-      
+
         // callback
         self.onDataScan = onDataScan
-        
+
         // error
         self.onError = onError
     }
-    
+
     /*
      * Hàm stop ^^
      */
@@ -69,14 +69,14 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
      */
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         var consoleLog = ""
-        
+
         // Check
         switch central.state {
         case .poweredOn:
           consoleLog = "BLE is poweredOn"
           // ok
           self.onError!("")
-          
+
             mBleManager?.scanForPeripherals(withServices: [AppConstant.BLE_UUID_IOS, AppConstant.BLE_UUID_ANDROID], options: [
                 CBCentralManagerOptionShowPowerAlertKey: NSNumber(booleanLiteral: true), CBCentralManagerScanOptionAllowDuplicatesKey: true
             ])
@@ -105,29 +105,29 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
 
         // In
         print(consoleLog)
-        
+
         // Callback
         self.onError!(consoleLog)
     }
-    
+
     /*
      * Call back khi trả về, kiểm tra nếu thiết bị có sóng yếu thì bỏ qua
      */
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
                         advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        
+
         //
         var macId = ""
         var power: Int = 0
-        
+
         // get txPower level from advertisement data
         if let txPowerLevel = advertisementData[CBAdvertisementDataTxPowerLevelKey] as? Double {
             power = Int(txPowerLevel)
         }
-        
+
         // check list pending peripherals
         cleanUpPendingPeripherals()
-        
+
         // check manufacturer data
         if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             let manufacturer = manufacturerData.subdata(in: 0..<2)
@@ -135,7 +135,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             // VN "NV"
             let myManu = Data([78, 86])
             print(myManu.hexEncodedString)
-            
+
             let value = manufacturerData.subdata(in: 2..<manufacturerData.count)
             print(value.hexEncodedString)
             print(Array(value))
@@ -147,96 +147,19 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 onDataScan!(value, macId, RSSI.intValue, power)
             }
         } else {  // neu khong doc duoc trong manufacturer data thi phai connect de doc
-            
+
             pendingPeripherals[peripheral] = .init()
             pendingPeripherals[peripheral]?.rssiValue = RSSI.intValue
             pendingPeripherals[peripheral]?.txPowerLever = power
-            
+
             mBleManager?.connect(peripheral)
         }
-//        // Loại bỏ nhưng thiết bị có sóng yếu
-//        guard RSSI.intValue >= -100 else {
-//                print("Discovered perhiperal not in expected range, at %d", RSSI.intValue)
-//            return
-//        }
-//        print("------------------------------------------------------------------------")
-//        print(advertisementData)
-//        print(peripheral)
-//
-//        // Data user
-//        var idUser : Data = Data()
-//        var identifier : String = ""
-//
-//        // gan lai
-//        let advertist = advertisementData as NSDictionary
-//
-//        // Check
-//        if advertist.count > 0 {
-//
-//            // var listUuid : NSArray?
-//            var manuData : Data?
-//
-//            // Duyệt mảng
-//            for keyData in advertist.allKeys {
-//                // Lay key
-//                let key = keyData as! String
-//
-//                // Lấy manu
-//                if key.elementsEqual("kCBAdvDataManufacturerData") {
-//                    manuData = advertist[keyData] as? Data
-//                }
-//            }
-//
-//            // check
-//            if manuData != nil {
-//                // Cat 2 gia tri dau
-//                if let data = manuData?.subdata(in: 2..<manuData!.count), data.count > 0 {
-//                    idUser = data
-//                }
-//            } else {
-//
-//                // Lấy identifiter
-//                identifier = peripheral.identifier.uuidString
-//
-//                // peripheral name không thoả mãn thì kết nối để đọc data
-//                if idUser.isEmpty {
-//
-//                    // Check xem đã connect chưa nếu chưa thì connect
-//                    if idUser.isEmpty && mScannedPeripherals[peripheral.identifier] == nil {
-//                        // Log
-//                        print("connect")
-//
-//                        // append luon vao mang da scan duoc
-//                        self.mScannedPeripherals.updateValue(peripheral, forKey: peripheral.identifier)
-//                        // Thu hien ket noi
-//                        mBleManager.connect(peripheral)
-//                    }
-//                }
-//            }
-//
-//            // Check nil
-//            if !idUser.isEmpty {
-//                // Lưu tên
-//                onDataScan!(idUser, identifier, RSSI.intValue, -12);
-//
-//                // Print
-//                print("Bắt được: \(idUser) - RSSI=\(RSSI.intValue)")
-//            } else if !isConecting {
-//                // Rỗng
-//                onDataScan!(Data(), "", 0, 0);
-//
-//                // Print
-//                print("Không lấy được thông tin")
-//            }
-//
-//             print("------------------------------------------------------------------------")
-//        }
     }
-    
+
     // check list pending peripherals, dicard peripheral state connecting too long
     func cleanUpPendingPeripherals() {
         removingPeripherals = []
-        
+
         for (peripheral, details) in pendingPeripherals {
             // neu lan cuoi ket noi lon hon 30 phut
             if let lastConnection = details.lastConnection, Date().timeIntervalSince(lastConnection) > 30 * 60.0 {
@@ -246,7 +169,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 removingPeripherals?.append(peripheral)
             }
         }
-        
+
         // cancel connection with peripherals and remove from pending peripherals list
         if let removing = removingPeripherals, removing.count > 0 {
             removing.forEach {
@@ -255,43 +178,43 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             }
         }
     }
-    
+
     /*
      * when central connected to pheripheral
      */
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         // set last connection
         pendingPeripherals[peripheral]?.lastConnection = Date()
-        
+
         //
         cleanUpPendingPeripherals()
-        
+
         // gan cc hien tai thanh peripharel delegate
         peripheral.delegate = self
-        
+
         // tim services
         peripheral.discoverServices([AppConstant.BLE_UUID_IOS])
-        
+
         // read rssi
         peripheral.readRSSI()
     }
-    
+
     /*
      * ham nay duoc goi khi ngat ket noi voi mot peripheral
      */
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("CC didDisconnectPeripheral \(peripheral) , \(error != nil ? "error: \(error.debugDescription)" : "" )")
-        
+
         // neu lan cuoi connect duoc den peripheral lon hon 30 phut thi bo khoi pending peripheral
         if let detail = pendingPeripherals[peripheral],
             let lastConnection = detail.lastConnection {
             if Date().timeIntervalSince(lastConnection) > 30 * 60.0 {
-                
+
                 pendingPeripherals.removeValue(forKey: peripheral)
                 return
             }
         }
-        
+
         // neu disconnect vi loi thi connect lai
         if let error = error {
             print(" didDisconnectPeripheral (unexpected): \(peripheral) with error: \(error)")
@@ -307,7 +230,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
      */
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         print("CC didFailToConnect peripheral \(error != nil ? "error: \(error.debugDescription)" : "" )")
-        
+
         // neu thoi gian ke tu lan cuoi ket noi den, hoac lan cuoi dicover duoc qua lau thi xoa khoi pending peripheral, 20 phut
         if let detail = pendingPeripherals[peripheral] {
             if let lastConnection = detail.lastConnection,
@@ -319,14 +242,14 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 return
             }
         }
-        
+
         // khong thi co connect lai
         mBleManager?.connect(peripheral)
     }
-    
+
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
         print("CentralManager#willRestoreState")
-        
+
         // restore data pending peripherals
         if let peripherals: [CBPeripheral] = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral] {
             removingPeripherals = []
@@ -338,7 +261,7 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 }
         }
     }
-    
+
     func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error _: Error?) {
         print("didReadRSSI for \(peripheral) -> rssi: \(RSSI)")
 
@@ -346,12 +269,12 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
 
         checkToCancelConnection(peripheral)
     }
-    
+
     // check to cancel connection to a peripheral
     func checkToCancelConnection(_ peripheral: CBPeripheral) {
         // check all data in peripheral details
         guard let details = pendingPeripherals[peripheral] else { return }
-        
+
         guard let value = details.connectBlId else {
             // neu chua co rssi
             if details.rssiValue == nil {
@@ -374,13 +297,13 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
  * Khi da ket noi, central tro thanh peripheral de nhan data
  */
 extension BleCentralManager: CBPeripheralDelegate {
-    
+
     /*
     * when did discover services
     */
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         print("didDiscoverServices for \(peripheral.identifier)")
-        
+
         if let err = error {
             print("error: \(err.localizedDescription)")
         }
@@ -389,22 +312,22 @@ extension BleCentralManager: CBPeripheralDelegate {
             peripheral.discoverCharacteristics([AppConstant.BLE_CHAR_UUID], for: service)
         } else {
             print("No service found found: -> (\(peripheral.services?.description ?? "none"))")
-            
+
             mBleManager?.cancelPeripheralConnection(peripheral)
         }
 
     }
-  
+
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let error = error {
             print("didDiscoverCharacteristicsFor " + error.localizedDescription)
             return
         }
-        
+
         guard let characteristic = service.characteristics?.first(where: { $0.uuid == AppConstant.BLE_CHAR_UUID}) else { return }
-        
+
         print("Characteristic \(characteristic)")
-        
+
         // read value
         peripheral.readValue(for: characteristic)
 
@@ -414,7 +337,7 @@ extension BleCentralManager: CBPeripheralDelegate {
      * Khi charateristic thay doi (da doc dc data)
      */
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        
+
         if let error = error {
             print("didUpdateValueFor " + error.localizedDescription)
             mBleManager?.cancelPeripheralConnection(peripheral)
@@ -425,7 +348,7 @@ extension BleCentralManager: CBPeripheralDelegate {
             mBleManager?.cancelPeripheralConnection(peripheral)
             return
         }
-        
+
         // neu du data
         guard data.count == 12 else {
             mBleManager?.cancelPeripheralConnection(peripheral)
