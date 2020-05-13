@@ -68,10 +68,16 @@ const addListenerBluezoneIdAndroidChange = onChange => {
     return null;
   }
   return eventEmitter.addListener('onBluezoneIdChange', bzId => {
-    onChange(
-      bzId && bzId.length >= 6 ? bzId.substring(0, 6).concat('***') : bzId,
-    );
+    onChange(getFirst6Char(bzId));
   });
+};
+
+const getBluezoneIdDataIOS = async () => {
+  return TraceCovid.getBluezoneIdData && (await TraceCovid.getBluezoneIdData());
+};
+
+const addListenerBluezoneIdDataChange = onChange => {
+  return eventEmitter.addListener('onBluezoneIdDataChange', onChange);
 };
 
 const changeLanguageNotifi = language => {
@@ -87,8 +93,7 @@ const writeHistoryContact = ids => {
 };
 
 const getBluezoneId = async () => {
-  const bzId = await TraceCovid.getBluezoneId();
-  return bzId;
+  return await TraceCovid.getBluezoneId();
 };
 
 const getFirst6Char = bzId =>
@@ -99,21 +104,20 @@ const getBluezoneIdFirst6Char = async () => {
   return getFirst6Char(bzId);
 };
 
-// getBluezoneIdDataIOS = () => {};
-
 const service = {
   startService,
   setConfig,
   addListener,
   addListenerScanBLE,
   addListenerScanBlueTooth,
-  addListenerBluezoneIdChange: addListenerBluezoneIdAndroidChange,
+  addListenerBluezoneIdAndroidChange,
   changeLanguageNotifi,
   checkContact,
   writeHistoryContact,
   getFirst6Char,
-  getBluezoneId,
   getBluezoneIdFirst6Char,
+  getBluezoneIdDataIOS,
+  addListenerBluezoneIdDataChange,
 };
 
 export default service;

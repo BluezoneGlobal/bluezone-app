@@ -55,6 +55,7 @@ import * as Progress from 'react-native-progress';
 
 const currentVersion = DeviceInfo.getVersion();
 const isDeploygateVersion = currentVersion.includes('deploygate');
+const isAndroid = Platform.OS === 'android';
 
 class WatchScanScreen extends React.Component {
   constructor(props) {
@@ -66,43 +67,81 @@ class WatchScanScreen extends React.Component {
       bzId: '',
     };
     this.mapDevice = mapDevice || {};
+    this.listTimeoutGetBluezoneId = [];
   }
 
   async componentDidMount() {
-    this.createListener();
+    this.createScanListener();
+    // this.createBluezoneIdListener();
     this.timeountLoading = setTimeout(() => {
       this.setState({statusLoadding: false});
     }, 15000);
+
     const bzId = await Service.getBluezoneIdFirst6Char();
-    this.setState({bzId: bzId});
+    this.onBluezoneIdChange(bzId);
+
+    this.createTimeoutGetBluezoneId();
   }
 
   componentWillUnmount() {
-    this.removeListener();
+    this.removeScanListener();
+    // this.removeBluezoneIdListener();
     const keys = Object.keys(this.mapDevice);
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
+    }
+    for (let i = 0; i < this.listTimeoutGetBluezoneId.length; i++) {
+      clearTimeout(this.listTimeoutGetBluezoneId[i]);
     }
     clearTimeout(this.timeountLoading);
   }
 
-  createListener = () => {
+  createScanListener = () => {
     this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
-    if (Platform.OS !== 'ios') {
+    if (isAndroid) {
       this.scanBlueToothListener = Service.addListenerScanBlueTooth(
         this.onScan,
       );
     }
-    this.bluezoneIdChange = Service.addListenerBluezoneIdChange(
-      this.onBluezoneIdChange,
-    );
   };
 
-  removeListener = () => {
+  removeScanListener = () => {
     this.scanBLEListener && this.scanBLEListener.remove();
     this.scanBlueToothListener && this.scanBlueToothListener.remove();
+  };
+
+  createBluezoneIdListener = () => {
+    if (isAndroid) {
+      this.bluezoneIdChange = Service.addListenerBluezoneIdAndroidChange(
+        this.onBluezoneIdChange,
+      );
+    }
+  };
+
+  removeBluezoneIdListener = () => {
     this.bluezoneIdChange && this.bluezoneIdChange.remove();
+  };
+
+  createTimeoutGetBluezoneId = () => {
+    const numberSubKeyPerDay = configuration.MaxNumberSubKeyPerDay;
+    const timeInterval = 86400000 / numberSubKeyPerDay;
+    const dateNow = new Date();
+    const now = dateNow.getTime();
+    const time = now - dateNow.setHours(0, 0, 0, 0);
+    const n = Math.floor(time / timeInterval);
+    const x = time - n * timeInterval;
+
+    // const loop =
+    //   numberSubKeyPerDay - 1 - n > 10 ? numberSubKeyPerDay - 1 - n : 10;
+
+    for (let i = 1; i <= 5; i++) {
+      const timeout = setTimeout(async () => {
+        const bzId = await Service.getBluezoneIdFirst6Char();
+        this.onBluezoneIdChange(bzId);
+      }, i * timeInterval - x);
+      this.listTimeoutGetBluezoneId.push(timeout);
+    }
   };
 
   creatLog = () => {
@@ -170,9 +209,28 @@ class WatchScanScreen extends React.Component {
     return true;
   };
 
-  getTypeRSSI = rssi => {
-    const {RssiThreshold} = configuration;
-    return rssi && rssi >= RssiThreshold ? 1 : 0;
+  getTypeRSSI = (rssi, platform = 'Android') => {
+    // const {RssiThreshold} = configuration;
+    if (!rssi || !platform) {
+      return true;
+    }
+
+    if (isAndroid) {
+      if (platform === 'Android') {
+        return rssi >= -86;
+      } else {
+        return rssi >= -69;
+      }
+    } else {
+      if (platform === 'Android') {
+        return rssi >= -88;
+      } else {
+        return rssi >= -74;
+      }
+    }
+
+    // eslint-disable-next-line no-unreachable
+    return true;
   };
 
   onBluezoneIdChange = bzId => {
@@ -190,7 +248,7 @@ class WatchScanScreen extends React.Component {
     const {logs} = this.state;
 
     const keyMap = id && id.length > 0 ? id : name + '@' + address;
-    const typeRSSI = this.getTypeRSSI(rssi);
+    const typeRSSI = this.getTypeRSSI(rssi, platform);
 
     if (this.mapDevice[keyMap]) {
       // Xóa timmer cũ
@@ -299,9 +357,10 @@ class WatchScanScreen extends React.Component {
   };
 
   renderItemLog = item => {
+    const info = isDeploygateVersion ? `(${item.rssi}) (${item.platform})` : '';
     const content = item.userId
-      ? `${Service.getFirst6Char(item.userId)} (${item.rssi})`
-      : `${item.name} (${item.rssi})`;
+      ? `${Service.getFirst6Char(item.userId)} ${info}`
+      : `${item.name} ${info}`;
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -321,7 +380,7 @@ class WatchScanScreen extends React.Component {
     const itemsLogDiff = [];
 
     logs.forEach(log => {
-      if (log.type === 1) {
+      if (log.type) {
         itemsLogNear.push(log);
       } else {
         itemsLogDiff.push(log);

@@ -47,7 +47,7 @@ import {
 } from '../../../utils/notifyConfiguration';
 
 // Styles
-import style, {HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH} from './styles/index.css';
+import style, {HEADER_BACKGROUND_HEIGHT} from './styles/index.css';
 import * as fontSize from '../../../utils/fontSize';
 import styles from '../ModalNotify/styles/index.css';
 import {logBluezone} from './CountBluezoner';
@@ -105,7 +105,7 @@ class HomeTab extends React.Component {
     // checkNotify(
     //   Object.assign({}, {data: Object.assign({}, verifySafe.data)}),
     //   Language,
-    // );
+    // );z
   }
 
   componentWillUnmount() {
@@ -116,6 +116,7 @@ class HomeTab extends React.Component {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
+    clearTimeout(this.timeout);
   }
 
   async onCalcuTimesOpenApp() {
@@ -200,8 +201,13 @@ class HomeTab extends React.Component {
           <View style={{backgroundColor: '#015cd0'}}>
             <View style={style.switchLanguage}>
               <View style={style.logo}>
-                <LogoBluezone width={28.8} height={34.6}/>
-                <View style={{flexDirection: 'column', paddingLeft: 8.8, paddingRight: 14.6}}>
+                <LogoBluezone width={28.8} height={34.6} />
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingLeft: 8.8,
+                    paddingRight: 14.6,
+                  }}>
                   <MediumText
                     style={{
                       textAlign: 'right',
@@ -210,11 +216,19 @@ class HomeTab extends React.Component {
                       lineHeight: fontSize.normal * 0.4, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                       paddingTop: fontSize.normal * 0.6, // Xử lý cho chữ Bluezone sát với chữ gov.vn.
                     }}>
-                    Bluezone{'\n'}<ThinText style={{fontSize: fontSize.tiny, color: '#ffffff', fontWeight: '100'}}>.gov.vn</ThinText>
+                    Bluezone{'\n'}
+                    <ThinText
+                      style={{
+                        fontSize: fontSize.tiny,
+                        color: '#ffffff',
+                        fontWeight: '100',
+                      }}>
+                      .gov.vn
+                    </ThinText>
                   </MediumText>
                 </View>
                 <View style={style.borderLogo} />
-                <View style={{marginHorizontal: 14.6,}}>
+                <View style={{marginHorizontal: 14.6}}>
                   <IconBTT width={30} height={30} />
                 </View>
                 <View style={style.borderLogo} />
