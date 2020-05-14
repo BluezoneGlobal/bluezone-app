@@ -25,7 +25,12 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 
 // Components
-import {SafeAreaView, StatusBar, View, Linking, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  View,
+  Linking,
+} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import Text, {MediumText} from '../../../base/components/Text';
@@ -36,10 +41,8 @@ import {injectIntl, intlShape} from 'react-intl';
 import message from '../../../msg/info';
 
 // Logo
-import LogoBluezone from '../../../utils/logo/logo_bluezone';
 import IconBYT from '../HomeScreen/styles/images/IconBYT';
 import IconBTT from '../HomeScreen/styles/images/IconBTT';
-import style from '../HomeScreen/styles/index.css';
 
 class InfoScreen extends React.Component {
   constructor(props) {
@@ -82,23 +85,26 @@ class InfoScreen extends React.Component {
               <Text style={styles.textContact}>
                 {formatMessage(message.detail)}
               </Text>
-              <TouchableOpacity style={{flexDirection: 'column'}} onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
-                <Text style={styles.linkweb}>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.linkweb}  onPress={() => Linking.openURL('https://www.bluezone.gov.vn')}>
                   {formatMessage(message.linkDetail)}
                 </Text>
-              </TouchableOpacity>
+                <Text />
+              </View>
             </View>
             <View>
               <Text style={styles.textContact}>
                 {formatMessage(message.infoDetail)}
               </Text>
-              <Text
-                style={styles.linkweb}
-                onPress={() =>
-                  Linking.openURL('mailto:lienhe@bluezone.gov.vn')
-                }>
-                {formatMessage(message.email)}
-              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                    style={styles.linkweb}
+                    onPress={() =>
+                        Linking.openURL('mailto:lienhe@bluezone.gov.vn')
+                    }>
+                  {formatMessage(message.email)}
+                </Text>
+              </View>
             </View>
             <View />
           </View>

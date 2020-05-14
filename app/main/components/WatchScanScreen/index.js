@@ -33,16 +33,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
 import CountBlueZoner from '../../../base/components/CountBlueZoner';
-
-// Language
-import message from '../../../msg/trace';
-import {injectIntl, intlShape} from 'react-intl';
 
 // Language
 import message from '../../../msg/trace';

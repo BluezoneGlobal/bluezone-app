@@ -107,8 +107,6 @@ const styles = StyleSheet.create({
   linkweb: {
     color: '#0166de',
     fontSize: fontSize.normal,
-    flexWrap: 'wrap',
-    flexDirection:'row',
   },
 });
 

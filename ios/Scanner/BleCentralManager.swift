@@ -132,13 +132,9 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
         if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             let manufacturer = manufacturerData.subdata(in: 0..<2)
             print(manufacturer.hexEncodedString)
-            // VN "NV"
-            let myManu = Data([78, 86])
-            print(myManu.hexEncodedString)
 
             let value = manufacturerData.subdata(in: 2..<manufacturerData.count)
             print(value.hexEncodedString)
-            print(Array(value))
             // neu dung do dai thi ok
             if value.count == 12 {
                 //
@@ -147,12 +143,22 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
                 onDataScan!(value, macId, RSSI.intValue, power)
             }
         } else {  // neu khong doc duoc trong manufacturer data thi phai connect de doc
+            
+            if let details = pendingPeripherals[peripheral] {
+                if Date().timeIntervalSince(details.timestamp) >= 5.0 {
+                    pendingPeripherals[peripheral] = .init()
+                    pendingPeripherals[peripheral]?.rssiValue = RSSI.intValue
+                    pendingPeripherals[peripheral]?.txPowerLever = power
 
-            pendingPeripherals[peripheral] = .init()
-            pendingPeripherals[peripheral]?.rssiValue = RSSI.intValue
-            pendingPeripherals[peripheral]?.txPowerLever = power
+                    mBleManager?.connect(peripheral)
+                }
+            } else {
+                pendingPeripherals[peripheral] = .init()
+                pendingPeripherals[peripheral]?.rssiValue = RSSI.intValue
+                pendingPeripherals[peripheral]?.txPowerLever = power
 
-            mBleManager?.connect(peripheral)
+                mBleManager?.connect(peripheral)
+            }
         }
     }
 
@@ -205,10 +211,10 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("CC didDisconnectPeripheral \(peripheral) , \(error != nil ? "error: \(error.debugDescription)" : "" )")
 
-        // neu lan cuoi connect duoc den peripheral lon hon 30 phut thi bo khoi pending peripheral
+        // neu lan cuoi connect duoc den peripheral lon hon 20 phut thi bo khoi pending peripheral
         if let detail = pendingPeripherals[peripheral],
             let lastConnection = detail.lastConnection {
-            if Date().timeIntervalSince(lastConnection) > 30 * 60.0 {
+            if Date().timeIntervalSince(lastConnection) > 20 * 60.0 {
 
                 pendingPeripherals.removeValue(forKey: peripheral)
                 return
@@ -220,8 +226,8 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
             print(" didDisconnectPeripheral (unexpected): \(peripheral) with error: \(error)")
             mBleManager?.connect(peripheral)
         } else {
-            // ket noi nhung delay 3 phut
-            mBleManager?.connect(peripheral, options: [CBConnectPeripheralOptionStartDelayKey: NSNumber(integerLiteral: Int(3*60.0))])
+            // ket noi nhung delay 2 phut
+            mBleManager?.connect(peripheral, options: [CBConnectPeripheralOptionStartDelayKey: NSNumber(integerLiteral: Int(2 * 60.0))])
         }
     }
 
@@ -277,9 +283,9 @@ class BleCentralManager: NSObject, CBCentralManagerDelegate {
 
         guard let value = details.connectBlId else {
             // neu chua co rssi
-            if details.rssiValue == nil {
-                peripheral.readRSSI()
-            }
+//            if details.rssiValue == nil {
+//                peripheral.readRSSI()
+//            }
             return
         }
 
