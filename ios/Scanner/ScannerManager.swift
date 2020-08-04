@@ -68,7 +68,6 @@ public class ScannerManager: RCTViewManager {
   }
 
   @objc func generatorBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
-    // let _id = BluezonerIdGenerator.createBluezonerId(numberChar: 6)
     let _id = BluezoneIdGenerator.init().getBluezoneId()
     resolve(_id)
   }
