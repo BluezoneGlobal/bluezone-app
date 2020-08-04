@@ -11,17 +11,16 @@ import CoreBluetooth
 
 @objc(ScannerManager)
 public class ScannerManager: RCTViewManager {
-
-  // Bluetooth
-  // Phát
+    // Bluetooth
+    // Phát
   var peripheralManager: CBPeripheralManager!
 
-  var  db: DBHelper = DBHelper()
+  var db = ContactLogDBHelper()
   var timer = Timer()
-  
+
   // Delay ban vao su kien
   let TIME_DELAY = 5 * 1000;
-  
+
   // Delay luu vao DB
   var TIME_DELAY_SAVE_DB = 60 * 1000;
 
@@ -30,12 +29,13 @@ public class ScannerManager: RCTViewManager {
   var mBlePeripheral: BlePeripheralManager!
 
   // Bien luu thong tin scan duoc
-  private var mScannedUserId = [(userId : String, time: Int64)]()
+  private var mScannedUserId = [(contactBlId : Data, time: Int64)]()
 
   @objc func setOnGetUUId(callback:RCTDirectEventBlock) {
     //       super.init()
       //    self.onClickStart()
   }
+
 
   @objc func startService() {
     print("onStartViaManager");
@@ -57,12 +57,40 @@ public class ScannerManager: RCTViewManager {
         UserDefaults.standard.set(userId, forKey: AppConstant.USER_DATA_PHONE_NUMBER)
     }
   }
-  
-  @objc func generatorBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
-    let _id = BluezonerIdGenerator.createBluezonerId(numberChar: 6)
+
+  @objc func getBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+    let _id = BluezoneIdUtils.getBluezoneIdHex();
     resolve(_id)
   }
-  
+
+  @objc func setMaxNumberSubKey(_ maxSubKey: Int64) {
+    BluezoneIdGenerator.setMaxNumberSubKey(maxSubKey: maxSubKey)
+  }
+
+  @objc func generatorBluezoneId(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+    // let _id = BluezonerIdGenerator.createBluezonerId(numberChar: 6)
+    let _id = BluezoneIdGenerator.init().getBluezoneId()
+    resolve(_id)
+  }
+    
+    @objc func checkContactF(_ data: String, resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+       // KET QUA
+        let result = BluezoneIdTrace.isContactF(dataF0: data)
+        resolve(result)
+     }
+    
+    @objc func getBluezoneIdInfo(_ dayStartTrace: Int, resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+      // KET QUA
+        let _info = BluezoneIdTrace.getBluezoneIdInfo(dayStartTrace: dayStartTrace);
+      resolve(_info)
+    }
+    
+    @objc func writeHistoryContact(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+      // KET QUA
+        let _pathFile = BluezoneIdTrace.exportTraceData()?.path;
+      resolve(_pathFile)
+    }
+    
   @objc func onSetTimeDelay(_ time: Int64) {
     print("onSetTimeDelay");
     TIME_DELAY_SAVE_DB = Int(truncatingIfNeeded: time)
@@ -71,10 +99,10 @@ public class ScannerManager: RCTViewManager {
   public func onStartService() {
       // Tạo thiết bị mới, check nếu gọi thành công thì sẽ start việc tìm kiếm
       print("start scanning")
-      
+
       // Tạo thiết bị mới, check nếu gọi thành công thì sẽ start việc tìm kiếm
       startAdvertising()
-      
+
       // Scan thiết bị
       scanPeripheral()
   }
@@ -84,7 +112,7 @@ public class ScannerManager: RCTViewManager {
       if mBleCentral != nil {
           mBleCentral.stopScanPeripheral()
       }
-      
+
       // check
       if mBlePeripheral != nil {
           mBlePeripheral.stopAdvertising()
@@ -96,46 +124,52 @@ public class ScannerManager: RCTViewManager {
    */
   func startAdvertising() {
       // Khởi tạo
-      mBlePeripheral = BlePeripheralManager()
-      
+    if mBlePeripheral == nil {
+        mBlePeripheral = BlePeripheralManager()
+    }
       // Start
       mBlePeripheral.startAdvertising(onSuccess: {(isSucces) -> Void in}, onError: {(error) -> Void in})
   }
-  
-  /*
-   * Scan Peripheral
-   */
-  private func scanPeripheral() {
-//    if #available(iOS 10.0, *) {
-//      AppUtils.createAndRequest(content: AppUtils.createNotificationContent(title: "HumanShield", body: "Bộ Y Tế khuyến cáo moị người giữ gìn sức khỏe và chỉ ra ngoài nếu cần thiết"))
-//    } else {
-//      // Fallback on earlier versions
-//    }
-      // Khởi tao
-      mBleCentral = BleCentralManager()
-      
-      // Scan
-      mBleCentral.scanPeripheral(onDataScan: {(nameScan, identifier, rssi) -> Void in
-          // Check tên gửi sang
-            if !nameScan.isEmpty && self.checkUserIdInsert(userId: nameScan) {
-                
-                 if (self.bridge != nil) {
-                   // Check xem app da ton tai trong thoi gian truoc do
-                   let result : AnyHashable = [
-                       "id":nameScan,
-                       "address": "",
-                       "rssi": String(rssi)
-                   ]
-                   
-                   let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
-                   module.onGetUUId(result)
-                 }
 
-                let timestamp = Date().currentTimeMillis()
-              let scan: CovidLog = CovidLog(userId: nameScan, macId: "", timestamp: timestamp, rssi: Int32(rssi))
-              
+    /*
+     * Scan Peripheral
+     */
+    private func scanPeripheral() {
+        // Khởi tao
+        if mBleCentral == nil {
+            mBleCentral = BleCentralManager()
+        }
+
+        // Scan
+        mBleCentral.scanPeripheral(onDataScan: {(contactBlId, identifier, rssi, txPower) -> Void in
+            // Check check insert blid
+            if self.checkUserIdInsert(contactBlID: contactBlId) {
+                //
+                if (self.bridge != nil) {
+                    let result : AnyHashable = [
+                        "id": contactBlId.hexEncodedString(options: .upperCase),
+                        "address": "",
+                        "rssi": String(rssi),
+                        "platform": identifier]
+
+                    let module = self.bridge!.module(forName: "TraceCovid") as! TraceCovid
+                    module.onScanResult(result)
+                }
+
+            let timestamp = Date().currentTimeMillis()
+                let builder = LogBuilder()
+
+                let scan = builder.setRssi(rssi: Int32(rssi))
+                    .setTxPower(tx: Int32(txPower))
+                    .setMacId(macId: identifier)
+                    .setOwerBlId(blId: BluezoneIdGenerator.init().getBluezoneId())
+                    .setState(state: 0)
+                    .setContactBlId(contactBlId: contactBlId)
+                    .setTimestamp(time: timestamp)
+                    .build()
                 self.db.insert(scan:scan)
             }
+
         }, onError: {(error) -> Void in
             // Check co loi ko
             if !error.isEmpty {
@@ -143,44 +177,39 @@ public class ScannerManager: RCTViewManager {
             }
         })
     }
-  
+
     /*
      * Check user id insert
      */
-  func checkUserIdInsert(userId: String) -> Bool {
-    
-      var ret: Bool = true;
+    func checkUserIdInsert(contactBlID: Data) -> Bool {
+        var ret: Bool = true;
 
-      let time = Date().currentTimeMillis()
-
-      if (userId == "and111") {
-            print("and111")
-        }
+        let time = Date().currentTimeMillis()
 
         print(self.mScannedUserId)
-    
+
         // Check scan
         if self.mScannedUserId.count > 0 {
             // Check da luu
             for item in self.mScannedUserId {
-                let userSave: String = item.userId
+                let dataSave: Data = item.contactBlId
                 let timeSave: Int64 = item.time
-              
+
                 // Check insert
-               if userSave.elementsEqual(userId) && (time - timeSave < TIME_DELAY) {
+                if dataSave == contactBlID && (time - timeSave < TIME_DELAY) {
                    // Dung
                    ret = false;
                 }
             }
-          
+
             // Check
             if (ret) {
                  // Remove va insert vao
-                 self.mScannedUserId.removeAll{$0.userId == userId}
-                 self.mScannedUserId.append((userId, time))
+                 self.mScannedUserId.removeAll{$0.contactBlId == contactBlID}
+                 self.mScannedUserId.append((contactBlID, time))
             }
         } else {
-            self.mScannedUserId.append((userId, time))
+            self.mScannedUserId.append((contactBlID, time))
             ret = true;
         }
 
@@ -192,15 +221,18 @@ public class ScannerManager: RCTViewManager {
 public class TraceCovid: RCTEventEmitter {
 
     // MARK: Event emitting to JS
-  @objc func onGetUUId(_ value:AnyHashable) {
+  @objc func onScanResult(_ value:AnyHashable) {
     sendEvent(withName: "onScanResult", body: value)
     }
 
+    @objc func onBluezoneIdChange(_ blzId:String) {
+    sendEvent(withName: "onBluezoneIdChange", body: ["blzId": blzId])
+    }
 
     // MARK: Overrides
 
     override public func supportedEvents() -> [String]! {
-        return ["onScanResult"]
+        return ["onScanResult", "onBluezoneIdChange"]
     }
 
     @objc override public static func requiresMainQueueSetup() -> Bool {
@@ -218,3 +250,4 @@ extension Date {
         return Int64(self.timeIntervalSince1970 * 1000)
     }
 }
+

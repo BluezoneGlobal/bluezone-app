@@ -35,10 +35,10 @@ public class BluezonerIdGenerator {
         return bluezonerId
     }
 }
-
-extension Date {
-    func currentTime() -> Int64 {
-        return Int64(self.timeIntervalSince1970)
-    }
-}
+//
+//extension Date {
+//    func currentTime() -> Int64 {
+//        return Int64(self.timeIntervalSince1970)
+//    }
+//}
 
