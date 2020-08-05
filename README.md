@@ -34,7 +34,13 @@ Android:
 npx react-native run-android
 ```
 
-Ios:
+Ios: Before run IOS app make sure you have install Cocoapods dependencies. To install cocoapods run this command
+in `ios` directory
+
+```
+pod install
+```
+
 ```
 npx react-native run-ios
 ```
