@@ -16,13 +16,12 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* BluezoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BluezoneTests.m */; };
+		45784E95BE5F8BAEC4F65DC9 /* libPods-Bluezone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C15DB17B0E2FBDE49B1B754 /* libPods-Bluezone.a */; };
 		7D10C33B2455E97200C0E0ED /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D10C33A2455E97200C0E0ED /* CoreBluetooth.framework */; };
 		7D10C33C2455E97C00C0E0ED /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		7D10C33E2455E98E00C0E0ED /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D10C33D2455E98E00C0E0ED /* UserNotifications.framework */; };
 		7D10C34C2455EB2A00C0E0ED /* BlePeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */; };
-		7D10C34D2455EB2A00C0E0ED /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3432455EB2A00C0E0ED /* DBHelper.swift */; };
 		7D10C34E2455EB2A00C0E0ED /* CovidLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */; };
-		7D10C34F2455EB2A00C0E0ED /* BluezonerIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */; };
 		7D10C3502455EB2A00C0E0ED /* BleCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */; };
 		7D10C3512455EB2A00C0E0ED /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3482455EB2A00C0E0ED /* AppConstant.swift */; };
 		7D10C3522455EB2A00C0E0ED /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3492455EB2A00C0E0ED /* AppUtils.swift */; };
@@ -38,10 +37,63 @@
 		7D10C3672455EC6800C0E0ED /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35D2455EC6800C0E0ED /* Roboto-Thin.ttf */; };
 		7D10C3682455EC6800C0E0ED /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */; };
 		7D10C3692455EC6800C0E0ED /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */; };
-		7D10C36B2455EEF700C0E0ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */; };
-		7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D207AC02462B5A500347196 /* BackupUtils.swift */; };
+		7D1C6F4C246734BD00B5EBE6 /* ContactLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */; };
+		7D1C6F4E2467350600B5EBE6 /* ContactLogDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */; };
+		7D1C6F58246742D400B5EBE6 /* BluezoneIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */; };
+		7D1C6F59246742D400B5EBE6 /* BluezoneDailyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */; };
+		7D1C6F5A246742D400B5EBE6 /* BluezoneDailyId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */; };
+		7D1C6F5B246742D400B5EBE6 /* BluezoneDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */; };
+		7D1C6F5C246742D400B5EBE6 /* BluezoneId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */; };
+		7D1C6F5D246742D400B5EBE6 /* BluezoneDateSubKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */; };
+		7D1C6F5E246742D400B5EBE6 /* BluezoneIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */; };
+		7D1C6F5F246742D400B5EBE6 /* BluezoneIdUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */; };
+		7D20399624F915AF00485125 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D20399524F915AF00485125 /* GoogleService-Info.plist */; };
+		7D20399724F915AF00485125 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D20399524F915AF00485125 /* GoogleService-Info.plist */; };
+		7D59362E24F5113400588E05 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7D59362D24F5113400588E05 /* Config.xcconfig */; };
+		7D59363224F52B0500588E05 /* Product-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D59363124F52B0500588E05 /* Product-Info.plist */; };
+		7D59363424F52BD300588E05 /* Deverloper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D59363324F52BD300588E05 /* Deverloper-Info.plist */; };
+		7D59363924F5324D00588E05 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3492455EB2A00C0E0ED /* AppUtils.swift */; };
+		7D59363A24F5324D00588E05 /* BluezoneDailyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */; };
+		7D59363B24F5324D00588E05 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		7D59363C24F5324D00588E05 /* BluezoneDailyId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */; };
+		7D59363D24F5324D00588E05 /* BleCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */; };
+		7D59363E24F5324D00588E05 /* BluezoneId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */; };
+		7D59363F24F5324D00588E05 /* ContactLogDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */; };
+		7D59364024F5324D00588E05 /* BluezoneIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */; };
+		7D59364124F5324D00588E05 /* BluezoneIdTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6169B724CBE5FD009AED85 /* BluezoneIdTrace.swift */; };
+		7D59364224F5324D00588E05 /* BluezoneIdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */; };
+		7D59364324F5324D00588E05 /* BluezoneIdUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */; };
+		7D59364424F5324D00588E05 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		7D59364524F5324D00588E05 /* CovidLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */; };
+		7D59364624F5324D00588E05 /* BlePeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */; };
+		7D59364724F5324D00588E05 /* BluezoneDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */; };
+		7D59364824F5324D00588E05 /* ContactLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */; };
+		7D59364924F5324D00588E05 /* ScannerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C34B2455EB2A00C0E0ED /* ScannerManager.m */; };
+		7D59364A24F5324D00588E05 /* BluezoneDateSubKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */; };
+		7D59364B24F5324D00588E05 /* ScannerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */; };
+		7D59364C24F5324D00588E05 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D10C3482455EB2A00C0E0ED /* AppConstant.swift */; };
+		7D59364E24F5324D00588E05 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D10C33D2455E98E00C0E0ED /* UserNotifications.framework */; };
+		7D59364F24F5324D00588E05 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D10C33A2455E97200C0E0ED /* CoreBluetooth.framework */; };
+		7D59365124F5324D00588E05 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		7D59365424F5324D00588E05 /* OpenSans_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C3572455EC6700C0E0ED /* OpenSans_Light.ttf */; };
+		7D59365524F5324D00588E05 /* Product-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D59363124F52B0500588E05 /* Product-Info.plist */; };
+		7D59365624F5324D00588E05 /* OpenSans_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C3562455EC6700C0E0ED /* OpenSans_Bold.ttf */; };
+		7D59365724F5324D00588E05 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */; };
+		7D59365824F5324D00588E05 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35B2455EC6800C0E0ED /* Roboto-Regular.ttf */; };
+		7D59365924F5324D00588E05 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C3582455EC6800C0E0ED /* Roboto-Light.ttf */; };
+		7D59365A24F5324D00588E05 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35A2455EC6800C0E0ED /* OpenSans-Regular.ttf */; };
+		7D59365B24F5324D00588E05 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		7D59365C24F5324D00588E05 /* Deverloper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D59363324F52BD300588E05 /* Deverloper-Info.plist */; };
+		7D59365D24F5324D00588E05 /* OpenSans_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C3592455EC6800C0E0ED /* OpenSans_Regular.ttf */; };
+		7D59365E24F5324D00588E05 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		7D59365F24F5324D00588E05 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35D2455EC6800C0E0ED /* Roboto-Thin.ttf */; };
+		7D59366024F5324D00588E05 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */; };
+		7D59366124F5324D00588E05 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7D59362D24F5113400588E05 /* Config.xcconfig */; };
+		7D59366224F5324D00588E05 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D10C35C2455EC6800C0E0ED /* Roboto-Medium.ttf */; };
+		7D6169B824CBE5FD009AED85 /* BluezoneIdTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6169B724CBE5FD009AED85 /* BluezoneIdTrace.swift */; };
 		AC1DCC9876A5B4B339A4C039 /* libPods-Bluezone-BluezoneTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61C62520F427F31A3AB8386F /* libPods-Bluezone-BluezoneTests.a */; };
-		F3882418FCBD0138ADB13777 /* libPods-Bluezone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */; };
+		E5EA2F1C37B7E757AA29503F /* libPods-Bluezone-Bluezone.dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4C6545C02A702F60D3A388 /* libPods-Bluezone-Bluezone.dev.a */; };
+		F3882418FCBD0138ADB13777 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +118,7 @@
 		00E356EE1AD99517003FC87E /* BluezoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluezoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BluezoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluezoneTests.m; sourceTree = "<group>"; };
+		0B4C6545C02A702F60D3A388 /* libPods-Bluezone-Bluezone.dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone-Bluezone.dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B5457C03663253912523E1A /* Pods-Bluezone-BluezoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-BluezoneTests.debug.xcconfig"; path = "Target Support Files/Pods-Bluezone-BluezoneTests/Pods-Bluezone-BluezoneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Bluezone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bluezone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Bluezone/AppDelegate.h; sourceTree = "<group>"; };
@@ -76,21 +129,20 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Bluezone/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Bluezone-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bluezone-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Bluezone-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bluezone-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DB010279B9FEA01F09E0A9A /* Pods-Bluezone-Bluezone.dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-Bluezone.dev.release.xcconfig"; path = "Target Support Files/Pods-Bluezone-Bluezone.dev/Pods-Bluezone-Bluezone.dev.release.xcconfig"; sourceTree = "<group>"; };
 		61C62520F427F31A3AB8386F /* libPods-Bluezone-BluezoneTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone-BluezoneTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		67ADBD68D41CF06D656DFFF7 /* Pods-Bluezone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone.release.xcconfig"; path = "Target Support Files/Pods-Bluezone/Pods-Bluezone.release.xcconfig"; sourceTree = "<group>"; };
 		7D10C33A2455E97200C0E0ED /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		7D10C33D2455E98E00C0E0ED /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		7D10C33F2455E9B500C0E0ED /* Bluezone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bluezone.entitlements; path = Bluezone/Bluezone.entitlements; sourceTree = "<group>"; };
 		7D10C3412455EB2900C0E0ED /* Bluezone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bluezone-Bridging-Header.h"; sourceTree = "<group>"; };
-		7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheralManager.swift; sourceTree = "<group>"; };
-		7D10C3432455EB2A00C0E0ED /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheralManager.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CovidLogs.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C3452455EB2A00C0E0ED /* Contants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contants.h; sourceTree = "<group>"; };
-		7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezonerIdGenerator.swift; sourceTree = "<group>"; };
-		7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleCentralManager.swift; sourceTree = "<group>"; };
-		7D10C3482455EB2A00C0E0ED /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
-		7D10C3492455EB2A00C0E0ED /* AppUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
-		7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerManager.swift; sourceTree = "<group>"; };
+		7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BleCentralManager.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3482455EB2A00C0E0ED /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C3492455EB2A00C0E0ED /* AppUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ScannerManager.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7D10C34B2455EB2A00C0E0ED /* ScannerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerManager.m; sourceTree = "<group>"; };
 		7D10C3562455EC6700C0E0ED /* OpenSans_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans_Bold.ttf; sourceTree = "<group>"; };
 		7D10C3572455EC6700C0E0ED /* OpenSans_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenSans_Light.ttf; sourceTree = "<group>"; };
@@ -102,10 +154,26 @@
 		7D10C35D2455EC6800C0E0ED /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		7D10C35E2455EC6800C0E0ED /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		7D10C35F2455EC6800C0E0ED /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7D207AC02462B5A500347196 /* BackupUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupUtils.swift; sourceTree = "<group>"; };
+		7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactLog.swift; sourceTree = "<group>"; };
+		7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ContactLogDBHelper.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdConstants.swift; sourceTree = "<group>"; };
+		7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDailyKey.swift; sourceTree = "<group>"; };
+		7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDailyId.swift; sourceTree = "<group>"; };
+		7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDate.swift; sourceTree = "<group>"; };
+		7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneId.swift; sourceTree = "<group>"; };
+		7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneDateSubKey.swift; sourceTree = "<group>"; };
+		7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdGenerator.swift; sourceTree = "<group>"; };
+		7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluezoneIdUtils.swift; sourceTree = "<group>"; };
+		7D20399524F915AF00485125 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7D59362D24F5113400588E05 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		7D59363124F52B0500588E05 /* Product-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Product-Info.plist"; sourceTree = "<group>"; };
+		7D59363324F52BD300588E05 /* Deverloper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Deverloper-Info.plist"; sourceTree = "<group>"; };
+		7D59366824F5324D00588E05 /* Bluezone.dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bluezone.dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D59366924F5324D00588E05 /* Bluezone.dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Bluezone.dev-Info.plist"; path = "/Users/bkavbso/Desktop/Optimal/BluezoneMobileApp/ios/Bluezone.dev-Info.plist"; sourceTree = "<absolute>"; };
+		7D6169B724CBE5FD009AED85 /* BluezoneIdTrace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluezoneIdTrace.swift; sourceTree = "<group>"; };
+		85BD04AEFA9F4A8929ABD44D /* Pods-Bluezone-Bluezone.dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-Bluezone.dev.debug.xcconfig"; path = "Target Support Files/Pods-Bluezone-Bluezone.dev/Pods-Bluezone-Bluezone.dev.debug.xcconfig"; sourceTree = "<group>"; };
 		874FE28FD0209D058AF442AE /* Pods-Bluezone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone.debug.xcconfig"; path = "Target Support Files/Pods-Bluezone/Pods-Bluezone.debug.xcconfig"; sourceTree = "<group>"; };
-		9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C15DB17B0E2FBDE49B1B754 /* libPods-Bluezone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bluezone.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7D8A71E3680D7779A85C36B /* Pods-Bluezone-BluezoneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bluezone-BluezoneTests.release.xcconfig"; path = "Target Support Files/Pods-Bluezone-BluezoneTests/Pods-Bluezone-BluezoneTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -126,8 +194,9 @@
 			files = (
 				7D10C33E2455E98E00C0E0ED /* UserNotifications.framework in Frameworks */,
 				7D10C33B2455E97200C0E0ED /* CoreBluetooth.framework in Frameworks */,
-				F3882418FCBD0138ADB13777 /* libPods-Bluezone.a in Frameworks */,
+				F3882418FCBD0138ADB13777 /* (null) in Frameworks */,
 				7D10C33C2455E97C00C0E0ED /* JavaScriptCore.framework in Frameworks */,
+				45784E95BE5F8BAEC4F65DC9 /* libPods-Bluezone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +211,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D59364D24F5324D00588E05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D59364E24F5324D00588E05 /* UserNotifications.framework in Frameworks */,
+				7D59364F24F5324D00588E05 /* CoreBluetooth.framework in Frameworks */,
+				7D59365124F5324D00588E05 /* JavaScriptCore.framework in Frameworks */,
+				E5EA2F1C37B7E757AA29503F /* libPods-Bluezone-Bluezone.dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,8 +248,9 @@
 		13B07FAE1A68108700A75B9A /* Bluezone */ = {
 			isa = PBXGroup;
 			children = (
-				7D10C36A2455EEF700C0E0ED /* GoogleService-Info.plist */,
+				7D59366A24F532D900588E05 /* Info.plist */,
 				7D10C33F2455E9B500C0E0ED /* Bluezone.entitlements */,
+				7D20399524F915AF00485125 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -188,8 +269,9 @@
 				7D10C33A2455E97200C0E0ED /* CoreBluetooth.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				9ED86B04969C5B818355CE2C /* libPods-Bluezone.a */,
 				61C62520F427F31A3AB8386F /* libPods-Bluezone-BluezoneTests.a */,
+				0B4C6545C02A702F60D3A388 /* libPods-Bluezone-Bluezone.dev.a */,
+				9C15DB17B0E2FBDE49B1B754 /* libPods-Bluezone.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,14 +280,14 @@
 			isa = PBXGroup;
 			children = (
 				7D10C3482455EB2A00C0E0ED /* AppConstant.swift */,
+				7D1C6F4B246734BD00B5EBE6 /* ContactLog.swift */,
+				7D1C6F4D2467350600B5EBE6 /* ContactLogDBHelper.swift */,
 				7D10C3492455EB2A00C0E0ED /* AppUtils.swift */,
+				7D1C6F4F246742A000B5EBE6 /* BluezoneId */,
 				7D10C3472455EB2A00C0E0ED /* BleCentralManager.swift */,
 				7D10C3422455EB2A00C0E0ED /* BlePeripheralManager.swift */,
-				7D10C3462455EB2A00C0E0ED /* BluezonerIdGenerator.swift */,
 				7D10C3452455EB2A00C0E0ED /* Contants.h */,
 				7D10C3442455EB2A00C0E0ED /* CovidLogs.swift */,
-				7D207AC02462B5A500347196 /* BackupUtils.swift */,
-				7D10C3432455EB2A00C0E0ED /* DBHelper.swift */,
 				7D10C34B2455EB2A00C0E0ED /* ScannerManager.m */,
 				7D10C34A2455EB2A00C0E0ED /* ScannerManager.swift */,
 				7D10C3412455EB2900C0E0ED /* Bluezone-Bridging-Header.h */,
@@ -230,6 +312,39 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		7D1C6F4F246742A000B5EBE6 /* BluezoneId */ = {
+			isa = PBXGroup;
+			children = (
+				7D1C6F52246742D400B5EBE6 /* BluezoneDailyId.swift */,
+				7D1C6F51246742D400B5EBE6 /* BluezoneDailyKey.swift */,
+				7D1C6F53246742D400B5EBE6 /* BluezoneDate.swift */,
+				7D1C6F55246742D400B5EBE6 /* BluezoneDateSubKey.swift */,
+				7D1C6F54246742D400B5EBE6 /* BluezoneId.swift */,
+				7D1C6F50246742D400B5EBE6 /* BluezoneIdConstants.swift */,
+				7D1C6F56246742D400B5EBE6 /* BluezoneIdGenerator.swift */,
+				7D1C6F57246742D400B5EBE6 /* BluezoneIdUtils.swift */,
+				7D6169B724CBE5FD009AED85 /* BluezoneIdTrace.swift */,
+			);
+			path = BluezoneId;
+			sourceTree = "<group>";
+		};
+		7D59363024F52A6600588E05 /* GoogleService */ = {
+			isa = PBXGroup;
+			children = (
+				7D59363324F52BD300588E05 /* Deverloper-Info.plist */,
+				7D59363124F52B0500588E05 /* Product-Info.plist */,
+			);
+			path = GoogleService;
+			sourceTree = "<group>";
+		};
+		7D59366A24F532D900588E05 /* Info.plist */ = {
+			isa = PBXGroup;
+			children = (
+				7D59366924F5324D00588E05 /* Bluezone.dev-Info.plist */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +355,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7D59363024F52A6600588E05 /* GoogleService */,
+				7D59362D24F5113400588E05 /* Config.xcconfig */,
 				7D10C3402455EB0000C0E0ED /* Scanner */,
 				13B07FAE1A68108700A75B9A /* Bluezone */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -261,6 +378,7 @@
 				00E356EE1AD99517003FC87E /* BluezoneTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* Bluezone-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Bluezone-tvOSTests.xctest */,
+				7D59366824F5324D00588E05 /* Bluezone.dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,6 +390,8 @@
 				67ADBD68D41CF06D656DFFF7 /* Pods-Bluezone.release.xcconfig */,
 				0B5457C03663253912523E1A /* Pods-Bluezone-BluezoneTests.debug.xcconfig */,
 				C7D8A71E3680D7779A85C36B /* Pods-Bluezone-BluezoneTests.release.xcconfig */,
+				85BD04AEFA9F4A8929ABD44D /* Pods-Bluezone-Bluezone.dev.debug.xcconfig */,
+				3DB010279B9FEA01F09E0A9A /* Pods-Bluezone-Bluezone.dev.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -357,6 +477,27 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* Bluezone-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		7D59363524F5324D00588E05 /* Bluezone.dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7D59366524F5324D00588E05 /* Build configuration list for PBXNativeTarget "Bluezone.dev" */;
+			buildPhases = (
+				7D59363624F5324D00588E05 /* [CP] Check Pods Manifest.lock */,
+				7D59363724F5324D00588E05 /* Start Packager */,
+				7D59363824F5324D00588E05 /* Sources */,
+				7D59364D24F5324D00588E05 /* Frameworks */,
+				7D59365224F5324D00588E05 /* Resources */,
+				7D59366324F5324D00588E05 /* Bundle React Native code and images */,
+				7D59366424F5324D00588E05 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Bluezone.dev;
+			productName = Bluezone;
+			productReference = 7D59366824F5324D00588E05 /* Bluezone.dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -383,6 +524,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
+					7D59363524F5324D00588E05 = {
+						DevelopmentTeam = MGM8FC7WSV;
+						ProvisioningStyle = Manual;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Bluezone" */;
@@ -399,6 +544,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Bluezone */,
+				7D59363524F5324D00588E05 /* Bluezone.dev */,
 				00E356ED1AD99517003FC87E /* BluezoneTests */,
 				2D02E47A1E0B4A5D006451C7 /* Bluezone-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* Bluezone-tvOSTests */,
@@ -418,18 +564,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D10C36B2455EEF700C0E0ED /* GoogleService-Info.plist in Resources */,
 				7D10C3612455EC6800C0E0ED /* OpenSans_Light.ttf in Resources */,
+				7D59363224F52B0500588E05 /* Product-Info.plist in Resources */,
 				7D10C3602455EC6800C0E0ED /* OpenSans_Bold.ttf in Resources */,
 				7D10C3692455EC6800C0E0ED /* OpenSans-Bold.ttf in Resources */,
 				7D10C3652455EC6800C0E0ED /* Roboto-Regular.ttf in Resources */,
 				7D10C3622455EC6800C0E0ED /* Roboto-Light.ttf in Resources */,
 				7D10C3642455EC6800C0E0ED /* OpenSans-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				7D59363424F52BD300588E05 /* Deverloper-Info.plist in Resources */,
+				7D20399624F915AF00485125 /* GoogleService-Info.plist in Resources */,
 				7D10C3632455EC6800C0E0ED /* OpenSans_Regular.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				7D10C3672455EC6800C0E0ED /* Roboto-Thin.ttf in Resources */,
 				7D10C3682455EC6800C0E0ED /* OpenSans-Light.ttf in Resources */,
+				7D59362E24F5113400588E05 /* Config.xcconfig in Resources */,
 				7D10C3662455EC6800C0E0ED /* Roboto-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +595,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D59365224F5324D00588E05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D59365424F5324D00588E05 /* OpenSans_Light.ttf in Resources */,
+				7D59365524F5324D00588E05 /* Product-Info.plist in Resources */,
+				7D59365624F5324D00588E05 /* OpenSans_Bold.ttf in Resources */,
+				7D59365724F5324D00588E05 /* OpenSans-Bold.ttf in Resources */,
+				7D59365824F5324D00588E05 /* Roboto-Regular.ttf in Resources */,
+				7D59365924F5324D00588E05 /* Roboto-Light.ttf in Resources */,
+				7D59365A24F5324D00588E05 /* OpenSans-Regular.ttf in Resources */,
+				7D59365B24F5324D00588E05 /* Images.xcassets in Resources */,
+				7D59365C24F5324D00588E05 /* Deverloper-Info.plist in Resources */,
+				7D20399724F915AF00485125 /* GoogleService-Info.plist in Resources */,
+				7D59365D24F5324D00588E05 /* OpenSans_Regular.ttf in Resources */,
+				7D59365E24F5324D00588E05 /* LaunchScreen.xib in Resources */,
+				7D59365F24F5324D00588E05 /* Roboto-Thin.ttf in Resources */,
+				7D59366024F5324D00588E05 /* OpenSans-Light.ttf in Resources */,
+				7D59366124F5324D00588E05 /* Config.xcconfig in Resources */,
+				7D59366224F5324D00588E05 /* Roboto-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +720,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D59363624F5324D00588E05 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bluezone-Bluezone.dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D59363724F5324D00588E05 /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7D59366324F5324D00588E05 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		7D59366424F5324D00588E05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bluezone-Bluezone.dev/Pods-Bluezone-Bluezone.dev-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bluezone-Bluezone.dev/Pods-Bluezone-Bluezone.dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C16EA96EDEA4C57B60B5E352 /* [CP] Check Pods Manifest.lock */ = {
@@ -674,15 +949,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D10C3522455EB2A00C0E0ED /* AppUtils.swift in Sources */,
+				7D1C6F59246742D400B5EBE6 /* BluezoneDailyKey.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				7D1C6F5A246742D400B5EBE6 /* BluezoneDailyId.swift in Sources */,
 				7D10C3502455EB2A00C0E0ED /* BleCentralManager.swift in Sources */,
-				7D10C34F2455EB2A00C0E0ED /* BluezonerIdGenerator.swift in Sources */,
+				7D1C6F5C246742D400B5EBE6 /* BluezoneId.swift in Sources */,
+				7D1C6F4E2467350600B5EBE6 /* ContactLogDBHelper.swift in Sources */,
+				7D1C6F58246742D400B5EBE6 /* BluezoneIdConstants.swift in Sources */,
+				7D6169B824CBE5FD009AED85 /* BluezoneIdTrace.swift in Sources */,
+				7D1C6F5E246742D400B5EBE6 /* BluezoneIdGenerator.swift in Sources */,
+				7D1C6F5F246742D400B5EBE6 /* BluezoneIdUtils.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				7D10C34E2455EB2A00C0E0ED /* CovidLogs.swift in Sources */,
 				7D10C34C2455EB2A00C0E0ED /* BlePeripheralManager.swift in Sources */,
-				7D207AC12462B5A500347196 /* BackupUtils.swift in Sources */,
+				7D1C6F5B246742D400B5EBE6 /* BluezoneDate.swift in Sources */,
+				7D1C6F4C246734BD00B5EBE6 /* ContactLog.swift in Sources */,
 				7D10C3542455EB2A00C0E0ED /* ScannerManager.m in Sources */,
-				7D10C34D2455EB2A00C0E0ED /* DBHelper.swift in Sources */,
+				7D1C6F5D246742D400B5EBE6 /* BluezoneDateSubKey.swift in Sources */,
 				7D10C3532455EB2A00C0E0ED /* ScannerManager.swift in Sources */,
 				7D10C3512455EB2A00C0E0ED /* AppConstant.swift in Sources */,
 			);
@@ -702,6 +985,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DCD954D1E0B4F2C00145EB5 /* BluezoneTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7D59363824F5324D00588E05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D59363924F5324D00588E05 /* AppUtils.swift in Sources */,
+				7D59363A24F5324D00588E05 /* BluezoneDailyKey.swift in Sources */,
+				7D59363B24F5324D00588E05 /* AppDelegate.m in Sources */,
+				7D59363C24F5324D00588E05 /* BluezoneDailyId.swift in Sources */,
+				7D59363D24F5324D00588E05 /* BleCentralManager.swift in Sources */,
+				7D59363E24F5324D00588E05 /* BluezoneId.swift in Sources */,
+				7D59363F24F5324D00588E05 /* ContactLogDBHelper.swift in Sources */,
+				7D59364024F5324D00588E05 /* BluezoneIdConstants.swift in Sources */,
+				7D59364124F5324D00588E05 /* BluezoneIdTrace.swift in Sources */,
+				7D59364224F5324D00588E05 /* BluezoneIdGenerator.swift in Sources */,
+				7D59364324F5324D00588E05 /* BluezoneIdUtils.swift in Sources */,
+				7D59364424F5324D00588E05 /* main.m in Sources */,
+				7D59364524F5324D00588E05 /* CovidLogs.swift in Sources */,
+				7D59364624F5324D00588E05 /* BlePeripheralManager.swift in Sources */,
+				7D59364724F5324D00588E05 /* BluezoneDate.swift in Sources */,
+				7D59364824F5324D00588E05 /* ContactLog.swift in Sources */,
+				7D59364924F5324D00588E05 /* ScannerManager.m in Sources */,
+				7D59364A24F5324D00588E05 /* BluezoneDateSubKey.swift in Sources */,
+				7D59364B24F5324D00588E05 /* ScannerManager.swift in Sources */,
+				7D59364C24F5324D00588E05 /* AppConstant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,8 +1105,9 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = Bluezone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 3.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -824,8 +1135,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L42JWQ62HJ;
 				INFOPLIST_FILE = Bluezone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 3.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -946,8 +1258,73 @@
 			};
 			name = Release;
 		};
+		7D59366624F5324D00588E05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 85BD04AEFA9F4A8929ABD44D /* Pods-Bluezone-Bluezone.dev.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Bluezone/Bluezone.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MGM8FC7WSV;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Bluezone.dev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = "3.0.3-deploygate.dev";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Bkav.valayenbai;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "BKAV Vala Yen bai Inhouse";
+				SWIFT_OBJC_BRIDGING_HEADER = "Scanner/Bluezone-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		7D59366724F5324D00588E05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DB010279B9FEA01F09E0A9A /* Pods-Bluezone-Bluezone.dev.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Bluezone/Bluezone.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MGM8FC7WSV;
+				INFOPLIST_FILE = "$(SRCROOT)/Bluezone.dev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = "3.0.3-deploygate.dev";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Bkav.valayenbai;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "BKAV Vala Yen bai Inhouse";
+				SWIFT_OBJC_BRIDGING_HEADER = "Scanner/Bluezone-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D59362D24F5113400588E05 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1008,6 +1385,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D59362D24F5113400588E05 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1094,6 +1472,15 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7D59366524F5324D00588E05 /* Build configuration list for PBXNativeTarget "Bluezone.dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D59366624F5324D00588E05 /* Debug */,
+				7D59366724F5324D00588E05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

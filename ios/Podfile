@@ -53,16 +53,24 @@ target 'Bluezone' do
   pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
   pod 'RNFS', :path => '../node_modules/react-native-fs'
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
   # react-native-permissions
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 
   # Required by RNFirebase
-   pod 'Firebase/Core', '~> 6.3.0'
-   pod 'Firebase/Messaging'
-   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/Messaging'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
+  # firebase Analytics
+  pod 'GoogleIDFASupport', '~> 3.14.0'
+
+  target "Bluezone.dev"
 
   target 'BluezoneTests' do
     inherit! :complete

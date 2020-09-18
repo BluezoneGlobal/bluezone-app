@@ -7,27 +7,32 @@
   "Introduce_en": "https://bluezone.vn",
   "TimeSaveLog": 10000,
   "TimeShowLog": 30000,
-  "RssiThreshold": -69,
+  "RssiThreshold": -100,
+  "RssiThreshold_Android_Android": -86,
+  "RssiThreshold_Android_iOS": -69,
+  "RssiThreshold_iOS_Android": -88,
+  "RssiThreshold_iOS_iOS": -74,
   "PeriodDay": 14,
   "DbMaxRow": 100000,
   "DbMaxDay": 180,
-  "ScanBleRun": 35000,
-  "ScanBleSleep": 85000,
+  "ScanBleRun": 40000,
+  "ScanBleSleep": 260000,
   "BroadcastBleRun": 15000,
   "BroadcastBleSleep": 15000,
-  "ScanDevicesRun": 35000,
-  "ScanDevicesSleep": 85000,
+  "ScanDevicesRun": 40000,
+  "ScanDevicesSleep": 260000,
   "IntervalRequestPermisson": 120000,
+  "MaxNumberSubKeyPerDay": 96,
   "Beta": false,
   "ShareAppText": "Chia sẻ ứng dụng",
   "ShareAppText_en": "Share the app",
   "JoinGroupFaceText": "Tham gia group trên Facebook",
   "JoinGroupFaceText_en": "Join the group on Facebook",
-  "ShareMessageText": "Bộ Y tế: Bảo vệ mình, bảo vệ cộng đồng chống COVID-19 đưa cuộc sống trở lại bình thường. Bạn đã cài Ứng dụng Khẩu trang điện tử Bluezone và cài tiếp cho 3 người khác chưa? Cài đặt tại www.Bluezone.gov.vn \n\n#Khautrangdientu\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi",
-  "ShareMessageText_en": "Ministry of Health: Protect yourself, protect the community against COVID-19, bringing life back to normal. Have you installed electronic mask application Bluezone and got 3 others to install the app? Get the app at www.Bluezone.ai \n\n#Electronicmask\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people",
+  "ShareMessageText": "Bộ Y tế: Bảo vệ mình, bảo vệ cộng đồng chống COVID-19 đưa cuộc sống trở lại bình thường. Bạn đã cài Ứng dụng phát hiện tiếp xúc gần Bluezone và cài tiếp cho 3 người khác chưa? Cài đặt tại www.Bluezone.gov.vn \n\n#Ungdungphathientiepxucgan\n#Bluezone\n#Baoveminh\n#Baovecongdong\n#Caicho3nguoi",
+  "ShareMessageText_en": "Ministry of Health: Protect yourself, protect the community against COVID-19, bringing life back to normal. Have you installed Close contact detector application Bluezone and got 3 others to install the app? Get the app at www.Bluezone.ai \n\n#Closecontactdetectorapp\n#Bluezone\n#Protectyourself\n#Protectcommunity\n#Installfor3people",
   "NOTIFI_BLE_IOS_TEXT_en": "Bluezone cannot record \"close contact\" because the device has not turned Bluetooth on.\n\nBluezone uses Bluetooth Low Energy (BLE). This technology does not drain the battery even when it is turned on.\n\nYou need to turn on Bluetooth by going to Control Panel or Settings to configure.",
   "NOTIFI_BLE_IOS_TEXT": "Bluezone không thể ghi nhận các \"tiếp xúc gần\" vì thiết bị chưa Bật Bluetooth.\n\nBluezone sử dụng Bluetooth năng lượng thấp BLE. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần bật Bluetooth bằng cách vào Bảng điều khiển hoặc vào Cài đặt để cấu hình.",
-  "NOTIFI_PERMISSION_BLE_IOS_TEXT": "Bluezone sử dụng Bluetooth năng lượng thấp BLE để ghi nhận những người \"tiếp xúc gần\" với bạn. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần đồng ý bật Bluetooth để có thể ghi nhận các \"tiếp xúc gần\".",
+  "NOTIFI_PERMISSION_BLE_IOS_TEXT": "Bluezone sử dụng Bluetooth năng lượng thấp BLE để ghi nhận những người \"tiếp xúc gần\" với bạn. Công nghệ này không tốn pin ngay cả khi luôn bật.\n\nBạn cần cấp quyền truy cập Bluetooth để có thể ghi nhận các \"tiếp xúc gần\".",
   "NOTIFI_PERMISSION_BLE_IOS_TEXT_en": "Bluezone uses Bluetooth Low Energy BLE to recognize people who are in \"close contact\" with you. This technology does not drain the battery even when it is turned on.\n\nYou need to agree to turn on Bluetooth to record \"close contact\".",
   "NOTIFI_PERMISSION_TEXT": "Bạn cần đồng ý cấp quyền thông báo để ứng dụng có thể gửi cảnh báo nếu bạn \"tiếp xúc gần\" người nhiễm COVID-19 trong tương lai.",
   "NOTIFI_PERMISSION_TEXT_en": "You need to accept notification permission so that the application can send alerts if you have “close contact\" with people infected with COVID-19 in the future.",
@@ -49,85 +54,185 @@
   "BatteryEnableBluetooth": 15,
   "Notifications": [],
   "TimeCountDownOTP": 180,
-  "PermissonNotificationsAndroid": [
-    {
-      "id": "000001",
-      "title": "Không thể ghi nhận các \"tiếp xúc gần\"",
-      "title_en": "Không thể ghi nhận các \"tiếp xúc gần\"",
-      "message": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "message_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "bigText": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "bigText_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "subText": "Bluezone cần cấp quyền",
-      "subText_en": "Bluezone cần cấp quyền",
-      "dayStartTime": 32400000,
-      "repeatTime": 86400000,
-      "importance": "hight",
-      "priority": "hight"
+  "SupportPhoneNumber": "0888128896",
+  "LinkDetail": "https://www.bluezone.gov.vn",
+  "LinkRulesVi": "https://bluezone.gov.vn/dieu-khoan-su-dung",
+  "LinkRulesEn": "https://bluezone.ai/terms-of-use",
+  "MailTo": "lienhe@bluezone.gov.vn",
+  "TurnContact": {
+    "vi": {
+      "id": "38",
+      "index": 16
+    },
+    "en": {
+      "id": "39",
+      "index": 15
     }
-  ],
-  "PermissonNotificationsIos": [
-    {
-      "id": "000001",
-      "title": "Không thể ghi nhận các \"tiếp xúc gần\"",
-      "title_en": "Không thể ghi nhận các \"tiếp xúc gần\"",
-      "message": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "message_en": "Bluezone không thể ghi nhận \"tiếp xúc gần\" vì thiết bị chưa được cấp đủ quyền",
-      "dayStartTime": 32400000,
-      "repeatTime": 86400000,
-      "importance": "hight",
-      "priority": "hight"
-    }
-  ],
-  "NotificationRequestPermissonAndroid": {
+  },
+  "ScheduleUpdateAppNotification": {
     "itemRepeat": [
       {
-        "id": 5,
+        "id": "7",
         "repeatTime": 86400000,
-        "dayStartTime": 18900000
+        "dayStartTime": 28800000
+      },
+      {
+        "id": "8",
+        "repeatTime": 86400000,
+        "dayStartTime": 50400000
+      },
+      {
+        "id": "9",
+        "repeatTime": 86400000,
+        "dayStartTime": 68400000
+      },  {
+        "id": "34",
+        "repeatTime": 86400000,
+        "dayStartTime": 32400000
+      },
+      {
+        "id": "35",
+        "repeatTime": 86400000,
+        "dayStartTime": 36000000
+      },
+      {
+        "id": "36",
+        "repeatTime": 86400000,
+        "dayStartTime": 39600000
+      },{
+        "id": "37",
+        "repeatTime": 86400000,
+        "dayStartTime": 43200000
+      },
+      {
+        "id": "38",
+        "repeatTime": 86400000,
+        "dayStartTime": 46800000
+      },
+      {
+        "id": "39",
+        "repeatTime": 86400000,
+        "dayStartTime": 54000000
+      },{
+        "id": "40",
+        "repeatTime": 86400000,
+        "dayStartTime": 57600000
+      },
+      {
+        "id": "41",
+        "repeatTime": 86400000,
+        "dayStartTime": 61200000
+      },
+      {
+        "id": "42",
+        "repeatTime": 86400000,
+        "dayStartTime": 64800000
+      },{
+        "id": "43",
+        "repeatTime": 86400000,
+        "dayStartTime": 72000000
+      },
+      {
+        "id": "44",
+        "repeatTime": 86400000,
+        "dayStartTime": 75600000
+      },
+      {
+        "id": "45",
+        "repeatTime": 86400000,
+        "dayStartTime": 79200000
       }
     ],
-    "bigText": "",
-    "bigText_en": "",
+    "title": "Title Có bản mới",
+    "titleEn": "Title Có bản mới_En",
+    "bigText": "Big text Có bản mới",
+    "bigTextEn": "Big text Có bản mới_En",
     "subText": "",
-    "subText_en": "",
-    "title": "",
-    "title_en": "",
-    "message": "",
-    "message_en": ""
+    "subTextEn": "",
+    "message": "Message Có bản mới",
+    "messageEn": "Message Có bản mới En"
   },
-  "NotificationRequestBluetooth": {
+  "ScheduleRegisterNotification": {
     "itemRepeat": [
       {
-        "id": 5,
+        "id": "7",
         "repeatTime": 86400000,
-        "dayStartTime": 18900000
-      }
-    ],
-    "bigText": "bigText request bluetooth",
-    "bigText_en": "bigText request bluetooth En",
-    "subText": "subText request bluetooth",
-    "subText_en": "subText request bluetooth En",
-    "title": "title request bluetooth",
-    "title_en": "title request bluetooth En",
-    "message": "message request bluetooth",
-    "message_en": "message request bluetooth En"
-  },
-  "NotificationRequestLocation": {
-    "itemRepeat": [
+        "dayStartTime": 28800000
+      },
       {
-        "id": 6,
+        "id": "8",
         "repeatTime": 86400000,
-        "dayStartTime": 18900000
+        "dayStartTime": 50400000
+      },
+      {
+        "id": "9",
+        "repeatTime": 86400000,
+        "dayStartTime": 68400000
+      },  {
+        "id": "34",
+        "repeatTime": 86400000,
+        "dayStartTime": 32400000
+      },
+      {
+        "id": "35",
+        "repeatTime": 86400000,
+        "dayStartTime": 36000000
+      },
+      {
+        "id": "36",
+        "repeatTime": 86400000,
+        "dayStartTime": 39600000
+      },{
+        "id": "37",
+        "repeatTime": 86400000,
+        "dayStartTime": 43200000
+      },
+      {
+        "id": "38",
+        "repeatTime": 86400000,
+        "dayStartTime": 46800000
+      },
+      {
+        "id": "39",
+        "repeatTime": 86400000,
+        "dayStartTime": 54000000
+      },{
+        "id": "40",
+        "repeatTime": 86400000,
+        "dayStartTime": 57600000
+      },
+      {
+        "id": "41",
+        "repeatTime": 86400000,
+        "dayStartTime": 61200000
+      },
+      {
+        "id": "42",
+        "repeatTime": 86400000,
+        "dayStartTime": 64800000
+      },{
+        "id": "43",
+        "repeatTime": 86400000,
+        "dayStartTime": 72000000
+      },
+      {
+        "id": "44",
+        "repeatTime": 86400000,
+        "dayStartTime": 75600000
+      },
+      {
+        "id": "45",
+        "repeatTime": 86400000,
+        "dayStartTime": 79200000
       }
     ],
-    "bigText": "bigText Request location",
-    "bigText_en": "bigText Request location En",
-    "subText": "subText Request location",
-    "subText_en": "subText Request location En",
-    "title": "title Request location",
-    "title_en": "title Request location En",
-    "message": "message Request location",
-    "message_en": "message Request location En"
+    "title": "Title Dang ky sdt",
+    "titleEn": "Title Dang ky sdt",
+    "bigText": "Big text Dang ky sdt",
+    "bigTextEn": "Big text Dang ky sdt",
+    "subText": "",
+    "subTextEn": "",
+    "message": "Message Dang ky sdt",
+    "messageEn": "Message Dang ky sdt"
   }
 }

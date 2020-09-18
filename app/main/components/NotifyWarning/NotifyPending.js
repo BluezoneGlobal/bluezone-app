@@ -26,17 +26,17 @@ import * as PropTypes from 'prop-types';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Components
-import {View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
 import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Language
-import message from '../../../msg/warning';
+import message from '../../../core/msg/warning';
 
 // Styles
 import styles from './styles/index.css';
 import FastImage from 'react-native-fast-image';
-import * as fontSize from '../../../utils/fontSize';
+import * as fontSize from '../../../core/fontSize';
 
 class NotifyPending extends React.Component {
   constructor(props) {
@@ -44,79 +44,89 @@ class NotifyPending extends React.Component {
   }
 
   render() {
-    const {intl} = this.props;
+    const {intl, notifyObj} = this.props;
     const {formatMessage} = intl;
+    const {language} = this.context;
+    const bigText =
+      (language === 'vi' ? notifyObj.bigText : notifyObj.bigTextEn) ||
+      formatMessage(message.doubtTutorial);
+    const {height} = Dimensions.get('window');
     return (
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
+          marginTop: 0.036 * height,
         }}>
-        <View style={{alignItems: 'center'}}>
-          <FastImage
-            style={{
-              width: 58,
-              height: 59,
-            }}
-            source={require('./styles/images/waring.png')}
-          />
+        <View>
           <View
             style={{
               alignItems: 'center',
-              marginTop: 18,
+              flexDirection: 'row',
+              backgroundColor: '#fef3de',
+              borderRadius: 11,
+              paddingHorizontal: 17,
+              paddingVertical: 18,
             }}>
-            <MediumText
+            <FastImage
               style={{
-                fontSize: fontSize.large,
-                lineHeight: 29,
-                textAlign: 'center',
-                paddingHorizontal: 21,
-              }}>
-              {formatMessage(message.doubtContent1)}
-            </MediumText>
-            <MediumText
+                width: 58,
+                height: 59,
+                backgroundColor: '#fff',
+                borderRadius: 29,
+              }}
+              source={require('./styles/images/waring.png')}
+            />
+            <View
               style={{
-                fontSize: fontSize.large,
-                lineHeight: 29,
-                textAlign: 'center',
-                paddingHorizontal: 21,
+                alignItems: 'center',
+                paddingLeft: 15,
+                flex: 1,
               }}>
-              {formatMessage(message.doubtContent2)}
-            </MediumText>
+              <MediumText
+                style={{
+                  fontSize: fontSize.fontSize16,
+                  lineHeight: 22,
+                }}>
+                {formatMessage(message.doubtContent1)}
+              </MediumText>
+              {/*<MediumText*/}
+              {/*  style={{*/}
+              {/*    fontSize: fontSize.large,*/}
+              {/*    lineHeight: 21,*/}
+              {/*  }}>*/}
+              {/*  {formatMessage(message.doubtContent2)}*/}
+              {/*</MediumText>*/}
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            alignItems: 'center',
-            borderWidth: 1,
-            borderRadius: 11,
-            borderColor: '#ececec',
-            paddingVertical: 15,
-          }}>
           <Text
             style={{
-              fontSize: fontSize.small,
-              lineHeight: 29,
-              textAlign: 'center',
-              paddingHorizontal: 21,
+              fontSize: fontSize.normal,
+              lineHeight: 25,
+              marginTop: 0.026 * height,
             }}>
-            {formatMessage(message.doubtTutorial)}
+            {bigText}
           </Text>
-          <View />
         </View>
-        <View style={{alignItems: 'center'}}>
-          <Text style={{fontSize: fontSize.small, color: '#2b77d8'}}>
-            {formatMessage(message.uploadSuccessMsg)}
-          </Text>
+        <View style={{alignItems: 'center', marginBottom: 0.126 * height}}>
           <ButtonIconText
             disabled={true}
-            text={formatMessage(message.uploadText)}
+            text={formatMessage(message.sendHistory)}
             source={require('./styles/images/send.png')}
             styleBtn={styles.buttonSendActive}
             styleText={{fontSize: fontSize.normal}}
             styleIcon={styles.buttonIcon}
           />
+          <Text
+            style={{
+              fontSize: fontSize.fontSize14,
+              color: '#2b77d8',
+              marginTop: 26,
+              lineHeight: 25,
+            }}>
+            {formatMessage(message.uploadSuccessMsg)}
+          </Text>
         </View>
       </View>
     );

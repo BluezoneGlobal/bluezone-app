@@ -20,8 +20,10 @@
  */
 
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
 import Timer from 'react-timer-mixin';
+
+// Components
+import Text from '../Text';
 
 const HALF_RAD = Math.PI / 2;
 

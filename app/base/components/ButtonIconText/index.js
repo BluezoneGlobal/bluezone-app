@@ -22,11 +22,11 @@
 'use strict';
 
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 // Component
 import Text from '../../../base/components/Text';
-import {TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 // Styles
 import styles from './styles/index.css';
@@ -40,12 +40,14 @@ function ButtonIconText(props) {
     styleBtn,
     styleText,
     styleIcon,
+    ...otherProps
   } = props;
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.container, styleBtn]}>
+      style={[styles.container, styleBtn]}
+      {...otherProps}>
       {source && (
         <FastImage source={source} style={[styles.scanImage, styleIcon]} />
       )}

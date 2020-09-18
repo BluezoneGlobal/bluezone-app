@@ -6,6 +6,7 @@
 
 # Xcode
 #
+package-lock.json
 build/
 *.pbxuser
 !default.pbxuser
@@ -34,10 +35,14 @@ local.properties
 android/build/*
 
 android/gradle/*
+android/app/google-services/*
 
 android/local.properties
 
 android/app/google-services.json
+android/google-services.json
+
+ios/GoogleService-Info.plist
 
 android/java*
 
@@ -69,6 +74,10 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+/ios/Podfile.lock/
+
+# react-native-config codegen
+ios/tmp.xcconfig
 
 # vim swap
 *.swp

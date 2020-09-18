@@ -22,7 +22,9 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import * as fontSize from '../../../../core/fontSize';
+import {large} from '../../../../core/fontSize';
+import {blue_bluezone} from '../../../../core/color';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,6 +38,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF',
     paddingHorizontal: 12,
+  },
+
+  btnConfirm: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 45,
+  },
+
+  textConfirm: {
+    fontWeight: '500',
+    fontSize: large,
+    color: blue_bluezone,
+  },
+
+  btnClose: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 45,
+  },
+
+  textClose: {
+    fontSize: large,
+    color: '#5F5F5F',
   },
 });
 

@@ -21,12 +21,13 @@
 
 'use strict';
 
-import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import {StyleSheet, Platform} from 'react-native';
+import * as fontSize from '../../../../core/fontSize';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    height: heightPercentageToDP((50 / 720) * 100),
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
@@ -34,8 +35,9 @@ const styles = StyleSheet.create({
   btnBack: {
     position: 'absolute',
     left: 0,
-    height: '100%',
-    alignItems: 'center',
+    top: 0,
+    bottom: 0,
+    height: heightPercentageToDP((50 / 720) * 100),
     justifyContent: 'center',
     zIndex: 99,
   },
@@ -45,9 +47,13 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   icon: {
-    paddingVertical: 15,
     paddingLeft: 20,
     paddingRight: 30,
+    ...Platform.select({
+      ios: {
+        paddingTop: 5,
+      },
+    }),
   },
   title: {
     flex: 1,

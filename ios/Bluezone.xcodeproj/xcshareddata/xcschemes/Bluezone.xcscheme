@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1130"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;# X&#xf3;a file cache.&#10;rm -rf /tmp/envfile&#10;&#10;# Chuy&#x1ec3;n v&#x1ec1; &#x111;&#xfa;ng file ENV.&#10;cp -r ${SRCROOT}/../env/product_apk ${SRCROOT}/../.env&#10;&#10;# Xo&#xe1; tr&#x1eaf;ng file&#10;:&gt; ${SRCROOT}/../ios/GoogleService-Info.plist &#10;&#10;# Chuy&#x1ec3;n file c&#x1ea5;u h&#xec;nh API.&#10;cp -r ${SRCROOT}/../ios/GoogleService/Product-Info.plist ${SRCROOT}/../ios/GoogleService-Info.plist&#10;&#10;&#10;# X&#xe9;t file ENV&#10;echo &quot;.env&quot; &gt; /tmp/envfile&#10;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb &quot;${SRCROOT}/..&quot; &quot;${SRCROOT}/tmp.xcconfig&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+                     BuildableName = "Bluezone.app"
+                     BlueprintName = "Bluezone"
+                     ReferencedContainer = "container:Bluezone.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -42,14 +60,32 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;# X&#xf3;a file cache.&#10;rm -rf /tmp/envfile&#10;&#10;# Chuy&#x1ec3;n v&#x1ec1; &#x111;&#xfa;ng file ENV.&#10;cp -r ${SRCROOT}/../env/product_apk ${SRCROOT}/../.env&#10;&#10;# Xo&#xe1; tr&#x1eaf;ng file&#10;:&gt; ${SRCROOT}/../ios/GoogleService-Info.plist &#10;&#10;# Chuy&#x1ec3;n file c&#x1ea5;u h&#xec;nh API.&#10;cp -r ${SRCROOT}/../ios/GoogleService/Product-Info.plist ${SRCROOT}/../ios/GoogleService-Info.plist&#10;&#10;&#10;# X&#xe9;t file ENV&#10;echo &quot;.env&quot; &gt; /tmp/envfile&#10;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb &quot;${SRCROOT}/..&quot; &quot;${SRCROOT}/tmp.xcconfig&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+                     BuildableName = "Bluezone.app"
+                     BlueprintName = "Bluezone"
+                     ReferencedContainer = "container:Bluezone.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference

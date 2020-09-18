@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>183231754670-4mctgpov99u25mo79us2bs585l2iksco.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.183231754670-4mctgpov99u25mo79us2bs585l2iksco</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBs-bp9KakE4Tkr61bxqaZK8K-iz3fbAow</string>
+	<key>GCM_SENDER_ID</key>
+	<string>183231754670</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mic.bluezone</string>
+	<key>PROJECT_ID</key>
+	<string>covid19-1ffcf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>covid19-1ffcf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:183231754670:ios:618a34d23bebb00f98983f</string>
+	<key>DATABASE_URL</key>
+	<string>https://covid19-1ffcf.firebaseio.com</string>
+</dict>
+</plist>

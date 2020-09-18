@@ -22,18 +22,23 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
-import {isIPhoneX} from '../../../../utils/checkIphoneX';
-import {heightPercentageToDP} from '../../../../utils/dimension';
+import * as fontSize from '../../../../core/fontSize';
+import {isIPhoneX} from '../../../../core/utils/isIPhoneX';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
 
 const HEADER_PADDING_BOTTOM = heightPercentageToDP((20 / 720) * 100);
 const HEADER_BACKGROUND_HEIGHT = heightPercentageToDP((152.4 / 720) * 100);
-const FOOTER_PADDING_BOTTOM = heightPercentageToDP((38 / 720) * 100);
-const SCAN_PADDING_BOTTOM = heightPercentageToDP((18 / 720) * 100);
-const SCANNING_HEIGHT = heightPercentageToDP((152 / 720) * 100);
+const BTN_MARGIN_BOTTOM = heightPercentageToDP((12 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((150 / 720) * 100);
 const LOGO_BLUEZONE_HEIGHT = heightPercentageToDP((34.6 / 720) * 100);
 const LOGO_BLUEZONE_WIDTH = heightPercentageToDP((28.8 / 720) * 100);
-
+const LOGO_PADDING_BOTTOM = heightPercentageToDP((8 / 720) * 100);
+const SCAN_PADDING_BOTTOM = heightPercentageToDP((12 / 720) * 100);
+const HEADER_PADDING_TOP = heightPercentageToDP((8 / 720) * 100);
+const TEXTF_PADDING_TOP = heightPercentageToDP((12 / 720) * 100);
+const TEXT_WHY_PADDING_BOTTOM = heightPercentageToDP((7 / 720) * 100);
+const TEXT_WHY_MARGIN_BOTTOM = heightPercentageToDP((8 / 720) * 100);
+const RADA = heightPercentageToDP((176 / 720) * 100);
 
 const styles = StyleSheet.create({
   background: {
@@ -52,9 +57,14 @@ const styles = StyleSheet.create({
 
   watchScan: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  scan: {
+    height: RADA,
+    width: RADA,
   },
 
   marginRight23: {
@@ -65,21 +75,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: HEADER_PADDING_TOP,
     paddingBottom: HEADER_PADDING_BOTTOM,
   },
 
   buttonScan: {
     backgroundColor: '#015cd0',
+    paddingVertical: 12,
     marginBottom: SCAN_PADDING_BOTTOM,
   },
 
   buttonHistory: {
     backgroundColor: '#119a01',
+    paddingVertical: 12,
   },
 
   buttonIcon: {
-    width: 18,
+    width: 15,
     height: 18,
+    marginRight: 6,
   },
 
   logo: {
@@ -90,12 +104,12 @@ const styles = StyleSheet.create({
   iconLogoMic: {
     width: 30,
     height: 30,
-    marginHorizontal: 10.6,
+    marginHorizontal: 14.6,
   },
 
   borderLogo: {
-    borderWidth: 0.2,
-    borderColor: '#b5b5b5',
+    borderRightWidth: 1,
+    borderRightColor: '#b5b5b5',
     height: 24,
   },
 
@@ -107,7 +121,7 @@ const styles = StyleSheet.create({
   iconLogoBoyte: {
     width: 30,
     height: 30,
-    marginLeft: 10.6,
+    marginLeft: 14.6,
   },
 
   center: {
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
 
   button: {
     paddingHorizontal: 43,
-    paddingBottom: FOOTER_PADDING_BOTTOM,
+    marginBottom: BTN_MARGIN_BOTTOM,
     justifyContent: 'center',
   },
 
@@ -197,7 +211,6 @@ const styles = StyleSheet.create({
   },
 
   numberBluezone: {
-    // flex: 1,
     borderRadius: SCANNING_HEIGHT / 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -217,7 +230,6 @@ const styles = StyleSheet.create({
   },
 
   textScan: {
-    // fontFamily: 'OpenSans',
     fontSize: fontSize.normal,
     color: '#fff',
   },
@@ -298,41 +310,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingTop: isIPhoneX ? 32 : 12,
+    paddingHorizontal: 16,
+    paddingTop: isIPhoneX ? 34 : 6,
     zIndex: 99,
-  },
-
-  btnLanguage: {
-    flexDirection: 'row',
-    borderRadius: 15,
-    alignItems: 'center',
-    height: 30,
-    backgroundColor: '#4f9cfa',
-  },
-
-  btnLanguageActive: {
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 26,
-    height: 26,
-  },
-
-  textBtnLanguageActive: {
-    fontSize: fontSize.smallest,
-    color: '#0166de',
-    alignItems: 'center',
-    paddingVertical: 2,
-    fontWeight: '600',
-  },
-
-  textBtnLanguage: {
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    fontSize: fontSize.smallest,
-    color: '#ffffff',
+    paddingBottom: LOGO_PADDING_BOTTOM,
   },
 
   circleScan: {
@@ -349,8 +330,39 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
   },
+
+  textF: {
+    fontSize: fontSize.small,
+    textAlign: 'center',
+    paddingHorizontal: 53,
+    paddingTop: TEXTF_PADDING_TOP,
+    color: '#015cd0',
+  },
+
+  textHoi: {
+    fontSize: fontSize.smallest,
+    paddingVertical: TEXT_WHY_PADDING_BOTTOM,
+    marginBottom: TEXT_WHY_MARGIN_BOTTOM,
+    fontStyle: 'italic',
+    color: '#015cd0',
+  },
+
+  textWhy: {
+    fontSize: fontSize.normal,
+  },
+
+  textWhyBtn: {
+    fontSize: fontSize.normal,
+    color: '#0166de',
+    fontWeight: '600'
+  },
 });
 
-export {HEADER_PADDING_BOTTOM, HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH};
+export {
+  HEADER_PADDING_BOTTOM,
+  HEADER_BACKGROUND_HEIGHT,
+  LOGO_BLUEZONE_HEIGHT,
+  LOGO_BLUEZONE_WIDTH,
+};
 
 export default styles;

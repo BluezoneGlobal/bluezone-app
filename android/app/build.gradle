@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
 
 /**
@@ -128,15 +128,36 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    flavorDimensions "version"
+    productFlavors {
+        product {
+             dimension "version"
+             applicationIdSuffix ".mic.bluezone"
+             versionNameSuffix ""
+             resValue "string", "app_name", "Bluezone"
+             versionCode 52
+             versionName "3.0.3"
+        }
+        developer {
+             dimension "version"
+             applicationIdSuffix ".mic.bluezone"
+             versionNameSuffix ""
+             resValue "string", "app_name", "Bluezone"
+             versionCode 1
+             versionName "3.0.3-deploygate.dev"
+        }
+    }
 
     defaultConfig {
-        applicationId "com.mic.bluezone"
-        minSdkVersion 21
+        applicationId "com"
+        minSdkVersion 23
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "1.1.0" // 1.0.6-deploygate  1.0.6-deploygate.dev
+        versionCode  32 // 25
+        versionName "3.0.3-deploygate.dev" // "3.0.1-deploygate.dev" // "2.0.3" // "3.0.1-deploygate.dev" // 2.0.2-deploygate  2.0.2-deploygate.dev
         multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
+
     splits {
         abi {
             reset()
@@ -202,8 +223,10 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-config')
+    implementation project(':lottie-react-native')
 
-   implementation project(':react-native-push-notification')
+    implementation project(':react-native-push-notification')
     implementation 'com.android.support:multidex:1.0.3'
 
      debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
@@ -237,7 +260,6 @@ dependencies {
 
     implementation project(':react-native-bluetooth-scan')
     implementation project(':react-native-fs')
-    implementation project(':RNSendIntentModule')
 
     // This should be here already
     implementation project(':react-native-firebase')
@@ -248,6 +270,9 @@ dependencies {
 
     implementation "com.google.firebase:firebase-messaging:18.0.0"
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar' // <-- Add this line if you wish to use badge on Android
+
+    // thu viện beacon
+    implementation 'org.altbeacon:android-beacon-library:2.+'
 }
 
 // Run this once to be able to run the application with BUCK

@@ -23,18 +23,27 @@
 
 import React from 'react';
 import {AppState} from 'react-native';
-
-import configuration, {
-  registerUser,
-  setStatusNotifyRegister,
-} from '../Configuration';
-import Service from '../apis/service';
-import {requestTokenFirebase, getTokenFirebase} from '../CloudMessaging';
-import {replaceNotify} from '../db/SqliteDb';
-import {messageNotifyOTP} from './components/ModalNotify/data';
 import * as PropTypes from 'prop-types';
 
-const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 550000];
+import configuration, {
+  setStatusNotifyRegister,
+  retrySyncTokenFirebase,
+} from '../configuration';
+
+// Apis
+import Service from '../core/apis/service';
+import {TIME_RETRY_AUTO_REGISTER_USER} from '../const/api';
+import {retryUploadHistoryF12} from '../core/apis/bluezone';
+
+// FCM
+import {requestTokenFirebase} from '../core/fcm';
+
+import {createNews} from '../core/announcement';
+import {messageNotifyOTP} from '../core/data';
+import {getJobs, removeJob} from '../core/jobScheduler';
+import {registerBluetoothStateListener} from '../core/bluetooth';
+import * as scheduler from '../core/notifyScheduler';
+import * as analytic from '../core/analytics';
 
 /**
  * Thực hiện toàn bộ các kịch bản cần thực thi ngay khi app start lên
@@ -43,70 +52,89 @@ const TIME_RETRY = [2000, 3000, 5000, 8000, 13000, 21000, 34000, 550000];
  */
 function decorateMainAppStart(AppStack) {
   class MainApp extends React.Component {
-    // static router = AppStack.router;
     constructor(props) {
       super(props);
-      this.registerUserSuccess = this.registerUserSuccess.bind(this);
-      this.registerUserError = this.registerUserError.bind(this);
     }
 
-    componentDidMount() {
-      const {TokenFirebase} = configuration;
-      if (TokenFirebase === '') {
-        getTokenFirebase(TokenFB =>
-          registerUser(
-            TokenFB,
-            this.registerUserSuccess,
-            this.registerUserError,
-            TIME_RETRY,
-          ),
-        );
-      }
-
+    async componentDidMount() {
       // Xu ly lay FirebaseToken ngay khi appstart
       requestTokenFirebase();
 
       // Start service
-      this.onStartService(true);
+      this.startService(true);
+
+      // jobs
+      this.processWorkToDo();
+
+      // notify scheduler
+      scheduler.initNotifyScheduler();
+      registerBluetoothStateListener(scheduler.bluetoothChangeListener);
+
+      // analytics
+      analytic.reportBluetoothState();
+      registerBluetoothStateListener(analytic.bluetoothChangeListener);
 
       AppState.addEventListener('change', this.handleAppStateChange);
     }
 
     componentWillUnmount() {
-      this.onStartService(false);
+      this.startService(false);
       AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
-    onStartService = async scanFull => {
+    startService = scanFull => {
       Service.startService(scanFull);
+    };
+
+    processWorkToDo = async () => {
+      const jobs = await getJobs();
+      if (jobs) {
+        for (let i = 0; i < jobs.length; i++) {
+          const job = jobs[i];
+          const {type} = job;
+          if (type === 'UploadHistoryF') {
+            await this.uploadHistory(job);
+          }
+        }
+      }
+    };
+
+    uploadHistory = async job => {
+      const {data} = job;
+      const {notifyObj} = data;
+      retryUploadHistoryF12(
+        notifyObj.data.DataContent.Numberdays,
+        notifyObj.data.DataContent.FindGUID,
+        () => {
+          removeJob(job);
+        },
+      );
     };
 
     handleAppStateChange = appState => {
       if (appState === 'active') {
         if (configuration.TokenFirebase === '') {
-          getTokenFirebase(TokenFB =>
-            registerUser(
-              TokenFB,
-              this.registerUserSuccess,
-              this.registerUserError,
-              TIME_RETRY,
-            ),
+          retrySyncTokenFirebase(
+            this.registerUserSuccess,
+            this.registerUserError,
+            TIME_RETRY_AUTO_REGISTER_USER,
           );
         }
-        // Start service
-        this.onStartService(true);
+        this.startService(true);
+        // analytics
+        analytic.reportBluetoothState();
       } else {
-        this.onStartService(false);
+        this.startService(false);
       }
     };
 
-    registerUserSuccess(data) {
-      const {language} = this.context;
-      setStatusNotifyRegister(new Date().getTime().toString());
-      replaceNotify(messageNotifyOTP, language);
-    }
+    registerUserSuccess = () => {
+      const {Language} = configuration;
+      setStatusNotifyRegister(new Date());
+      createNews(messageNotifyOTP(Language));
+    };
 
-    registerUserError() {}
+    registerUserError = () => {};
 
     render() {
       return <AppStack />;
@@ -116,7 +144,7 @@ function decorateMainAppStart(AppStack) {
   MainApp.propTypes = {};
 
   MainApp.contextTypes = {
-    language: PropTypes.object,
+    language: PropTypes.string,
   };
 
   return MainApp;

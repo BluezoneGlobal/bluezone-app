@@ -22,9 +22,10 @@ RCT_EXTERN_METHOD(checkContactF: (NSString *) data resolve: (RCTPromiseResolveBl
 
 RCT_EXTERN_METHOD(getBluezoneIdInfo: (NSInteger *) dayStartTrace resolve: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(writeHistoryContact: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(writeHistoryContact: (NSInteger *) dayStartTrace resolve: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(setMaxNumberSubKey:(NSInteger *) maxSubKey)
+RCT_EXTERN_METHOD(getFontScale: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject)
 @end
 
 @interface RCT_EXTERN_MODULE(TraceCovid, RCTEventEmitter)

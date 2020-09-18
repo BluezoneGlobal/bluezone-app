@@ -21,7 +21,7 @@
 
 'use strict';
 import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import FastImage from 'react-native-fast-image';
 import {injectIntl, intlShape} from 'react-intl';
 
@@ -29,17 +29,24 @@ import {injectIntl, intlShape} from 'react-intl';
 import HomeScreen from '../HomeScreen';
 import NotifyScreen from '../NotifyScreen';
 import InfoScreen from '../InfoScreen';
-import InviteScreen from '../InviteScreen';
+import FAQScreen from '../FAQScreen';
+import CountNotifications, {
+  broadcastForcusChange,
+} from './components/CountNotification';
+import Text from '../../../base/components/Text';
+
+import {isIPhoneX} from '../../../core/utils/isIPhoneX';
+
+// Language
+import message from '../../../core/msg/tab';
 
 // Styles
 import styles from './style/index.css';
-
-// Language
-import message from '../../../msg/tab';
-import {smallest} from '../../../utils/fontSize';
+import {smallest} from '../../../core/fontSize';
+import {TAB_BAR_HEIGHT, TAB_BAR_IPHONEX_HEIGHT} from './style/index.css';
 
 // Consts
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 const icon = {
   Home: require('./style/images/home.png'),
@@ -47,6 +54,7 @@ const icon = {
   Invite: require('./style/images/invite.png'),
   Notify: require('./style/images/notify.png'),
   Info: require('./style/images/info.png'),
+  Faq: require('./style/images/faq.png'),
 };
 
 const iconActive = {
@@ -55,11 +63,13 @@ const iconActive = {
   Invite: require('./style/images/invite_active.png'),
   Notify: require('./style/images/notify_active.png'),
   Info: require('./style/images/info_active.png'),
+  Faq: require('./style/images/faq_active.png'),
 };
 
 class HomeTabScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.db = null;
   }
 
   render() {
@@ -68,11 +78,25 @@ class HomeTabScreen extends React.Component {
     return (
       <Tab.Navigator
         initialRouteName="Home"
+        tabBarPosition={'bottom'}
         tabBarOptions={{
+          showIcon: true,
           activeTintColor: '#015cd0',
+          inactiveTintColor: '#f2f2f2',
+          indicatorStyle: {
+            opacity: 0,
+          },
+          style: {
+            borderTopColor: '#dddddd',
+            borderTopWidth: 0.5,
+            height: isIPhoneX ? TAB_BAR_IPHONEX_HEIGHT : TAB_BAR_HEIGHT,
+          },
+          tabStyle: {
+            height: TAB_BAR_HEIGHT,
+          },
           labelStyle: {
-            marginBottom: 5,
             fontSize: smallest,
+            textTransform: 'capitalize',
           },
           allowFontScaling: false,
         }}>
@@ -80,7 +104,17 @@ class HomeTabScreen extends React.Component {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: formatMessage(message.home),
+            tabBarLabel: ({focused}) => (
+              <Text
+                text={formatMessage(message.home)}
+                style={[
+                  {
+                    color: focused ? '#015cd0' : '#747474',
+                  },
+                  styles.labelStyle,
+                ]}
+              />
+            ),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Home : icon.Home}
@@ -93,24 +127,51 @@ class HomeTabScreen extends React.Component {
           name="Notify"
           component={NotifyScreen}
           options={{
-            tabBarLabel: formatMessage(message.report),
-            tabBarIcon: ({focused, color, size}) => (
-              <FastImage
-                source={focused ? iconActive.Notify : icon.Notify}
-                style={styles.iconSquare}
+            tabBarLabel: ({focused}) => (
+              <Text
+                text={formatMessage(message.report)}
+                style={[
+                  styles.labelStyle,
+                  {
+                    color: focused ? '#015cd0' : '#747474',
+                  },
+                ]}
+              />
+            ),
+            tabBarIcon: ({focused, color, size, navigate}) => (
+              <CountNotifications
+                focused={focused}
+                icon={icon.Notify}
+                iconActive={iconActive.Notify}
               />
             ),
           }}
+          listeners={({navigation, route}) => ({
+            focus: () => {
+              broadcastForcusChange();
+            },
+          })}
         />
         <Tab.Screen
-          name="Invite"
-          component={InviteScreen}
+          name="FAQ"
+          component={FAQScreen}
           options={{
-            tabBarLabel: formatMessage(message.invite),
+            tabBarLabel: ({focused}) => (
+              <Text
+                text={formatMessage(message.faq)}
+                style={[
+                  styles.labelStyle,
+                  {
+                    color: focused ? '#015cd0' : '#747474',
+                    paddingLeft: 3,
+                  },
+                ]}
+              />
+            ),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
-                source={focused ? iconActive.Invite : icon.Invite}
-                style={styles.iconRectangle}
+                source={focused ? iconActive.Faq : icon.Faq}
+                style={styles.iconFaq}
               />
             ),
           }}
@@ -119,7 +180,17 @@ class HomeTabScreen extends React.Component {
           name="Info"
           component={InfoScreen}
           options={{
-            tabBarLabel: formatMessage(message.about),
+            tabBarLabel: ({focused}) => (
+              <Text
+                text={formatMessage(message.about)}
+                style={[
+                  styles.labelStyle,
+                  {
+                    color: focused ? '#015cd0' : '#747474',
+                  },
+                ]}
+              />
+            ),
             tabBarIcon: ({focused, color, size}) => (
               <FastImage
                 source={focused ? iconActive.Info : icon.Info}

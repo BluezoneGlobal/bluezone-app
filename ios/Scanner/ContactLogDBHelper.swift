@@ -175,11 +175,16 @@ public class ContactLogDBHelper {
         // Check
         if sqlite3_prepare_v2(dbPointer, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
             
-            // insert blid owner
-            sqlite3_bind_blob(insertStatement, ContactLogDBHelper.COLUMN_INDEX_OWNER_BLID, Array(scan.mOwerBlId!), Int32(scan.mOwerBlId!.count), nil)
+            let ownerData = scan.mOwerBlId! as NSData
+            let contactData = scan.mContactBlId! as NSData
+            let byte = ownerData.bytes
+            let contactByte = contactData.bytes
             
             // insert blid owner
-            sqlite3_bind_blob(insertStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID, Array(scan.mContactBlId!), Int32(scan.mContactBlId!.count), nil)
+            sqlite3_bind_blob(insertStatement, ContactLogDBHelper.COLUMN_INDEX_OWNER_BLID, byte, Int32(scan.mOwerBlId!.count), nil)
+            
+            // insert blid contact
+            sqlite3_bind_blob(insertStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID, contactByte, Int32(scan.mContactBlId!.count), nil)
             
             // mac id
             sqlite3_bind_text(insertStatement, ContactLogDBHelper.COLUMN_INDEX_MAC_ID, (scan.mMacId! as NSString).utf8String, -1, nil)
@@ -225,12 +230,12 @@ public class ContactLogDBHelper {
                     blIdData = Data(bytes: blId, count: Int(blIdCount))
                 }
                 
-                // get blid owner
+                // get blid contact
                 var contactBlIdData: Data = Data()
                 let contactBlIdCount = sqlite3_column_bytes(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID)
                 
-                if let blId = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID), blIdCount > 0 {
-                    contactBlIdData = Data(bytes: blId, count: Int(contactBlIdCount))
+                if let blId2 = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID), contactBlIdCount > 0 {
+                    contactBlIdData = Data(bytes: blId2, count: Int(contactBlIdCount))
                 }
                 
                 // get mac id

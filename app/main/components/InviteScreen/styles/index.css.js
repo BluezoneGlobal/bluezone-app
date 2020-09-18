@@ -22,8 +22,8 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
-import {heightPercentageToDP} from '../../../../utils/dimension';
+import * as fontSize from '../../../../core/fontSize';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
 
 const HEADER_PADDING_TOP = heightPercentageToDP((37 / 720) * 100);
 const HEADER_PADDING_BOTTOM = heightPercentageToDP((32 / 720) * 100);

@@ -27,72 +27,138 @@ import * as PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 
 // Components
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Linking, Dimensions} from 'react-native';
 import Text, {MediumText} from '../../../base/components/Text';
-import FormInput from '../Declaration/Form';
+import FormInput from '../Declaration/components/Form';
 
 // Language
-import message from '../../../msg/warning';
+import message from '../../../core/msg/warning';
 
 // Styles
 import styles from './styles/index.css';
-import * as fontSize from '../../../utils/fontSize';
+import * as fontSize from '../../../core/fontSize';
+import configuration from '../../../configuration';
+import warning from '../../../core/msg/warning';
 
 class NotifyInfected extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  onPress = () => {
-    this.props.onPress && this.props.onPress();
+  onPress = (phone, name, address) => {
+    this.props.onSendPhoneNumberPress && this.props.onSendPhoneNumberPress(phone, name, address);
+  };
+
+  handleOpenDeclare = () => {
+    const SupportUrl = configuration.SupportUrl;
+    if (!SupportUrl) {
+      return;
+    }
+
+    Linking.canOpenURL(SupportUrl).then(supported => {
+      if (supported) {
+        Linking.openURL(SupportUrl);
+        return false;
+      }
+    });
+  };
+
+  handleCall = () => {
+    const SupportPhoneNumber = configuration.SupportPhoneNumber;
+    if (!SupportPhoneNumber) {
+      return;
+    }
+
+    Linking.canOpenURL(SupportPhoneNumber).then(supported => {
+      if (supported) {
+        Linking.openURL(`tel:${SupportPhoneNumber}`);
+        return false;
+      }
+    });
+  };
+
+  handleMessage = () => {
+    const SupportPhoneNumber = configuration.SupportPhoneNumber;
+    if (!SupportPhoneNumber) {
+      return;
+    }
+
+    Linking.canOpenURL(SupportPhoneNumber).then(supported => {
+      if (supported) {
+        Linking.openURL(`sms:${SupportPhoneNumber}`);
+        return false;
+      }
+    });
+  };
+
+  handleInfo = () => {
+    Linking.openURL('https://www.bluezone.gov.vn/');
   };
 
   render() {
-    const {intl} = this.props;
+    const {intl, statusInfo, notifyObj} = this.props;
     const {formatMessage} = intl;
+    const {height} = Dimensions.get('window');
     return (
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
+          marginTop: 0.036 * height,
         }}>
-        <View style={{alignItems: 'center'}}>
-          <FastImage
-            style={{
-              width: 58,
-              height: 59,
-            }}
-            source={require('./styles/images/infected.png')}
-          />
+        <View>
           <View
             style={{
               alignItems: 'center',
-              marginTop: 18,
+              flexDirection: 'row',
+              backgroundColor: 'rgba(255, 162, 0, 0.15)',
+              borderRadius: 11,
+              paddingHorizontal: 17,
+              paddingVertical: 18,
+              marginBottom: 0.026 * height,
             }}>
-            <MediumText
+            <FastImage
               style={{
-                fontSize: fontSize.larger,
-                lineHeight: 29,
-                textAlign: 'center',
-                paddingHorizontal: 21,
+                width: 58,
+                height: 59,
+              }}
+              source={require('./styles/images/infected.png')}
+            />
+            <View
+              style={{
+                alignItems: 'center',
+                paddingLeft: 15,
+                flex: 1,
               }}>
-              {formatMessage(message.dangerContent)}
-            </MediumText>
+              <MediumText
+                style={{
+                  fontSize: fontSize.fontSize16,
+                  lineHeight: 22,
+                }}>
+                {formatMessage(message.dangerContent)}
+              </MediumText>
+            </View>
           </View>
+          <FormInput
+            statusInfo={statusInfo}
+            notifyObj={notifyObj}
+            onSubmit={this.onPress}
+          />
         </View>
-        <FormInput onPress={this.onPress} />
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', marginBottom: 0.046 * height}}>
           <Text style={{fontSize: fontSize.small, color: '#2b77d8'}}>
             {formatMessage(message.contact)}
           </Text>
           <View
             style={{
-              justifyContent: 'space-between',
+              justifyContent: 'space-around',
               flexDirection: 'row',
               paddingVertical: 18,
             }}>
-            <TouchableOpacity style={{alignItems: 'center', flex: 1}}>
+            <TouchableOpacity
+              style={{alignItems: 'center', paddingHorizontal: 20}}
+              onPress={this.handleOpenDeclare}>
               <FastImage
                 style={{
                   width: 34,
@@ -102,14 +168,16 @@ class NotifyInfected extends React.Component {
               />
               <MediumText
                 style={{
-                  fontSize: fontSize.small,
+                  fontSize: fontSize.smallest,
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                {formatMessage(message.declaration)}
+                {formatMessage(warning.declaration)}
               </MediumText>
             </TouchableOpacity>
-            <TouchableOpacity style={{alignItems: 'center'}}>
+            <TouchableOpacity
+              style={{alignItems: 'center', marginHorizontal: 20}}
+              onPress={this.handleCall}>
               <FastImage
                 style={{
                   width: 34,
@@ -119,14 +187,16 @@ class NotifyInfected extends React.Component {
               />
               <MediumText
                 style={{
-                  fontSize: fontSize.small,
+                  fontSize: fontSize.smallest,
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                {formatMessage(message.call)}
+                {formatMessage(warning.call)}
               </MediumText>
             </TouchableOpacity>
-            <TouchableOpacity style={{alignItems: 'center', flex: 1}}>
+            <TouchableOpacity
+              style={{alignItems: 'center', marginHorizontal: 20}}
+              onPress={this.handleMessage}>
               <FastImage
                 style={{
                   width: 34,
@@ -136,22 +206,24 @@ class NotifyInfected extends React.Component {
               />
               <MediumText
                 style={{
-                  fontSize: fontSize.small,
+                  fontSize: fontSize.smallest,
                   color: '#585858',
                   marginTop: 6,
                 }}>
-                {formatMessage(message.message)}
+                {formatMessage(warning.message)}
               </MediumText>
             </TouchableOpacity>
           </View>
-          <Text
-            style={{
-              fontSize: fontSize.small,
-              color: '#2b77d8',
-              textDecorationLine: 'underline',
-            }}>
-            {formatMessage(message.information)}
-          </Text>
+          <TouchableOpacity onPress={this.handleInfo}>
+            <Text
+              style={{
+                fontSize: fontSize.smallest,
+                color: '#2b77d8',
+                textDecorationLine: 'underline',
+              }}>
+              {formatMessage(message.information)}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

@@ -22,38 +22,73 @@
 'use strict';
 
 import React from 'react';
-
-// Compoenents
-import {TouchableOpacity, View} from 'react-native';
+import {BackHandler, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {withNavigation} from '@react-navigation/compat';
+
+// Components
 import {MediumText} from '../Text';
 
 // Styles
 import styles from './styles/index.css';
+import {blue_bluezone} from '../../../core/color';
 
-function Index(props) {
-  const {onBack, showBack, title, styleHeader, styleTitle, colorIcon} = props;
-  return (
-    <View style={[styles.container, styleHeader]}>
-      {showBack && (
-        <TouchableOpacity onPress={onBack} style={styles.btnBack}>
-          <Ionicons
-            name={'md-arrow-back'}
-            size={25}
-            style={styles.icon}
-            color={colorIcon}
-          />
-        </TouchableOpacity>
-      )}
-      <View style={styles.title}>
-        <MediumText style={[styles.textTitle, styleTitle]}>{title}</MediumText>
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onGoBack = this.onGoBack.bind(this);
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onGoBack);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onGoBack);
+  }
+
+  onGoBack() {
+    const {onBack, showBack} = this.props;
+
+    if (!showBack) {
+      return;
+    }
+
+    if (onBack) {
+      onBack();
+      return;
+    }
+    this.props.navigation.goBack();
+    return true;
+  }
+
+  render() {
+    const {showBack, title, styleHeader, styleTitle, colorIcon} = this.props;
+    return (
+      <View style={[styles.container, styleHeader]}>
+        {showBack && (
+          <TouchableOpacity onPress={this.onGoBack} style={styles.btnBack}>
+            <Ionicons
+              name={'ios-arrow-back'}
+              size={28}
+              style={styles.icon}
+              color={colorIcon}
+            />
+          </TouchableOpacity>
+        )}
+        <View style={styles.title}>
+          <MediumText style={[styles.textTitle, styleTitle]}>
+            {title}
+          </MediumText>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
-Index.defaultProps = {
-  colorIcon: '#FFF',
+Header.defaultProps = {
+  colorIcon: blue_bluezone,
+  showBack: true,
 };
 
-export default Index;
+export default withNavigation(Header);

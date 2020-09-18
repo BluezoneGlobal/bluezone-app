@@ -1,0 +1,249 @@
+{
+  "version": "3.0.0",
+  "HasFAQ": {
+    "vi": {
+      "itemIds": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "38",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22"
+      ]
+    },
+    "en": {
+      "itemIds": [
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "39"
+      ]
+    }
+  },
+  "FAQ": {
+    "1": {
+      "id": "1",
+      "question": "Ứng dụng Bluezone là gì?",
+      "answer": "<p>Ứng dụng phát hiện tiếp xúc gần Bluezone là ứng dụng do Bộ Thông tin và Truyền thông và Bộ Y tế triển khai dưới sự chỉ đạo của Thủ tướng Chính phủ với mục đích bảo vệ cộng đồng trước đại dịch Covid-19, giảm thiểu các nguy cơ lây lan, giúp mọi người trở lại cuộc sống bình thường.</p><p>Bluezone là ứng dụng sử dụng công nghệ Bluetooth năng lượng thấp (Bluetooth Low Energy) để ghi nhận các tiếp xúc gần giữa các điện thoại di động thông minh cùng cài đặt và sử dụng Bluezone. Ứng dụng sẽ cảnh báo nếu người dùng có tiếp xúc gần với ca nhiễm, ca nghi nhiễm hoặc người đã từng tiếp xúc gần với ca nhiễm, ca nghi nhiễm.</p><p>Những tiếp xúc của người dùng Bluezone với người dùng Bluezone khác được ghi vào lịch sử tiếp xúc. Dữ liệu lịch sử tiếp xúc được lưu trên máy điện thoại của người dùng. Dữ liệu lịch sử tiếp xúc sẽ chỉ được sử dụng để phục vụ cơ quan y tế khi có sự đồng ý của người dùng hoặc trong trường hợp người dùng là ca nhiễm, ca nghi nhiễm.</p><p>Bluezone chỉ lưu lịch sử tiếp xúc mà không lưu vị trí địa điểm, không sử dụng hoặc truy cập đến các thông tin khác trên điện thoại di động của người dùng như danh bạ, ảnh,…</p><p>Càng nhiều người cài đặt Bluezone thì hiệu quả bảo vệ càng cao. Chúng ta cùng thách thức sự lây lan của virus bằng sức mạnh của cộng đồng. Bộ Thông tin và Truyền thông, Bộ Y tế khuyến nghị toàn dân hãy cài Bluezone cho mình và cho 3 người khác.</p><p>Để thực hiện việc quản lý tiếp xúc gần, đầu tiên người dùng cần tải về và cài đặt ứng dụng phát hiện tiếp xúc gần Bluezone tại địa chỉ <a href='https://www.bluezone.gov.vn/taiapp'>https://www.bluezone.gov.vn/taiapp</a></p>"
+    },
+    "2": {
+      "id": "2",
+      "question": "Tôi có bắt buộc phải sử dụng Bluezone không? Và tại sao tôi cần sử dụng?",
+      "answer": "<p>Bạn không bắt buộc phải sử dụng ứng dụng Bluezone. Tuy nhiên bạn nên sử dụng để trước tiên bảo vệ bạn, bảo vệ những người xung quanh và có trách nhiệm với cộng đồng.</p><p>Bạn cần sử dụng Bluezone trong giai đoạn dịch bệnh hiện nay, vì:</p><p>- Thông qua ứng dụng Bluezone, cơ quan y tế sẽ thông báo cho bạn nếu bạn đã từng có tiếp xúc với ca nhiễm, ca nghi nhiễm Covid-19.</p><p>- Nếu có người bị nhiễm Covid-19, cơ quan y tế sẽ nhanh chóng thông báo tới những người mà đã từng tiếp xúc gần để cảnh báo và hỗ trợ (đôi khi bạn không thể nhớ hết hoặc biết những người bạn đã từng gặp).</p><p>- Ứng dụng Bluezone sẽ hỗ trợ đẩy nhanh quy trình điều tra dịch tễ, khoang vùng, cách ly từ đó nhanh chóng hạn chế sự lây lan của dịch bệnh.</p>"
+    },
+    "3": {
+      "id": "3",
+      "question": "Ứng dụng này có quét và tìm ra người nào nhiễm Covid-19, người nào là F1 không?",
+      "answer": "<p>Ứng dụng Bluezone không tự nó tìm ra người nhiễm bệnh. Người nhiễm sẽ được các cơ quan y tế xét nghiệm và xác định, sau đó sẽ được cách ly và điều trị tại các cơ sở y tế. Ứng dụng này ghi nhận lịch sử tiếp xúc của bạn và nếu trong số những người bạn tiếp xúc (đã cài Bluezone) được xác định là người nhiễm, bạn sẽ nhận được cảnh báo.</p><p>Có thể có một số trường hợp là F1 nhưng cơ sở y tế chưa kịp liên hệ để cách ly, người đó cũng không biết mình là F1. Hiện nay ứng dụng đang nâng cấp tính năng cho phép người dùng chủ động quét và kiểm tra.</p>"
+    },
+    "4": {
+      "id": "4",
+      "question": "Người nào bị nhiễm thì đã bị cách ly trong bệnh viện, người nào là F1 thì cũng bị cách ly cả rồi, vậy thì cài đặt Bluezone để làm gì nữa?",
+      "answer": "<p>Bluezone chỉ có ý nghĩa khi có nhiều người cài và đã ghi nhận được lịch sử tiếp xúc từ trước khi phát hiện ca nhiễm.</p><p>Nếu người nhiễm Covid-19 đã cài Bluezone từ trước thì việc truy vết, xác định và khoanh vùng các F1,F2 sẽ được thực hiện rất nhanh.</p>"
+    },
+    "5": {
+      "id": "5",
+      "question": "Tôi là người nổi tiếng, có sợ người khác biết mã Bluezone của tôi rồi công bố lên mạng, hoặc giả mạo mã của tôi để đi tiếp xúc?",
+      "answer": "<p>Không.</p><p>Cứ 15 phút, mã Bluezone dùng để ghi nhận tiếp xúc sẽ được thay đổi 1 lần. Mã gốc của bạn được lưu bảo mật trong máy và không ai có thể biết được (trừ trường hợp bạn nhiễm Covid-19 hoặc nghi nhiễm, cơ quan y tế yêu cầu, bạn đồng ý cung cấp). Chính vì vậy người dùng sẽ được ẩn danh với cộng đồng khi sử dụng Bluezone.</p>"
+    },
+    "6": {
+      "id": "6",
+      "question": "Tại sao Bluezone hỏi quyền truy cập ảnh, phương tiện và tệp?",
+      "answer": "<p>Trước tiên, cần khẳng định Bluezone chỉ sử dụng quyền “truy cập tệp” để ghi lịch sử tiếp xúc vào bộ nhớ của thiết bị.</p><p>Mặc dù vậy, theo chính sách của Google, bất cứ ứng dụng nào khi yêu cầu quyền “truy cập thiết bị” thì thiết bị vẫn tự động đề nghị \"cho phép truy cập vào ảnh, phương tiện và tệp\" ngay cả khi các ứng dụng đó (bao gồm cả Bluezone) không sử dụng các quyền còn lại.</p><p>Bạn cần cấp quyền để có thể lưu lại lịch sử tiếp xúc.</p>"
+    },
+    "7": {
+      "id": "7",
+      "question": "Bluezone có theo dõi vị trí người dùng không?",
+      "answer": "<p>Bluezone không ghi nhận cũng như sử dụng vị trí của người dùng. Khi bạn cài đặt Bluezone trên Android và kích hoạt Bluetooth thì máy sẽ xin cấp quyền vị trí, điều này là do chính sách của Google khi bật Bluetooth BLE máy sẽ tự động xin quyền vị trí. Tuy nhiên Bluezone không sử dụng tới quyền đó.</p><p><a href='https://vietnamnet.vn/vn/cong-nghe/ung-dung/ceo-bkav-nguyen-tu-quang-ung-dung-bluezone-canh-bao-som-covid-19-khong-theo-doi-nguoi-dung-634980.html'>https://vietnamnet.vn/vn/cong-nghe/ung-dung/ceo-bkav-nguyen-tu-quang-ung-dung-bluezone-canh-bao-som-covid-19-khong-theo-doi-nguoi-dung-634980.html</a></p>"
+    },
+    "8": {
+      "id": "8",
+      "question": "Bluezone có lưu lại thông tin người dùng không?",
+      "answer": "<p>Bluezone chỉ lưu dữ liệu lịch sử tiếp xúc trên máy của người dùng và không thu thập vị trí. Bluezone chỉ ghi nhận 2 người có gặp nhau lúc nào và trong bao lâu, chứ không biết ở chỗ nào. Dữ liệu lịch sử tiếp xúc sẽ chỉ được sử dụng để phục vụ cơ quan y tế khi có sự đồng ý của người dùng hoặc trong trường hợp người dùng là ca nhiễm, ca nghi nhiễm.</p><p>Dữ liệu của người dùng phục vụ phân tích, truy vết các ca nhiễm, ca nghi nhiễm sẽ được lưu trữ và bảo mật bởi cơ quan chính phủ và chỉ sử dụng vào mục đích giúp người dân bảo vệ sức khoẻ và chống dịch bệnh, tuyệt đối không sử dụng vào mục đích thương mại, không xâm phạm đời tư. Tham khảo thêm Điều khoản sử dụng để biết chi tiết.</p>"
+    },
+    "9": {
+      "id": "9",
+      "question": "Máy phải luôn luôn bật Bluetooth?",
+      "answer": "<p>Để Bluezone hoạt động hiệu quả, điện thoại phải luôn luôn bật Bluetooth. Tuy nhiên Bluezone sử dụng công nghệ Bluetooth BLE năng lượng thấp tiết kiệm pin (Bluetooth Low Energy), nên người dùng hoàn toàn yên tâm sử dụng. Bluezone chỉ tiêu thụ khoảng 10% năng lượng pin nếu sử dụng cả ngày.</p>"
+    },
+    "10": {
+      "id": "10",
+      "question": "Dữ liệu lịch sử thu thập và lưu trên máy trong bao lâu, có tốn dung lượng không?",
+      "answer": "<p>Dữ liệu lịch sử được thu thập và lưu trong khoảng thời gian do cơ quan y tế quy định, hiện tại có thể lưu trữ trong nhiều năm (cho đến khi có Vắc xin). Ước tính dữ liệu lịch sử trong vòng 1 năm, đối với một người bình thường, dung lượng lưu trên máy cũng chỉ khoảng 2.5 Mb (bằng 1/2 dung lượng 1 tấm ảnh).</p>"
+    },
+    "11": {
+      "id": "11",
+      "question": "Nếu điện thoại lúc nào cũng mở Bluetooth như vậy trong cộng đồng có tác hại gì không?",
+      "answer": "<p>Việc này cũng giống như sử dụng Wifi trong cộng đồng, do Bluetooth và Wifi cùng hoạt động trên tần số 2.4 GHz. Nên người dùng hoàn toàn có thể yên tâm sử dụng như bình thường.</p>"
+    },
+    "12": {
+      "id": "12",
+      "question": "Bluetooth bật thì điện thoại có dễ bị hack không?",
+      "answer": "<p>Bluetooth là 1 chuẩn kết nối các thiết bị được sử dụng rộng rãi hiện nay và đã được chứng minh về tính bảo mật.</p>"
+    },
+    "13": {
+      "id": "13",
+      "question": "Cơ chế như thế nào nếu người dân không có thiết bị Bluetooth hay họ không bật. Giám sát sao được vấn đề này?",
+      "answer": "<p>Việc bật Bluetooth là quyền của từng cá nhân. Nhằm mục đích bảo vệ chính mình, bảo vệ cộng đồng thì người dân nên sử dụng Bluezone thường xuyên. Nếu người dùng tắt Bluetooth, giả sử họ có tiếp xúc với người nhiễm COVID-19 thì sự tiếp xúc này sẽ không được ghi nhận.</p>"
+    },
+    "14": {
+      "id": "14",
+      "question": "Những người bị nhiễm bệnh có cài Bluezone này không? Nếu họ không sử dụng Bluezone thì làm sao có dữ liệu để tìm ra những người đã tiếp xúc gần với họ?",
+      "answer": "<p>Nếu người nhiễm bệnh không cài Bluezone sẽ có sự chậm trễ trong việc cảnh báo tiếp xúc gần. Chính vì thế mọi người nên cài và kêu gọi những người xung quanh cùng cài Bluezone để việc bảo vệ mình, bảo vệ cộng đồng được kịp thời.</p>"
+    },
+    "15": {
+      "id": "15",
+      "question": "Bluezone này có thực tế không, vì không phải ai cũng bật Bluetooth?",
+      "answer": "<p>Việc bật Bluetooth là quyền của từng cá nhân. Nhằm mục đích bảo vệ chính mình, bảo vệ cộng đồng thì người dân nên sử dụng Bluezone thường xuyên. Nếu người dùng tắt Bluetooth, giả sử họ có tiếp xúc với người nhiễm COVID-19 thì sự tiếp xúc này sẽ không được ghi nhận.</p>"
+    },
+    "16": {
+      "id": "16",
+      "question": "Bluezone này có tốn pin không?",
+      "answer": "<p>Bluezone sử dụng công nghệ Bluetooth BLE năng lượng thấp (Bluetooth Low Energy) tiết kiệm pin, nên người dân hoàn toàn yên tâm sử dụng.</p>"
+    },
+    "17": {
+      "id": "17",
+      "question": "Bluezone có chạy ngầm không hay mình sẽ phải bật nó mỗi khi đâu đó nhỉ?",
+      "answer": "<p>Bluezone sẽ duy trì hoạt động kể cả trong trường hợp máy tắt màn hình. Bạn lưu ý là luôn bật Bluetooth để đảm bảo việc ghi nhận tiếp xúc được đầy đủ. Bluezone sử dụng công nghệ Bluetooth BLE năng lượng thấp (Bluetooth Low Energy) tiết kiệm pin, nên người dùng hoàn toàn yên tâm sử dụng.</p>"
+    },
+    "18": {
+      "id": "18",
+      "question": "Giả sử có dữ liệu Bluezone có chức năng phát ra tín hiệu \"bạn đang lại gần Covid 19\" không?",
+      "answer": "<p>Theo quy định người được xác định là đã nhiễm COVID-19 thì sẽ phải cách ly và chữa bệnh, do đó, sẽ không có chuyện bạn vô tình “lại gần” một người nhiễm bệnh như vậy và Bluezone cũng không có tính năng này.</p>"
+    },
+    "19": {
+      "id": "19",
+      "question": "Các nước khác trên thế giới thì họ sử dụng giải pháp nào? Bluezone có đặc điểm gì nổi bật hơn các giải pháp đó?",
+      "answer": "<p>Trên thế giới có Singapore, DuBai cũng sử dụng công nghệ BLE để kiểm soát những tiếp xúc của người dân. Khi sử dụng ứng dụng người dân phải kê khai chính xác số điện thoại và phải được cơ quan y tế xác thực. Tuy dùng chung công nghệ nhưng những người sử dụng điện thoại Android sẽ không có số liệu tiếp xúc với những người sử dụng điện thoại IOS và ngược lại dẫn đến việc hạn chế về độ chính xác của thông tin.</p><p>Với Bluezone chỉ cần cài đặt trên Smartphone và bật Bluetooth là mọi tiếp xúc đều được ghi nhận. Không những thế, Bluezone không yêu cầu nhập thông tin cá nhân chỉ lưu dữ liệu trên máy người dùng, tuyệt đối không đưa lên server, không thu thập vị trí. Bluezone chỉ ghi nhận 2 người có gặp nhau lúc nào đó và trong bao lâu, chứ không biết ở chỗ nào. Người dùng Bluezone sẽ ẩn danh do sử dụng ID mà hệ thống tự sinh ra.</p><p>Bluetooth cũng là giải pháp được Châu Âu, Mỹ, Singapore bắt đầu nghiên cứu và ứng dụng trong chống dịch COVID-19. Đặc biệt là cho mục đích giúp cuộc sống trở lại bình thường, sau thời kì cao điểm của dịch.</p>"
+    },
+    "20": {
+      "id": "20",
+      "question": "Tại sao các số liệu hiển thị khác nhau ở trên các máy khác nhau dù ở cùng 1 chỗ?",
+      "answer": "<p>Điều này là do các máy không quét liên tục mà có chu kỳ nghỉ luân phiên để tiết kiệm năng lượng. Các máy khác nhau có khoảng thời gian hoạt động và nghỉ khác nhau. Tại thời điểm máy nghỉ không quét thì sẽ không ghi nhận thêm các máy khác cho đến khi máy hoạt động trở lại. Tuy nhiên dù số liệu hiển thị giữa các máy có thể khác nhau nhưng các tiếp xúc gần vẫn được ghi nhận đầy đủ. Tiếp xúc gần được định nghĩa là việc 2 người gặp nhau trong khoảng thời gian đủ dài, để virus có thể lây nhiễm</p>"
+    },
+    "21": {
+      "id": "21",
+      "question": "Tôi ở nhà một mình, tại sao lại có số lượt tiếp xúc với người khác?",
+      "answer": "<p>Số lượt tiếp xúc nghĩa là số lần máy điện thoại của bạn trao đổi thông tin với một máy điện thoại khác cũng cài Bluezone. Bên cạnh đó 15 phút mã Bluezone lại thay đổi một lần để đảm bảo tính ẩn danh nên nếu các máy điện thoại này ở gần nhau trong thời gian dài, số lượt tiếp xúc sẽ tăng dần.</p><p>Như vậy có nghĩa là bạn có nhiều hơn 1 máy cài Bluezone, hoặc người hàng xóm hay có thiết bị di động nào đó cài Bluezone và có khoản cách đủ gần với bạn.</p><p>Tuy nhiên không phải lo lắng về việc này vì mỗi khi có ca nhiễm hoặc ca nghi nhiễm, việc điều tra dịch tễ sẽ được tiến hành song song với sự hỗ trợ của hệ thống Bluezone chứ không chỉ phụ thuộc hoàn toàn vào lịch sử tiếp xúc.</p>"
+    },
+    "22": {
+      "id": "22",
+      "question": "Tại sao tôi dùng Iphone thì bị văng ra không vào được app để sử dụng?",
+      "answer": "<p>Chào bạn, Bluezone sử dụng công nghệ Bluetooth năng lượng thấp (Bluetooth Low Energy) tiết kiệm pin nên chỉ có thể hoạt động trên các máy android hỗ trợ máy có hệ điều hành từ 6.0 trở lên và trên IOS là 10.5. Nếu bạn bị văng ra khỏi ứng dụng thì nâng cấp lên hệ điều hành mới nhất để đúng theo tiêu chuẩn trên nhé!</p>"
+    },
+    "23": {
+      "id": "23",
+      "question": "What is Bluezone?",
+      "answer": "<p>The app is to protect the community against COVID-19 pandemic, helping bring the life back to normal. Viet Nam’s Ministry of Information and Communications and Ministry of Health, under the direction by the Prime Minister, have deployed the app called “Electronic mask Bluezone” to smartphones.</p><p>Bluezone shall alert if you had close contact with people who have COVID-19, thereby minimizing the spread of the virus to the community, helping people return to their normal life.</p><p>When there is a new case of infection, you can learn whether you had close contact with this case or not simply by accessing Bluezone. The more people install Bluezone, there more effective it is. Let’s challenge the virus with the strength of our community. Let’s try to get every smartphone around Viet Nam installed with Bluezone in a month, so that our community will be protected.</p><p>With each person installing the app for themselves and getting the smartphones of 3 other people installed with Bluezone, in a month, the whole Viet Nam will get protected. The Ministry of Information and Communications and the Ministry of Health recommend that the whole country install Bluezone for themselves and for 3 others.</p>"
+    },
+    "24": {
+      "id": "24",
+      "question": "Why does Bluezone ask for access to photos, media and files?",
+      "answer": "<p>Bluezone only uses \"access to files\" permission to write the history of \"close contacts\" on the device memory. Even so, according to Google policy, the device automatically recommends \"allowing access to photos, media and files\" even if Bluezone does not use the other permissions. You need to accept these to be able to record \"close contacts\".</p>"
+    },
+    "25": {
+      "id": "25",
+      "question": "Does Bluezone collect user locations?",
+      "answer": "<p>Bluezone does not collect or use user location. When you install Bluezone on Android and activate Bluetooth, the device will ask for location permission, this is due to Google's policy which will automatically ask for location permission when turning on Bluetooth BLE. However, Bluezone does not use that permission.</p><p><a href='https://vietnamnet.vn/vn/cong-nghe/ung-dung/ceo-bkav-nguyen-tu-quang-ung-dung-bluezone-canh-bao-som-covid-19-khong-theo-doi-nguoi-dung-634980.html'>https://vietnamnet.vn/vn/cong-nghe/ung-dung/ceo-bkav-nguyen-tu-quang-ung-dung-bluezone-canh-bao-som-covid-19-khong-theo-doi-nguoi-dung-634980.html</a></p>"
+    },
+    "26": {
+      "id": "26",
+      "question": "Does Bluezone store user information?",
+      "answer": "<p>Bluezone only stores data on users' devices, absolutely does not upload such data to the server, and does not collect location information. Bluezone only records when and how long two people meet, it doesn’t know where they meet. Bluezone users will remain anonymous by using the ID generated by the system itself.</p>"
+    },
+    "27": {
+      "id": "27",
+      "question": "Must the device always turn Bluetooth on?",
+      "answer": "<p>For Bluezone to work properly, the phone must always turn on Bluetooth. However, Bluezone uses the Bluetooth Low Energy technology (BLE) to save battery, so users can feel secure to use it.</p>"
+    },
+    "28": {
+      "id": "28",
+      "question": "Is there any harm if the phone is always on Bluetooth in the community?",
+      "answer": "<p>This is like using Wifi in the community because both Bluetooth and Wifi work on 2.4 GHz. Users can be completely secure to use it as normal.</p>"
+    },
+    "29": {
+      "id": "29",
+      "question": "If Bluetooth is on, can my phone be easily hacked?",
+      "answer": "<p>Bluetooth is a connection standard that is widely used today and has proven to be secure.</p>"
+    },
+    "30": {
+      "id": "30",
+      "question": "What if the people don't have Bluetooth devices or they don't turn it on? How to monitor this issue?",
+      "answer": "<p>Turning on Bluetooth is the right of each individual. In order to protect themselves and their community, the people should use Bluezone regularly. If users turn off Bluetooth, assuming they are in contact with someone infected with COVID-19, this contact will not be recorded. If the number of users is large enough, even those who do not use smartphones are also protected.</p>"
+    },
+    "31": {
+      "id": "31",
+      "question": "How will Bluezone handle the cases that do not use smartphones, for example the elderly?",
+      "answer": "<p>When the number of users is large enough, the community will be protected including those who do not use smartphones.</p>"
+    },
+    "32": {
+      "id": "32",
+      "question": "Do infected people install this Bluezone? If they don't use Bluezone, how can there be data to find out people who have been in close contact with them?",
+      "answer": "<p>In some cases, even if an infected person does not use Bluezone, but if he/she turns on Bluetooth, other devices that install Bluezone can still recognize the contact with that person.</p>"
+    },
+    "33": {
+      "id": "33",
+      "question": "Is this Bluezone practical, because not everyone turns on Bluetooth?",
+      "answer": "<p>Turning on Bluetooth is the right of each individual. In order to protect themselves and their community, the people should use Bluezone regularly. If users turn off Bluetooth, assuming they are in contact with someone infected with COVID-19, this contact will not be recorded. If the number of users is large enough, even those who do not use smartphones are also protected.</p>"
+    },
+    "34": {
+      "id": "34",
+      "question": "Does this Bluezone drain the battery?",
+      "answer": "<p>Bluezone uses Bluetooth Low Energy technology to save battery, so users can feel secure to use it.</p>"
+    },
+    "35": {
+      "id": "35",
+      "question": "Does Bluezone work in the background, or do I have to turn it on every time I go somewhere?",
+      "answer": "<p>Bluezone will remain active even the screen is off. Please note that Bluetooth must always be on to ensure adequate contact recording. Bluezone uses Bluetooth Low Energy technology to save battery, so users can feel secure to use it.</p>"
+    },
+    "36": {
+      "id": "36",
+      "question": "In case there is data, will Bluezone have the function of signaling \"you are approaching COVID-19\"?",
+      "answer": "<p>According to the rule, a person who has been identified as infected with COVID-19 will be put in quarantine and get treatment, so there is no way you can accidentally \"get close\" to such a person and Bluezone does not have this feature as well.</p>"
+    },
+    "37": {
+      "id": "37",
+      "question": "What solutions do other countries in the world use? What are the outstanding characteristics of Bluezone over these solutions?",
+      "answer": "<p>In the world, Singapore, and DuBai also use BLE technology to control the contacts of the people. When using the software, the people must correctly declare their phone numbers and must be authenticated by health authoritities. Despite using the same technology, Android phone users will not have the data in contact with users of IOS phones and vice versa, resulting in limited accuracy of information.</p><p>With Bluezone, you only need to install it on smartphone and turn on Bluetooth, every contact will be recorded. Not only that, Bluezone does not require personal information, and it only stores data on the user's device, absolutely not on the server, and it doesn’t collect locations. Bluezone only records how long and when two people meet each other, but it doesn’t know where they meet. Bluezone users will remain anonymous by using the ID generated by the system itself.</p><p>Bluetooth is also the solution that Europe, the US and Singapore have started to research and apply in fighting against the COVID-19 pandemic, especially for the purpose of helping life return to normal after the peak of the pandemic. In particular, a week ago, two technology companies that own 99% of smartphone users in the world, Apple and Google, shook hands to jointly develop an app using Bluetooth BLE for fighting against COVID-19 pandemic. However, it’s not until the middle of May to have the first tests and it is expected for many more months to have actual products.</p>"
+    },
+    "38": {
+      "id": "38",
+      "question": "Lượt tiếp xúc là gì?",
+      "answer": "<p>Để đảm bảo tính riêng tư khi ghi nhận lịch sử tiếp xúc, Bluezone cứ mỗi 15 phút lại thay đổi ID phát ra 1 lần. Mỗi lần ghi nhận được 1 ID đó gọi là 1 lượt tiếp xúc. 2 người ở gần nhau có thể ghi  nhận nhiều lần  tiếp xúc.</p>"
+    },
+    "39": {
+      "id": "39",
+      "question": "What is exposure?",
+      "answer": "<p>To ensure privacy when recording contact history, Bluezone changes the emitted ID every 15 minutes. Each time 1 ID is recorded is called 1 contact. 2 people who are close together can note multiple interactions.</p>"
+    }
+  }
+}

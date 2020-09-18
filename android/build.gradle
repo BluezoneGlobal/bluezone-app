@@ -45,7 +45,7 @@ ext {
     googlePlayServicesVersion = "15.0.1"
     googlePlayServicesIidVersion = "17.0.0" // default: "17.0.0" - AndroidX
     firebaseVersion = "+"
-    minSdkVersion = 21
+    minSdkVersion = 23
     compileSdkVersion = 28
     targetSdkVersion = 28
     supportLibVersion = "28.0.0"

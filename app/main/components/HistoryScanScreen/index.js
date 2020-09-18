@@ -28,33 +28,34 @@ import {
   TouchableOpacity,
   Platform,
   Picker,
-  Alert,
 } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/vi'; // without this line it didn't work
-import AsyncStorage from '@react-native-community/async-storage';
 
 // Components
 import Modal from 'react-native-modal';
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+import CountBlueZoner from '../../../base/components/CountBlueZoner';
 import ButtonIconText from '../../../base/components/ButtonIconText';
+import {setHistoryDays} from '../../../core/storage';
+import Service from '../../../core/apis/service';
 
 // Language
-import message from '../../../msg/history';
-import warning from '../../../msg/warning';
+import message from '../../../core/msg/history';
+import warning from '../../../core/msg/warning';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Config
-import configuration from '../../../Configuration';
+import configuration from '../../../configuration';
 
 // Sqlite db
-import {open} from '../../../db/SqliteDb';
-import {uploadHistoryF0} from '../../../apis/bluezone';
+import {open} from '../../../core/db/SqliteDb';
 
 // Style
 import styles from './styles/index.css';
-import * as fontSize from '../../../utils/fontSize';
+import * as fontSize from '../../../core/fontSize';
+import {getHistoryDays} from '../../../core/storage';
 
 const ONE_DAY = 86400000;
 
@@ -74,6 +75,7 @@ class HistoryScanScreen extends React.Component {
       daySelected: startOfToday,
       showDay: false,
       showHour: false,
+      fontScale: null,
     };
     this.isGetting = 0;
     this.days = [];
@@ -89,18 +91,31 @@ class HistoryScanScreen extends React.Component {
     return listDays;
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.initData();
+    // Picker
+    let fontScale;
+    try {
+      fontScale = await Service.getFontScale();
+      this.setState({
+        fontScale,
+      });
+    } catch (e) {
+      fontScale = 1;
+    }
+    this.setState({
+      fontScale,
+    });
   }
 
   componentWillUnmount() {
-    AsyncStorage.setItem('historyDays', JSON.stringify(this.days));
+    setHistoryDays(this.days);
     this.db = null;
   }
 
   initData = async () => {
-    const daysTemp = await AsyncStorage.getItem('historyDays');
-    this.days = daysTemp ? JSON.parse(daysTemp) : [];
+    const daysTemp = await getHistoryDays();
+    this.days = daysTemp || [];
 
     this.getDays(days => {
       const startOfToday = moment()
@@ -146,11 +161,6 @@ class HistoryScanScreen extends React.Component {
     });
   };
 
-  onBack = () => {
-    this.props.navigation.goBack();
-    return true;
-  };
-
   onSetDay = item => {
     this.setState({daySelected: item});
     if (Platform.OS === 'android') {
@@ -167,13 +177,13 @@ class HistoryScanScreen extends React.Component {
     const {RssiThreshold} = configuration;
     const result = {};
     // Tong tiep xuc
-    const SQL_QUERY1 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(userid, '')) as userCount FROM trace_info WHERE timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY1 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid_contact, '')) as userCount FROM trace_info WHERE timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong tiep xuc gan
-    const SQL_QUERY2 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(userid, '')) as userCount FROM trace_info WHERE rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY2 = `SELECT COUNT(DISTINCT IFNULL(macid, '') || IFNULL(blid_contact, '')) as userCount FROM trace_info WHERE rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong bluezoner
-    const SQL_QUERY3 = `SELECT COUNT(DISTINCT userid) as userCount FROM trace_info WHERE userid NOT NULL AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY3 = `SELECT COUNT(DISTINCT blid_contact) as userCount FROM trace_info WHERE blid_contact NOT NULL AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     // Tong bluzoner gan
-    const SQL_QUERY4 = `SELECT COUNT(DISTINCT userid) as userCount FROM trace_info WHERE userid NOT NULL AND rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
+    const SQL_QUERY4 = `SELECT COUNT(DISTINCT blid_contact) as userCount FROM trace_info WHERE blid_contact NOT NULL AND rssi > ${RssiThreshold} AND timestamp >= ${timeStart} AND timestamp <= ${timeEnd}`;
     this.db = open();
     this.db.transaction(tx => {
       tx.executeSql(
@@ -193,7 +203,6 @@ class HistoryScanScreen extends React.Component {
         SQL_QUERY2,
         [],
         (txTemp, results) => {
-          console.log(results);
           Object.assign(result, {
             nearTotal: results.rows.item(0).userCount.toString(),
           });
@@ -207,7 +216,6 @@ class HistoryScanScreen extends React.Component {
         SQL_QUERY3,
         [],
         (txTemp, results) => {
-          console.log(results);
           Object.assign(result, {
             totalBluezoner: results.rows.item(0).userCount.toString(),
           });
@@ -221,7 +229,6 @@ class HistoryScanScreen extends React.Component {
         SQL_QUERY4,
         [],
         (txTemp, results) => {
-          console.log(results);
           Object.assign(result, {
             nearTotalBluezoner: results.rows.item(0).userCount.toString(),
           });
@@ -251,13 +258,7 @@ class HistoryScanScreen extends React.Component {
   };
 
   onSendHistory = () => {
-    // Send history...
-    // uploadHistoryF0(
-    //   filePath,
-    //   3,
-    //   this.handleUpdateSuccess,
-    //   this.handleUpdateError,
-    // );
+    this.props.navigation.navigate('HistoryUploadedByOTP');
   };
 
   render() {
@@ -269,6 +270,7 @@ class HistoryScanScreen extends React.Component {
       daySelected,
       total,
       nearTotal,
+      fontScale,
       showDay,
     } = this.state;
     const listDay = day.map(item => (
@@ -285,9 +287,6 @@ class HistoryScanScreen extends React.Component {
       <SafeAreaView style={styles.warper}>
         <Header
           styleTitle={styles.titleHeader}
-          onBack={this.onBack}
-          colorIcon={'#015cd0'}
-          showBack
           title={formatMessage(message.header)}
           styleHeader={styles.header}
         />
@@ -298,16 +297,7 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.totalContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={styles.bluezone}>
-                  <MediumText style={styles.textValue}>
-                    {totalBluezoner}
-                  </MediumText>
-                  <Text style={styles.text}>
-                    {totalBluezoner > 1
-                      ? formatMessage(message.bluezoners)
-                      : formatMessage(message.bluezoner)}
-                  </Text>
-                </View>
+                <CountBlueZoner countBlueZone={totalBluezoner} />
               </View>
             </View>
             <View style={styles.content}>
@@ -315,14 +305,10 @@ class HistoryScanScreen extends React.Component {
                 {formatMessage(message.closeContact)}
               </MediumText>
               <View style={styles.contentChild}>
-                <View style={[styles.bluezone, styles.backgroundBlue]}>
-                  <Text style={styles.textValue}>{nearTotalBluezoner}</Text>
-                  <Text style={styles.text}>
-                    {nearTotalBluezoner > 1
-                      ? formatMessage(message.bluezoners)
-                      : formatMessage(message.bluezoner)}
-                  </Text>
-                </View>
+                <CountBlueZoner
+                  countBlueZone={nearTotalBluezoner}
+                  backgroundColor={'rgb(11,147,35)'}
+                />
               </View>
             </View>
           </View>
@@ -338,22 +324,30 @@ class HistoryScanScreen extends React.Component {
                 </TouchableOpacity>
               ) : (
                 <View style={styles.datePicker}>
-                  <Picker
-                    selectedValue={daySelected}
-                    style={styles.pickerAndroid}
-                    onValueChange={this.onSetDay}>
-                    {listDay}
-                  </Picker>
+                  {fontScale && (
+                    <Picker
+                      selectedValue={daySelected}
+                      style={[
+                        styles.pickerAndroid,
+                        {
+                          width: this.state.fontScale * 83.33 + 66.67,
+                        },
+                      ]}
+                      onValueChange={this.onSetDay}>
+                      {listDay}
+                    </Picker>
+                  )}
                 </View>
               )}
-              {/*<ButtonIconText*/}
-              {/*    onPress={this.onSendHistory}*/}
-              {/*    text={formatMessage(warning.uploadText)}*/}
-              {/*    source={require('../NotifyWarning/styles/images/send.png')}*/}
-              {/*    styleBtn={styles.buttonSend}*/}
-              {/*    styleText={{fontSize: fontSize.normal}}*/}
-              {/*    styleIcon={styles.buttonIcon}*/}
-              {/*/>*/}
+
+              <ButtonIconText
+                onPress={this.onSendHistory}
+                text={formatMessage(warning.uploadText)}
+                source={require('../NotifyWarning/styles/images/send.png')}
+                styleBtn={styles.buttonSend}
+                styleText={{fontSize: fontSize.normal}}
+                styleIcon={styles.buttonIcon}
+              />
             </View>
           </View>
         </View>

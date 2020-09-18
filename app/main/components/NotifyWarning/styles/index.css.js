@@ -22,7 +22,7 @@
 'use strict';
 
 import {Platform, StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import * as fontSize from '../../../../core/fontSize';
 
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     paddingLeft: 22,
   },
   textHeader: {
-    color: '#015cd0',
     fontSize: fontSize.bigger,
   },
   NotifyContainer: {
@@ -129,8 +128,15 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    paddingHorizontal: 35,
+    paddingHorizontal: 20,
     paddingTop: 20,
+  },
+
+  modalFooter: {
+    borderTopWidth: 0.5,
+    borderTopColor: 'rgba(60, 60, 67, 0.29)',
+    width: '100%',
+    flexDirection: 'row',
   },
 });
 

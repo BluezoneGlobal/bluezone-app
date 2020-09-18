@@ -22,173 +22,159 @@
 'use strict';
 
 import React from 'react';
-import {View, StatusBar, Dimensions} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {View, StatusBar, AppState} from 'react-native';
+import * as PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
-
-// Language
-import message from '../../../msg/home';
 import {injectIntl, intlShape} from 'react-intl';
 
-// Components
-import Modal from 'react-native-modal';
-import ButtonText from '../../../base/components/ButtonText';
-import ModalNotify from '../ModalNotify';
-import Text, {MediumText} from '../../../base/components/Text';
-import ButtonIconText from '../../../base/components/ButtonIconText';
-import CountBluezoner from './CountBluezoner';
-import SwitchLanguage from './SwitchLanguage';
+// Language
+import message from '../../../core/msg/home';
+import messageWarning from '../../../core/msg/warning';
 
-// Config
-import configuration from '../../../Configuration';
-import {
-  hasModalNotify,
-  NOTIFY_INVITE_NUMBER,
-} from '../../../utils/notifyConfiguration';
+// Components
+import ModalNotify from './components/ModalNotify';
+import Text, {MediumText, ThinText} from '../../../base/components/Text';
+import Radar from './components/Radar';
+import SwitchLanguage from './components/SwitchLanguage';
+import UpdateVersion from '../UpdateVersion';
+import ButtonIconText from '../../../base/components/ButtonIconText';
 
 // Styles
-import style, {HEADER_BACKGROUND_HEIGHT, LOGO_BLUEZONE_HEIGHT, LOGO_BLUEZONE_WIDTH} from './styles/index.css';
-import * as fontSize from '../../../utils/fontSize';
-import styles from '../ModalNotify/styles/index.css';
-import {logBluezone} from './CountBluezoner';
-import * as PropTypes from 'prop-types';
-
+import style, {HEADER_BACKGROUND_HEIGHT} from './styles/index.css';
+import * as fontSize from '../../../core/fontSize';
 // Logo
-import LogoBluezone from '../../../utils/logo/logo_bluezone';
+import LogoBluezone from '../../../core/logo/logo_bluezone';
+import IconBTT from './styles/images/IconBTT';
+import IconBYT from './styles/images/IconBYT';
+
+// Core
+import {checkRegisterNotificationOfDay} from '../../../core/notifyScheduler';
+import {setStatusNotifyRegister} from '../../../configuration';
+import {createNews} from '../../../core/announcement';
+import {messageNotifyOTP} from '../../../core/data';
+// import Home from "../MainScreen";
+
+const modalStatusDefault = {
+  stepSelected: 'updateVersion',
+  isUpdateVersion: true,
+  isPermission: false,
+  isCheckRegisterPhone: false,
+};
 
 class HomeTab extends React.Component {
   constructor(props) {
     super(props);
-    const {width, height} = Dimensions.get('window');
-    this.state = {
+    this.state = Object.assign({}, modalStatusDefault, {
       showModal: false,
-      blueTooth: false,
-      countShield: 0,
-      width: width,
-      height: height,
-      newAmount: 0,
-      showModalInvite: false,
-      showModalWrite: false,
-      Language: configuration.Language,
-    };
+      colorCircle: '#000000',
+      textF: this.getTextByLevel(),
+    });
 
-    this.mapDevice = {};
-    this.handleDimensionsChange = this.handleDimensionsChange.bind(this);
-    this.watchScan = this.watchScan.bind(this);
-    this.watchHistory = this.watchHistory.bind(this);
-    this.considerNotify = this.considerNotify.bind(this);
-    this.onCalcuTimesOpenApp = this.onCalcuTimesOpenApp.bind(this);
-    this.onNotifyOpen = this.onNotifyOpen.bind(this);
-    this.onInvite = this.onInvite.bind(this);
+    this.renderReminderModal = this.renderReminderModal.bind(this);
+    this.setModalStatus = this.setModalStatus.bind(this);
+    this.setNotifyRegister = this.setNotifyRegister.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    this.resetModalStatus = this.resetModalStatus.bind(this);
+    this.onChangeNavigateIntroduce = this.onChangeNavigateIntroduce.bind(this);
+    this.onWatchHistory = this.onWatchHistory.bind(this);
   }
 
-  async componentDidMount() {
-    Dimensions.addEventListener('change', this.handleDimensionsChange);
-    const timesOpenApp = await this.onCalcuTimesOpenApp();
-    const firstTimeOpenAsyn = await AsyncStorage.getItem('firstTimeOpen');
-    this.considerNotify(timesOpenApp, Number.parseInt(firstTimeOpenAsyn, 10));
-
-    // const {Language} = configuration;
-
-    // checkNotify(
-    //   Object.assign({}, {data: Object.assign({}, warn.data)}),
-    //   Language,
-    // );
-
-    // checkNotify(
-    //   Object.assign({}, {data: Object.assign({}, verifyInfected.data)}),
-    //   Language,
-    // );
-
-    // checkNotify(
-    //   Object.assign({}, {data: Object.assign({}, verifySafe.data)}),
-    //   Language,
-    // );
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+    this.timer = setTimeout(() => {
+      this.setState({showModal: true});
+    }, 1000);
   }
 
   componentWillUnmount() {
-    this.scanBLEListener && this.scanBLEListener.remove();
-    this.scanBlueToothListener && this.scanBlueToothListener.remove();
-    const keys = Object.keys(this.mapDevice);
-    for (var i = 0; i < keys.length; i++) {
-      clearTimeout(this.mapDevice[keys[i]].timmer);
-      delete this.mapDevice[keys[i]];
+    AppState.removeEventListener('change', this.handleAppStateChange);
+    clearTimeout(this.timer);
+  }
+
+  handleAppStateChange(appState) {
+    if (appState === 'active') {
+      const {stepSelected} = this.state;
+      // if (stepSelected === 'updateVersion') {
+      //   debugger;
+      //   this.setModalStatus({isPermission: true});
+      // }
     }
   }
 
-  async onCalcuTimesOpenApp() {
-    const timesOpenAsync = await AsyncStorage.getItem('timesOpenApp');
-    let timesOpenApp = timesOpenAsync ? Number.parseInt(timesOpenAsync, 10) : 0;
-    AsyncStorage.setItem('timesOpenApp', (timesOpenApp + 1).toString());
-    return timesOpenApp + 1;
-  }
-
-  onNotifyOpen(notify) {
-    if (notify.number === NOTIFY_INVITE_NUMBER) {
-      this.props.navigation.jumpTo('Invite');
-    }
-  }
-
-  handleDimensionsChange(e) {
-    const {width, height} = e.window;
-    this.setState({width, height});
-  }
-
-  watchScan() {
-    this.props.navigation.navigate('WatchScan', {logs: [...logBluezone]});
-  }
-
-  watchHistory() {
-    this.props.navigation.navigate('HistoryScan');
-  }
-
-  onChangeBlue = blueTooth => {
-    this.setState({blueTooth: blueTooth});
+  getTextByLevel = () => {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+    return formatMessage(messageWarning.lableF);
   };
 
-  considerNotify(timesOpenApp, firstTimeOpen) {
-    const {intl, navigation} = this.props;
-    const {formatMessage} = intl;
-    const notifys = configuration.Notifications;
-    if (notifys.length === 0) {
+  setModalStatus(status) {
+    let step = {};
+    if (status.isPermission) {
+      step = {stepSelected: 'isPermission'};
+    }
+
+    if (status.isCheckRegisterPhone) {
+      step = {stepSelected: 'isCheckRegisterPhone'};
+      this.setNotifyRegister();
+    }
+
+    // TODO can viet dang callback
+    this.setState(Object.assign({}, this.state, status, step));
+  }
+
+  resetModalStatus() {
+    this.setState(modalStatusDefault);
+  }
+
+  setNotifyRegister() {
+    const {stepSelected} = this.state;
+    const {language} = this.context;
+
+    if (stepSelected === 'isCheckRegisterPhone') {
       return;
     }
 
-    const {language} = this.context;
-    const en = language && language !== 'vi';
-
-    for (let i = 0; i < notifys.length; i++) {
-      const openModal = hasModalNotify(notifys[i], timesOpenApp, firstTimeOpen);
-      if (openModal) {
-        this.setState({
-          showModalInvite: true,
-          titleModal: en ? notifys[i].title_en : notifys[i].title,
-          messageModal:
-            (en ? notifys[i].message_en : notifys[i].message) ||
-            formatMessage(message.inviteContent),
-          buttonText:
-            (en ? notifys[i].buttonText_en : notifys[i].buttonText) ||
-            formatMessage(message.inviteButton),
-        });
-        return;
-      }
+    const checkNotify = checkRegisterNotificationOfDay();
+    if (!checkNotify) {
+      return;
     }
+
+    setStatusNotifyRegister(new Date());
+    createNews(messageNotifyOTP(language));
   }
 
-  onInvite() {
-    this.props.navigation.jumpTo('Invite');
-    this.setState({showModalInvite: false});
+  onChangeNavigateIntroduce() {
+    this.props.navigation.navigate('Welcome');
+  }
+
+  onWatchHistory() {
+    this.props.navigation.navigate('ContactHistory');
+  }
+
+  renderReminderModal() {
+    const {navigation} = this.props;
+    const {isUpdateVersion, isPermission, showModal} = this.state;
+
+    if (!showModal) {
+      return null;
+    }
+
+    return (
+      <>
+        {isUpdateVersion && (
+          <UpdateVersion
+            navigation={navigation}
+            setModalStatus={this.setModalStatus}
+          />
+        )}
+        {isPermission && <ModalNotify setModalStatus={this.setModalStatus} />}
+      </>
+    );
   }
 
   render() {
     const {intl, navigation} = this.props;
-    const {
-      showModalInvite,
-      titleModal,
-      messageModal,
-      buttonText,
-      blueTooth,
-    } = this.state;
+    const {colorCircle, textF} = this.state;
     const {formatMessage} = intl;
 
     return (
@@ -198,28 +184,40 @@ class HomeTab extends React.Component {
           <View style={{backgroundColor: '#015cd0'}}>
             <View style={style.switchLanguage}>
               <View style={style.logo}>
-                <LogoBluezone width={28.8} height={34.6}/>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text
+                <LogoBluezone width={28.8} height={34.6} />
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    paddingLeft: 8.8,
+                    paddingRight: 14.6,
+                  }}>
+                  <MediumText
                     style={{
+                      textAlign: 'right',
                       color: '#ffffff',
-                      fontSize: fontSize.huge,
-                      paddingHorizontal: 8.8,
+                      fontSize: fontSize.normal,
+                      lineHeight: fontSize.normal * 0.4,
+                      paddingTop: fontSize.normal * 0.6,
                     }}>
-                    Bluezone
-                    <Text style={{fontSize: fontSize.smallest}}>.gov.vn</Text>
-                  </Text>
+                    Bluezone{'\n'}
+                    <ThinText
+                      style={{
+                        fontSize: fontSize.tiny,
+                        color: '#ffffff',
+                        fontWeight: '100',
+                      }}>
+                      .gov.vn
+                    </ThinText>
+                  </MediumText>
                 </View>
                 <View style={style.borderLogo} />
-                <FastImage
-                  source={require('./styles/images/icon_mic.png')}
-                  style={style.iconLogoMic}
-                />
+                <View style={{marginHorizontal: 14.6}}>
+                  <IconBTT width={30} height={30} />
+                </View>
                 <View style={style.borderLogo} />
-                <FastImage
-                  source={require('./styles/images/icon_boyte.png')}
-                  style={style.iconLogoBoyte}
-                />
+                <View style={{marginLeft: 14.6}}>
+                  <IconBYT width={30} height={30} />
+                </View>
               </View>
               <SwitchLanguage />
             </View>
@@ -227,6 +225,7 @@ class HomeTab extends React.Component {
               source={require('./styles/images/Banner.png')}
               style={{height: HEADER_BACKGROUND_HEIGHT}}
               resizeMode={FastImage.resizeMode.contain}
+              cacheControl={'immutable'}
             />
             <View style={[style.header]}>
               <Text style={style.textHeader}>
@@ -243,53 +242,30 @@ class HomeTab extends React.Component {
               </Text>
             </View>
           </View>
+          <Text style={[style.textF, {color: colorCircle}]} text={textF} />
           <View style={style.watchScan}>
-            <CountBluezoner blueTooth={blueTooth} navigation={navigation} />
+            <Radar navigation={navigation} />
           </View>
           <View style={[style.button]}>
             <ButtonIconText
-              onPress={this.watchScan}
-              text={formatMessage(message.traceButton)}
-              source={require('./styles/images/icon_scan.png')}
+              onPress={this.onWatchHistory}
+              text={formatMessage(message.historyButton)}
+              source={require('./styles/images/icon_history.png')}
               styleBtn={style.buttonScan}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={style.buttonIcon}
             />
             <ButtonIconText
-              onPress={this.watchHistory}
-              text={formatMessage(message.historyButton)}
-              source={require('./styles/images/icon_history.png')}
+              onPress={this.onChangeNavigateIntroduce}
+              text={formatMessage(message.utilities)}
+              source={require('./styles/images/bluezoner.png')}
               styleBtn={style.buttonHistory}
               styleText={{fontSize: fontSize.normal}}
               styleIcon={style.buttonIcon}
             />
           </View>
         </View>
-        <ModalNotify onChangeBlue={this.onChangeBlue} />
-        <Modal
-          isVisible={showModalInvite}
-          style={style.modal}
-          animationIn="zoomInDown"
-          animationOut="zoomOutUp"
-          animationInTiming={400}
-          animationOutTiming={400}
-          backdropTransitionInTiming={400}
-          backdropTransitionOutTiming={400}>
-          <View style={styles.container}>
-            <View style={styles.textDiv}>
-              {titleModal && (
-                <MediumText style={styles.textTitle}>{titleModal}</MediumText>
-              )}
-              <Text style={style.center}>{messageModal}</Text>
-            </View>
-            <ButtonText
-              text={buttonText}
-              onPress={this.onInvite}
-              styleBtn={style.buttonInvite}
-              styleText={style.textInvite}
-            />
-          </View>
-        </Modal>
+        {this.renderReminderModal()}
       </View>
     );
   }
