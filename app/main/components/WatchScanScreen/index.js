@@ -32,24 +32,30 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
+import * as Progress from 'react-native-progress';
+
+// Components
 import Header from '../../../base/components/Header';
 import Text, {MediumText} from '../../../base/components/Text';
+import CountBlueZoner from '../../../base/components/CountBlueZoner';
 
 // Language
-import message from '../../../msg/trace';
-import {injectIntl, intlShape} from 'react-intl';
+import message from '../../../core/msg/trace';
 
 // Config
-import configuration from '../../../Configuration';
+import configuration from '../../../configuration';
 
 // Styles
 import styles from './styles/index.css';
 
 // Api
-import Service from '../../../apis/service';
+import Service from '../../../core/apis/service';
+
+const currentVersion = Service.getVersion();
+const isDeploygateVersion = currentVersion.includes('deploygate');
 
 class WatchScanScreen extends React.Component {
   constructor(props) {
@@ -57,38 +63,89 @@ class WatchScanScreen extends React.Component {
     const {logs, mapDevice} = this.creatLog();
     this.state = {
       logs: logs || [],
-      statusLoadding: true,
+      statusLoading: true,
+      bzId: '',
     };
     this.mapDevice = mapDevice || {};
   }
 
-  componentDidMount() {
-    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
-    if (Platform.OS !== 'ios') {
-      this.scanBlueToothListener = Service.addListenerScanBlueTooth(
-        this.onScan,
-      );
-    }
+  async componentDidMount() {
+    this.createScanListener();
+    // this.createBluezoneIdListener();
     this.timeountLoading = setTimeout(() => {
-      this.setState({statusLoadding: false});
+      this.setState({statusLoading: false});
     }, 15000);
+
+    const bzId = await Service.getBluezoneIdFirst6Char();
+    this.onBluezoneIdChange(bzId);
+    this.createTimeoutGetBluezoneId();
   }
 
   componentWillUnmount() {
-    this.scanBLEListener && this.scanBLEListener.remove();
-    this.scanBlueToothListener && this.scanBlueToothListener.remove();
+    this.removeScanListener();
+    // this.removeBluezoneIdListener();
     const keys = Object.keys(this.mapDevice);
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       clearTimeout(this.mapDevice[keys[i]].timmer);
       delete this.mapDevice[keys[i]];
     }
+    clearTimeout(this.timeoutGetBluezoneId);
     clearTimeout(this.timeountLoading);
   }
+
+  convertChartToStar = str => {
+    return str.replace(/[FfNn]/gi, '*');
+  };
+
+  createScanListener = () => {
+    this.scanBLEListener = Service.addListenerScanBLE(this.onScan);
+    if (Platform.OS === 'android') {
+      this.scanBluetoothListener = Service.addListenerScanBluetooth(
+        this.onScan,
+      );
+    }
+  };
+
+  removeScanListener = () => {
+    this.scanBLEListener && this.scanBLEListener.remove();
+    this.scanBluetoothListener && this.scanBluetoothListener.remove();
+  };
+
+  createBluezoneIdListener = () => {
+    if (Platform.OS === 'android') {
+      this.bluezoneIdChange = Service.addListenerBluezoneIdAndroidChange(
+        this.onBluezoneIdChange,
+      );
+    }
+  };
+
+  removeBluezoneIdListener = () => {
+    this.bluezoneIdChange && this.bluezoneIdChange.remove();
+  };
+
+  createTimeoutGetBluezoneId = () => {
+    const numberSubKeyPerDay = configuration.MaxNumberSubKeyPerDay;
+    if (!numberSubKeyPerDay) {
+      return;
+    }
+    const timeInterval = 86400000 / numberSubKeyPerDay;
+    const dateNow = new Date();
+    const now = dateNow.getTime();
+    const time = now - dateNow.setHours(0, 0, 0, 0);
+    const n = Math.floor(time / timeInterval);
+    const x = time - n * timeInterval;
+
+    this.timeoutGetBluezoneId = setTimeout(async () => {
+      const bzId = await Service.getBluezoneIdFirst6Char();
+      this.onBluezoneIdChange(bzId);
+      this.createTimeoutGetBluezoneId();
+    }, timeInterval - x);
+  };
 
   creatLog = () => {
     const {TimeShowLog} = configuration;
     const {route} = this.props;
-    const logsNavigation = (route && route.params.logs) || [];
+    const logsNavigation = (route && route.params && route.params.logs) || [];
     const logs = [];
     const mapDevice = {};
 
@@ -105,6 +162,7 @@ class WatchScanScreen extends React.Component {
         id: keyMap,
         // timestamp: moment().format("DD/MM/YYYY HH:mm:ss"),
         userId: log.userId,
+        userIdR: this.convertChartToStar(log.userId),
         name: log.name,
         address: log.address,
         platform: log.platform,
@@ -150,9 +208,36 @@ class WatchScanScreen extends React.Component {
     return true;
   };
 
-  getTypeRSSI = rssi => {
-    const {RssiThreshold} = configuration;
-    return rssi && rssi >= RssiThreshold ? 1 : 0;
+  getTypeRSSI = (rssi, platform = 'Android') => {
+    const {
+      RssiThreshold_Android_Android,
+      RssiThreshold_Android_iOS,
+      RssiThreshold_iOS_Android,
+      RssiThreshold_iOS_iOS,
+    } = configuration;
+    if (!rssi || !platform) {
+      return true;
+    }
+
+    if (Platform.OS === 'android') {
+      if (platform === 'Android') {
+        return rssi >= RssiThreshold_Android_Android;
+      } else {
+        return rssi >= RssiThreshold_Android_iOS;
+      }
+    } else {
+      if (platform === 'Android') {
+        return rssi >= RssiThreshold_iOS_Android;
+      } else {
+        return rssi >= RssiThreshold_iOS_iOS;
+      }
+    }
+  };
+
+  onBluezoneIdChange = bzId => {
+    if (bzId !== this.state.bzId) {
+      this.setState({bzId: this.convertChartToStar(bzId)});
+    }
   };
 
   onScan = ({id, name = '', address = '', rssi, platform, typeScan}) => {
@@ -164,8 +249,7 @@ class WatchScanScreen extends React.Component {
     const {logs} = this.state;
 
     const keyMap = id && id.length > 0 ? id : name + '@' + address;
-    // console.log(new Date().getTime() + ': ' + keyMap);
-    const typeRSSI = this.getTypeRSSI(rssi);
+    const typeRSSI = this.getTypeRSSI(rssi, platform);
 
     if (this.mapDevice[keyMap]) {
       // Xóa timmer cũ
@@ -174,7 +258,6 @@ class WatchScanScreen extends React.Component {
     }
 
     let hasDevice = false;
-    let typeList;
     let indexDevice;
     for (let i = 0; i < logs.length; i++) {
       if (
@@ -184,13 +267,11 @@ class WatchScanScreen extends React.Component {
       ) {
         hasDevice = true;
         indexDevice = i;
-        typeList = logs[i].type;
       }
     }
 
     if (!hasDevice) {
       // Thêm vào danh sách
-      // console.log('add ' + new Date().getTime() + ' ' + keyMap);
       this.setState(prevState => {
         return {
           logs: [
@@ -198,6 +279,7 @@ class WatchScanScreen extends React.Component {
             {
               id: keyMap,
               userId: id,
+              userIdR: this.convertChartToStar(id),
               name: name,
               address: address,
               platform,
@@ -208,15 +290,15 @@ class WatchScanScreen extends React.Component {
           ],
         };
       });
-    } else if (hasDevice && typeList !== typeRSSI) {
+    } else if (
+      logs[indexDevice].type !== typeRSSI ||
+      (isDeploygateVersion && logs[indexDevice].rssi !== rssi)
+    ) {
       // Sửa lại danh sách
       logs[indexDevice].type = typeRSSI;
       logs[indexDevice].rssi = rssi;
-      // console.log('changeType' + new Date().getTime() + ' ' + keyMap);
-      this.setState(prevState => {
-        return {
-          logs: [...logs],
-        };
+      this.setState({
+        logs: [...logs],
       });
     }
 
@@ -277,7 +359,10 @@ class WatchScanScreen extends React.Component {
   };
 
   renderItemLog = item => {
-    const content = item.userId ? `${item.userId}` : `${item.name}`; // (${item.address})
+    const info = isDeploygateVersion ? `(${item.rssi}) (${item.platform})` : '';
+    const content = item.userIdR
+      ? `${Service.getFirst6Char(item.userIdR)} ${info}`
+      : `${item.name} ${info}`;
     return (
       <View key={item.id} style={styles.listItemContainer}>
         <Text numberOfLines={1} style={styles.contentScan}>
@@ -291,45 +376,20 @@ class WatchScanScreen extends React.Component {
   render() {
     const {intl} = this.props;
     const {formatMessage} = intl;
-    const {UserCode} = configuration;
-    const {logs, statusLoadding} = this.state;
-
-    const itemsLogNear = [];
-    const itemsLogDiff = [];
-
-    logs.forEach(log => {
-      if (log.type === 1) {
-        itemsLogNear.push(log);
-      } else {
-        itemsLogDiff.push(log);
-      }
-    });
-
-    let countBlueZone = 0;
-    logs.forEach(log => {
-      if (log.userId && log.userId.length > 0) {
-        countBlueZone++;
-      }
-    });
+    const {logs, statusLoading, bzId} = this.state;
+    const countBlueZone = logs.length;
 
     return (
       <SafeAreaView style={styles.container}>
         <Header
-          onBack={this.onBack}
           styleTitle={styles.titleHeader}
           styleHeader={styles.header}
-          colorIcon="#015CD0"
-          showBack
           title={formatMessage(message.header)}
         />
         <ScrollView>
           <View style={styles.infoContainer}>
             <View style={styles.infoItem}>
-              <View style={styles.infoBluezone}>
-                <View style={styles.infoBluezone1}>
-                  <Text style={styles.infoItemValue}>{countBlueZone}</Text>
-                </View>
-              </View>
+              <CountBlueZoner countBlueZone={countBlueZone} />
             </View>
           </View>
 
@@ -338,71 +398,49 @@ class WatchScanScreen extends React.Component {
               ? formatMessage(message.bluezoners)
               : formatMessage(message.bluezoner)}
           </Text>
-          <View style={styles.listContainer}>
-            <View style={styles.listHeaderContainer}>
-              <MediumText style={styles.textListHeader}>
-                {formatMessage(message.nearYou)}
-              </MediumText>
-              <MediumText style={styles.textListHeaderValue}>
-                {itemsLogNear.length}
-              </MediumText>
-            </View>
-            {itemsLogNear.length > 0 ? (
-              <View style={styles.listBodyContainer}>
-                {itemsLogNear.map(item => {
-                  return this.renderItemLog(item);
-                })}
-              </View>
-            ) : statusLoadding ? (
-              <View style={styles.listEmptyContainer}>
-                <ActivityIndicator size="large" color="#015CD0" />
-              </View>
-            ) : (
-              <View style={styles.listEmptyContainer}>
-                <View style={styles.listEmptyCircle}>
-                  <View style={styles.circle} />
-                </View>
-                <Text style={styles.listEmptyText}>
-                  {formatMessage(message.noList)}
-                </Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.listContainer}>
-            <View style={styles.listHeaderContainer}>
-              <MediumText style={styles.textListHeader}>
-                {formatMessage(message.around)}
-              </MediumText>
-              <MediumText style={styles.textListHeaderValue}>
-                {itemsLogDiff.length}
-              </MediumText>
-            </View>
-            {itemsLogDiff.length > 0 ? (
-              <View style={styles.listBodyContainer}>
-                {itemsLogDiff.map(item => {
-                  return this.renderItemLog(item);
-                })}
-              </View>
-            ) : statusLoadding ? (
-              <View style={styles.listEmptyContainer}>
-                <ActivityIndicator size="large" color="#015CD0" />
-              </View>
-            ) : (
-              <View style={styles.listEmptyContainer}>
-                <View style={styles.listEmptyCircle}>
-                  <View style={styles.circle} />
-                </View>
-                <Text style={styles.listEmptyText}>
-                  {formatMessage(message.noList)}
-                </Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.listHeaderContainer}>
-            <MediumText style={styles.textListHeader}>
+
+          <View style={styles.headerBluezoneId}>
+            <Text style={styles.textListHeader}>
               {formatMessage(message.myBluezoneId)}
-            </MediumText>
-            <MediumText style={styles.textUserCode}>{UserCode}</MediumText>
+            </Text>
+            <MediumText style={styles.textUserCode}>{bzId}</MediumText>
+          </View>
+
+          <View style={styles.listContainer}>
+            <View style={styles.listHeaderContainer}>
+              <MediumText style={styles.textListHeader}>
+                {formatMessage(message.listText)}
+              </MediumText>
+              <MediumText style={styles.textListHeaderValue}>
+                {logs.length}
+              </MediumText>
+            </View>
+            {logs.length > 0 ? (
+              <View style={styles.listBodyContainer}>
+                {logs.map(item => {
+                  return this.renderItemLog(item);
+                })}
+              </View>
+            ) : statusLoading ? (
+              <View style={styles.listEmptyContainer}>
+                <Progress.CircleSnail
+                  size={64}
+                  color={'#015cd0'}
+                  duration={800}
+                  progress={0.9}
+                  thickness={4}
+                />
+              </View>
+            ) : (
+              <View style={styles.listEmptyContainer}>
+                <View style={styles.listEmptyCircle}>
+                  <View style={styles.circle} />
+                </View>
+                <Text style={styles.listEmptyText}>
+                  {formatMessage(message.noList)}
+                </Text>
+              </View>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

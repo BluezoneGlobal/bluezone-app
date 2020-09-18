@@ -21,15 +21,15 @@
 
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import AsyncStorage from '@react-native-community/async-storage';
-
-import configuration from './app/Configuration';
+import configuration from './app/configuration';
+import {getLanguage} from "./app/core/storage";
 
 export const LanguageContext = React.createContext();
 
 class LanguageProvider extends React.Component {
   constructor(props) {
     super(props);
+    // TODO can xem lai logic code cho nay
     let language = configuration.Language;
     this.state = {
       language: language,
@@ -37,7 +37,7 @@ class LanguageProvider extends React.Component {
   }
 
   async componentDidMount() {
-    const language = await AsyncStorage.getItem('Language');
+    const language = await getLanguage();
     this.setState({
       language: language || 'vi',
     });

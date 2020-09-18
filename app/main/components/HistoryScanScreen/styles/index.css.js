@@ -22,7 +22,8 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {bigger, small, smaller, normal, larger, large} from '../../../../utils/fontSize';
+import {bigger, small, smaller, normal, larger, large} from '../../../../core/fontSize';
+import {isIPhoneX} from '../../../../core/utils/isIPhoneX';
 
 const styles = StyleSheet.create({
   flex: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   header: {
-    marginTop: 20,
+    marginTop: isIPhoneX ? 0 : 20,
   },
   titleHeader: {
     color: '#015cd0',
@@ -41,11 +42,13 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 40,
-    paddingTop: 25,
+    paddingVertical: 30,
   },
   contentChild: {
+    paddingTop: 16,
     flexDirection: 'row',
-    paddingVertical: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   colorText: {
     color: '#015cd0',
@@ -60,10 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(11,147,35)',
   },
   pickerAndroid: {
-    // height: 46,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    height: 50,
     color: '#015cd0',
   },
   pickerIOS: {

@@ -182,12 +182,12 @@ class BluezoneIdTrace {
                                 blIdData = Data(bytes: blId, count: Int(blIdCount))
                             }
 
-                            // get blid owner
+                            // get blid contact
                             var contactBlIdData: Data = Data()
                             let contactBlIdCount = sqlite3_column_bytes(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID)
 
-                            if let blId = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID), blIdCount > 0 {
-                                contactBlIdData = Data(bytes: blId, count: Int(contactBlIdCount))
+                            if let blId2 = sqlite3_column_blob(queryStatement, ContactLogDBHelper.COLUMN_INDEX_CONTACT_BLID), contactBlIdCount > 0 {
+                                contactBlIdData = Data(bytes: blId2, count: Int(contactBlIdCount))
                             }
 
                             // timestamp
@@ -261,8 +261,8 @@ class BluezoneIdTrace {
 
             let logDB = ContactLogDBHelper()
             if logDB.isTrace(bluezoneID: bluezoneId, timeStart: Int64(timeStart), timeEnd: Int64(timeEnd)) {
-                  ret = true;
-                  break;
+                ret = true;
+                break;
             }
 
             i += 1

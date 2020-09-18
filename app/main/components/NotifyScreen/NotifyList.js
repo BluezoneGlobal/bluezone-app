@@ -32,15 +32,20 @@ import FastImage from 'react-native-fast-image';
 import Text from '../../../base/components/Text';
 import {MediumText} from '../../../base/components/Text';
 
+import {NOTIFICATION_TYPE} from '../../../const/notification';
+
 // Styles
 import styles from './styles/index.css';
-import configuration from '../../../Configuration';
-import message from '../../../msg/notify';
+import configuration from '../../../configuration';
+import message from '../../../core/msg/notify';
 
 class NotifySession extends React.Component {
   constructor(props) {
     super(props);
-    this.index = 0;
+    this.lastTimestamp = 0;
+    this.processGetDB = false;
+    this.offset = 0;
+    this.timeRequestLast = 0;
   }
 
   getTime = time => {
@@ -70,37 +75,56 @@ class NotifySession extends React.Component {
     const textTime = this.getTime(item.timestamp);
     const {Language} = configuration;
 
-    return (
-      <TouchableOpacity onPress={_callback} style={[styles.NotifyContainer]}>
-        <View style={styles.notifyWrapper}>
-          <FastImage source={uri} style={styles.avatar} />
-          <View style={styles.content}>
-            {!item.unRead ? (
-              <MediumText numberOfLines={1} style={styles.titleTextUnread}>
-                {Language === 'vi' ? item.title : item.titleEn}
-              </MediumText>
-            ) : (
-              <Text numberOfLines={1} style={styles.titleText}>
-                {Language === 'vi' ? item.title : item.titleEn}
-              </Text>
-            )}
+    const title =
+      (Language === 'vi' ? item.title : item.titleEn) ||
+      item.title ||
+      item.titleEn;
+    const text =
+      (Language === 'vi' ? item.text : item.textEn) || item.text || item.textEn;
+    const TextDisplay = !item.unRead ? MediumText : Text;
 
-            {!item.unRead ? (
-              <MediumText numberOfLines={1} style={styles.desTextUnread}>
-                {Language === 'vi' ? item.text : item.textEn}
-              </MediumText>
-            ) : (
-              <Text numberOfLines={1} style={styles.desText}>
-                {Language === 'vi' ? item.text : item.textEn}
-              </Text>
-            )}
+    const isTypeNotifyNew =
+      item._group === NOTIFICATION_TYPE.SEND_URL_NEW ||
+      item._group === NOTIFICATION_TYPE.SEND_HTML_NEWS;
+
+    return (
+      <TouchableOpacity onPress={_callback} style={styles.NotifyContainer}>
+        <View style={styles.notifyWrapper}>
+          <View style={styles.backgroundAvatar}>
+            <FastImage source={uri} style={styles.avatar} />
           </View>
-        </View>
-        <View style={styles.timer}>
-          <MediumText numberOfLines={1} style={styles.titleText} text={' '} />
-          <Text style={!item.unRead ? styles.textTimerUnread : styles.textTimer}>
-            {textTime}
-          </Text>
+          <View style={styles.content}>
+            <TextDisplay
+              numberOfLines={isTypeNotifyNew ? 2 : 1}
+              style={[
+                !item.unRead ? styles.titleTextUnread : styles.titleText,
+                isTypeNotifyNew && {marginRight: 40},
+              ]}>
+              {isTypeNotifyNew ? text : title}
+            </TextDisplay>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+              }}>
+              <TextDisplay
+                numberOfLines={isTypeNotifyNew ? 1 : 2}
+                style={[
+                  {flex: 1, marginRight: 18},
+                  !item.unRead ? styles.desTextUnread : styles.desText,
+                  isTypeNotifyNew && {color: '#015cd0'},
+                ]}>
+                {isTypeNotifyNew ? title : text}
+              </TextDisplay>
+              <TextDisplay
+                style={[
+                  !item.unRead ? styles.textTimerUnread : styles.textTimer,
+                ]}>
+                {textTime}
+              </TextDisplay>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -113,15 +137,29 @@ class NotifySession extends React.Component {
   getItem = (data, index) => data[index];
 
   handleOnScroll = event => {
-    const {onGet} = this.props;
+    const {onGet, data} = this.props;
     const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+    const currentOffset = contentOffset.y;
+    const isScrollDown = currentOffset > this.offset;
+    this.offset = currentOffset;
+    const timeNow = new Date().getTime();
     if (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - 100
+      this.processGetDB ||
+      !isScrollDown ||
+      timeNow < this.timeRequestLast + 200
     ) {
-      this.index = this.index + 1;
-      onGet(this.index);
+      return;
     }
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 50) {
+      this.lastTimestamp = data.items[data.items.length - 1].timestamp - 1;
+      this.processGetDB = true;
+      this.timeRequestLast = timeNow;
+      onGet(this.lastTimestamp, this.callback);
+    }
+  };
+
+  callback = () => {
+    this.processGetDB = false;
   };
 
   render() {

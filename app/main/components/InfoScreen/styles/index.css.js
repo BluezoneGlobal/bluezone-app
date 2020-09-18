@@ -22,57 +22,67 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
-import {blue_bluezone} from '../../../../utils/color';
-import {heightPercentageToDP} from '../../../../utils/dimension';
+import * as fontSize from '../../../../core/fontSize';
+import {blue_bluezone} from '../../../../core/color';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
 
-const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((216 / 720) * 100);
-const LOGO_HEIGHT = heightPercentageToDP((110.6 / 720) * 100);
+const HEADER_BẠCKGROUND_LOGO = heightPercentageToDP((160 / 720) * 100);
+const LOGO_HEIGHT = heightPercentageToDP((70 / 720) * 100);
 const TITLE_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
 const DATE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: blue_bluezone,
   },
 
   containerLogo: {
     height: HEADER_BẠCKGROUND_LOGO,
     backgroundColor: blue_bluezone,
-    justifyContent: 'center',
+    paddingHorizontal: 69.2,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignItems: 'center',
   },
 
   body: {
     flex: 1,
-    paddingTop: TITLE_PADDINGTOP,
-    paddingHorizontal: 20
+    // paddingVertical: TITLE_PADDINGTOP,
+    paddingHorizontal: 30,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
   },
 
   title: {
-    fontSize: fontSize.huge,
+    fontSize: fontSize.larger,
     color: '#000000',
   },
 
   viewDep: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     // alignItems: 'center',
   },
 
   description: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.normal,
     lineHeight: 25,
+  },
+
+  borderLogo: {
+    borderWidth: 0.4,
+    borderColor: '#ffffff',
+    height: LOGO_HEIGHT,
   },
 
   date: {
     lineHeight: 28,
-    fontSize: fontSize.large,
+    fontSize: fontSize.normal,
   },
 
   textContact: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.normal,
     lineHeight: 25,
   },
 
@@ -84,7 +94,7 @@ const styles = StyleSheet.create({
   },
 
   textBottom: {
-    paddingBottom: DATE_PADDINGBOTTOM
+    paddingBottom: DATE_PADDINGBOTTOM,
   },
 
   textBtnReload: {
@@ -96,11 +106,32 @@ const styles = StyleSheet.create({
 
   linkweb: {
     color: '#0166de',
+    fontSize: fontSize.normal,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  buttonSend: {
+    height: 46,
+    // width: '100%',
+    backgroundColor: '#119a01',
+    marginTop: 20,
+    // marginBottom: 5,
+    marginHorizontal: 12,
+  },
+  buttonIcon: {
+    width: 15,
+    height: 15,
+    marginRight: 7,
+  },
+  note: {
+    fontSize: fontSize.fontSize14,
+    color: '#AAAAAA',
+    textAlign: 'center',
+    marginBottom: 12,
+    paddingTop: 15
   },
 });
 
-export {
-  LOGO_HEIGHT
-}
+export {LOGO_HEIGHT};
 
 export default styles;

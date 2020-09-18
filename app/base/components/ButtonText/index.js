@@ -22,9 +22,10 @@
 'use strict';
 
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 
-// Component
-import {Text, TouchableOpacity} from 'react-native';
+// Components
+import Text from '../Text';
 
 // Style
 import styles from './styles/index.css';

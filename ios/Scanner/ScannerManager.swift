@@ -35,6 +35,54 @@ public class ScannerManager: RCTViewManager {
     //       super.init()
       //    self.onClickStart()
   }
+    
+    func getAppVersion() -> String? {
+      let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+       return appVersion
+    }
+    
+  @objc
+    override public func constantsToExport() -> [AnyHashable : Any]! {
+    return [
+    "someKey": "someValue",
+    "appVersion": getAppVersion()!,
+    ]
+  }
+
+
+    @objc func getFontScale(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
+        var fontScale = 1.0
+        let fontCategory = UIApplication.shared.preferredContentSizeCategory
+        switch fontCategory {
+            case UIContentSizeCategory.accessibilityExtraExtraExtraLarge:
+                fontScale = 3.12
+            case UIContentSizeCategory.accessibilityExtraExtraLarge:
+                fontScale = 2.76
+            case UIContentSizeCategory.accessibilityExtraLarge:
+                fontScale = 2.35
+            case UIContentSizeCategory.accessibilityLarge:
+                fontScale = 1.95
+            case UIContentSizeCategory.accessibilityMedium:
+                fontScale = 1.64
+            case UIContentSizeCategory.extraExtraExtraLarge:
+                fontScale = 1.35
+            case UIContentSizeCategory.extraExtraLarge:
+                fontScale = 1.23
+            case UIContentSizeCategory.extraLarge:
+                fontScale = 1.12
+            case UIContentSizeCategory.large:
+                fontScale = 1.0
+            case UIContentSizeCategory.medium:
+                fontScale = 0.95
+            case UIContentSizeCategory.small:
+                 fontScale = 0.88
+            case UIContentSizeCategory.extraSmall:
+                fontScale = 0.82
+        default:
+            fontScale = 1
+        }
+      resolve(fontScale)
+    }
 
 
   @objc func startService() {
@@ -71,25 +119,25 @@ public class ScannerManager: RCTViewManager {
     let _id = BluezoneIdGenerator.init().getBluezoneId()
     resolve(_id)
   }
-    
+
     @objc func checkContactF(_ data: String, resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
        // KET QUA
         let result = BluezoneIdTrace.isContactF(dataF0: data)
         resolve(result)
      }
-    
+
     @objc func getBluezoneIdInfo(_ dayStartTrace: Int, resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
       // KET QUA
         let _info = BluezoneIdTrace.getBluezoneIdInfo(dayStartTrace: dayStartTrace);
       resolve(_info)
     }
-    
-    @objc func writeHistoryContact(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
+
+    @objc func writeHistoryContact(_ dayStartTrace: Int, resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) -> Void {
       // KET QUA
-        let _pathFile = BluezoneIdTrace.exportTraceData()?.path;
+        let _pathFile = BluezoneIdTrace.exportTraceData(dayStartTrace: dayStartTrace)?.path;
       resolve(_pathFile)
     }
-    
+
   @objc func onSetTimeDelay(_ time: Int64) {
     print("onSetTimeDelay");
     TIME_DELAY_SAVE_DB = Int(truncatingIfNeeded: time)
@@ -155,7 +203,7 @@ public class ScannerManager: RCTViewManager {
                     module.onScanResult(result)
                 }
 
-            let timestamp = Date().currentTimeMillis()
+                let timestamp = Date().currentTimeMillis()
                 let builder = LogBuilder()
 
                 let scan = builder.setRssi(rssi: Int32(rssi))
@@ -185,8 +233,6 @@ public class ScannerManager: RCTViewManager {
 
         let time = Date().currentTimeMillis()
 
-        print(self.mScannedUserId)
-
         // Check scan
         if self.mScannedUserId.count > 0 {
             // Check da luu
@@ -195,9 +241,10 @@ public class ScannerManager: RCTViewManager {
                 let timeSave: Int64 = item.time
 
                 // Check insert
-                if dataSave == contactBlID && (time - timeSave < TIME_DELAY) {
-                   // Dung
-                   ret = false;
+                if dataSave == contactBlID && ((time - timeSave) * 1000 < TIME_DELAY) {
+                    // Dung
+                    ret = false
+                    break
                 }
             }
 
@@ -246,7 +293,7 @@ public class TraceCovid: RCTEventEmitter {
 
 extension Date {
     func currentTimeMillis() -> Int64 {
-        return Int64(self.timeIntervalSince1970 * 1000)
+        return Int64(self.timeIntervalSince1970)
     }
 }
 

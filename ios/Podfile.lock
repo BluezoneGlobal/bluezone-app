@@ -62,24 +62,25 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (6.6.0):
+  - GoogleIDFASupport (3.14.0)
+  - GoogleUtilities/AppDelegateSwizzler (6.7.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.6.0):
+  - GoogleUtilities/Environment (6.7.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (6.6.0):
+  - GoogleUtilities/Logger (6.7.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.6.0):
+  - GoogleUtilities/MethodSwizzler (6.7.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.6.0):
+  - GoogleUtilities/Network (6.7.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.6.0)"
-  - GoogleUtilities/Reachability (6.6.0):
+  - "GoogleUtilities/NSData+zlib (6.7.1)"
+  - GoogleUtilities/Reachability (6.7.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.6.0):
+  - GoogleUtilities/UserDefaults (6.7.1):
     - GoogleUtilities/Logger
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
@@ -90,19 +91,25 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
+  - lottie-ios (3.1.8)
+  - lottie-react-native (3.5.0):
+    - lottie-ios (~> 3.1.8)
+    - React
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - Permission-BluetoothPeripheral (2.1.4):
+  - Permission-BluetoothPeripheral (2.2.0):
     - RNPermissions
-  - Permission-Notifications (2.1.4):
+  - Permission-Camera (2.2.0):
     - RNPermissions
-  - PromisesObjC (1.2.8)
-  - Protobuf (3.11.4)
+  - Permission-Notifications (2.2.0):
+    - RNPermissions
+  - PromisesObjC (1.2.9)
+  - Protobuf (3.12.0)
   - RCTRequired (0.62.2)
-  - RCTSystemSetting (1.7.4):
+  - RCTSystemSetting (1.7.5):
     - React
   - RCTTypeSafety (0.62.2):
     - FBLazyVector (= 0.62.2)
@@ -266,7 +273,19 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
   - React-jsinspector (0.62.2)
-  - react-native-bluetooth-status (1.5.0):
+  - react-native-bluetooth-status (1.5.1):
+    - React
+  - react-native-camera (3.39.0):
+    - React
+    - react-native-camera/RCT (= 3.39.0)
+    - react-native-camera/RN (= 3.39.0)
+  - react-native-camera/RCT (3.39.0):
+    - React
+  - react-native-camera/RN (3.39.0):
+    - React
+  - react-native-config (1.3.3):
+    - react-native-config/App (= 1.3.3)
+  - react-native-config/App (1.3.3):
     - React
   - react-native-geolocation (2.0.2):
     - React
@@ -339,18 +358,20 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.2)
   - ReactNativeART (1.2.0):
     - React
-  - RNCAsyncStorage (1.10.0):
+  - rn-fetch-blob (0.12.0):
+    - React-Core
+  - RNCAsyncStorage (1.12.0):
+    - React
+  - RNCCheckbox (0.4.2):
     - React
   - RNCMaskedView (0.1.10):
     - React
-  - RNCPushNotificationIOS (1.2.0):
+  - RNCPushNotificationIOS (1.5.0):
     - React
-  - RNDeviceInfo (5.5.7):
+  - RNFastImage (8.3.2):
     - React
-  - RNFastImage (8.1.5):
-    - React
-    - SDWebImage (~> 5.0)
-    - SDWebImageWebPCoder (~> 0.4.1)
+    - SDWebImage (~> 5.8)
+    - SDWebImageWebPCoder (~> 0.6.1)
   - RNFirebase (5.6.0):
     - Firebase/Core
     - React
@@ -362,26 +383,26 @@ PODS:
     - React
   - RNFS (2.16.6):
     - React
-  - RNGestureHandler (1.6.1):
+  - RNGestureHandler (1.8.0):
     - React
-  - RNPermissions (2.1.4):
+  - RNPermissions (2.2.0):
     - React
-  - RNReanimated (1.8.0):
+  - RNReanimated (1.13.0):
     - React
-  - RNScreens (2.7.0):
+  - RNScreens (2.10.1):
     - React
-  - RNShare (3.3.1):
+  - RNShare (3.7.1):
     - React
   - RNSVG (12.1.0):
     - React
   - RNVectorIcons (6.6.0):
     - React
-  - SDWebImage (5.7.3):
-    - SDWebImage/Core (= 5.7.3)
-  - SDWebImage/Core (5.7.3)
-  - SDWebImageWebPCoder (0.4.1):
+  - SDWebImage (5.8.4):
+    - SDWebImage/Core (= 5.8.4)
+  - SDWebImage/Core (5.8.4)
+  - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.5)
+    - SDWebImage/Core (~> 5.7)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -392,7 +413,11 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleIDFASupport (~> 3.14.0)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTSystemSetting (from `../node_modules/react-native-system-setting`)
@@ -407,6 +432,8 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-bluetooth-status (from `../node_modules/react-native-bluetooth-status`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-settings (from `../node_modules/react-native-settings`)
@@ -424,10 +451,11 @@ DEPENDENCIES:
   - ReactCommon/callinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
-  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNFS (from `../node_modules/react-native-fs`)
@@ -452,6 +480,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseMessaging
     - GoogleAppMeasurement
+    - GoogleIDFASupport
     - GoogleUtilities
     - libwebp
     - nanopb
@@ -471,8 +500,14 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   Permission-BluetoothPeripheral:
     :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
   Permission-Notifications:
     :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
   RCTRequired:
@@ -497,6 +532,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-bluetooth-status:
     :path: "../node_modules/react-native-bluetooth-status"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-safe-area-context:
@@ -529,14 +568,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeART:
     :path: "../node_modules/@react-native-community/art"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
-  RNDeviceInfo:
-    :path: "../node_modules/react-native-device-info"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFirebase:
@@ -576,15 +617,19 @@ SPEC CHECKSUMS:
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
-  GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
+  GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
+  GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Permission-BluetoothPeripheral: 16bb72143890889b25ae16ab15e599ddf0de2e35
-  Permission-Notifications: 2d332751cadd3f39bf6062333f36a1bc3e0281d2
-  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  Permission-BluetoothPeripheral: 6bdd3f1f07910bbbde9943b6f9dddbfa35278223
+  Permission-Camera: cc98f099e74178912b7c6b3795c3b59c246f0d7c
+  Permission-Notifications: 1fa4616429c9919eebff8d8f8a05fbc2a51f9e58
+  PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
+  Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
-  RCTSystemSetting: f3123e7de51bf918bc4243167ba2885a72bf09ec
+  RCTSystemSetting: f1273cd074d852c98fc5490e7a1d21b3eb91b948
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
   React: 29a8b1a02bd764fb7644ef04019270849b9a7ac3
   React-Core: b12bffb3f567fdf99510acb716ef1abd426e0e05
@@ -593,7 +638,9 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
-  react-native-bluetooth-status: fbe6c12cec22e683bc7658a0248191040d841812
+  react-native-bluetooth-status: b1fb68e6158b3ef3886187dbc108b585870ff9aa
+  react-native-camera: e39c8ef9f21163c8873ad0a95960a4f58eea2320
+  react-native-config: 9a061347e0136fdb32d43a34d60999297d672361
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-settings: 6fc0f38956f8e46460e01c97db7ec3d018f2fdc1
@@ -610,24 +657,25 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
   ReactNativeART: f003b07dfa7098aa419ed95b69560923440b1eee
-  RNCAsyncStorage: b34d2399d3e25db01d5b881949b503bd3c224d57
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
+  RNCCheckbox: 2e90172b1ba7a5c7d88f50f6243fe16566bf03aa
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
-  RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
-  RNDeviceInfo: 498ccbf8b1361fe858581e3c1193ecee1a031e62
-  RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
+  RNCPushNotificationIOS: 8025ff0b610d7b28d29ddc1b619cd55814362e4c
+  RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
-  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNPermissions: 8ca17fd6c822eea589fe84709d9426e05cc39c39
-  RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
-  RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
-  RNShare: d4c9789a93ffa286389ff7b73f44118c8aab412f
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNPermissions: e29e449d948ba1c04f3bb3bede5c662667543c49
+  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
+  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
+  RNShare: ea0393515826ea8d27a0e17cd3d6f3cc210630d9
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  SDWebImage: 97351f6582ceca541ea294ba66a1fcb342a331c2
-  SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
+  SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
+  SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
 
-PODFILE CHECKSUM: fbd095518bf7eb202ae613b6491b71056d9c0153
+PODFILE CHECKSUM: 523fcbe409f49de76f296f6b9c1316e9bcba0ecc
 
 COCOAPODS: 1.8.4

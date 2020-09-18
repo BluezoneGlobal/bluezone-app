@@ -27,7 +27,6 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import moment from 'moment';
 import {injectIntl, intlShape} from 'react-intl';
@@ -37,84 +36,87 @@ import 'moment/locale/vi'; // without this line it didn't work
 // Components
 import Text, {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
-// import ButtonIconText from '../../../base/components/ButtonIconText';
+import ModalBase from '../../../base/components/ModalBase';
+import {ButtonClose} from '../../../base/components/ButtonText/ButtonModal';
 
 // Styles
 import styles from './styles/index.css';
-import msg from '../../../msg/notify';
-import configuration from '../../../Configuration';
+import msg from '../../../core/msg/notify';
+import configuration from '../../../configuration';
+import message from '../../../core/msg/verifyOtp';
 
 class NotifyScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.onBack = this.onBack.bind(this);
-  }
-
-  onBack() {
-    this.props.navigation.goBack();
-    return true;
+    this.state = {
+      isVisiblePhoneRegistered: false,
+    };
   }
 
   onPress = () => {
-    const {intl} = this.props;
-    const {formatMessage} = intl;
     const {PhoneNumber} = configuration;
     if (PhoneNumber) {
-      Alert.alert(
-        formatMessage(msg.notification),
-        formatMessage(msg.registeredPhone),
-      );
+      this.setState({isVisiblePhoneRegistered: true});
       return;
     }
-    this.props.navigation.replace('Register');
+    this.props.navigation.replace('PhoneNumberRegisterScreen');
   };
 
   formatNumberPhone = numberPhone => {
     return numberPhone.replace(/^(\d{4})\d*(\d{3})$/g, '$1***$2');
   };
 
+  onCloseModal() {
+    this.setState({isVisiblePhoneRegistered: false});
+  }
+
   render() {
+    const {isVisiblePhoneRegistered} = this.state;
     const {route, intl} = this.props;
     const item = (route && route.params.item) || {};
+    const {formatMessage} = intl;
+    const {Language, PhoneNumber} = configuration;
+
     const uri =
       item.largeIcon && item.largeIcon.length > 0
         ? item.largeIcon
         : require('./styles/images/corona.png');
-    const {formatMessage} = intl;
-    const {Language, PhoneNumber} = configuration;
+
+    const title =
+      (Language === 'vi' ? item.title : item.titleEn) ||
+      item.title ||
+      item.titleEn;
+
+    const bigText =
+      (Language === 'vi' ? item.bigText : item.bigTextEn) ||
+      item.bigText ||
+      item.bigTextEn;
 
     return (
       <SafeAreaView style={styles.container}>
         <Header
-          onBack={this.onBack}
-          colorIcon={'#015cd0'}
+          styleHeader={styles.header}
           styleTitle={styles.textHeader}
-          showBack
           title={formatMessage(msg.announcement)}
         />
         <ScrollView style={styles.wrapper}>
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-            <FastImage source={uri} style={styles.avatar} />
+            <FastImage
+              source={item.largeIcon && item.largeIcon.length ? {uri} : uri}
+              style={styles.avatar}
+            />
             <View style={styles.content}>
               <MediumText numberOfLines={1} style={styles.titleText}>
-                {Language === 'vi' ? item.title : item.titleEn}
+                {title}
               </MediumText>
               <MediumText style={styles.colorDes}>
-                {Language === 'vi'
-                  ? `Thời gian: ${moment(Number(item.timestamp)).format(
-                      'HH:mm',
-                    )} Ngày: ${moment(Number(item.timestamp)).format(
-                      'DD/MM/YYYY',
-                    )}`
-                  : `${moment(Number(item.timestamp)).format('HH:mm')} ${moment(
-                      Number(item.timestamp),
-                    ).format('DD/MM/YYYY')}`}
+                {`${moment(Number(item.timestamp)).format(
+                  'DD/MM/YYYY',
+                )} - ${moment(Number(item.timestamp)).format('HH:mm')}`}
               </MediumText>
             </View>
           </View>
-          <Text style={styles.textContent}>
-            {Language === 'vi' ? item.bigText : item.bigTextEn}
-          </Text>
+          <Text style={styles.textContent}>{bigText}</Text>
           {item._group === 'MOBILE' ? (
             PhoneNumber ? (
               <Text style={styles.textPhoneNumber}>
@@ -132,6 +134,17 @@ class NotifyScreen extends React.Component {
             )
           ) : null}
         </ScrollView>
+        <ModalBase
+          isVisibleModal={isVisiblePhoneRegistered}
+          title={formatMessage(msg.notification)}
+          description={formatMessage(msg.registeredPhone)}>
+          <View style={styles.modalFooter}>
+            <ButtonClose
+              text={formatMessage(message.dong)}
+              onPress={this.onCloseModal}
+            />
+          </View>
+        </ModalBase>
       </SafeAreaView>
     );
   }

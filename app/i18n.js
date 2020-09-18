@@ -29,12 +29,14 @@
 
 require('intl');
 require('intl/locale-data/jsonp/vi');
+
 const addLocaleData = require('react-intl').addLocaleData;
 const viLocaleData = require('react-intl/locale-data/vi');
-const DEFAULT_LOCALE = 'en';
-const viTranslationMessages = require('./translations/vi.json');
-const enTranslationMessages = require('./translations/en.json');
 
+import viTranslationMessages from './translations/vi.json';
+import enTranslationMessages from './translations/en.json';
+
+const DEFAULT_LOCALE = 'en';
 const appLocales = ['vi', 'en'];
 
 addLocaleData(viLocaleData);
@@ -53,6 +55,13 @@ const formatTranslationMessages = (locale, messages) => {
   }, {});
 };
 
+const createFromResourceLanguage = data => {
+  return {
+    vi: formatTranslationMessages('vi', data.vi),
+    en: formatTranslationMessages('en', data.en),
+  };
+};
+
 const translationMessages = {
   vi: formatTranslationMessages('vi', viTranslationMessages),
   en: formatTranslationMessages('en', enTranslationMessages),
@@ -61,3 +70,4 @@ const translationMessages = {
 exports.translationMessages = translationMessages;
 exports.formatTranslationMessages = formatTranslationMessages;
 exports.appLocales = appLocales;
+exports.createFromResourceLanguage = createFromResourceLanguage;

@@ -22,27 +22,31 @@
 'use strict';
 
 import {Platform, StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
-import {large} from "../../../../utils/fontSize";
+import * as fontSize from '../../../../core/fontSize';
+import {large} from '../../../../core/fontSize';
+import {isIPhoneX} from '../../../../core/utils/isIPhoneX';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
+
+const HEADER_HEIGHT = heightPercentageToDP((44 / 720) * 100);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    ...Platform.select({
-      ios: {
-        paddingTop: 0,
-      },
-      android: {
-        paddingTop: 20,
-      },
-    }),
   },
   header: {
     height: 42,
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%',
+    ...Platform.select({
+      ios: {
+        marginTop: isIPhoneX ? 0 : 20,
+      },
+      android: {
+        marginTop: 20,
+      },
+    }),
   },
   textTitleWar: {
     color: '#f16600',
@@ -61,9 +65,9 @@ const styles = StyleSheet.create({
   },
   titleNtf: {
     width: '100%',
-    height: 44,
+    height: HEADER_HEIGHT,
     backgroundColor: '#015cd01a',
-    paddingLeft: 22,
+    paddingHorizontal: 20,
     justifyContent: 'center',
   },
   textHeader: {
@@ -71,7 +75,8 @@ const styles = StyleSheet.create({
     fontSize: fontSize.bigger,
   },
   notifies: {
-    marginVertical: 9,
+    flex: 1,
+    // marginVertical: 9,
   },
   notifyWrapper: {
     flex: 1,
@@ -79,28 +84,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   NotifyContainer: {
-    marginVertical: 9,
-    height: 52,
-    flex: 1,
+    paddingVertical: 10,
+    height: 72,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 20,
+    marginVertical: 5,
   },
   avatar: {
     width: 52,
     height: 52,
+    borderRadius: 26,
   },
+
+  backgroundAvatar: {
+    width: 52,
+    height: 52,
+    backgroundColor: 'rgba(1,92,208,0.6)',
+    borderRadius: 26,
+  },
+
   content: {
+    flex: 1,
     marginLeft: 13,
-    marginRight: 55,
   },
   titleText: {
+    lineHeight: 22,
     fontSize: fontSize.larger,
-    color: '#707070',
+    color: '#000000',
   },
 
   titleTextUnread: {
+    lineHeight: 22,
     fontSize: fontSize.larger,
   },
 
@@ -112,17 +126,19 @@ const styles = StyleSheet.create({
     fontSize: fontSize.smaller,
   },
   timer: {
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   textTimerUnread: {
-    alignItems: 'flex-end',
     fontSize: fontSize.smaller,
+    lineHeight: 20,
   },
   textTimer: {
     color: '#707070',
     fontSize: fontSize.smaller,
+    lineHeight: 20,
   },
   wrapper: {
+    flex: 1,
     justifyContent: 'space-between',
     paddingTop: 23,
   },
@@ -141,7 +157,6 @@ const styles = StyleSheet.create({
     width: 44,
     height: 64,
   },
-
 });
 
 export default styles;

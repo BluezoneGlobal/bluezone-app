@@ -22,6 +22,7 @@
 'use strict';
 
 import React from 'react';
+import * as PropTypes from 'prop-types';
 
 // Components
 import AnimateNumber from './AnimateNumber';
@@ -30,7 +31,6 @@ import Text from '../Text';
 
 // Styles
 import style from '../../../main/components/HomeScreen/styles/index.css';
-import * as PropTypes from "prop-types";
 
 class InviteScreen extends React.Component {
   constructor(props) {

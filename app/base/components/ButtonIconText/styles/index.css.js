@@ -22,7 +22,7 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import * as fontSize from '../../../../core/fontSize';
 
 const styles = StyleSheet.create({
   container: {

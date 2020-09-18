@@ -22,37 +22,28 @@
 'use strict';
 
 import React from 'react';
-
-// Components
+import * as PropTypes from 'prop-types';
 import {View, SafeAreaView} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {injectIntl, intlShape} from 'react-intl';
+
+// Components
 import {MediumText} from '../../../base/components/Text';
 import Header from '../../../base/components/Header';
-import FormInput from './Form';
-
-// Language
-import message from '../../../msg/warning';
+import FormInput from './components/Form';
 
 // Util
-import * as fontSize from '../../../utils/fontSize';
+import * as fontSize from '../../../core/fontSize';
 
 // Styles
 import styles from './styles/index.css';
-import {injectIntl, intlShape} from 'react-intl';
-import * as PropTypes from 'prop-types';
 
 class Declaration extends React.Component {
   constructor(props) {
     super(props);
-    this.onBack = this.onBack.bind(this);
     this.state = {
       status: 'infected',
     };
-  }
-
-  onBack() {
-    this.props.navigation.goBack();
-    return true;
   }
 
   render() {
@@ -60,13 +51,7 @@ class Declaration extends React.Component {
     const {formatMessage} = intl;
     return (
       <SafeAreaView style={styles.container}>
-        <Header
-          onBack={this.onBack}
-          colorIcon={'#015cd0'}
-          styleTitle={styles.textHeader}
-          showBack
-          title={'Khai báo'}
-        />
+        <Header styleTitle={styles.textHeader} title={'Khai báo'} />
         <View
           style={{
             flex: 1,
@@ -93,7 +78,7 @@ class Declaration extends React.Component {
                 textAlign: 'center',
                 paddingHorizontal: 21,
               }}>
-              Bạn có tiếp xúc với F0
+              Bạn có tiếp xúc với người có nguy cơ nhiễm COVID-19
             </MediumText>
           </View>
           <FormInput />

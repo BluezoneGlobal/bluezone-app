@@ -22,19 +22,22 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
-import {small, normal, larger, large, bigger, biggest} from '../../../../utils/fontSize';
-import {heightPercentageToDP} from '../../../../utils/dimension';
+import {small, normal, larger, large, bigger, biggest} from '../../../../core/fontSize';
+import {heightPercentageToDP} from '../../../../core/utils/dimension';
+import {isIPhoneX} from '../../../../core/utils/isIPhoneX';
 
-const SCANNING_HEIGHT = heightPercentageToDP((100 / 720) * 100);
-const SCANNING_STRONG_HEIGHT = heightPercentageToDP((80 / 720) * 100);
-const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((210 / 720) * 100);
+const SCANNING_HEIGHT = heightPercentageToDP((124 / 720) * 100);
+const SCANNING_STRONG_HEIGHT = heightPercentageToDP((100 / 720) * 100);
+const LIST_BLUEZONEER_MIN_HEIGHT = heightPercentageToDP((400 / 720) * 100);
+const TEXT_BLUEZONE_PADDINGTOP = heightPercentageToDP((9 / 720) * 100);
+const TEXT_BLUEZONE_PADDINGBOTTOM = heightPercentageToDP((25 / 720) * 100);
+const COUNT_PADDINGTOP = heightPercentageToDP((25 / 720) * 100);
 
 const styles = StyleSheet.create({
   infoContainer: {
-    flex: 1,
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
-    paddingTop: 25,
+    paddingTop: COUNT_PADDINGTOP,
     paddingHorizontal: 25,
   },
   infoItem: {
@@ -81,14 +84,24 @@ const styles = StyleSheet.create({
   },
   infoItemDesc: {
     color: '#484848',
-    fontSize: normal,
-    paddingTop: 15,
-    paddingBottom: 25,
+    fontSize: large,
+    paddingTop: TEXT_BLUEZONE_PADDINGTOP,
+    paddingBottom: TEXT_BLUEZONE_PADDINGBOTTOM,
     textAlign: 'center',
   },
 
   listContainer: {
     minHeight: LIST_BLUEZONEER_MIN_HEIGHT,
+    flex: 1,
+  },
+
+  headerBluezoneId: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 12,
   },
 
   listHeaderContainer: {
@@ -96,20 +109,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F5FC',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 22,
-    paddingRight: 20,
+    paddingHorizontal: 20,
     paddingVertical: 10,
   },
 
   textListHeader: {
-    fontSize: larger,
-    color: '#015cd0',
+    fontSize: normal,
+    // color: '#015cd0',
   },
 
   textListHeaderValue: {
     fontSize: larger,
     color: '#015cd0',
-    width: 44,
     textAlign: 'center',
   },
 
@@ -121,6 +132,7 @@ const styles = StyleSheet.create({
 
   listBodyContainer: {
     paddingLeft: 20,
+    paddingRight: 18,
     paddingBottom: 12,
   },
 
@@ -136,15 +148,12 @@ const styles = StyleSheet.create({
 
   inviteButtonContainer: {
     height: '100%',
-    width: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 20,
   },
 
   inviteButton: {
     height: 24,
-    width: 44,
     backgroundColor: '#015cd0',
     borderRadius: 12,
     justifyContent: 'center',
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
 
   listEmptyText: {
     color: '#484848',
-    fontSize: large,
+    fontSize: normal,
   },
 
   buttonInvite: {
@@ -205,7 +214,9 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    marginTop: 20,
+    alignItems: 'center',
+    marginTop: isIPhoneX ? 0 : heightPercentageToDP((20 / 720) * 100),
+    height: heightPercentageToDP((50 / 720) * 100),
   },
 
   iconEmpty: {

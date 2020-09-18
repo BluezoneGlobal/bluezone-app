@@ -22,6 +22,17 @@
 'use strict';
 
 import {StyleSheet} from 'react-native';
+import {smallest} from '../../../../core/fontSize';
+import {heightPercentageToDP, widthPercentageToDP} from '../../../../core/utils/dimension';
+
+export const TAB_BAR_HEIGHT = heightPercentageToDP((52 / 720) * 100);
+export const TAB_BAR_IPHONEX_HEIGHT = heightPercentageToDP(
+  ((52 + 34) / 720) * 100,
+);
+const ICON_SQUARE_HEIGHT = heightPercentageToDP((24 / 720) * 100);
+const ICON_SQUARE_WIDTH = widthPercentageToDP((24 / 360) * 100);
+const ICON_FAQ_HEIGHT = heightPercentageToDP((20 / 720) * 100);
+const ICON_FAQ_WIDTH = widthPercentageToDP((27 / 360) * 100);
 
 const styles = StyleSheet.create({
   iconSquare: {
@@ -39,8 +50,38 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 6,
     right: 6,
-    backgroundColor: '#f10800',
     zIndex: 99,
+  },
+
+  iconFaq: {
+    height: 20,
+    width: 27,
+    marginTop: 1.5,
+  },
+
+  labelStyle: {
+    fontSize: smallest,
+    marginBottom: 4,
+  },
+
+  viewBadge: {
+    position: 'absolute',
+    top: -3,
+    left: 12,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  textBadge: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 4,
   },
 });
 

@@ -22,7 +22,7 @@
 'use strict';
 
 import {Platform, StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import * as fontSize from '../../../../core/fontSize';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   buttonSendSquare: {
     width: '100%',
     backgroundColor: '#119a01',
-    marginTop: 13,
+    marginVertical: 25,
     borderRadius: 3,
   },
   header: {
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     fontFamily: 'OpenSans-Regular',
     fontSize: fontSize.small,
+    color: '#000000',
   },
   inputFirst: {
     height: 40,
@@ -74,14 +75,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     fontFamily: 'OpenSans-Regular',
     fontSize: fontSize.small,
+    color: '#000000',
   },
   containerForm: {
-    alignItems: 'center',
     width: '100%',
   },
   title: {
-    fontSize: fontSize.small,
+    fontSize: fontSize.normal,
     lineHeight: 25,
+  },
+  checkbox: {
+    fontSize: fontSize.smaller,
   },
   textButton: {
     fontSize: fontSize.normal,

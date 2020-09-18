@@ -13,14 +13,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.scan.TraceCovidPackage;
-import com.rnfs.RNFSPackage;
 
 import android.content.IntentFilter;
 import io.rumors.reactnativesettings.receivers.GpsLocationReceiver;
 import io.rumors.reactnativesettings.receivers.AirplaneModeReceiver;
-import com.burnweb.rnsendintent.RNSendIntentPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
            packages.add(new TraceCovidPackage());
            packages.add(new RNFirebaseMessagingPackage());
            packages.add(new RNFirebaseNotificationsPackage());
+           packages.add(new LottiePackage());
            return packages;
         }
 

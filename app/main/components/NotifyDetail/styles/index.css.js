@@ -22,26 +22,17 @@
 'use strict';
 
 import {Platform, StyleSheet} from 'react-native';
-import * as fontSize from '../../../../utils/fontSize';
+import * as fontSize from '../../../../core/fontSize';
+import {isIPhoneX} from '../../../../core/utils/isIPhoneX';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    ...Platform.select({
-      ios: {
-        paddingTop: 0,
-      },
-      android: {
-        paddingTop: 20,
-      },
-    }),
   },
   header: {
-    height: 80,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    width: '100%',
+    backgroundColor: '#ffffff',
+    marginTop: isIPhoneX ? 0 : 20,
   },
   textTitleWar: {
     color: '#f16600',
@@ -135,6 +126,13 @@ const styles = StyleSheet.create({
   textButton: {
     color: '#fff',
     fontSize: fontSize.normal,
+  },
+
+  modalFooter: {
+    borderTopWidth: 0.5,
+    borderTopColor: 'rgba(60, 60, 67, 0.29)',
+    width: '100%',
+    flexDirection: 'row',
   },
 });
 

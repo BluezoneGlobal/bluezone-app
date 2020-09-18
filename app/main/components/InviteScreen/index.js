@@ -33,11 +33,11 @@ import ButtonIconText from '../../../base/components/ButtonIconText';
 import IconBluezone from './styles/images/IconBluezone';
 
 // Language
-import message from '../../../msg/invite';
+import message from '../../../core/msg/invite';
 import {injectIntl, intlShape} from 'react-intl';
 
 // Configs
-import configuration from '../../../Configuration';
+import configuration from '../../../configuration';
 
 // Styles
 import styles, {LOGO_HEIGHT} from './styles/index.css';
@@ -45,14 +45,8 @@ import styles, {LOGO_HEIGHT} from './styles/index.css';
 class InviteScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.onBack = this.onBack.bind(this);
     this.onShareApp = this.onShareApp.bind(this);
     this.onAddGroupFace = this.onAddGroupFace.bind(this);
-  }
-
-  onBack() {
-    this.props.navigation.goBack();
-    return true;
   }
 
   async onShareApp() {
@@ -113,10 +107,7 @@ class InviteScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         {header ? (
           <Header
-            onBack={this.onBack}
-            colorIcon={'#015cd0'}
             styleTitle={styles.textHeader}
-            showBack
             title={formatMessage(message.title)}
           />
         ) : (
